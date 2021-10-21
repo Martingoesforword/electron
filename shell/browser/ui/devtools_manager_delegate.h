@@ -1,6 +1,6 @@
-// Copyright (c) 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #ifndef SHELL_BROWSER_UI_DEVTOOLS_MANAGER_DELEGATE_H_
 #define SHELL_BROWSER_UI_DEVTOOLS_MANAGER_DELEGATE_H_
@@ -20,7 +20,7 @@ class DevToolsManagerDelegate : public content::DevToolsManagerDelegate {
   DevToolsManagerDelegate();
   ~DevToolsManagerDelegate() override;
 
-  // DevToolsManagerDelegate implementation.
+  // DevToolsManagerDelegate实现。
   void Inspect(content::DevToolsAgentHost* agent_host) override;
   void HandleCommand(content::DevToolsAgentHostClientChannel* channel,
                      base::span<const uint8_t> message,
@@ -34,6 +34,6 @@ class DevToolsManagerDelegate : public content::DevToolsManagerDelegate {
   DISALLOW_COPY_AND_ASSIGN(DevToolsManagerDelegate);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_DEVTOOLS_MANAGER_DELEGATE_H_
+#endif  // Shell_Browser_UI_DevTools_Manager_Delegate_H_

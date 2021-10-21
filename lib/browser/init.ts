@@ -6,29 +6,29 @@ import type * as defaultMenuModule from '@electron/internal/browser/default-menu
 
 const Module = require('module');
 
-// We modified the original process.argv to let node.js load the init.js,
-// we need to restore it here.
+// 我们修改了原始的process.argv，让node.js加载init.js，
+// 我们需要在这里修复它。
 process.argv.splice(1, 1);
 
-// Clear search paths.
+// 清除搜索路径。
 require('../common/reset-search-paths');
 
-// Import common settings.
+// 导入常用设置。
 require('@electron/internal/common/init');
 
 process._linkedBinding('electron_browser_event_emitter').setEventEmitterPrototype(EventEmitter.prototype);
 
-// Don't quit on fatal error.
+// 不要因为致命的错误而放弃。
 process.on('uncaughtException', function (error) {
-  // Do nothing if the user has a custom uncaught exception handler.
+  // 如果用户具有自定义的未捕获异常处理程序，则不执行任何操作。
   if (process.listenerCount('uncaughtException') > 1) {
     return;
   }
 
-  // Show error in GUI.
-  // We can't import { dialog } at the top of this file as this file is
-  // responsible for setting up the require hook for the "electron" module
-  // so we import it inside the handler down here
+  // 在GUI中显示错误。
+  // 无法导入此文件顶部的{DIALOG}，因为此文件。
+  // 负责设置“电子”模块的要求挂钩。
+  // 因此我们将其导入到下面的处理程序中。
   import('electron')
     .then(({ dialog }) => {
       const stack = error.stack ? error.stack : `${error.name}: ${error.message}`;
@@ -37,7 +37,7 @@ process.on('uncaughtException', function (error) {
     });
 });
 
-// Emit 'exit' event on quit.
+// 退出时发出‘Exit’事件。
 const { app } = require('electron');
 
 app.on('quit', (_event, exitCode) => {
@@ -45,20 +45,20 @@ app.on('quit', (_event, exitCode) => {
 });
 
 if (process.platform === 'win32') {
-  // If we are a Squirrel.Windows-installed app, set app user model ID
-  // so that users don't have to do this.
-  //
-  // Squirrel packages are always of the form:
-  //
-  // PACKAGE-NAME
-  // - Update.exe
-  // - app-VERSION
-  //   - OUREXE.exe
-  //
-  // Squirrel itself will always set the shortcut's App User Model ID to the
-  // form `com.squirrel.PACKAGE-NAME.OUREXE`. We need to call
-  // app.setAppUserModelId with a matching identifier so that renderer processes
-  // will inherit this value.
+  // 如果我们是Squirrel.Windows安装的应用程序，请设置应用程序用户模型ID。
+  // 这样用户就不必这么做了。
+  // 
+  // SQuirrel包的形式始终是：
+  // 
+  // 程序包名称。
+  // -Update.exe。
+  // -APP-版本。
+  // -OUREXE.exe。
+  // 
+  // SQuirrel本身将始终将快捷键的App User Model ID设置为。
+  // 格式为`com.squirrel.PACKAGE-NAME.OUREXE`。我们需要打电话给。
+  // 具有匹配标识符的app.setAppUserModelId，以便渲染器处理。
+  // 将继承此值。
   const updateDotExe = path.join(path.dirname(process.execPath), '..', 'update.exe');
 
   if (fs.existsSync(updateDotExe)) {
@@ -70,17 +70,17 @@ if (process.platform === 'win32') {
   }
 }
 
-// Map process.exit to app.exit, which quits gracefully.
+// 将process.exit映射到app.exit，它会优雅地退出。
 process.exit = app.exit as () => never;
 
-// Load the RPC server.
+// 加载RPC服务器。
 require('@electron/internal/browser/rpc-server');
 
-// Load the guest view manager.
+// 加载来宾视图管理器。
 require('@electron/internal/browser/guest-view-manager');
 require('@electron/internal/browser/guest-window-proxy');
 
-// Now we try to load app's package.json.
+// 现在我们尝试加载APP的Package.json。
 const v8Util = process._linkedBinding('electron_common_v8_util');
 let packagePath = null;
 let packageJson = null;
@@ -105,46 +105,46 @@ if (packageJson == null) {
   throw new Error('Unable to find a valid app');
 }
 
-// Set application's version.
+// 设置应用程序的版本。
 if (packageJson.version != null) {
   app.setVersion(packageJson.version);
 }
 
-// Set application's name.
+// 设置应用程序的名称。
 if (packageJson.productName != null) {
   app.name = `${packageJson.productName}`.trim();
 } else if (packageJson.name != null) {
   app.name = `${packageJson.name}`.trim();
 }
 
-// Set application's desktop name.
+// 设置应用程序的桌面名称。
 if (packageJson.desktopName != null) {
   app.setDesktopName(packageJson.desktopName);
 } else {
   app.setDesktopName(`${app.name}.desktop`);
 }
 
-// Set v8 flags, deliberately lazy load so that apps that do not use this
-// feature do not pay the price
+// 设置V8标志，故意延迟加载，以便不使用此标志的应用程序。
+// 功能不需要付出代价。
 if (packageJson.v8Flags != null) {
   require('v8').setFlagsFromString(packageJson.v8Flags);
 }
 
 app.setAppPath(packagePath);
 
-// Load the chrome devtools support.
+// 加载Chrome DevTools支持。
 require('@electron/internal/browser/devtools');
 
-// Load protocol module to ensure it is populated on app ready
+// 加载协议模块以确保其已填充到应用程序就绪。
 require('@electron/internal/browser/api/protocol');
 
-// Load web-contents module to ensure it is populated on app ready
+// 加载Web内容模块以确保其已填充到应用程序就绪。
 require('@electron/internal/browser/api/web-contents');
 
-// Load web-frame-main module to ensure it is populated on app ready
+// 加载Web-Frame-Main模块以确保其已填充到应用程序就绪。
 require('@electron/internal/browser/api/web-frame-main');
 
-// Set main startup script of the app.
+// 设置应用的主启动脚本。
 const mainStartupScript = packageJson.main || 'index.js';
 
 const KNOWN_XDG_DESKTOP_VALUES = ['Pantheon', 'Unity:Unity7', 'pop:GNOME'];
@@ -155,20 +155,20 @@ function currentPlatformSupportsAppIndicator () {
 
   if (!currentDesktop) return false;
   if (KNOWN_XDG_DESKTOP_VALUES.includes(currentDesktop)) return true;
-  // ubuntu based or derived session (default ubuntu one, communitheme…) supports
-  // indicator too.
+  // 基于ubuntu或派生的会话(默认的ubuntu one，CommuniTheme…)。支座。
+  // 指示器也是。
   if (/ubuntu/ig.test(currentDesktop)) return true;
 
   return false;
 }
 
-// Workaround for electron/electron#5050 and electron/electron#9046
+// 电子/电子#5050和电子/电子#9046的解决方法。
 process.env.ORIGINAL_XDG_CURRENT_DESKTOP = process.env.XDG_CURRENT_DESKTOP;
 if (currentPlatformSupportsAppIndicator()) {
   process.env.XDG_CURRENT_DESKTOP = 'Unity';
 }
 
-// Quit when all windows are closed and no other one is listening to this.
+// 当所有窗口都关闭且没有其他人在监听时退出。
 app.on('window-all-closed', () => {
   if (app.listenerCount('window-all-closed') === 1) {
     app.quit();
@@ -177,14 +177,14 @@ app.on('window-all-closed', () => {
 
 const { setDefaultApplicationMenu } = require('@electron/internal/browser/default-menu') as typeof defaultMenuModule;
 
-// Create default menu.
-//
-// The |will-finish-launching| event is emitted before |ready| event, so default
-// menu is set before any user window is created.
+// 创建默认菜单。
+// 
+// Will-Finish-Launch|事件在|Ready|事件之前发出，因此默认。
+// 菜单是在创建任何用户窗口之前设置的。
 app.once('will-finish-launching', setDefaultApplicationMenu);
 
 if (packagePath) {
-  // Finally load app's main.js and transfer control to C++.
+  // 最后，加载app的main.js并将控制权转移到C++。
   process._firstFileName = Module._resolveFilename(path.join(packagePath, mainStartupScript), null, false);
   Module._load(path.join(packagePath, mainStartupScript), Module, true);
 } else {

@@ -86,24 +86,24 @@ describe('webFrame module', function () {
       await expect(executeJavaScript).to.eventually.be.rejected('error is expected');
     });
 
-    // executeJavaScriptInIsolatedWorld is failing to detect exec errors and is neither
-    // rejecting nor passing the error to the callback. This predates the reintroduction
-    // of the callback so will not be fixed as part of the callback PR
-    // if/when this is fixed the test can be uncommented.
-    //
-    // it('executeJavaScriptInIsolatedWorld() yields errors via a promise and a sync callback', done => {
-    //   let callbackResult, callbackError
-    //
-    //   const executeJavaScriptInIsolatedWorld = childFrame
-    //     .executeJavaScriptInIsolatedWorld(999, [{ code: 'thisShouldProduceAnError()' }], (result, error) => {
-    //       callbackResult = result
-    //       callbackError = error
-    //     });
-    //
-    //   expect(callbackResult).to.be.undefined()
-    //   expect(callbackError).to.be.an('error')
-    //
-    //   expect(executeJavaScriptInIsolatedWorld).to.eventually.be.rejected('error is expected');
+    // EcuteJavaScriptInIsolatedWorld检测不到EXEC错误。
+    // 拒绝或将错误传递给回调。这在重新引入之前就已经存在了。
+    // 因此不会作为回调PR的一部分进行修复。
+    // 如果/当此问题得到修复时，可以取消对测试的注释。
+    // 
+    // It(‘ecuteJavaScriptInIsolatedWorld()通过承诺和同步回调产生错误’，Done=&gt;{。
+    // 让callbackResult，callbackError。
+    // 
+    // Const ecuteJavaScriptInIsolatedWorld=Child Frame。
+    // .ecuteJavaScriptInIsolatedWorld(999，[{code：‘thisShouldProduceAnError()’}]，(Result，Error)=&gt;{。
+    // CallbackResult=结果。
+    // CallbackError=错误。
+    // })；
+    // 
+    // Expect(CallbackResult).to.be.unfined()。
+    // Expect(CallbackError).to.be.an(‘Error’)。
+    // 
+    // 预期为expect(executeJavaScriptInIsolatedWorld).to.eventually.be.rejected(‘error’)；
     // })
 
     it('executeJavaScript(InIsolatedWorld) can be used without a callback', async () => {

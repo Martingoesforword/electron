@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NOTIFICATIONS_WIN_WIN32_DESKTOP_NOTIFICATIONS_TOAST_UIA_H_
 #define SHELL_BROWSER_NOTIFICATIONS_WIN_WIN32_DESKTOP_NOTIFICATIONS_TOAST_UIA_H_
@@ -28,13 +28,13 @@ class DesktopNotificationController::Toast::UIAutomationInterface
  private:
   virtual ~UIAutomationInterface() = default;
 
-  // IUnknown
+  // 我未知。
  public:
   ULONG STDMETHODCALLTYPE AddRef() override;
   ULONG STDMETHODCALLTYPE Release() override;
   STDMETHODIMP QueryInterface(REFIID riid, LPVOID* ppv) override;
 
-  // IRawElementProviderSimple
+  // IRawElementProviderSimple。
  public:
   STDMETHODIMP get_ProviderOptions(ProviderOptions* retval) override;
   STDMETHODIMP GetPatternProvider(PATTERNID pattern_id,
@@ -44,7 +44,7 @@ class DesktopNotificationController::Toast::UIAutomationInterface
   STDMETHODIMP get_HostRawElementProvider(
       IRawElementProviderSimple** retval) override;
 
-  // IWindowProvider
+  // IWindowProvider。
  public:
   STDMETHODIMP SetVisualState(WindowVisualState state) override;
   STDMETHODIMP Close() override;
@@ -57,11 +57,11 @@ class DesktopNotificationController::Toast::UIAutomationInterface
       WindowInteractionState* retval) override;
   STDMETHODIMP get_IsTopmost(BOOL* retval) override;
 
-  // IInvokeProvider
+  // IInvokeProvider。
  public:
   STDMETHODIMP Invoke() override;
 
-  // ITextProvider
+  // ITextProvider。
  public:
   STDMETHODIMP GetSelection(SAFEARRAY** retval) override;
   STDMETHODIMP GetVisibleRanges(SAFEARRAY** retval) override;
@@ -79,6 +79,6 @@ class DesktopNotificationController::Toast::UIAutomationInterface
   std::u16string text_;
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_NOTIFICATIONS_WIN_WIN32_DESKTOP_NOTIFICATIONS_TOAST_UIA_H_

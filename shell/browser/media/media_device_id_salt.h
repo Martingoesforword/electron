@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_MEDIA_MEDIA_DEVICE_ID_SALT_H_
 #define SHELL_BROWSER_MEDIA_MEDIA_DEVICE_ID_SALT_H_
@@ -15,9 +15,9 @@ class PrefService;
 
 namespace electron {
 
-// MediaDeviceIDSalt is responsible for creating and retrieving a salt string
-// that is used for creating MediaSource IDs that can be cached by a web
-// service. If the cache is cleared, the  MediaSourceIds are invalidated.
+// MediaDeviceIDSalt负责创建和检索SALT字符串。
+// 用于创建可由Web缓存的MediaSource ID。
+// 服务。如果清除缓存，则MediaSourceID无效。
 class MediaDeviceIDSalt {
  public:
   explicit MediaDeviceIDSalt(PrefService* pref_service);
@@ -34,6 +34,6 @@ class MediaDeviceIDSalt {
   DISALLOW_COPY_AND_ASSIGN(MediaDeviceIDSalt);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_MEDIA_MEDIA_DEVICE_ID_SALT_H_
+#endif  // Shell_Browser_MEDIA_MEDIA_DEVICE_ID_SALT_H_

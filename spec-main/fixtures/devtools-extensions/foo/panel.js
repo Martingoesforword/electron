@@ -1,4 +1,4 @@
-/* global chrome */
+/* 全局铬*/
 function testStorageClear (callback) {
   chrome.storage.sync.clear(function () {
     chrome.storage.sync.get(null, function (syncItems) {

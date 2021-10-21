@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_COCOA_ROOT_VIEW_MAC_H_
 #define SHELL_BROWSER_UI_COCOA_ROOT_VIEW_MAC_H_
@@ -16,18 +16,18 @@ class RootViewMac : public views::View {
   explicit RootViewMac(NativeWindow* window);
   ~RootViewMac() override;
 
-  // views::View:
+  // 视图：：视图：
   void Layout() override;
   gfx::Size GetMinimumSize() const override;
   gfx::Size GetMaximumSize() const override;
 
  private:
-  // Parent window, weak ref.
+  // 父窗口，弱引用。
   NativeWindow* window_;
 
   DISALLOW_COPY_AND_ASSIGN(RootViewMac);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_COCOA_ROOT_VIEW_MAC_H_
+#endif  // Shell_Browser_UI_COCA_ROOT_VIEW_MAC_H_

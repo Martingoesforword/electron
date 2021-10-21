@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_PREF_STORE_DELEGATE_H_
 #define SHELL_BROWSER_PREF_STORE_DELEGATE_H_
@@ -20,8 +20,8 @@ namespace electron {
 
 class ElectronBrowserContext;
 
-// Retrieves handle to the in memory pref store that gets
-// initialized with the pref service.
+// 检索内存中首选存储的句柄，该存储获取。
+// 已使用首选项服务进行初始化。
 class PrefStoreDelegate : public PrefValueStore::Delegate {
  public:
   explicit PrefStoreDelegate(
@@ -52,6 +52,6 @@ class PrefStoreDelegate : public PrefValueStore::Delegate {
   DISALLOW_COPY_AND_ASSIGN(PrefStoreDelegate);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_PREF_STORE_DELEGATE_H_
+#endif  // Shell_Browser_PREF_STORE_Delegate_H_

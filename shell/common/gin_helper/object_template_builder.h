@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc. All rights reserved.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.保留所有权利。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_OBJECT_TEMPLATE_BUILDER_H_
 #define SHELL_COMMON_GIN_HELPER_OBJECT_TEMPLATE_BUILDER_H_
@@ -9,32 +9,32 @@
 
 namespace gin_helper {
 
-// This class works like gin::ObjectTemplateBuilder, but operates on existing
-// prototype template instead of creating a new one.
-//
-// It also uses gin_helper::CreateFunctionTemplate for function templates to
-// support gin_helper types.
-//
-// TODO(zcbenz): We should patch gin::ObjectTemplateBuilder to provide the same
-// functionality after removing gin_helper/function_template.h.
+// 此类的工作方式与gin：：ObjectTemplateBuilder类似，但在现有。
+// 原型模板，而不是创建新模板。
+// 
+// 它还对函数模板使用gin_helper：：CreateFunctionTemplate。
+// 支持gin_helper类型。
+// 
+// TODO(Zcbenz)：我们应该修补gin：：ObjectTemplateBuilder以提供相同的功能。
+// 删除gin_helper/function_template.h之后的功能。
 class ObjectTemplateBuilder {
  public:
   ObjectTemplateBuilder(v8::Isolate* isolate,
                         v8::Local<v8::ObjectTemplate> templ);
   ~ObjectTemplateBuilder() = default;
 
-  // It's against Google C++ style to return a non-const ref, but we take some
-  // poetic license here in order that all calls to Set() can be via the '.'
-  // operator and line up nicely.
+  // 返回非常数引用违反了Google C++风格，但我们采用了一些。
+  // 此处的诗意许可，以便所有对set()的调用都可以通过‘.’
+  // 接线员，排好队。
   template <typename T>
   ObjectTemplateBuilder& SetValue(const base::StringPiece& name, T val) {
     return SetImpl(name, ConvertToV8(isolate_, val));
   }
 
-  // In the following methods, T and U can be function pointer, member function
-  // pointer, base::RepeatingCallback, or v8::FunctionTemplate. Most clients
-  // will want to use one of the first two options. Also see
-  // gin::CreateFunctionTemplate() for creating raw function templates.
+  // 在以下方法中，T和U可以是函数指针、成员函数。
+  // 指针、base：：RepeatingCallback或V8：：FunctionTemplate。大多数客户端。
+  // 将希望使用前两个选项中的一个。另请参阅。
+  // Gin：：CreateFunctionTemplate()，用于创建原始函数模板。
   template <typename T>
   ObjectTemplateBuilder& SetMethod(const base::StringPiece& name,
                                    const T& callback) {
@@ -68,10 +68,10 @@ class ObjectTemplateBuilder {
 
   v8::Isolate* isolate_;
 
-  // ObjectTemplateBuilder should only be used on the stack.
+  // ObjectTemplateBuilder只能在堆栈上使用。
   v8::Local<v8::ObjectTemplate> template_;
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 #endif  // SHELL_COMMON_GIN_HELPER_OBJECT_TEMPLATE_BUILDER_H_

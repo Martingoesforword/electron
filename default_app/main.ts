@@ -17,7 +17,7 @@ type DefaultAppOptions = {
 
 const Module = require('module');
 
-// Parse command line options.
+// 解析命令行选项。
 const argv = process.argv.slice(1);
 
 const option: DefaultAppOptions = {
@@ -69,13 +69,13 @@ if (nextArgIsRequire) {
   process.exit(1);
 }
 
-// Set up preload modules
+// 设置预加载模块。
 if (option.modules.length > 0) {
   Module._preloadModules(option.modules);
 }
 
 function loadApplicationPackage (packagePath: string) {
-  // Add a flag indicating app is started from default app.
+  // 添加一个标志，指示应用程序是从默认应用程序启动的。
   Object.defineProperty(process, 'defaultApp', {
     configurable: false,
     enumerable: true,
@@ -83,7 +83,7 @@ function loadApplicationPackage (packagePath: string) {
   });
 
   try {
-    // Override app name and version.
+    // 覆盖应用程序名称和版本。
     packagePath = path.resolve(packagePath);
     const packageJsonPath = path.join(packagePath, 'package.json');
     let appPath;
@@ -115,7 +115,7 @@ function loadApplicationPackage (packagePath: string) {
       return;
     }
 
-    // Run the app.
+    // 运行应用程序。
     Module._load(packagePath, module, true);
   } catch (e) {
     console.error('App threw an error during load');
@@ -146,7 +146,7 @@ function startRepl () {
     process.exit(1);
   }
 
-  // Prevent quitting.
+  // 防止戒烟。
   app.on('window-all-closed', () => {});
 
   const GREEN = '32';
@@ -170,8 +170,8 @@ function startRepl () {
 
   function defineBuiltin (context: any, name: string, getter: Function) {
     const setReal = (val: any) => {
-      // Deleting the property before re-assigning it disables the
-      // getter/setter mechanism.
+      // 在重新分配属性之前删除该属性会禁用。
+      // 吸气剂/凝固剂机构。
       delete context[name];
       context[name] = val;
     };
@@ -201,10 +201,10 @@ function startRepl () {
     defineBuiltin(repl.context, api, () => electron[api]);
   }
 
-  // Copied from node/lib/repl.js. For better DX, we don't want to
-  // show e.g 'contentTracing' at a higher priority than 'const', so
-  // we only trigger custom tab-completion when no common words are
-  // potentially matches.
+  // 从node/lib/repl.js复制。为了更好的DX，我们不想。
+  // 例如，以比“const”更高的优先级显示“contentTracing”，因此。
+  // 我们仅在没有常用单词时触发自定义制表符完成。
+  // 有可能匹配。
   const commonWords = [
     'async', 'await', 'break', 'case', 'catch', 'const', 'continue',
     'debugger', 'default', 'delete', 'do', 'else', 'export', 'false',
@@ -232,8 +232,8 @@ function startRepl () {
   };
 }
 
-// Start the specified app if there is one specified in command line, otherwise
-// start the default app.
+// 如果在命令行中指定了指定的应用程序，则启动该应用程序，否则。
+// 启动默认应用程序。
 if (option.file && !option.webdriver) {
   const file = option.file;
   const protocol = url.parse(file).protocol;
@@ -264,7 +264,7 @@ A path to an Electron app may be specified. It must be one of the following:
   - Folder containing a package.json file.
   - Folder containing an index.js file.
   - .html/.htm file.
-  - http://, https://, or file:// URL.
+  - http:// 、https://，或FILE：//url。
 
 Options:
   -i, --interactive     Open a REPL to the main process.

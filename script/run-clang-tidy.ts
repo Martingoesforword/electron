@@ -110,11 +110,11 @@ function getDepotToolsEnv (): NodeJS.ProcessEnv {
 }
 
 function chunkFilenames (filenames: string[], offset: number = 0): string[][] {
-  // Windows has a max command line length of 2047 characters, so we can't
-  // provide too many filenames without going over that. To work around that,
-  // chunk up a list of filenames such that it won't go over that limit when
-  // used as args. Use a much higher limit on other platforms which will
-  // effectively be a no-op.
+  // Windows的最大命令行长度为2047个字符，因此我们无法。
+  // 提供太多的文件名，而不仔细查看。为了解决这个问题，
+  // 将文件名列表分块，以便在以下情况下不会超过该限制。
+  // 用作参数。在其他平台上使用更高的限制，这将。
+  // 实际上是个禁区。
   const MAX_FILENAME_ARGS_LENGTH =
     PLATFORM === 'win32' ? 2047 - offset : 100 * 1024;
 
@@ -147,9 +147,9 @@ async function runClangTidy (
 
   if (checks) args.push(`--checks=${checks}`);
 
-  // Remove any files that aren't in the compilation database to prevent
-  // errors from cluttering up the output. Since the compilation DB is hundreds
-  // of megabytes, this is done with streaming to not hold it all in memory.
+  // 删除所有不在编译数据库中的文件，以防止。
+  // 把输出搞得乱七八糟的错误。由于编译数据库有数百个。
+  // 以兆字节为单位，这是通过流式传输来完成的，这样就不会将其全部保存在内存中。
   const filterCompilationDatabase = (): Promise<string[]> => {
     const compiledFilenames: string[] = [];
 
@@ -170,9 +170,9 @@ async function runClangTidy (
     });
   };
 
-  // clang-tidy can figure out the file from a short relative filename, so
-  // to get the most bang for the buck on the command line, let's trim the
-  // filenames to the minimum so that we can fit more per invocation
+  // Clang-tidy可以从短的相对文件名中找出文件，所以。
+  // 为了在命令行上获得最大效益，让我们修剪。
+  // 将文件名减少到最少，以便我们可以在每次调用时容纳更多文件名。
   filenames = (await filterCompilationDatabase()).map((filename) =>
     path.relative(SOURCE_ROOT, filename)
   );
@@ -202,9 +202,9 @@ async function runClangTidy (
     while (filenames) {
       results.push(
         await spawnAsync(cmd, [...args, ...filenames], {}).then((result) => {
-          // We lost color, so recolorize because it's much more legible
-          // There's a --use-color flag for clang-tidy but it has no effect
-          // on Windows at the moment, so just recolor for everyone
+          // 我们掉了颜色，所以重新上色吧，因为它更容易辨认。
+          // 有一个--使用颜色的旗帜来表示叮当--整洁，但它没有任何效果。
+          // 目前在Windows上，所以给每个人重新上色就好了。
           let state = null;
 
           for (const line of result.stdout.split('\n')) {
@@ -239,8 +239,8 @@ async function runClangTidy (
             console.error(result.stderr);
           }
 
-          // On a clean run there's nothing on stdout. A run with warnings-only
-          // will have a status code of zero, but there's output on stdout
+          // 在一次干净的运行中，stdout上没有任何内容。仅包含警告的运行。
+          // 的状态代码为零，但在stdout上有输出。
           return result.status === 0 && result.stdout.length === 0;
         })
       );
@@ -318,7 +318,7 @@ async function main (): Promise<boolean> {
   if (!fs.existsSync(outDir)) {
     throw new Error("Output directory doesn't exist");
   } else {
-    // Make sure the compile_commands.json file is up-to-date
+    // 确保COMPILE_COMMANDS.json文件是最新的
     const env = getDepotToolsEnv();
 
     const result = childProcess.spawnSync(

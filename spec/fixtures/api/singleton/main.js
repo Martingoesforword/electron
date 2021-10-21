@@ -1,7 +1,7 @@
 const { app } = require('electron');
 
 app.whenReady().then(() => {
-  console.log('started'); // ping parent
+  console.log('started'); // Ping父级
 });
 
 const gotTheLock = app.requestSingleInstanceLock();

@@ -4,7 +4,7 @@ import { syncMethods, asyncMethods, properties } from '@electron/internal/common
 import type { WebViewAttribute, PartitionAttribute } from '@electron/internal/renderer/web-view/web-view-attributes';
 import { setupWebViewAttributes } from '@electron/internal/renderer/web-view/web-view-attributes';
 
-// ID generator.
+// 身份证生成器。
 let nextId = 0;
 
 const getNextId = function () {
@@ -17,7 +17,7 @@ export interface WebViewImplHooks {
   readonly setIsWebView: (iframe: HTMLIFrameElement) => void;
 }
 
-// Represents the internal state of the WebView node.
+// 表示WebView节点的内部状态。
 export class WebViewImpl {
   public beforeFirstNavigation = true
   public elementAttached = false
@@ -28,14 +28,14 @@ export class WebViewImpl {
   public userAgentOverride?: string;
   public viewInstanceId: number
 
-  // on* Event handlers.
+  // ON*事件处理程序。
   public on: Record<string, any> = {}
   public internalElement: HTMLIFrameElement
 
   public attributes: Map<string, WebViewAttribute>;
 
   constructor (public webviewNode: HTMLElement, private hooks: WebViewImplHooks) {
-    // Create internal iframe element.
+    // 创建内部IFRAME元素。
     this.internalElement = this.createInternalElement();
     const shadowRoot = this.webviewNode.attachShadow({ mode: 'open' });
     const style = shadowRoot.ownerDocument.createElement('style');
@@ -45,7 +45,7 @@ export class WebViewImpl {
     this.viewInstanceId = getNextId();
     shadowRoot.appendChild(this.internalElement);
 
-    // Provide access to contentWindow.
+    // 提供对Content Window的访问。
     Object.defineProperty(this.webviewNode, 'contentWindow', {
       get: () => {
         return this.internalElement.contentWindow;
@@ -59,19 +59,19 @@ export class WebViewImpl {
     iframeElement.style.flex = '1 1 auto';
     iframeElement.style.width = '100%';
     iframeElement.style.border = '0';
-    // used by RendererClientBase::IsWebViewFrame
+    // 由RendererClientBase：：IsWebViewFrame使用。
     this.hooks.setIsWebView(iframeElement);
     return iframeElement;
   }
 
-  // Resets some state upon reattaching <webview> element to the DOM.
+  // 将&lt;webview&gt;元素重新附加到DOM时重置某些状态。
   reset () {
-    // If guestInstanceId is defined then the <webview> has navigated and has
-    // already picked up a partition ID. Thus, we need to reset the initialization
-    // state. However, it may be the case that beforeFirstNavigation is false BUT
-    // guestInstanceId has yet to be initialized. This means that we have not
-    // heard back from createGuest yet. We will not reset the flag in this case so
-    // that we don't end up allocating a second guest.
+    // 如果定义了guestInstanceId，则&lt;webview&gt;已导航并具有。
+    // 已经拾取了一个分区ID。因此，我们需要重置初始化。
+    // 州政府。但是，可能出现的情况是beforeFirstNavigation值为假，但是。
+    // GuestInstanceId尚未初始化。这意味着我们还没有。
+    // 还没有收到CreateGuest的回复。在这种情况下，我们不会重置旗帜，因此。
+    // 我们最终不会再安排第二位客人。
     if (this.guestInstanceId) {
       this.guestInstanceId = undefined;
     }
@@ -79,8 +79,8 @@ export class WebViewImpl {
     this.beforeFirstNavigation = true;
     (this.attributes.get(WEB_VIEW_CONSTANTS.ATTRIBUTE_PARTITION) as PartitionAttribute).validPartitionId = true;
 
-    // Since attachment swaps a local frame for a remote frame, we need our
-    // internal iframe element to be local again before we can reattach.
+    // 由于附件将本地帧交换为远程帧，因此我们需要。
+    // 将内部IFRAME元素重新设置为本地元素，然后才能重新附加。
     const newFrame = this.createInternalElement();
     const oldFrame = this.internalElement;
     this.internalElement = newFrame;
@@ -90,17 +90,17 @@ export class WebViewImpl {
     }
   }
 
-  // This observer monitors mutations to attributes of the <webview> and
-  // updates the BrowserPlugin properties accordingly. In turn, updating
-  // a BrowserPlugin property will update the corresponding BrowserPlugin
-  // attribute, if necessary. See BrowserPlugin::UpdateDOMAttribute for more
-  // details.
+  // 此观察者监视&lt;webview&gt;和。
+  // 相应地更新BrowserPlugin属性。反过来，更新。
+  // BrowserPlugin属性将更新相应的BrowserPlugin。
+  // 属性，如有必要。有关详细信息，请参阅BrowserPlugin：：UpdateDOMAttribute。
+  // 细节。
   handleWebviewAttributeMutation (attributeName: string, oldValue: any, newValue: any) {
     if (!this.attributes.has(attributeName) || this.attributes.get(attributeName)!.ignoreMutation) {
       return;
     }
 
-    // Let the changed attribute handle its own mutation
+    // 让更改后的属性处理其自身的变化。
     this.attributes.get(attributeName)!.handleMutation(oldValue, newValue);
   }
 
@@ -132,8 +132,8 @@ export class WebViewImpl {
     }
   }
 
-  // Adds an 'on<event>' property on the webview, which can be used to set/unset
-  // an event handler.
+  // 在Web视图上添加“on&lt;event&gt;”属性，该属性可用于设置/取消设置。
+  // 事件处理程序。
   setupEventProperty (eventName: string) {
     const propertyName = `on${eventName.toLowerCase()}`;
     return Object.defineProperty(this.webviewNode, propertyName, {
@@ -153,19 +153,19 @@ export class WebViewImpl {
     });
   }
 
-  // Updates state upon loadcommit.
+  // 在加载提交时更新状态。
   onLoadCommit (props: Record<string, any>) {
     const oldValue = this.webviewNode.getAttribute(WEB_VIEW_CONSTANTS.ATTRIBUTE_SRC);
     const newValue = props.url;
     if (props.isMainFrame && (oldValue !== newValue)) {
-      // Touching the src attribute triggers a navigation. To avoid
-      // triggering a page reload on every guest-initiated navigation,
-      // we do not handle this mutation.
+      // 触摸src属性会触发导航。为了避免。
+      // 在每个客户发起的导航上触发页面重新加载，
+      // 我们不处理这种变异。
       this.attributes.get(WEB_VIEW_CONSTANTS.ATTRIBUTE_SRC)!.setValueIgnoreMutation(newValue);
     }
   }
 
-  // Emits focus/blur events.
+  // 发射聚焦/模糊事件。
   onFocusChange () {
     const hasFocus = this.webviewNode.ownerDocument.activeElement === this.webviewNode;
     if (hasFocus !== this.hasFocus) {
@@ -198,29 +198,29 @@ export class WebViewImpl {
     }
 
     if (!this.elementAttached) {
-      // The element could be detached before we got response from browser.
-      // Destroy the backing webContents to avoid any zombie nodes in the frame tree.
+      // 在我们从浏览器获得响应之前，元素可能会被分离。
+      // 销毁支持的webContents以避免框架树中的任何僵尸节点。
       this.hooks.guestViewInternal.detachGuest(guestInstanceId);
       return;
     }
 
     this.guestInstanceId = guestInstanceId;
-    // TODO(zcbenz): Should we deprecate the "resize" event? Wait, it is not
-    // even documented.
+    // TODO(Zcbenz)：我们应该弃用“resize”事件吗？等等，这不是。
+    // 甚至有记录在案。
     this.resizeObserver = new ResizeObserver(this.onElementResize.bind(this));
     this.resizeObserver.observe(this.internalElement);
   }
 }
 
-// I wish eslint wasn't so stupid, but it is
-// eslint-disable-next-line
+// 我希望埃斯林特不是那么愚蠢，但它确实是。
+// Eslint-禁用-下一行。
 export const setupMethods = (WebViewElement: typeof ElectronInternal.WebViewElement, hooks: WebViewImplHooks) => {
-  // Focusing the webview should move page focus to the underlying iframe.
+  // 聚焦Web视图应该会将页面焦点移到底层IFRAME。
   WebViewElement.prototype.focus = function () {
     this.contentWindow.focus();
   };
 
-  // Forward proto.foo* method calls to WebViewImpl.foo*.
+  // 将协议.foo*方法调用转发到WebViewImpl.foo*。
   for (const method of syncMethods) {
     (WebViewElement.prototype as Record<string, any>)[method] = function (this: ElectronInternal.WebViewElement, ...args: Array<any>) {
       return hooks.guestViewInternal.invokeSync(this.getWebContentsId(), method, args);

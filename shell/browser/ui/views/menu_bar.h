@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_VIEWS_MENU_BAR_H_
 #define SHELL_BROWSER_UI_VIEWS_MENU_BAR_H_
@@ -26,44 +26,44 @@ class MenuBar : public views::AccessiblePaneView,
   MenuBar(NativeWindow* window, RootView* root_view);
   ~MenuBar() override;
 
-  // Replaces current menu with a new one.
+  // 用新菜单替换当前菜单。
   void SetMenu(ElectronMenuModel* menu_model);
 
-  // Shows underline under accelerators.
+  // 在加速器下显示下划线。
   void SetAcceleratorVisibility(bool visible);
 
-  // Returns true if the submenu has accelerator |key|
+  // 如果子菜单有快捷键|键，则返回TRUE。
   bool HasAccelerator(char16_t key);
 
-  // Shows the submenu whose accelerator is |key|.
+  // 显示其快捷键为|KEY|的子菜单。
   void ActivateAccelerator(char16_t key);
 
-  // Returns there are how many items in the root menu.
+  // 返回根菜单中有多少项。
   int GetItemCount() const;
 
-  // Get the menu under specified screen point.
+  // 获取指定屏幕点下的菜单。
   bool GetMenuButtonFromScreenPoint(const gfx::Point& point,
                                     ElectronMenuModel** menu_model,
                                     views::MenuButton** button);
 
  private:
-  // MenuDelegate::Observer:
+  // MenuDelegate：：观察者：
   void OnBeforeExecuteCommand() override;
   void OnMenuClosed() override;
 
-  // NativeWindowObserver:
+  // NativeWindowViewer：
   void OnWindowBlur() override;
   void OnWindowFocus() override;
 
-  // views::AccessiblePaneView:
+  // 视图：：AccessiblePaneView：
   bool AcceleratorPressed(const ui::Accelerator& accelerator) override;
   bool SetPaneFocusAndFocusDefault() override;
   void OnThemeChanged() override;
 
-  // views::FocusChangeListener:
+  // 视图：：FocusChangeListener：
   void OnDidChangeFocus(View* focused_before, View* focused_now) override;
 
-  // views::View:
+  // 视图：：视图：
   const char* GetClassName() const override;
 
   void ButtonPressed(int id, const ui::Event& event);
@@ -87,6 +87,6 @@ class MenuBar : public views::AccessiblePaneView,
   DISALLOW_COPY_AND_ASSIGN(MenuBar);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_VIEWS_MENU_BAR_H_
+#endif  // Shell_Browser_UI_Views_Menu_BAR_H_

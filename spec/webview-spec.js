@@ -9,8 +9,8 @@ const { ifdescribe, ifit, delay } = require('./spec-helpers');
 const features = process._linkedBinding('electron_common_features');
 const nativeModulesEnabled = process.env.ELECTRON_SKIP_NATIVE_MODULE_TESTS;
 
-/* Most of the APIs here don't use standard callbacks */
-/* eslint-disable standard/no-callback-literal */
+/* 这里的大多数API都不使用标准回调。*/
+/* Eslint-禁用标准/无回调-文字。*/
 
 describe('<webview> tag', function () {
   this.timeout(3 * 60 * 1000);
@@ -28,7 +28,7 @@ describe('<webview> tag', function () {
   };
 
   const startLoadingWebViewAndWaitForMessage = async (webview, attributes = {}) => {
-    loadWebView(webview, attributes); // Don't wait for load to be finished.
+    loadWebView(webview, attributes); // 不要等待装载完成。
     const event = await waitForEvent(webview, 'console-message');
     return event.message;
   };
@@ -69,17 +69,17 @@ describe('<webview> tag', function () {
   describe('src attribute', () => {
     it('specifies the page to load', async () => {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
-        src: `file://${fixtures}/pages/a.html`
+        src: `file:// ${Fixtures}/Pages/a.html`。
       });
       expect(message).to.equal('a');
     });
 
     it('navigates to new page when changed', async () => {
       await loadWebView(webview, {
-        src: `file://${fixtures}/pages/a.html`
+        src: `file:// ${Fixtures}/Pages/a.html`。
       });
 
-      webview.src = `file://${fixtures}/pages/b.html`;
+      webview.src = `file:// ${Fixtures}/Pages/b.html`；
 
       const { message } = await waitForEvent(webview, 'console-message');
       expect(message).to.equal('b');
@@ -105,13 +105,13 @@ describe('<webview> tag', function () {
       await loadWebView(webview, { src: 'about:blank' });
 
       const before = Date.now();
-      webview.src = 'https://github.com';
+      webview.src = 'https:// Github.com‘；
       const now = Date.now();
 
-      // Setting src is essentially sending a sync IPC message, which should
-      // not exceed more than a few ms.
-      //
-      // This is for testing #18638.
+      // 设置src实质上是发送一条sync IPC消息，它应该。
+      // 不超过几毫秒。
+      // 
+      // 这是用来测试18638号的。
       expect(now - before).to.be.below(100);
     });
   });
@@ -119,7 +119,7 @@ describe('<webview> tag', function () {
   describe('nodeintegration attribute', () => {
     it('inserts no node symbols when not set', async () => {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
-        src: `file://${fixtures}/pages/c.html`
+        src: `file:// ${Fixtures}/Pages/c.html`。
       });
 
       const types = JSON.parse(message);
@@ -135,7 +135,7 @@ describe('<webview> tag', function () {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no',
-        src: `file://${fixtures}/pages/d.html`
+        src: `file:// ${Fixtures}/Pages/d.html`。
       });
 
       const types = JSON.parse(message);
@@ -147,7 +147,7 @@ describe('<webview> tag', function () {
     });
 
     it('loads node symbols after POST navigation when set', async function () {
-      // FIXME Figure out why this is timing out on AppVeyor
+      // 修复我找出AppVeyor上出现超时的原因。
       if (process.env.APPVEYOR === 'True') {
         this.skip();
         return;
@@ -156,7 +156,7 @@ describe('<webview> tag', function () {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no',
-        src: `file://${fixtures}/pages/post.html`
+        src: `file:// ${Fixtures}/Pages/post.html`。
       });
 
       const types = JSON.parse(message);
@@ -189,7 +189,7 @@ describe('<webview> tag', function () {
       await loadWebView(webview, {
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no',
-        src: `file://${fixtures}/pages/native-module.html`
+        src: `file:// ${Fixtures}/Pages/NATIVE-Mode.html`。
       });
 
       webview.reload();
@@ -203,7 +203,7 @@ describe('<webview> tag', function () {
     it('loads the script before other scripts in window', async () => {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         preload: `${fixtures}/module/preload.js`,
-        src: `file://${fixtures}/pages/e.html`,
+        src: `file:// ${Fixtures}/Pages/e.html`，
         contextIsolation: false
       });
 
@@ -214,7 +214,7 @@ describe('<webview> tag', function () {
     it('preload script can still use "process" and "Buffer" when nodeintegration is off', async () => {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         preload: `${fixtures}/module/preload-node-off.js`,
-        src: `file://${fixtures}/api/blank.html`
+        src: `file:// ${fixtures}/api/blank.html`。
       });
 
       const types = JSON.parse(message);
@@ -227,23 +227,23 @@ describe('<webview> tag', function () {
     it('runs in the correct scope when sandboxed', async () => {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         preload: `${fixtures}/module/preload-context.js`,
-        src: `file://${fixtures}/api/blank.html`,
+        src: `file:// ${fixtures}/api/blank.html`，
         webpreferences: 'sandbox=yes'
       });
 
       const types = JSON.parse(message);
       expect(types).to.include({
-        require: 'function', // arguments passed to it should be availale
-        electron: 'undefined', // objects from the scope it is called from should not be available
-        window: 'object', // the window object should be available
-        localVar: 'undefined' // but local variables should not be exposed to the window
+        require: 'function', // 传递给它的参数应该可用。
+        electron: 'undefined', // 调用它的作用域中的对象应该不可用。
+        window: 'object', // 窗口对象应可用。
+        localVar: 'undefined' // 但是局部变量不应该暴露给窗口。
       });
     });
 
     it('preload script can require modules that still use "process" and "Buffer" when nodeintegration is off', async () => {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         preload: `${fixtures}/module/preload-node-off-wrapper.js`,
-        src: `file://${fixtures}/api/blank.html`
+        src: `file:// ${fixtures}/api/blank.html`。
       });
 
       const types = JSON.parse(message);
@@ -256,7 +256,7 @@ describe('<webview> tag', function () {
     it('receives ipc message in preload script', async () => {
       await loadWebView(webview, {
         preload: `${fixtures}/module/preload-ipc.js`,
-        src: `file://${fixtures}/pages/e.html`
+        src: `file:// ${Fixtures}/Pages/e.html`。
       });
 
       const message = 'boom!';
@@ -272,7 +272,7 @@ describe('<webview> tag', function () {
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no',
         preload: `${fixtures}/module/preload-ipc.js`,
-        src: `file://${fixtures}/pages/ipc-message.html`
+        src: `file:// ${Fixtures}/Pages/ipc-message.html`。
       });
 
       const { frameId } = await waitForEvent(webview, 'ipc-message');
@@ -288,7 +288,7 @@ describe('<webview> tag', function () {
     it('works without script tag in page', async () => {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         preload: `${fixtures}/module/preload.js`,
-        src: `file://${fixtures}pages/base-page.html`
+        src: `file:// ${fixtures}个页面/base-page.html`。
       });
 
       const types = JSON.parse(message);
@@ -303,7 +303,7 @@ describe('<webview> tag', function () {
     it('resolves relative URLs', async () => {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         preload: '../fixtures/module/preload.js',
-        src: `file://${fixtures}/pages/e.html`
+        src: `file:// ${Fixtures}/Pages/e.html`。
       });
 
       const types = JSON.parse(message);
@@ -327,7 +327,7 @@ describe('<webview> tag', function () {
 
   describe('httpreferrer attribute', () => {
     it('sets the referrer url', (done) => {
-      const referrer = 'http://github.com/';
+      const referrer = 'http:// Github.com/‘；
       const server = http.createServer((req, res) => {
         try {
           expect(req.headers.referer).to.equal(referrer);
@@ -342,7 +342,7 @@ describe('<webview> tag', function () {
         const port = server.address().port;
         loadWebView(webview, {
           httpreferrer: referrer,
-          src: `http://127.0.0.1:${port}`
+          src: `http:// 127.0.0.1：${port}`。
         });
       });
     });
@@ -352,7 +352,7 @@ describe('<webview> tag', function () {
     it('sets the user agent', async () => {
       const referrer = 'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko';
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
-        src: `file://${fixtures}/pages/useragent.html`,
+        src: `file:// ${Fixtures}/Pages/useragent.html`，
         useragent: referrer
       });
       expect(message).to.equal(referrer);
@@ -375,7 +375,7 @@ describe('<webview> tag', function () {
         disablewebsecurity: '',
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no',
-        src: `file://${fixtures}/pages/d.html`
+        src: `file:// ${Fixtures}/Pages/d.html`。
       });
 
       const types = JSON.parse(message);
@@ -390,7 +390,7 @@ describe('<webview> tag', function () {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         disablewebsecurity: '',
         preload: `${fixtures}/module/preload.js`,
-        src: `file://${fixtures}/pages/e.html`
+        src: `file:// ${Fixtures}/Pages/e.html`。
       });
 
       const types = JSON.parse(message);
@@ -407,7 +407,7 @@ describe('<webview> tag', function () {
     it('inserts no node symbols when not set', async () => {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         partition: 'test1',
-        src: `file://${fixtures}/pages/c.html`
+        src: `file:// ${Fixtures}/Pages/c.html`。
       });
 
       const types = JSON.parse(message);
@@ -424,7 +424,7 @@ describe('<webview> tag', function () {
         nodeintegration: 'on',
         partition: 'test2',
         webpreferences: 'contextIsolation=no',
-        src: `file://${fixtures}/pages/d.html`
+        src: `file:// ${Fixtures}/Pages/d.html`。
       });
 
       const types = JSON.parse(message);
@@ -440,7 +440,7 @@ describe('<webview> tag', function () {
 
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         partition: 'test3',
-        src: `file://${fixtures}/pages/partition/one.html`
+        src: `file:// ${Fixtures}/Pages/Partition/one.html`。
       });
 
       const parsedMessage = JSON.parse(message);
@@ -455,7 +455,7 @@ describe('<webview> tag', function () {
       window.localStorage.setItem('test', testValue);
 
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
-        src: `file://${fixtures}/pages/partition/one.html`
+        src: `file:// ${Fixtures}/Pages/Partition/one.html`。
       });
 
       const parsedMessage = JSON.parse(message);
@@ -472,7 +472,7 @@ describe('<webview> tag', function () {
         it('can not open new window when not set', async () => {
           const message = await startLoadingWebViewAndWaitForMessage(webview, {
             webpreferences,
-            src: `file://${fixtures}/pages/window-open-hide.html`
+            src: `file:// ${Fixtures}/Pages/Window-open-hide.html`。
           });
           expect(message).to.equal('null');
         });
@@ -481,7 +481,7 @@ describe('<webview> tag', function () {
           const message = await startLoadingWebViewAndWaitForMessage(webview, {
             webpreferences,
             allowpopups: 'on',
-            src: `file://${fixtures}/pages/window-open-hide.html`
+            src: `file:// ${Fixtures}/Pages/Window-open-hide.html`。
           });
           expect(message).to.equal('window');
         });
@@ -496,7 +496,7 @@ describe('<webview> tag', function () {
   describe('webpreferences attribute', () => {
     it('can enable nodeintegration', async () => {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
-        src: `file://${fixtures}/pages/d.html`,
+        src: `file:// ${Fixtures}/Pages/d.html`，
         webpreferences: 'nodeIntegration,contextIsolation=no'
       });
 
@@ -519,23 +519,23 @@ describe('<webview> tag', function () {
   describe('new-window event', () => {
     it('emits when window.open is called', async () => {
       loadWebView(webview, {
-        src: `file://${fixtures}/pages/window-open.html`,
+        src: `file:// ${Fixtures}/Pages/Window-open.html`，
         allowpopups: true
       });
       const { url, frameName } = await waitForEvent(webview, 'new-window');
 
-      expect(url).to.equal('http://host/');
+      expect(url).to.equal('http:// Host/‘)；
       expect(frameName).to.equal('host');
     });
 
     it('emits when link with target is called', async () => {
       loadWebView(webview, {
-        src: `file://${fixtures}/pages/target-name.html`,
+        src: `file:// ${fixtures}/ages/target-name.html`，
         allowpopups: true
       });
       const { url, frameName } = await waitForEvent(webview, 'new-window');
 
-      expect(url).to.equal('http://host/');
+      expect(url).to.equal('http:// Host/‘)；
       expect(frameName).to.equal('target');
     });
   });
@@ -545,7 +545,7 @@ describe('<webview> tag', function () {
       loadWebView(webview, {
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no',
-        src: `file://${fixtures}/pages/ipc-message.html`
+        src: `file:// ${Fixtures}/Pages/ipc-message.html`。
       });
       const { frameId, channel, args } = await waitForEvent(webview, 'ipc-message');
 
@@ -558,7 +558,7 @@ describe('<webview> tag', function () {
   describe('page-title-set event', () => {
     it('emits when title is set', async () => {
       loadWebView(webview, {
-        src: `file://${fixtures}/pages/a.html`
+        src: `file:// ${Fixtures}/Pages/a.html`。
       });
       const { title, explicitSet } = await waitForEvent(webview, 'page-title-set');
 
@@ -570,7 +570,7 @@ describe('<webview> tag', function () {
   describe('page-favicon-updated event', () => {
     it('emits when favicon urls are received', async () => {
       loadWebView(webview, {
-        src: `file://${fixtures}/pages/a.html`
+        src: `file:// ${Fixtures}/Pages/a.html`。
       });
       const { favicons } = await waitForEvent(webview, 'page-favicon-updated');
 
@@ -578,7 +578,7 @@ describe('<webview> tag', function () {
       if (process.platform === 'win32') {
         expect(favicons[0]).to.match(/^file:\/\/\/[A-Z]:\/favicon.png$/i);
       } else {
-        expect(favicons[0]).to.equal('file:///favicon.png');
+        expect(favicons[0]).to.equal('file:// /folicon.png‘)；
       }
     });
   });
@@ -598,7 +598,7 @@ describe('<webview> tag', function () {
         }
       });
       server.listen(0, '127.0.0.1', () => {
-        uri = `http://127.0.0.1:${(server.address()).port}`;
+        uri = `http:// 127.0.0.1：${(server.address()).port}`；
         done();
       });
     });
@@ -625,11 +625,11 @@ describe('<webview> tag', function () {
   describe('will-navigate event', () => {
     it('emits when a url that leads to oustide of the page is clicked', async () => {
       loadWebView(webview, {
-        src: `file://${fixtures}/pages/webview-will-navigate.html`
+        src: `file:// ${Fixtures}/Pages/webview-will-navgate.html`。
       });
       const { url } = await waitForEvent(webview, 'will-navigate');
 
-      expect(url).to.equal('http://host/');
+      expect(url).to.equal('http:// Host/‘)；
     });
   });
 
@@ -666,10 +666,10 @@ describe('<webview> tag', function () {
 
     it('emits when window.history.replaceState is called', async () => {
       loadWebView(webview, {
-        src: `file://${fixtures}/pages/webview-did-navigate-in-page-with-history.html`
+        src: `file:// ${fixtures}/pages/webview-did-navigate-in-page-with-history.html`
       });
       const { url } = await waitForEvent(webview, 'did-navigate-in-page');
-      expect(url).to.equal('http://host/');
+      expect(url).to.equal('http:// Host/‘)；
     });
 
     it('emits when window.location.hash is changed', async () => {
@@ -688,18 +688,18 @@ describe('<webview> tag', function () {
 
   describe('close event', () => {
     it('should fire when interior page calls window.close', async () => {
-      loadWebView(webview, { src: `file://${fixtures}/pages/close.html` });
+      loadWebView(webview, { src: `file:// ${fixtures}/ages/close.html`})；
       await waitForEvent(webview, 'close');
     });
   });
 
-  // FIXME(zcbenz): Disabled because of moving to OOPIF webview.
+  // FIXME(Zcbenz)：由于移动到OOPIF Webview而禁用。
   xdescribe('setDevToolsWebContents() API', () => {
     it('sets webContents of webview as devtools', async () => {
       const webview2 = new WebView();
       loadWebView(webview2);
 
-      // Setup an event handler for further usage.
+      // 设置事件处理程序以供进一步使用。
       const waitForDomReady = waitForEvent(webview2, 'dom-ready');
 
       loadWebView(webview, { src: 'about:blank' });
@@ -709,9 +709,9 @@ describe('<webview> tag', function () {
 
       await waitForDomReady;
 
-      // Its WebContents should be a DevTools.
+      // 其WebContents应为DevTools。
       const devtools = webview2.getWebContents();
-      expect(devtools.getURL().startsWith('devtools://devtools')).to.be.true();
+      expect(devtools.getURL().startsWith('devtools:// DevTools‘)).to.be.true()；
 
       const name = await devtools.executeJavaScript('InspectorFrontendHost.constructor.name');
       document.body.removeChild(webview2);
@@ -723,7 +723,7 @@ describe('<webview> tag', function () {
   describe('devtools-opened event', () => {
     it('should fire when webview.openDevTools() is called', async () => {
       loadWebView(webview, {
-        src: `file://${fixtures}/pages/base-page.html`
+        src: `file:// ${Fixtures}/Pages/base-page.html`。
       });
       await waitForEvent(webview, 'dom-ready');
 
@@ -737,7 +737,7 @@ describe('<webview> tag', function () {
   describe('devtools-closed event', () => {
     it('should fire when webview.closeDevTools() is called', async () => {
       loadWebView(webview, {
-        src: `file://${fixtures}/pages/base-page.html`
+        src: `file:// ${Fixtures}/Pages/base-page.html`。
       });
       await waitForEvent(webview, 'dom-ready');
 
@@ -752,7 +752,7 @@ describe('<webview> tag', function () {
   describe('devtools-focused event', () => {
     it('should fire when webview.openDevTools() is called', async () => {
       loadWebView(webview, {
-        src: `file://${fixtures}/pages/base-page.html`
+        src: `file:// ${Fixtures}/Pages/base-page.html`。
       });
 
       const waitForDevToolsFocused = waitForEvent(webview, 'devtools-focused');
@@ -770,10 +770,10 @@ describe('<webview> tag', function () {
       await loadWebView(webview, {
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no',
-        src: `file://${fixtures}/pages/beforeunload-false.html`
+        src: `file:// ${Fixtures}/Pages/bepreunload-False.html`。
       });
 
-      // Event handler has to be added before reload.
+      // 在重新加载之前必须添加事件处理程序。
       const waitForOnbeforeunload = waitForEvent(webview, 'ipc-message');
 
       webview.reload();
@@ -804,7 +804,7 @@ describe('<webview> tag', function () {
       const loadListener = () => {
         try {
           if (loadCount === 1) {
-            webview.src = `file://${fixtures}/pages/base-page.html`;
+            webview.src = `file:// ${Fixtures}/Pages/base-page.html`；
           } else if (loadCount === 2) {
             expect(webview.canGoBack()).to.be.true();
             expect(webview.canGoForward()).to.be.false();
@@ -831,18 +831,18 @@ describe('<webview> tag', function () {
 
       loadWebView(webview, {
         nodeintegration: 'on',
-        src: `file://${fixtures}/pages/history-replace.html`
+        src: `file:// ${Fixtures}/Pages/History-replace.html`。
       });
     });
   });
 
-  // FIXME: https://github.com/electron/electron/issues/19397
+  // 修复：https://github.com/electron/electron/issues/19397。
   xdescribe('<webview>.clearHistory()', () => {
     it('should clear the navigation history', async () => {
       const message = waitForEvent(webview, 'ipc-message');
       await loadWebView(webview, {
         nodeintegration: 'on',
-        src: `file://${fixtures}/pages/history.html`
+        src: `file:// ${Fixtures}/Pages/History y.html`。
       });
       const event = await message;
 
@@ -882,7 +882,7 @@ describe('<webview> tag', function () {
         loadWebView(webview, {
           nodeintegration: 'on',
           webpreferences: 'contextIsolation=no',
-          src: `file://${fixtures}/pages/basic-auth.html?port=${port}`
+          src: `file:// ${fixtures}/pages/basic-auth.html?port=${port}`。
         });
       });
     });
@@ -897,7 +897,7 @@ describe('<webview> tag', function () {
           done();
         });
         loadWebView(webview, {
-          src: `file://${fixtures}/pages/dom-ready.html?port=${port}`
+          src: `file:// ${fixtures}/pages/dom-ready.html?port=${port}`。
         });
       });
     });
@@ -913,10 +913,10 @@ describe('<webview> tag', function () {
   describe('executeJavaScript', () => {
     it('should support user gesture', async () => {
       await loadWebView(webview, {
-        src: `file://${fixtures}/pages/fullscreen.html`
+        src: `file:// ${Fixtures}/Pages/fullcreen.html`。
       });
 
-      // Event handler has to be added before js execution.
+      // 在执行js之前必须添加事件处理程序。
       const waitForEnterHtmlFullScreen = waitForEvent(webview, 'enter-html-full-screen');
 
       const jsScript = "document.querySelector('video').webkitRequestFullscreen()";
@@ -939,14 +939,14 @@ describe('<webview> tag', function () {
   });
 
   it('supports inserting CSS', async () => {
-    await loadWebView(webview, { src: `file://${fixtures}/pages/base-page.html` });
+    await loadWebView(webview, { src: `file:// ${fixtures}/ages/base-page.html`})；
     await webview.insertCSS('body { background-repeat: round; }');
     const result = await webview.executeJavaScript('window.getComputedStyle(document.body).getPropertyValue("background-repeat")');
     expect(result).to.equal('round');
   });
 
   it('supports removing inserted CSS', async () => {
-    await loadWebView(webview, { src: `file://${fixtures}/pages/base-page.html` });
+    await loadWebView(webview, { src: `file:// ${fixtures}/ages/base-page.html`})；
     const key = await webview.insertCSS('body { background-repeat: round; }');
     await webview.removeInsertedCSS(key);
     const result = await webview.executeJavaScript('window.getComputedStyle(document.body).getPropertyValue("background-repeat")');
@@ -958,7 +958,7 @@ describe('<webview> tag', function () {
       loadWebView(webview, {
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no',
-        src: `file://${fixtures}/pages/onkeyup.html`
+        src: `file:// ${Fixtures}/Pages/onkeyup.html`。
       });
       await waitForEvent(webview, 'dom-ready');
 
@@ -978,7 +978,7 @@ describe('<webview> tag', function () {
       loadWebView(webview, {
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no',
-        src: `file://${fixtures}/pages/onmouseup.html`
+        src: `file:// ${Fixtures}/Pages/onouseup.html`。
       });
       await waitForEvent(webview, 'dom-ready');
 
@@ -1002,7 +1002,7 @@ describe('<webview> tag', function () {
 
       const promise = waitForEvent(webview, 'context-menu');
 
-      // Simulate right-click to create context-menu event.
+      // 模拟右键单击以创建上下文菜单事件。
       const opts = { x: 0, y: 0, button: 'right' };
       webview.sendInputEvent({ ...opts, type: 'mouseDown' });
       webview.sendInputEvent({ ...opts, type: 'mouseUp' });
@@ -1024,10 +1024,10 @@ describe('<webview> tag', function () {
     });
 
     it('emits when audio starts and stops playing', async () => {
-      await loadWebView(webview, { src: `file://${fixtures}/pages/base-page.html` });
+      await loadWebView(webview, { src: `file:// ${fixtures}/ages/base-page.html`})；
 
-      // With the new autoplay policy, audio elements must be unmuted
-      // see https://goo.gl/xX8pDD.
+      // 使用新的自动播放策略时，音频元素必须取消静音。
+      // 请参阅https://goo.gl/xX8pDD.。
       const source = `
         const audio = document.createElement("audio")
         audio.src = "../assets/tone.wav"
@@ -1045,11 +1045,11 @@ describe('<webview> tag', function () {
   describe('found-in-page event', () => {
     it('emits when a request is made', async () => {
       const didFinishLoad = waitForEvent(webview, 'did-finish-load');
-      loadWebView(webview, { src: `file://${fixtures}/pages/content.html` });
-      // TODO(deepak1556): With https://codereview.chromium.org/2836973002
-      // focus of the webContents is required when triggering the api.
-      // Remove this workaround after determining the cause for
-      // incorrect focus.
+      loadWebView(webview, { src: `file:// ${fixtures}/ages/content.html`})；
+      // TODO(深色1556)：使用https://codereview.chromium.org/2836973002。
+      // 触发接口时需要提供webContents的焦点。
+      // 确定原因后删除此解决方法。
+      // 焦点不正确。
       webview.focus();
       await didFinishLoad;
 
@@ -1086,7 +1086,7 @@ describe('<webview> tag', function () {
 
   describe('<webview>.capturePage()', () => {
     before(function () {
-      // TODO(miniak): figure out why this is failing on windows
+      // TODO(Miniak)：找出在Windows上失败的原因。
       if (process.platform === 'win32') {
         this.skip();
       }
@@ -1099,8 +1099,8 @@ describe('<webview> tag', function () {
       const image = await webview.capturePage();
       const imgBuffer = image.toPNG();
 
-      // Check the 25th byte in the PNG.
-      // Values can be 0,2,3,4, or 6. We want 6, which is RGB + Alpha
+      // 检查PNG中的第25个字节。
+      // 值可以是0、2、3、4或6。我们需要6，即RGB+Alpha。
       expect(imgBuffer[25]).to.equal(6);
     });
   });
@@ -1118,7 +1118,7 @@ describe('<webview> tag', function () {
         pageSize: 'IAmAPageSize'
       };
 
-      // These will hard crash in Chromium unless we type-check
+      // 除非我们输入检查，否则这些将在Chromium中硬崩溃。
       for (const [key, value] of Object.entries(badTypes)) {
         const param = { [key]: value };
 
@@ -1152,7 +1152,7 @@ describe('<webview> tag', function () {
       ipcRenderer.send('disable-node-on-next-will-attach-webview');
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         nodeintegration: 'yes',
-        src: `file://${fixtures}/pages/a.html`
+        src: `file:// ${Fixtures}/Pages/a.html`。
       });
 
       const types = JSON.parse(message);
@@ -1168,7 +1168,7 @@ describe('<webview> tag', function () {
       ipcRenderer.send('prevent-next-will-attach-webview');
 
       loadWebView(webview, {
-        src: `file://${fixtures}/pages/c.html`
+        src: `file:// ${Fixtures}/Pages/c.html`。
       });
       await waitForEvent(webview, 'destroyed');
     });
@@ -1179,7 +1179,7 @@ describe('<webview> tag', function () {
       const message = await startLoadingWebViewAndWaitForMessage(webview, {
         nodeintegration: 'yes',
         preload: path.join(fixtures, 'module', 'preload-set-global.js'),
-        src: `file://${fixtures}/pages/a.html`
+        src: `file:// ${Fixtures}/Pages/a.html`。
       });
 
       expect(message).to.equal('undefined');
@@ -1204,13 +1204,13 @@ describe('<webview> tag', function () {
 
     const generateSpecs = (description, sandbox) => {
       describe(description, () => {
-        // TODO(nornagon): disabled during chromium roll 2019-06-11 due to a
-        // 'ResizeObserver loop limit exceeded' error on Windows
+        // TODO(正方形)：在铬辊2019-06-11期间禁用，原因是。
+        // Windows上出现“超过ResizeViewer循环限制”错误。
         xit('emits resize events', async () => {
           const firstResizeSignal = waitForEvent(webview, 'resize');
           const domReadySignal = waitForEvent(webview, 'dom-ready');
 
-          webview.src = `file://${fixtures}/pages/a.html`;
+          webview.src = `file:// ${Fixtures}/Pages/a.html`；
           webview.webpreferences = `sandbox=${sandbox ? 'yes' : 'no'}`;
           div.appendChild(webview);
           document.body.appendChild(div);
@@ -1237,13 +1237,13 @@ describe('<webview> tag', function () {
 
         it('emits focus event', async () => {
           const domReadySignal = waitForEvent(webview, 'dom-ready');
-          webview.src = `file://${fixtures}/pages/a.html`;
+          webview.src = `file:// ${Fixtures}/Pages/a.html`；
           webview.webpreferences = `sandbox=${sandbox ? 'yes' : 'no'}`;
           document.body.appendChild(webview);
 
           await domReadySignal;
 
-          // If this test fails, check if webview.focus() still works.
+          // 如果此测试失败，请检查webview.ocus()是否仍然有效。
           const focusSignal = waitForEvent(webview, 'focus');
           webview.focus();
 

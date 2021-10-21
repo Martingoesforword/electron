@@ -19,13 +19,13 @@ const features = process._linkedBinding('electron_common_features');
 const fixturesPath = path.resolve(__dirname, '..', 'spec', 'fixtures');
 
 describe('reporting api', () => {
-  // TODO(nornagon): this started failing a lot on CI. Figure out why and fix
-  // it.
+  // TODO(Nornagon)：这开始在CI上失败了很多。找出原因并解决问题。
+  // 它。
   it.skip('sends a report for a deprecation', async () => {
     const reports = new EventEmitter();
 
-    // The Reporting API only works on https with valid certs. To dodge having
-    // to set up a trusted certificate, hack the validator.
+    // 报告API仅适用于具有有效证书的https。躲避有。
+    // 要设置受信任的证书，请破解验证器。
     session.defaultSession.setCertificateVerifyProc((req, cb) => {
       cb(0);
     });
@@ -52,11 +52,11 @@ describe('reporting api', () => {
       res.setHeader('Report-To', JSON.stringify({
         group: 'default',
         max_age: 120,
-        endpoints: [{ url: `https://localhost:${(server.address() as any).port}/report` }]
+        endpoints: [{ url: `https:// 本地主机：${(server.address()as any).port}/report`}]。
       }));
       res.setHeader('Content-Type', 'text/html');
-      // using the deprecated `webkitRequestAnimationFrame` will trigger a
-      // "deprecation" report.
+      // 使用已弃用的`webkitRequestAnimationFrame`将触发。
+      // “弃用”报告。
       res.end('<script>webkitRequestAnimationFrame(() => {})</script>');
     });
     await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
@@ -65,7 +65,7 @@ describe('reporting api', () => {
     });
     try {
       const reportGenerated = emittedOnce(reports, 'report');
-      const url = `https://localhost:${(server.address() as any).port}/a`;
+      const url = `https:// Localhost：${(server.address()as any).port}/a`；
       await bw.loadURL(url);
       const [report] = await reportGenerated;
       expect(report).to.be.an('array');
@@ -88,12 +88,12 @@ describe('window.postMessage', () => {
     describe(`when nativeWindowOpen: ${nativeWindowOpen}`, () => {
       it('sets the source and origin correctly', async () => {
         const w = new BrowserWindow({ show: false, webPreferences: { nodeIntegration: true, nativeWindowOpen, contextIsolation: false } });
-        w.loadURL(`file://${fixturesPath}/pages/window-open-postMessage-driver.html`);
+        w.loadURL(`file:// ${fixturesPath}/pages/window-open-postMessage-driver.html`)；
         const [, message] = await emittedOnce(ipcMain, 'complete');
         expect(message.data).to.equal('testing');
-        expect(message.origin).to.equal('file://');
+        expect(message.origin).to.equal('file:// ‘)；
         expect(message.sourceEqualsOpener).to.equal(true);
-        expect(message.eventOrigin).to.equal('file://');
+        expect(message.eventOrigin).to.equal('file:// ‘)；
       });
     });
   }
@@ -222,7 +222,7 @@ describe('web security', () => {
       res.end('<body>');
     });
     await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
-    serverUrl = `http://localhost:${(server.address() as any).port}`;
+    serverUrl = `http:// 本地主机：${(server.address()as any).port}`；
   });
   after(() => {
     server.close();
@@ -234,8 +234,8 @@ describe('web security', () => {
     await w.loadURL(`data:text/html,<script>
         const s = document.createElement('script')
         s.src = "${serverUrl}"
-        // The script will load successfully but its body will be emptied out
-        // by CORB, so we don't expect a syntax error.
+        // 脚本将成功加载，但其正文将被清空。
+        // 由CORB编写，因此我们预计不会出现语法错误。
         s.onload = () => { require('electron').ipcRenderer.send('success') }
         document.documentElement.appendChild(s)
       </script>`);
@@ -287,7 +287,7 @@ describe('web security', () => {
     expect(response).to.equal('passed');
   });
 
-  describe('accessing file://', () => {
+  describe('accessing file:// ‘，()=&gt;{。
     async function loadFile (w: BrowserWindow) {
       const thisFile = url.format({
         pathname: __filename.replace(/\\/g, '/'),
@@ -404,7 +404,7 @@ describe('command line switches', () => {
 
     const lcAll = String(process.env.LC_ALL);
     ifit(process.platform === 'linux')('current process has a valid LC_ALL env', async () => {
-      // The LC_ALL env should not be set to DOM locale string.
+      // LC_ALL环境不应设置为DOM区域设置字符串。
       expect(lcAll).to.not.equal(app.getLocale());
     });
     ifit(process.platform === 'linux')('should not change LC_ALL', async () => testLocale('fr', lcAll, true));
@@ -466,11 +466,11 @@ describe('command line switches', () => {
       appProcess.stderr.on('data', (data) => {
         console.log(data);
         output += data;
-        const m = /DevTools listening on ws:\/\/127.0.0.1:(\d+)\//.exec(output);
+        const m = /DevTools listening on ws:\/\/127.0.0.1:(\d+)\// .exec(输出)；
         if (m) {
           appProcess!.stderr.removeAllListeners('data');
           const port = m[1];
-          http.get(`http://127.0.0.1:${port}`, (res) => {
+          http.get(`http:// 127.0.0.1：${port}`，(Res)=&gt;{。
             try {
               expect(res.statusCode).to.eql(200);
               expect(parseInt(res.headers['content-length']!)).to.be.greaterThan(0);
@@ -718,7 +718,7 @@ describe('chromium features', () => {
         });
       });
       await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
-      serverUrl = `http://localhost:${(server.address() as any).port}`;
+      serverUrl = `http:// 本地主机：${(server.address()as any).port}`；
     });
     after(async () => {
       server.close();
@@ -784,7 +784,7 @@ describe('chromium features', () => {
       it(`shows the child regardless of parent visibility when parent {show=${show}}`, async () => {
         const w = new BrowserWindow({ show });
 
-        // toggle visibility
+        // 切换可见性。
         if (show) {
           w.hide();
         } else {
@@ -801,12 +801,12 @@ describe('chromium features', () => {
     }
 
     it('disables node integration when it is disabled on the parent window for chrome devtools URLs', async () => {
-      // NB. webSecurity is disabled because native window.open() is not
-      // allowed to load devtools:// URLs.
+      // 注意：WebSecurity被禁用，因为本机window.open()没有。
+      // 允许加载DevTools：//URL。
       const w = new BrowserWindow({ show: false, webPreferences: { nodeIntegration: true, webSecurity: false } });
       w.loadURL('about:blank');
       w.webContents.executeJavaScript(`
-        { b = window.open('devtools://devtools/bundled/inspector.html', '', 'nodeIntegration=no,show=no'); null }
+        { b = window.open('devtools:// DevTools/bundled/spector.html‘，’‘，’nodeIntegration=no，show=no‘)；空}。
       `);
       const [, contents] = await emittedOnce(app, 'web-contents-created');
       const typeofProcessGlobal = await contents.executeJavaScript('typeof process');
@@ -826,7 +826,7 @@ describe('chromium features', () => {
       `);
       const [, contents] = await emittedOnce(app, 'web-contents-created');
       await emittedOnce(contents, 'did-finish-load');
-      // Click link on page
+      // 单击页面上的链接。
       contents.sendInputEvent({ type: 'mouseDown', clickCount: 1, x: 1, y: 1 });
       contents.sendInputEvent({ type: 'mouseUp', clickCount: 1, x: 1, y: 1 });
       const [, window] = await emittedOnce(app, 'browser-window-created');
@@ -837,9 +837,9 @@ describe('chromium features', () => {
     it('defines a window.location getter', async () => {
       let targetURL: string;
       if (process.platform === 'win32') {
-        targetURL = `file:///${fixturesPath.replace(/\\/g, '/')}/pages/base-page.html`;
+        targetURL = `file:// /${fixturesPath.place(/\\/g，‘/’)}/Pages/base-page.html`；
       } else {
-        targetURL = `file://${fixturesPath}/pages/base-page.html`;
+        targetURL = `file:// ${fixturesPath}/ages/base-page.html`；
       }
       const w = new BrowserWindow({ show: false });
       w.webContents.loadFile(path.resolve(__dirname, 'fixtures', 'blank.html'));
@@ -855,8 +855,8 @@ describe('chromium features', () => {
       w.webContents.executeJavaScript('{ b = window.open("about:blank"); null }');
       const [, { webContents }] = await emittedOnce(app, 'browser-window-created');
       await emittedOnce(webContents, 'did-finish-load');
-      // When it loads, redirect
-      w.webContents.executeJavaScript(`{ b.location = ${JSON.stringify(`file://${fixturesPath}/pages/base-page.html`)}; null }`);
+      // 加载时，重定向。
+      w.webContents.executeJavaScript(`{ b.location = ${JSON.stringify(`file:// ${fixturesPath}/ages/base-page.html`)}；空}`)；
       await emittedOnce(webContents, 'did-finish-load');
     });
 
@@ -866,8 +866,8 @@ describe('chromium features', () => {
       w.webContents.executeJavaScript('{ b = window.open("about:blank"); null }');
       const [, { webContents }] = await emittedOnce(app, 'browser-window-created');
       await emittedOnce(webContents, 'did-finish-load');
-      // When it loads, redirect
-      w.webContents.executeJavaScript(`{ b.location.href = ${JSON.stringify(`file://${fixturesPath}/pages/base-page.html`)}; null }`);
+      // 加载时，重定向。
+      w.webContents.executeJavaScript(`{ b.location.href = ${JSON.stringify(`file:// ${fixturesPath}/ages/base-page.html`)}；空}`)；
       await emittedOnce(webContents, 'did-finish-load');
     });
 
@@ -1028,11 +1028,11 @@ describe('chromium features', () => {
   describe('window.opener access', () => {
     const scheme = 'app';
 
-    const fileUrl = `file://${fixturesPath}/pages/window-opener-location.html`;
-    const httpUrl1 = `${scheme}://origin1`;
-    const httpUrl2 = `${scheme}://origin2`;
-    const fileBlank = `file://${fixturesPath}/pages/blank.html`;
-    const httpBlank = `${scheme}://origin1/blank`;
+    const fileUrl = `file:// ${fixturesPath}/pages/window-opener-location.html`；
+    const httpUrl1 = `${scheme}:// Origin1`；
+    const httpUrl2 = `${scheme}:// Origin2`；
+    const fileBlank = `file:// ${fixturesPath}/ages/blank.html`；
+    const httpBlank = `${scheme}:// Origin1/空白`；
 
     const table = [
       { parent: fileBlank, child: httpUrl1, nodeIntegration: false, nativeWindowOpen: false, openerAccessible: false },
@@ -1041,11 +1041,11 @@ describe('chromium features', () => {
       { parent: fileBlank, child: httpUrl1, nodeIntegration: true, nativeWindowOpen: true, openerAccessible: false },
 
       { parent: httpBlank, child: fileUrl, nodeIntegration: false, nativeWindowOpen: false, openerAccessible: false },
-      // {parent: httpBlank, child: fileUrl, nodeIntegration: false, nativeWindowOpen: true, openerAccessible: false}, // can't window.open()
+      // {父项：httpBlank，子项：fileUrl，节点集成：false，nativeWindowOpen：true，openerAccessible：false}，//无法Window.open()。
       { parent: httpBlank, child: fileUrl, nodeIntegration: true, nativeWindowOpen: false, openerAccessible: true },
-      // {parent: httpBlank, child: fileUrl, nodeIntegration: true, nativeWindowOpen: true, openerAccessible: false}, // can't window.open()
+      // {父项：httpBlank，子项：fileUrl，节点集成：true，nativeWindowOpen：true，openerAccessible：false}，//无法window.open()。
 
-      // NB. this is different from Chrome's behavior, which isolates file: urls from each other
+      // 注意：这与Chrome的行为不同，Chrome将file：URL彼此隔离。
       { parent: fileBlank, child: fileUrl, nodeIntegration: false, nativeWindowOpen: false, openerAccessible: true },
       { parent: fileBlank, child: fileUrl, nodeIntegration: false, nativeWindowOpen: true, openerAccessible: true },
       { parent: fileBlank, child: fileUrl, nodeIntegration: true, nativeWindowOpen: false, openerAccessible: true },
@@ -1061,7 +1061,7 @@ describe('chromium features', () => {
       { parent: httpBlank, child: httpUrl2, nodeIntegration: true, nativeWindowOpen: false, openerAccessible: true },
       { parent: httpBlank, child: httpUrl2, nodeIntegration: true, nativeWindowOpen: true, openerAccessible: false }
     ];
-    const s = (url: string) => url.startsWith('file') ? 'file://...' : url;
+    const s = (url: string) => url.startsWith('file') ? 'file:// ...‘：URL；
 
     before(() => {
       protocol.registerFileProtocol(scheme, (request, callback) => {
@@ -1111,28 +1111,28 @@ describe('chromium features', () => {
     describe('when opened from <webview>', () => {
       for (const { parent, child, nodeIntegration, nativeWindowOpen, openerAccessible } of table) {
         const description = `when parent=${s(parent)} opens child=${s(child)} with nodeIntegration=${nodeIntegration} nativeWindowOpen=${nativeWindowOpen}, child should ${openerAccessible ? '' : 'not '}be able to access opener`;
-        // WebView erroneously allows access to the parent window when nativeWindowOpen is false.
+        // 当nativeWindowOpen为False时，WebView错误地允许访问父窗口。
         const skip = !nativeWindowOpen && !openerAccessible;
         ifit(!skip)(description, async () => {
-          // This test involves three contexts:
-          //  1. The root BrowserWindow in which the test is run,
-          //  2. A <webview> belonging to the root window,
-          //  3. A window opened by calling window.open() from within the <webview>.
-          // We are testing whether context (3) can access context (2) under various conditions.
+          // 此测试涉及三个上下文：
+          // 1.运行测试的根BrowserWindow。
+          // 2.属于根窗口的。
+          // 3.在&lt;webview&gt;中调用window.open()打开的窗口。
+          // 我们正在测试上下文(3)是否可以在各种条件下访问上下文(2)。
 
-          // This is context (1), the base window for the test.
+          // 这是上下文(1)，测试的基本窗口。
           const w = new BrowserWindow({ show: false, webPreferences: { nodeIntegration: true, webviewTag: true, contextIsolation: false, nativeWindowOpen: false } });
           await w.loadURL('about:blank');
 
           const parentCode = `new Promise((resolve) => {
-            // This is context (3), a child window of the WebView.
+            // 这是上下文(3)，是WebView的子窗口。
             const child = window.open(${JSON.stringify(child)}, "", "show=no,contextIsolation=no,nodeIntegration=yes")
             window.addEventListener("message", e => {
               resolve(e.data)
             })
           })`;
           const childOpenerLocation = await w.webContents.executeJavaScript(`new Promise((resolve, reject) => {
-            // This is context (2), a WebView which will call window.open()
+            // 这是Context(2)，这是一个WebView，它将调用window.open()。
             const webview = new WebView()
             webview.setAttribute('nodeintegration', '${nodeIntegration ? 'on' : 'off'}')
             webview.setAttribute('webpreferences', 'nativeWindowOpen=${nativeWindowOpen ? 'yes' : 'no'},contextIsolation=no')
@@ -1191,35 +1191,35 @@ describe('chromium features', () => {
 
       it('cannot access localStorage', async () => {
         const response = emittedOnce(ipcMain, 'local-storage-response');
-        contents.loadURL(protocolName + '://host/localStorage');
+        contents.loadURL(protocolName + ':// Host/localStorage‘)；
         const [, error] = await response;
         expect(error).to.equal('Failed to read the \'localStorage\' property from \'Window\': Access is denied for this document.');
       });
 
       it('cannot access sessionStorage', async () => {
         const response = emittedOnce(ipcMain, 'session-storage-response');
-        contents.loadURL(`${protocolName}://host/sessionStorage`);
+        contents.loadURL(`${protocolName}:// Host/sessionStorage`)；
         const [, error] = await response;
         expect(error).to.equal('Failed to read the \'sessionStorage\' property from \'Window\': Access is denied for this document.');
       });
 
       it('cannot access WebSQL database', async () => {
         const response = emittedOnce(ipcMain, 'web-sql-response');
-        contents.loadURL(`${protocolName}://host/WebSQL`);
+        contents.loadURL(`${protocolName}:// Host/WebSQL`)；
         const [, error] = await response;
         expect(error).to.equal('Failed to execute \'openDatabase\' on \'Window\': Access to the WebDatabase API is denied in this context.');
       });
 
       it('cannot access indexedDB', async () => {
         const response = emittedOnce(ipcMain, 'indexed-db-response');
-        contents.loadURL(`${protocolName}://host/indexedDB`);
+        contents.loadURL(`${protocolName}:// Host/indexedDB`)；
         const [, error] = await response;
         expect(error).to.equal('Failed to execute \'open\' on \'IDBFactory\': access to the Indexed Database API is denied in this context.');
       });
 
       it('cannot access cookie', async () => {
         const response = emittedOnce(ipcMain, 'cookie-response');
-        contents.loadURL(`${protocolName}://host/cookie`);
+        contents.loadURL(`${protocolName}:// Host/cookie`)；
         const [, error] = await response;
         expect(error).to.equal('Failed to set the \'cookie\' property on \'Document\': Access is denied for this document.');
       });
@@ -1245,8 +1245,8 @@ describe('chromium features', () => {
           setTimeout(respond, 0);
         });
         server.listen(0, '127.0.0.1', () => {
-          serverUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
-          serverCrossSiteUrl = `http://localhost:${(server.address() as AddressInfo).port}`;
+          serverUrl = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
+          serverCrossSiteUrl = `http:// 本地主机：${(server.address()as AddressInfo).port}`；
           done();
         });
       });
@@ -1283,7 +1283,7 @@ describe('chromium features', () => {
 
     describe('enableWebSQL webpreference', () => {
       const standardScheme = (global as any).standardScheme;
-      const origin = `${standardScheme}://fake-host`;
+      const origin = `${standardScheme}:// 假主机`；
       const filePath = path.join(fixturesPath, 'pages', 'storage', 'web_sql.html');
       const sqlPartition = 'web-sql-preference-test';
       const sqlSession = session.fromPartition(sqlPartition);
@@ -1467,7 +1467,7 @@ describe('chromium features', () => {
       w.loadURL(pdfSource);
       const [, contents] = await emittedOnce(app, 'web-contents-created');
       await emittedOnce(contents, 'did-navigate');
-      expect(contents.getURL()).to.equal('chrome-extension://mhjfbmdgcfjbbpaeojofohoefgiehjai/index.html');
+      expect(contents.getURL()).to.equal('chrome-extension:// Mhjfbmdgcfjbbpaeojofohoefgiehjai/index.html‘)；
     });
 
     it('opens when loading a pdf resource in a iframe', async () => {
@@ -1475,7 +1475,7 @@ describe('chromium features', () => {
       w.loadFile(path.join(__dirname, 'fixtures', 'pages', 'pdf-in-iframe.html'));
       const [, contents] = await emittedOnce(app, 'web-contents-created');
       await emittedOnce(contents, 'did-navigate');
-      expect(contents.getURL()).to.equal('chrome-extension://mhjfbmdgcfjbbpaeojofohoefgiehjai/index.html');
+      expect(contents.getURL()).to.equal('chrome-extension:// Mhjfbmdgcfjbbpaeojofohoefgiehjai/index.html‘)；
     });
   });
 
@@ -1484,22 +1484,22 @@ describe('chromium features', () => {
       it('should push state after calling history.pushState() from the same url', async () => {
         const w = new BrowserWindow({ show: false });
         await w.loadFile(path.join(fixturesPath, 'pages', 'blank.html'));
-        // History should have current page by now.
+        // 历史现在应该有了新的一页。
         expect((w.webContents as any).length()).to.equal(1);
 
         const waitCommit = emittedOnce(w.webContents, 'navigation-entry-committed');
         w.webContents.executeJavaScript('window.history.pushState({}, "")');
         await waitCommit;
-        // Initial page + pushed state.
+        // 初始页面+推送状态。
         expect((w.webContents as any).length()).to.equal(2);
       });
     });
   });
 
-  describe('chrome://media-internals', () => {
+  describe('chrome:// MEDIA-INTERNAL‘，()=&gt;{。
     it('loads the page successfully', async () => {
       const w = new BrowserWindow({ show: false });
-      w.loadURL('chrome://media-internals');
+      w.loadURL('chrome:// 媒体-内幕‘)；
       const pageExists = await w.webContents.executeJavaScript(
         "window.hasOwnProperty('chrome') && window.chrome.hasOwnProperty('send')"
       );
@@ -1507,10 +1507,10 @@ describe('chromium features', () => {
     });
   });
 
-  describe('chrome://webrtc-internals', () => {
+  describe('chrome:// WebRTC-内部，()=&gt;{。
     it('loads the page successfully', async () => {
       const w = new BrowserWindow({ show: false });
-      w.loadURL('chrome://webrtc-internals');
+      w.loadURL('chrome:// WebRTC-内部件‘)；
       const pageExists = await w.webContents.executeJavaScript(
         "window.hasOwnProperty('chrome') && window.chrome.hasOwnProperty('send')"
       );
@@ -1571,7 +1571,7 @@ describe('font fallback', () => {
       expect(fonts[0].familyName).to.equal('Helvetica');
     } else if (process.platform === 'linux') {
       expect(fonts[0].familyName).to.equal('DejaVu Sans');
-    } // I think this depends on the distro? We don't specify a default.
+    } // 我想这取决于发行版？我们不指定默认值。
   });
 
   ifit(process.platform !== 'linux')('should fall back to Japanese font for sans-serif Japanese script', async function () {
@@ -1627,7 +1627,7 @@ describe('iframe using HTML fullscreen API while window is OS-fullscreened', () 
   it('can fullscreen from out-of-process iframes (OOPIFs)', async () => {
     const fullscreenChange = emittedOnce(ipcMain, 'fullscreenChange');
     const html =
-      '<iframe style="width: 0" frameborder=0 src="http://localhost:8989" allowfullscreen></iframe>';
+      '<iframe style="width: 0" frameborder=0 src="http:// 本地主机：8989“AllowfullScreen&gt;&lt;/iframe&gt;‘；
     w.loadURL(`data:text/html,${html}`);
     await fullscreenChange;
 
@@ -1781,8 +1781,8 @@ ifdescribe((process.platform !== 'linux' || app.isUnityRunning()))('navigator.se
       navigator.${action}AppBadge(${value}).then(() => 'success').catch(err => err.message)`);
   };
 
-  // For some reason on macOS changing the badge count doesn't happen right away, so wait
-  // until it changes.
+  // 由于某些原因，在MacOS上不会立即更改徽章数量，所以请稍等。
+  // 直到它改变。
   async function waitForBadgeCount (value: number) {
     let badgeCount = app.getBadgeCount();
     while (badgeCount !== value) {
@@ -1920,7 +1920,7 @@ describe('navigator.hid', () => {
       res.end('<body>');
     });
     await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
-    serverUrl = `http://localhost:${(server.address() as any).port}`;
+    serverUrl = `http:// 本地主机：${(server.address()as any).port}`；
   });
 
   const getDevices: any = () => {
@@ -1978,9 +1978,9 @@ describe('navigator.hid', () => {
       expect(device).to.equal('');
     }
     if (process.arch === 'arm64' || process.arch === 'arm') {
-      // arm CI returns HID devices - this block may need to change if CI hardware changes.
+      // ARM CI返回HID设备-如果CI硬件更改，此块可能需要更改。
       expect(haveDevices).to.be.true();
-      // Verify that navigation will clear device permissions
+      // 验证导航是否将清除设备权限
       const grantedDevices = await w.webContents.executeJavaScript('navigator.hid.getDevices()');
       expect(grantedDevices).to.not.be.empty();
       w.loadURL(serverUrl);

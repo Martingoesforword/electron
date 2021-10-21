@@ -122,7 +122,7 @@ describe('<webview> tag', function () {
     expect(type).to.equal('undefined', 'WebView still exists');
   });
 
-  // FIXME(deepak1556): Ch69 follow up.
+  // 修复(Deepak1556)：Ch69跟进。
   xdescribe('document.visibilityState/hidden', () => {
     afterEach(() => {
       ipcMain.removeAllListeners('pong');
@@ -150,8 +150,8 @@ describe('<webview> tag', function () {
       expect(visibilityState).to.equal('hidden');
       expect(hidden).to.be.true();
 
-      // We have to start waiting for the event
-      // before we ask the webContents to resize.
+      // 我们必须开始等待这件事了。
+      // 在我们要求webContents调整大小之前。
       const getResponse = emittedOnce(ipcMain, 'pong');
       w.webContents.emit('-window-visibility-change', 'visible');
 
@@ -245,7 +245,7 @@ describe('<webview> tag', function () {
     loadWebView(w.webContents, {
       nodeintegration: 'on',
       webpreferences: 'contextIsolation=no',
-      src: `file://${path.join(__dirname, 'fixtures', 'blank.html')}`
+      src: `file:// ${path.Join(__dirname，‘fixtures’，‘blank.html’)}`。
     }, true);
     let childWebContentsId = 0;
     app.once('web-contents-created', (e, webContents) => {
@@ -395,7 +395,7 @@ describe('<webview> tag', function () {
       const [, webview] = await attachPromise;
       await readyPromise;
       expect(webview.getZoomFactor()).to.equal(1.2);
-      await w.loadURL(`${zoomScheme}://host1`);
+      await w.loadURL(`${zoomScheme}:// Host1`)；
     });
 
     it('does not crash when changing zoom level after webview is destroyed', async () => {
@@ -445,8 +445,8 @@ describe('<webview> tag', function () {
       expect(await w.webContents.executeJavaScript('isIframeFullscreen()')).to.be.true();
     });
 
-    // FIXME(zcbenz): Fullscreen events do not work on Linux.
-    // This test is flaky on arm64 macOS.
+    // FIXME(Zcbenz)：全屏事件在Linux上不起作用。
+    // 这个测试在arm64 MacOS上是不可靠的。
     ifit(process.platform !== 'linux' && process.arch !== 'arm64')('exiting fullscreen should unfullscreen window', async () => {
       const [w, webview] = await loadWebViewWindow();
       const enterFullScreen = emittedOnce(w, 'enter-full-screen');
@@ -460,7 +460,7 @@ describe('<webview> tag', function () {
       expect(w.isFullScreen()).to.be.false();
     });
 
-    // Sending ESC via sendInputEvent only works on Windows.
+    // 通过sendInputEvent发送Esc仅在Windows上有效。
     ifit(process.platform === 'win32')('pressing ESC should unfullscreen window', async () => {
       const [w, webview] = await loadWebViewWindow();
       const enterFullScreen = emittedOnce(w, 'enter-full-screen');
@@ -512,12 +512,12 @@ describe('<webview> tag', function () {
     afterEach(closeAllWindows);
 
     it('opens window of about:blank with cross-scripting enabled', async () => {
-      // Don't wait for loading to finish.
+      // 不要等待加载完成。
       loadWebView(w.webContents, {
         allowpopups: 'on',
         nodeintegration: 'on',
         webpreferences: 'nativeWindowOpen=1,contextIsolation=no',
-        src: `file://${path.join(fixtures, 'api', 'native-window-open-blank.html')}`
+        src: `file:// ${path.Join(fixtures，‘api’，‘ative-window-open-blank.html’)}`。
       });
 
       const [, content] = await emittedOnce(ipcMain, 'answer');
@@ -525,12 +525,12 @@ describe('<webview> tag', function () {
     });
 
     it('opens window of same domain with cross-scripting enabled', async () => {
-      // Don't wait for loading to finish.
+      // 不要等待加载完成。
       loadWebView(w.webContents, {
         allowpopups: 'on',
         nodeintegration: 'on',
         webpreferences: 'nativeWindowOpen=1,contextIsolation=no',
-        src: `file://${path.join(fixtures, 'api', 'native-window-open-file.html')}`
+        src: `file:// ${path.Join(fixtures，‘api’，‘ative-window-open-file.html’)}`。
       });
 
       const [, content] = await emittedOnce(ipcMain, 'answer');
@@ -538,11 +538,11 @@ describe('<webview> tag', function () {
     });
 
     it('returns null from window.open when allowpopups is not set', async () => {
-      // Don't wait for loading to finish.
+      // 不要等待加载完成。
       loadWebView(w.webContents, {
         nodeintegration: 'on',
         webpreferences: 'nativeWindowOpen=1,contextIsolation=no',
-        src: `file://${path.join(fixtures, 'api', 'native-window-open-no-allowpopups.html')}`
+        src: `file:// ${path.Join(fixtures，‘api’，‘ative-window-open-no-allowpopups.html’)}`。
       });
 
       const [, { windowOpenReturnedNull }] = await emittedOnce(ipcMain, 'answer');
@@ -550,28 +550,28 @@ describe('<webview> tag', function () {
     });
 
     it('blocks accessing cross-origin frames', async () => {
-      // Don't wait for loading to finish.
+      // 不要等待加载完成。
       loadWebView(w.webContents, {
         allowpopups: 'on',
         nodeintegration: 'on',
         webpreferences: 'nativeWindowOpen=1,contextIsolation=no',
-        src: `file://${path.join(fixtures, 'api', 'native-window-open-cross-origin.html')}`
+        src: `file:// ${path.Join(fixtures，‘api’，‘ative-Window-open-Cross-Origin.html’)}`。
       });
 
       const [, content] = await emittedOnce(ipcMain, 'answer');
       const expectedContent =
-          'Blocked a frame with origin "file://" from accessing a cross-origin frame.';
+          'Blocked a frame with origin "file:// “访问跨源帧。‘；
 
       expect(content).to.equal(expectedContent);
     });
 
     it('emits a new-window event', async () => {
-      // Don't wait for loading to finish.
+      // 不要等待加载完成。
       const attributes = {
         allowpopups: 'on',
         nodeintegration: 'on',
         webpreferences: 'nativeWindowOpen=1,contextIsolation=no',
-        src: `file://${fixtures}/pages/window-open.html`
+        src: `file:// ${Fixtures}/Pages/Window-open.html`。
       };
       const { url, frameName } = await w.webContents.executeJavaScript(`
         new Promise((resolve, reject) => {
@@ -586,16 +586,16 @@ describe('<webview> tag', function () {
         })
       `);
 
-      expect(url).to.equal('http://host/');
+      expect(url).to.equal('http:// Host/‘)；
       expect(frameName).to.equal('host');
     });
 
     it('emits a browser-window-created event', async () => {
-      // Don't wait for loading to finish.
+      // 不要等待加载完成。
       loadWebView(w.webContents, {
         allowpopups: 'on',
         webpreferences: 'nativeWindowOpen=1,contextIsolation=no',
-        src: `file://${fixtures}/pages/window-open.html`
+        src: `file:// ${Fixtures}/Pages/Window-open.html`。
       });
 
       await emittedOnce(app, 'browser-window-created');
@@ -608,7 +608,7 @@ describe('<webview> tag', function () {
       loadWebView(w.webContents, {
         allowpopups: 'on',
         webpreferences: 'nativeWindowOpen=1,contextIsolation=no',
-        src: `file://${fixtures}/pages/window-open.html`
+        src: `file:// ${Fixtures}/Pages/Window-open.html`。
       });
 
       await webContentsCreated;
@@ -618,7 +618,7 @@ describe('<webview> tag', function () {
       loadWebView(w.webContents, {
         allowpopups: 'on',
         webpreferences: 'nativeWindowOpen=1',
-        src: `file://${path.join(fixtures, 'api', 'native-window-open-noopener.html')}`
+        src: `file:// ${path.Join(fixtures，‘api’，‘ative-window-open-noopener.html’)}`。
       });
       await emittedOnce(app, 'browser-window-created');
     });
@@ -635,8 +635,8 @@ describe('<webview> tag', function () {
     it('can enable context isolation', async () => {
       loadWebView(w.webContents, {
         allowpopups: 'yes',
-        preload: `file://${fixtures}/api/isolated-preload.js`,
-        src: `file://${fixtures}/api/isolated.html`,
+        preload: `file:// ${fixtures}/api/solated-preload.js`，
+        src: `file:// ${fixtures}/api/solated.html`，
         webpreferences: 'contextIsolation=yes'
       });
 
@@ -679,8 +679,8 @@ describe('<webview> tag', function () {
       return new Promise<void>((resolve, reject) => {
         session.fromPartition(partition).setPermissionRequestHandler(function (webContents, permission, callback) {
           if (webContents.id === webContentsId) {
-            // requestMIDIAccess with sysex requests both midi and midiSysex so
-            // grant the first midi one and then reject the midiSysex one
+            // 带有sysex的requestMIDIAccess同时请求MIDI和midiSysex，因此。
+            // 批准第一个midi版本，然后拒绝midiSysex版本。
             if (requestedPermission === 'midiSysex' && permission === 'midi') {
               return callback(true);
             }
@@ -700,14 +700,14 @@ describe('<webview> tag', function () {
       session.fromPartition(partition).setPermissionRequestHandler(null);
     });
 
-    // This is disabled because CI machines don't have cameras or microphones,
-    // so Chrome responds with "NotFoundError" instead of
-    // "PermissionDeniedError". It should be re-enabled if we find a way to mock
-    // the presence of a microphone & camera.
+    // 这是禁用的，因为CI机器没有摄像头或麦克风，
+    // 因此Chrome的响应是“NotFoundError”，而不是。
+    // “PermissionDeniedError”。如果我们找到一种方法来模拟它，它应该被重新启用。
+    // 麦克风和摄像机的存在。
     xit('emits when using navigator.getUserMedia api', async () => {
       const errorFromRenderer = emittedOnce(ipcMain, 'message');
       loadWebView(w.webContents, {
-        src: `file://${fixtures}/pages/permissions/media.html`,
+        src: `file:// ${Fixtures}/Pages/Permission/media.html`，
         partition,
         nodeintegration: 'on'
       });
@@ -720,7 +720,7 @@ describe('<webview> tag', function () {
     it('emits when using navigator.geolocation api', async () => {
       const errorFromRenderer = emittedOnce(ipcMain, 'message');
       loadWebView(w.webContents, {
-        src: `file://${fixtures}/pages/permissions/geolocation.html`,
+        src: `file:// ${fixtures}/pages/permissions/geolocation.html`，
         partition,
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no'
@@ -734,7 +734,7 @@ describe('<webview> tag', function () {
     it('emits when using navigator.requestMIDIAccess without sysex api', async () => {
       const errorFromRenderer = emittedOnce(ipcMain, 'message');
       loadWebView(w.webContents, {
-        src: `file://${fixtures}/pages/permissions/midi.html`,
+        src: `file:// ${Fixtures}/Pages/Permission/midi.html`，
         partition,
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no'
@@ -748,7 +748,7 @@ describe('<webview> tag', function () {
     it('emits when using navigator.requestMIDIAccess with sysex api', async () => {
       const errorFromRenderer = emittedOnce(ipcMain, 'message');
       loadWebView(w.webContents, {
-        src: `file://${fixtures}/pages/permissions/midi-sysex.html`,
+        src: `file:// ${fixtures}/pages/permissions/midi-sysex.html`，
         partition,
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no'
@@ -771,7 +771,7 @@ describe('<webview> tag', function () {
     it('emits when using Notification.requestPermission', async () => {
       const errorFromRenderer = emittedOnce(ipcMain, 'message');
       loadWebView(w.webContents, {
-        src: `file://${fixtures}/pages/permissions/notification.html`,
+        src: `file:// ${fixtures}/pages/permissions/notification.html`，
         partition,
         nodeintegration: 'on',
         webpreferences: 'contextIsolation=no'

@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_COOKIES_H_
 #define SHELL_BROWSER_API_ELECTRON_API_COOKIES_H_
@@ -35,7 +35,7 @@ class Cookies : public gin::Wrappable<Cookies>,
   static gin::Handle<Cookies> Create(v8::Isolate* isolate,
                                      ElectronBrowserContext* browser_context);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -54,20 +54,20 @@ class Cookies : public gin::Wrappable<Cookies>,
                                 const std::string& name);
   v8::Local<v8::Promise> FlushStore(v8::Isolate*);
 
-  // CookieChangeNotifier subscription:
+  // CookieChangeNotifier订阅：
   void OnCookieChanged(const net::CookieChangeInfo& change);
 
  private:
   base::CallbackListSubscription cookie_change_subscription_;
 
-  // Weak reference; ElectronBrowserContext is guaranteed to outlive us.
+  // 弱引用；ElectronBrowserContext保证比我们活得更久。
   ElectronBrowserContext* browser_context_;
 
   DISALLOW_COPY_AND_ASSIGN(Cookies);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_COOKIES_H_
+#endif  // Shell_Browser_API_Electronics_API_Cookies_H_

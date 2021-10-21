@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_CONVERTERS_BLINK_CONVERTER_H_
 #define SHELL_COMMON_GIN_CONVERTERS_BLINK_CONVERTER_H_
@@ -17,7 +17,7 @@ class WebMouseEvent;
 class WebMouseWheelEvent;
 class WebKeyboardEvent;
 struct DeviceEmulationParams;
-}  // namespace blink
+}  // 命名空间闪烁。
 
 namespace gin {
 
@@ -118,6 +118,6 @@ struct Converter<blink::CloneableMessage> {
 v8::Local<v8::Value> EditFlagsToV8(v8::Isolate* isolate, int editFlags);
 v8::Local<v8::Value> MediaFlagsToV8(v8::Isolate* isolate, int mediaFlags);
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 #endif  // SHELL_COMMON_GIN_CONVERTERS_BLINK_CONVERTER_H_

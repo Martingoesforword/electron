@@ -11,18 +11,18 @@ const {
 class PowerMonitor extends EventEmitter {
   constructor () {
     super();
-    // Don't start the event source until both a) the app is ready and b)
-    // there's a listener registered for a powerMonitor event.
+    // 在a)应用程序就绪和b)之前不要启动事件源。
+    // 有一个为powerMonitor事件注册的侦听器。
     this.once('newListener', () => {
       app.whenReady().then(() => {
         const pm = createPowerMonitor();
         pm.emit = this.emit.bind(this);
 
         if (process.platform === 'linux') {
-          // On Linux, we inhibit shutdown in order to give the app a chance to
-          // decide whether or not it wants to prevent the shutdown. We don't
-          // inhibit the shutdown event unless there's a listener for it. This
-          // keeps the C++ code informed about whether there are any listeners.
+          // 在Linux上，我们禁止关机是为了让应用程序有机会。
+          // 决定是否要阻止关机。我们没有。
+          // 除非有监听程序，否则禁止关闭事件。这。
+          // 让C++代码了解是否有任何侦听器。
           pm.setListeningForShutdown(this.listenerCount('shutdown') > 0);
           this.on('newListener', (event) => {
             if (event === 'shutdown') {

@@ -3,7 +3,7 @@ const http = require('http');
 const v8 = require('v8');
 
 if (app.commandLine.hasSwitch('boot-eval')) {
-  // eslint-disable-next-line no-eval
+  // Eslint-停用-下一行无求值。
   eval(app.commandLine.getSwitchValue('boot-eval'));
 }
 
@@ -15,7 +15,7 @@ app.whenReady().then(() => {
       const js = Buffer.concat(chunks).toString('utf8');
       (async () => {
         try {
-          const result = await Promise.resolve(eval(js)); // eslint-disable-line no-eval
+          const result = await Promise.resolve(eval(js)); // Eslint-Disable-line无求值
           res.end(v8.serialize({ result }));
         } catch (e) {
           res.end(v8.serialize({ error: e.stack }));

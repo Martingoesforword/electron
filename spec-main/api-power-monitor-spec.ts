@@ -1,11 +1,11 @@
-// For these tests we use a fake DBus daemon to verify powerMonitor module
-// interaction with the system bus. This requires python-dbusmock installed and
-// running (with the DBUS_SYSTEM_BUS_ADDRESS environment variable set).
-// script/spec-runner.js will take care of spawning the fake DBus daemon and setting
-// DBUS_SYSTEM_BUS_ADDRESS when python-dbusmock is installed.
-//
-// See https://pypi.python.org/pypi/python-dbusmock for more information about
-// python-dbusmock.
+// 对于这些测试，我们使用假的DBus守护进程来验证powerMonitor模块。
+// 与系统总线的交互。这需要安装python-dbusmock和。
+// 正在运行(设置了DBUS_SYSTEM_BUS_ADDRESS环境变量)。
+// Script/spec-runner.js将负责生成假DBus守护进程并设置。
+// 安装python-dbusmock时的DBUS_SYSTEM_BUS_ADDRESS。
+// 
+// 有关以下内容的详细信息，请参阅https://pypi.python.org/pypi/python-dbusmock。
+// Python-dbusmock(Python-dbusmock)。
 import { expect } from 'chai';
 import * as dbus from 'dbus-native';
 import { ifdescribe, delay } from './spec-helpers';
@@ -14,7 +14,7 @@ import { promisify } from 'util';
 describe('powerMonitor', () => {
   let logindMock: any, dbusMockPowerMonitor: any, getCalls: any, emitSignal: any, reset: any;
 
-  // TODO(deepak1556): Enable on arm64 after upgrade, it crashes at the moment.
+  // TODO(Deepak1556)：升级后在arm64上启用，目前会崩溃。
   ifdescribe(process.platform === 'linux' && process.arch !== 'arm64' && process.env.DBUS_SYSTEM_BUS_ADDRESS != null)('when powerMonitor module is loaded with dbus mock', () => {
     before(async () => {
       const systemBus = dbus.systemBus();
@@ -40,22 +40,22 @@ describe('powerMonitor', () => {
 
     before(done => {
       logindMock.on('MethodCalled', onceMethodCalled(done));
-      // lazy load powerMonitor after we listen to MethodCalled mock signal
+      // 监听MethodCall模拟信号后的延迟加载电源监视器。
       dbusMockPowerMonitor = require('electron').powerMonitor;
     });
 
     it('should call Inhibit to delay suspend once a listener is added', async () => {
-      // No calls to dbus until a listener is added
+      // 在添加监听器之前，不会调用dbus。
       {
         const calls = await getCalls();
         expect(calls).to.be.an('array').that.has.lengthOf(0);
       }
-      // Add a dummy listener to engage the monitors
+      // 添加一个虚拟监听程序以启用监视器。
       dbusMockPowerMonitor.on('dummy-event', () => {});
       try {
         let retriesRemaining = 3;
-        // There doesn't seem to be a way to get a notification when a call
-        // happens, so poll `getCalls` a few times to reduce flake.
+        // 似乎没有办法在接到来电时收到通知。
+        // 会发生这种情况，所以请对`getCalls‘进行几次轮询，以减少雪花。
         let calls: any[] = [];
         while (retriesRemaining-- > 0) {
           calls = await getCalls();
@@ -136,15 +136,15 @@ describe('powerMonitor', () => {
   });
 
   describe('when powerMonitor module is loaded', () => {
-    // eslint-disable-next-line no-undef
+    // Eslint-able-next-line no-undef。
     let powerMonitor: typeof Electron.powerMonitor;
     before(() => {
       powerMonitor = require('electron').powerMonitor;
     });
     describe('powerMonitor.getSystemIdleState', () => {
       it('gets current system idle state', () => {
-        // this function is not mocked out, so we can test the result's
-        // form and type but not its value.
+        // 这个函数没有模拟出来，所以我们可以测试结果的。
+        // 形式和类型，而不是它的价值。
         const idleState = powerMonitor.getSystemIdleState(1);
         expect(idleState).to.be.a('string');
         const validIdleStates = ['active', 'idle', 'locked', 'unknown'];

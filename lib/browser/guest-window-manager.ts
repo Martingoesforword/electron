@@ -1,10 +1,4 @@
-/**
- * Create and minimally track guest windows at the direction of the renderer
- * (via window.open). Here, "guest" roughly means "child" — it's not necessarily
- * emblematic of its process status; both in-process (same-origin
- * nativeWindowOpen) and out-of-process (cross-origin nativeWindowOpen and
- * BrowserWindowProxy) are created here. "Embedder" roughly means "parent."
- */
+/* **创建并最小限度地跟踪渲染器方向的来宾窗口*(通过window.open)。在这里，“Guest”大致表示“Child”--它不一定*象征着它的进程状态；进程内(同源*nativeWindowOpen)和进程外(跨源nativeWindowOpen和*BrowserWindowProxy)都是在这里创建的。“Embedder”大致意思是“父母”*/
 import { BrowserWindow } from 'electron/main';
 import type { BrowserWindowConstructorOptions, Referrer, WebContents, LoadURLOptions } from 'electron/main';
 import { parseFeatures } from '@electron/internal/common/parse-features-string';
@@ -22,15 +16,7 @@ const registerFrameNameToGuestWindow = (name: string, win: BrowserWindow) => fra
 const unregisterFrameName = (name: string) => frameNamesToWindow.delete(name);
 const getGuestWindowByFrameName = (name: string) => frameNamesToWindow.get(name);
 
-/**
- * `openGuestWindow` is called for both implementations of window.open
- * (BrowserWindowProxy and nativeWindowOpen) to create and setup event handling
- * for the new window.
- *
- * Until its removal in 12.0.0, the `new-window` event is fired, allowing the
- * user to preventDefault() on the passed event (which ends up calling
- * DestroyWebContents in the nativeWindowOpen code path).
- */
+/* Window.open*(BrowserWindowProxy和nativeWindowOpen)的两种实现都会调用**`openGuestWindow`来创建和设置新窗口的事件处理*。**在12.0.0中移除`new-window`事件之前，会触发`new-window`事件，允许*用户在传递的事件上预防Default()(最终在nativeWindowOpen代码路径中调用*DestroyWebContents)。*/
 export function openGuestWindow ({ event, embedder, guest, referrer, disposition, postData, overrideBrowserWindowOptions, windowOpenArgs }: {
   event: { sender: WebContents, defaultPrevented: boolean },
   embedder: WebContents,
@@ -60,13 +46,13 @@ export function openGuestWindow ({ event, embedder, guest, referrer, disposition
   });
   if (didCancelEvent) return;
 
-  // To spec, subsequent window.open calls with the same frame name (`target` in
-  // spec parlance) will reuse the previous window.
-  // https://html.spec.whatwg.org/multipage/window-object.html#apis-for-creating-and-navigating-browsing-contexts-by-name
+  // 要进行规范，后续的window.open调用使用相同的帧名(中的`target`。
+  // 规范术语)将重用以前的窗口。
+  // Https://html.spec.whatwg.org/multipage/window-object.html#apis-for-creating-and-navigating-browsing-contexts-by-name。
   const existingWindow = getGuestWindowByFrameName(frameName);
   if (existingWindow) {
     if (existingWindow.isDestroyed() || existingWindow.webContents.isDestroyed()) {
-      // FIXME(t57ser): The webContents is destroyed for some reason, unregister the frame name
+      // FIXME(T57ser)：WebContents由于某种原因被销毁，请注销框架名称。
       unregisterFrameName(frameName);
     } else {
       existingWindow.loadURL(url);
@@ -79,13 +65,13 @@ export function openGuestWindow ({ event, embedder, guest, referrer, disposition
     ...browserWindowOptions
   });
   if (!guest) {
-    // We should only call `loadURL` if the webContents was constructed by us in
-    // the case of BrowserWindowProxy (non-sandboxed, nativeWindowOpen: false),
-    // as navigating to the url when creating the window from an existing
-    // webContents is not necessary (it will navigate there anyway).
-    // This can also happen if we enter this function from OpenURLFromTab, in
-    // which case the browser process is responsible for initiating navigation
-    // in the new window.
+    // 如果webContents是由我们在。
+    // BrowserWindowProxy(非沙盒，nativeWindowOpen：false)的情况，
+    // 对象创建窗口时导航到url。
+    // WebContents不是必需的(无论如何它都会导航到那里)。
+    // 如果我们从OpenURLFromTab中输入此函数，也可能会发生这种情况。
+    // 在哪种情况下，浏览器进程负责启动导航。
+    // 在新窗口中。
     window.loadURL(url, {
       httpReferrer: referrer,
       ...(postData && {
@@ -102,12 +88,7 @@ export function openGuestWindow ({ event, embedder, guest, referrer, disposition
   return window;
 }
 
-/**
- * Manage the relationship between embedder window and guest window. When the
- * guest is destroyed, notify the embedder. When the embedder is destroyed, so
- * too is the guest destroyed; this is Electron convention and isn't based in
- * browser behavior.
- */
+/* **管理嵌入器窗口和访客窗口的关系。当*Guest被销毁时，通知嵌入器。当嵌入器被销毁时，*访客也会被销毁；这是电子惯例，而不是基于*浏览器行为。*/
 const handleWindowLifecycleEvents = function ({ embedder, guest, frameName }: {
   embedder: WebContents,
   guest: BrowserWindow,
@@ -134,10 +115,7 @@ const handleWindowLifecycleEvents = function ({ embedder, guest, frameName }: {
   }
 };
 
-/**
- * Deprecated in favor of `webContents.setWindowOpenHandler` and
- * `did-create-window` in 11.0.0. Will be removed in 12.0.0.
- */
+/* **11.0.0版本中支持`webContents.setWindowOpenHandler`和*`had-create-window`。将在12.0.0中删除。*/
 function emitDeprecatedNewWindowEvent ({ event, embedder, guest, windowOpenArgs, browserWindowOptions, disposition, referrer, postData }: {
   event: { sender: WebContents, defaultPrevented: boolean, newGuest?: BrowserWindow },
   embedder: WebContents,
@@ -165,7 +143,7 @@ function emitDeprecatedNewWindowEvent ({ event, embedder, guest, windowOpenArgs,
       ...browserWindowOptions,
       webContents: guest
     },
-    [], // additionalFeatures
+    [], // 附加功能。
     referrer,
     postBody
   );
@@ -175,8 +153,8 @@ function emitDeprecatedNewWindowEvent ({ event, embedder, guest, windowOpenArgs,
   if (event.defaultPrevented) {
     if (newGuest) {
       if (guest === newGuest.webContents) {
-        // The webContents is not changed, so set defaultPrevented to false to
-        // stop the callers of this event from destroying the webContents.
+        // 未更改webContents，因此将defaultPrevent设置为false。
+        // 阻止此事件的调用方销毁webContents。
         event.defaultPrevented = false;
       }
 
@@ -191,7 +169,7 @@ function emitDeprecatedNewWindowEvent ({ event, embedder, guest, windowOpenArgs,
   return false;
 }
 
-// Security options that child windows will always inherit from parent windows
+// 子窗口将始终从父窗口继承的安全选项。
 const securityWebPreferences: { [key: string]: boolean } = {
   contextIsolation: true,
   javascript: false,
@@ -229,9 +207,9 @@ function makeBrowserWindowOptions ({ embedder, features, overrideOptions }: {
 export function makeWebPreferences ({ embedder, secureOverrideWebPreferences = {}, insecureParsedWebPreferences: parsedWebPreferences = {} }: {
   embedder: WebContents,
   insecureParsedWebPreferences?: ReturnType<typeof parseFeatures>['webPreferences'],
-  // Note that override preferences are considered elevated, and should only be
-  // sourced from the main process, as they override security defaults. If you
-  // have unvetted prefs, use parsedWebPreferences.
+  // 请注意，覆盖首选项被认为是提升的，并且仅应。
+  // 源自主进程，因为它们覆盖了安全默认值。如果你。
+  // 如果有未经审查的首选项，请使用parsedWebPreferences。
   secureOverrideWebPreferences?: BrowserWindowConstructorOptions['webPreferences'],
 }) {
   const parentWebPreferences = embedder.getLastWebPreferences()!;
@@ -245,13 +223,13 @@ export function makeWebPreferences ({ embedder, secureOverrideWebPreferences = {
 
   return {
     ...parsedWebPreferences,
-    // Note that order is key here, we want to disallow the renderer's
-    // ability to change important security options but allow main (via
-    // setWindowOpenHandler) to change them.
+    // 请注意，顺序是这里的关键，我们想要禁止渲染器的。
+    // 能够更改重要的安全选项，但允许Main(通过。
+    // SetWindowOpenHandler)来更改它们。
     ...securityWebPreferencesFromParent,
     ...secureOverrideWebPreferences,
-    // Sets correct openerId here to give correct options to 'new-window' event handler
-    // TODO: Figure out another way to pass this?
+    // 在此处设置正确的openerId，以便为‘new-window’事件处理程序提供正确的选项。
+    // TODO：想出另一种方法来通过这件事？
     openerId
   };
 }
@@ -268,14 +246,14 @@ function formatPostDataHeaders (postData: PostData) {
 const MULTIPART_CONTENT_TYPE = 'multipart/form-data';
 const URL_ENCODED_CONTENT_TYPE = 'application/x-www-form-urlencoded';
 
-// Figure out appropriate headers for post data.
+// 找出发布数据的适当标题。
 export const parseContentTypeFormat = function (postData: Exclude<PostData, undefined>) {
   if (postData.length) {
     if (postData[0].type === 'rawData') {
-      // For multipart forms, the first element will start with the boundary
-      // notice, which looks something like `------WebKitFormBoundary12345678`
-      // Note, this regex would fail when submitting a urlencoded form with an
-      // input attribute of name="--theKey", but, uhh, don't do that?
+      // 对于多部分表单，第一个元素将从边界开始。
+      // 注意，它类似于`-WebKitFormBorary12345678`。
+      // 注意，此正则表达式在提交具有。
+      // 输入属性name=“--thekey”，但是，呃，不这样做吗？
       const postDataFront = postData[0].bytes.toString();
       const boundary = /^--.*[^-\r\n]/.exec(postDataFront);
       if (boundary) {
@@ -286,9 +264,9 @@ export const parseContentTypeFormat = function (postData: Exclude<PostData, unde
       }
     }
   }
-  // Either the form submission didn't contain any inputs (the postData array
-  // was empty), or we couldn't find the boundary and thus we can assume this is
-  // a key=value style form.
+  // 表单提交不包含任何输入(postData数组。
+  // 是空的)，或者我们找不到边界，因此我们可以假设这是。
+  // A键=值样式表单。
   return {
     contentType: URL_ENCODED_CONTENT_TYPE
   };

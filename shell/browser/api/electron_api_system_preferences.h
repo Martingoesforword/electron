@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_SYSTEM_PREFERENCES_H_
 #define SHELL_BROWSER_API_ELECTRON_API_SYSTEM_PREFERENCES_H_
@@ -45,7 +45,7 @@ class SystemPreferences
  public:
   static gin::Handle<SystemPreferences> Create(v8::Isolate* isolate);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -63,10 +63,10 @@ class SystemPreferences
 
   void InitializeWindow();
 
-  // gfx::SysColorChangeListener:
+  // GFX：：SysColorChangeListener：
   void OnSysColorChange() override;
 
-  // BrowserObserver:
+  // 浏览器观察者：
   void OnFinishLaunching(const base::DictionaryValue& launch_info) override;
 
 #elif defined(OS_MAC)
@@ -111,8 +111,8 @@ class SystemPreferences
   v8::Local<v8::Promise> AskForMediaAccess(v8::Isolate* isolate,
                                            const std::string& media_type);
 
-  // TODO(MarshallOfSound): Write tests for these methods once we
-  // are running tests on a Mojave machine
+  // TODO(MarshallOfSound)：一旦我们。
+  // 在一台莫哈韦机器上进行测试。
   v8::Local<v8::Value> GetEffectiveAppearance(v8::Isolate* isolate);
   v8::Local<v8::Value> GetAppLevelAppearance(v8::Isolate* isolate);
   void SetAppLevelAppearance(gin::Arguments* args);
@@ -134,7 +134,7 @@ class SystemPreferences
 
  private:
 #if defined(OS_WIN)
-  // Static callback invoked when a message comes in to our messaging window.
+  // 当消息进入我们的消息传递窗口时调用静态回调。
   static LRESULT CALLBACK WndProcStatic(HWND hwnd,
                                         UINT message,
                                         WPARAM wparam,
@@ -145,13 +145,13 @@ class SystemPreferences
                            WPARAM wparam,
                            LPARAM lparam);
 
-  // The window class of |window_|.
+  // |Window_|的窗口类。
   ATOM atom_;
 
-  // The handle of the module that contains the window procedure of |window_|.
+  // 包含|Window_|的窗口过程的模块的句柄。
   HMODULE instance_;
 
-  // The window used for processing events.
+  // 用于处理事件的窗口。
   HWND window_;
 
   std::string current_color_;
@@ -165,8 +165,8 @@ class SystemPreferences
   DISALLOW_COPY_AND_ASSIGN(SystemPreferences);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_SYSTEM_PREFERENCES_H_

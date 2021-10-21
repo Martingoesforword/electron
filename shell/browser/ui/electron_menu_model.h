@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_ELECTRON_MENU_MODEL_H_
 #define SHELL_BROWSER_UI_ELECTRON_MENU_MODEL_H_
@@ -54,7 +54,7 @@ class ElectronMenuModel : public ui::SimpleMenuModel {
 #endif
 
    private:
-    // ui::SimpleMenuModel::Delegate:
+    // UI：：SimpleMenuModel：：Delegate：
     bool GetAcceleratorForCommandId(
         int command_id,
         ui::Accelerator* accelerator) const override;
@@ -64,10 +64,10 @@ class ElectronMenuModel : public ui::SimpleMenuModel {
    public:
     ~Observer() override {}
 
-    // Notifies the menu will open.
+    // 通知菜单将打开。
     virtual void OnMenuWillShow() {}
 
-    // Notifies the menu has been closed.
+    // 通知菜单已关闭。
     virtual void OnMenuWillClose() {}
   };
 
@@ -89,14 +89,14 @@ class ElectronMenuModel : public ui::SimpleMenuModel {
   bool ShouldRegisterAcceleratorAt(int index) const;
   bool WorksWhenHiddenAt(int index) const;
 #if defined(OS_MAC)
-  // Return the SharingItem of menu item.
+  // 返回菜单项的SharingItem。
   bool GetSharingItemAt(int index, SharingItem* item) const;
-  // Set/Get the SharingItem of this menu.
+  // 设置/获取此菜单的SharingItem。
   void SetSharingItem(SharingItem item);
   const absl::optional<SharingItem>& GetSharingItem() const;
 #endif
 
-  // ui::SimpleMenuModel:
+  // UI：：SimpleMenuModel：
   void MenuWillClose() override;
   void MenuWillShow() override;
 
@@ -108,15 +108,15 @@ class ElectronMenuModel : public ui::SimpleMenuModel {
   ElectronMenuModel* GetSubmenuModelAt(int index);
 
  private:
-  Delegate* delegate_;  // weak ref.
+  Delegate* delegate_;  // 弱小的裁判。
 
 #if defined(OS_MAC)
   absl::optional<SharingItem> sharing_item_;
 #endif
 
-  std::map<int, std::u16string> toolTips_;   // command id -> tooltip
-  std::map<int, std::u16string> roles_;      // command id -> role
-  std::map<int, std::u16string> sublabels_;  // command id -> sublabel
+  std::map<int, std::u16string> toolTips_;   // 命令id-&gt;工具提示。
+  std::map<int, std::u16string> roles_;      // 命令id-&gt;角色。
+  std::map<int, std::u16string> sublabels_;  // 命令ID-&gt;子标签。
   base::ObserverList<Observer> observers_;
 
   base::WeakPtrFactory<ElectronMenuModel> weak_factory_{this};
@@ -124,6 +124,6 @@ class ElectronMenuModel : public ui::SimpleMenuModel {
   DISALLOW_COPY_AND_ASSIGN(ElectronMenuModel);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_ELECTRON_MENU_MODEL_H_
+#endif  // Shell_Browser_UI_Electronics_Menu_Model_H_

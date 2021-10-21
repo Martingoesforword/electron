@@ -1,6 +1,6 @@
-// Copyright 2016 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2016年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_PLUGINS_PLUGIN_UTILS_H_
 #define SHELL_BROWSER_PLUGINS_PLUGIN_UTILS_H_
@@ -16,14 +16,14 @@ class BrowserContext;
 
 class PluginUtils {
  public:
-  // If there's an extension that is allowed to handle |mime_type|, returns its
-  // ID. Otherwise returns an empty string.
+  // 如果有允许处理|MIME_TYPE|的扩展，则返回其。
+  // ID。否则返回空字符串。
   static std::string GetExtensionIdForMimeType(
       content::BrowserContext* browser_context,
       const std::string& mime_type);
 
-  // Returns a map populated with MIME types that are handled by an extension as
-  // keys and the corresponding extensions Ids as values.
+  // 返回用MIME类型填充的映射，该MIME类型由扩展处理为。
+  // 密钥和相应的扩展ID作为值。
   static base::flat_map<std::string, std::string> GetMimeTypeToExtensionIdMap(
       content::BrowserContext* browser_context);
 
@@ -31,4 +31,4 @@ class PluginUtils {
   DISALLOW_IMPLICIT_CONSTRUCTORS(PluginUtils);
 };
 
-#endif  // SHELL_BROWSER_PLUGINS_PLUGIN_UTILS_H_
+#endif  // Shell_Browser_Plugin_Plugin_Utils_H_

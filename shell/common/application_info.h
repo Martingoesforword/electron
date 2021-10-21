@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_APPLICATION_INFO_H_
 #define SHELL_COMMON_APPLICATION_INFO_H_
@@ -20,7 +20,7 @@ std::string GetPossiblyOverriddenApplicationName();
 
 std::string GetApplicationName();
 std::string GetApplicationVersion();
-// Returns the user agent of Electron.
+// 返回Electron的用户代理。
 std::string GetApplicationUserAgent();
 
 #if defined(OS_WIN)
@@ -30,6 +30,6 @@ void SetAppUserModelID(const std::wstring& name);
 bool IsRunningInDesktopBridge();
 #endif
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_APPLICATION_INFO_H_
+#endif  // Shell_COMMON_APPLICATION_INFO_H_

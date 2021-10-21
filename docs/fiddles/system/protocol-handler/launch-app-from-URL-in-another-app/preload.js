@@ -1,8 +1,8 @@
-// All of the Node.js APIs are available in the preload process.
-// It has the same sandbox as a Chrome extension.
+// 所有Node.js API都在预加载过程中可用。
+// 它拥有与Chrome扩展相同的沙箱。
 const { contextBridge, ipcRenderer } = require('electron')
 
-// Set up context bridge between the renderer process and the main process
+// 在呈现器进程和主进程之间建立上下文桥
 contextBridge.exposeInMainWorld(
   'shell',
   {

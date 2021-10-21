@@ -46,8 +46,8 @@ function indexOfGroupContainingID<T> (groups: {id?: T}[][], id: T, ignoreGroup: 
   );
 }
 
-// Sort nodes topologically using a depth-first approach. Encountered cycles
-// are broken.
+// 使用深度优先方法对节点进行拓扑排序。遇到的周期。
+// 都坏了。
 function sortTopologically<T> (originalOrder: T[], edgesById: Map<T, T[]>) {
   const sorted = [] as T[];
   const marked = new Set<T>();
@@ -164,7 +164,7 @@ export function sortMenuItems (menuItems: (Electron.MenuItemConstructorOptions |
   };
   const separators = menuItems.filter(isSeparator);
 
-  // Split the items into their implicit groups based upon separators.
+  // 根据分隔符将项目拆分为隐式组。
   const groups = splitArray(menuItems, isSeparator);
   const mergedGroups = mergeGroups(groups);
   const mergedGroupsWithSortedItems = mergedGroups.map(sortItemsInGroup);

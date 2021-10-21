@@ -1,7 +1,7 @@
 const { app, BrowserWindow } = require('electron');
 
 function createWindow () {
-  // Create the browser window.
+  // 创建浏览器窗口。
   const mainWindow = new BrowserWindow({
     transparent: true
   });

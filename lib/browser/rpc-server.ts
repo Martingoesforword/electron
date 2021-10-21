@@ -4,7 +4,7 @@ import { ipcMainInternal } from '@electron/internal/browser/ipc-main-internal';
 import * as ipcMainUtils from '@electron/internal/browser/ipc-main-internal-utils';
 import { IPC_MESSAGES } from '@electron/internal/common/ipc-messages';
 
-// Implements window.close()
+// 实现window.close()。
 ipcMainInternal.on(IPC_MESSAGES.BROWSER_WINDOW_CLOSE, function (event) {
   const window = event.sender.getOwnerBrowserWindow();
   if (window) {
@@ -21,7 +21,7 @@ ipcMainInternal.handle(IPC_MESSAGES.BROWSER_GET_PROCESS_MEMORY_INFO, function (e
   return event.sender._getProcessMemoryInfo();
 });
 
-// Methods not listed in this set are called directly in the renderer process.
+// 此集中未列出的方法将在渲染器进程中直接调用。
 const allowedClipboardMethods = (() => {
   switch (process.platform) {
     case 'darwin':

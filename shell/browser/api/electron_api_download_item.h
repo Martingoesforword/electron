@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_DOWNLOAD_ITEM_H_
 #define SHELL_BROWSER_API_ELECTRON_API_DOWNLOAD_ITEM_H_
@@ -32,13 +32,13 @@ class DownloadItem : public gin::Wrappable<DownloadItem>,
 
   static DownloadItem* FromDownloadItem(download::DownloadItem* item);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
   const char* GetTypeName() override;
 
-  // JS API, but also C++ calls it sometimes
+  // JS API，但C++有时也会调用它。
   void SetSavePath(const base::FilePath& path);
   base::FilePath GetSavePath() const;
   file_dialog::DialogSettings GetSaveDialogOptions() const;
@@ -49,11 +49,11 @@ class DownloadItem : public gin::Wrappable<DownloadItem>,
 
   bool CheckAlive() const;
 
-  // download::DownloadItem::Observer
+  // 下载：：DownloadItem：：观察者。
   void OnDownloadUpdated(download::DownloadItem* item) override;
   void OnDownloadDestroyed(download::DownloadItem* item) override;
 
-  // JS API
+  // JS API。
   void Pause();
   bool IsPaused() const;
   void Resume();
@@ -85,8 +85,8 @@ class DownloadItem : public gin::Wrappable<DownloadItem>,
   DISALLOW_COPY_AND_ASSIGN(DownloadItem);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_DOWNLOAD_ITEM_H_

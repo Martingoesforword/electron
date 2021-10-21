@@ -1,4 +1,4 @@
-// Public-facing API methods.
+// 面向公众的API方法。
 export const syncMethods = new Set([
   'getURL',
   'getTitle',

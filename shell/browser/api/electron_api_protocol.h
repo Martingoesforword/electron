@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_PROTOCOL_H_
 #define SHELL_BROWSER_API_ELECTRON_API_PROTOCOL_H_
@@ -27,22 +27,22 @@ void AddServiceWorkerScheme(const std::string& scheme);
 void RegisterSchemesAsPrivileged(gin_helper::ErrorThrower thrower,
                                  v8::Local<v8::Value> val);
 
-// Possible errors.
+// 可能的错误。
 enum class ProtocolError {
-  kOK,  // no error
+  kOK,  // 无错误。
   kRegistered,
   kNotRegistered,
   kIntercepted,
   kNotIntercepted,
 };
 
-// Protocol implementation based on network services.
+// 基于网络服务的协议实现。
 class Protocol : public gin::Wrappable<Protocol> {
  public:
   static gin::Handle<Protocol> Create(v8::Isolate* isolate,
                                       ElectronBrowserContext* browser_context);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -52,11 +52,11 @@ class Protocol : public gin::Wrappable<Protocol> {
   Protocol(v8::Isolate* isolate, ProtocolRegistry* protocol_registry);
   ~Protocol() override;
 
-  // Callback types.
+  // 回调类型。
   using CompletionCallback =
       base::RepeatingCallback<void(v8::Local<v8::Value>)>;
 
-  // JS APIs.
+  // JS接口。
   ProtocolError RegisterProtocol(ProtocolType type,
                                  const std::string& scheme,
                                  const ProtocolHandler& handler);
@@ -69,11 +69,11 @@ class Protocol : public gin::Wrappable<Protocol> {
   bool UninterceptProtocol(const std::string& scheme, gin::Arguments* args);
   bool IsProtocolIntercepted(const std::string& scheme);
 
-  // Old async version of IsProtocolRegistered.
+  // IsProtocolRegisted的旧异步版本。
   v8::Local<v8::Promise> IsProtocolHandled(const std::string& scheme,
                                            gin::Arguments* args);
 
-  // Helper for converting old registration APIs to new RegisterProtocol API.
+  // 将旧的注册API转换为新的RegisterProtocol API的帮助器。
   template <ProtocolType type>
   bool RegisterProtocolFor(const std::string& scheme,
                            const ProtocolHandler& handler,
@@ -91,16 +91,16 @@ class Protocol : public gin::Wrappable<Protocol> {
     return result == ProtocolError::kOK;
   }
 
-  // Be compatible with old interface, which accepts optional callback.
+  // 兼容旧接口，支持可选回调。
   void HandleOptionalCallback(gin::Arguments* args, ProtocolError error);
 
-  // Weak pointer; the lifetime of the ProtocolRegistry is guaranteed to be
-  // longer than the lifetime of this JS interface.
+  // 弱指针；ProtocolRegistry的生存期保证为。
+  // 比此JS接口的生命周期更长。
   ProtocolRegistry* protocol_registry_;
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_PROTOCOL_H_
+#endif  // Shell_Browser_API_Electronics_API_PROTOCOL_H_

@@ -23,7 +23,7 @@ describe('netLog module', () => {
   before(done => {
     server = http.createServer();
     server.listen(0, '127.0.0.1', () => {
-      serverUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+      serverUrl = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
       done();
     });
     server.on('connection', (connection) => {
@@ -59,7 +59,7 @@ describe('netLog module', () => {
         fs.unlinkSync(dumpFileDynamic);
       }
     } catch (e) {
-      // Ignore error
+      // 忽略错误。
     }
     expect(testNetLog().currentlyLogging).to.be.false('currently logging');
   });
@@ -93,7 +93,7 @@ describe('netLog module', () => {
       const req = net.request(serverUrl);
       req.setHeader('Cookie', `foo=${unique}`);
       req.on('response', (response) => {
-        response.on('data', () => {}); // https://github.com/electron/electron/issues/19214
+        response.on('data', () => {}); // Https://github.com/electron/electron/issues/19214。
         response.on('end', () => resolve());
       });
       req.end();
@@ -110,7 +110,7 @@ describe('netLog module', () => {
     await new Promise<void>((resolve) => {
       const req = net.request({ method: 'POST', url: serverUrl });
       req.on('response', (response) => {
-        response.on('data', () => {}); // https://github.com/electron/electron/issues/19214
+        response.on('data', () => {}); // Https://github.com/electron/electron/issues/19214
         response.on('end', () => resolve());
       });
       req.end(Buffer.from(unique));

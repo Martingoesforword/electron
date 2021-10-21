@@ -1,6 +1,6 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2018年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_EXTENSIONS_ELECTRON_EXTENSIONS_API_PROVIDER_H_
 #define SHELL_COMMON_EXTENSIONS_ELECTRON_EXTENSIONS_API_PROVIDER_H_
@@ -17,7 +17,7 @@ class ElectronExtensionsAPIProvider : public extensions::ExtensionsAPIProvider {
   ElectronExtensionsAPIProvider();
   ~ElectronExtensionsAPIProvider() override;
 
-  // ExtensionsAPIProvider:
+  // 扩展APIProvider：
   void AddAPIFeatures(extensions::FeatureProvider* provider) override;
   void AddManifestFeatures(extensions::FeatureProvider* provider) override;
   void AddPermissionFeatures(extensions::FeatureProvider* provider) override;
@@ -34,6 +34,6 @@ class ElectronExtensionsAPIProvider : public extensions::ExtensionsAPIProvider {
   DISALLOW_COPY_AND_ASSIGN(ElectronExtensionsAPIProvider);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_COMMON_EXTENSIONS_ELECTRON_EXTENSIONS_API_PROVIDER_H_

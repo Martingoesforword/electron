@@ -1,4 +1,4 @@
-// Modules to control application life and create native browser window
+// 用于控制应用程序生命周期和创建本机浏览器窗口的模块
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 

@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_TRAY_H_
 #define SHELL_BROWSER_API_ELECTRON_API_TRAY_H_
@@ -40,7 +40,7 @@ class Tray : public gin::Wrappable<Tray>,
              public gin_helper::CleanedUpAtExit,
              public TrayIconObserver {
  public:
-  // gin_helper::Constructible
+  // Gin_helper：：可构造的。
   static gin::Handle<Tray> New(gin_helper::ErrorThrower thrower,
                                v8::Local<v8::Value> image,
                                absl::optional<UUID> guid,
@@ -49,7 +49,7 @@ class Tray : public gin::Wrappable<Tray>,
       v8::Isolate*,
       v8::Local<v8::ObjectTemplate>);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
 
  private:
@@ -58,7 +58,7 @@ class Tray : public gin::Wrappable<Tray>,
        absl::optional<UUID> guid);
   ~Tray() override;
 
-  // TrayIconObserver:
+  // 托盘图标观察者：
   void OnClicked(const gfx::Rect& bounds,
                  const gfx::Point& location,
                  int modifiers) override;
@@ -79,7 +79,7 @@ class Tray : public gin::Wrappable<Tray>,
   void OnMouseExited(const gfx::Point& location, int modifiers) override;
   void OnMouseMoved(const gfx::Point& location, int modifiers) override;
 
-  // JS API:
+  // JS接口：
   void Destroy();
   bool IsDestroyed();
   void SetImage(v8::Isolate* isolate, v8::Local<v8::Value> image);
@@ -109,8 +109,8 @@ class Tray : public gin::Wrappable<Tray>,
   DISALLOW_COPY_AND_ASSIGN(Tray);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_TRAY_H_
+#endif  // 外壳浏览器API电子API托盘H_

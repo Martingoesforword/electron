@@ -57,7 +57,7 @@ class AutoUpdater extends EventEmitter {
           return this.emitError(error);
         }
         const { releaseNotes, version } = update;
-        // Date is not available on Windows, so fake it.
+        // 日期在Windows上不可用，因此请伪造日期。
         const date = new Date();
         this.emit('update-downloaded', {}, releaseNotes, version, date, this.updateURL, () => {
           this.quitAndInstall();
@@ -66,8 +66,8 @@ class AutoUpdater extends EventEmitter {
     });
   }
 
-  // Private: Emit both error object and message, this is to keep compatibility
-  // with Old APIs.
+  // 私有：同时发出错误对象和消息，这是为了保持兼容性。
+  // 使用旧的API。
   emitError (error: Error) {
     this.emit('error', error, error.message);
   }

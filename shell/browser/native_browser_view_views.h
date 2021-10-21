@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NATIVE_BROWSER_VIEW_VIEWS_H_
 #define SHELL_BROWSER_NATIVE_BROWSER_VIEW_VIEWS_H_
@@ -25,7 +25,7 @@ class NativeBrowserViewViews : public NativeBrowserView {
                   int height_delta);
   uint8_t GetAutoResizeFlags() { return auto_resize_flags_; }
 
-  // NativeBrowserView:
+  // NativeBrowserView：
   void SetAutoResizeFlags(uint8_t flags) override;
   void SetBounds(const gfx::Rect& bounds) override;
   gfx::Rect GetBounds() override;
@@ -33,7 +33,7 @@ class NativeBrowserViewViews : public NativeBrowserView {
   void UpdateDraggableRegions(
       const std::vector<mojom::DraggableRegionPtr>& regions) override;
 
-  // WebContentsObserver:
+  // Web内容观察者：
   void RenderViewReady() override;
 
   SkRegion* draggable_region() const { return draggable_region_.get(); }
@@ -56,6 +56,6 @@ class NativeBrowserViewViews : public NativeBrowserView {
   DISALLOW_COPY_AND_ASSIGN(NativeBrowserViewViews);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_NATIVE_BROWSER_VIEW_VIEWS_H_
+#endif  // Shell_Browser_Native_Browser_VIEW_VIEWS_H_

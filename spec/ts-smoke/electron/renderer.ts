@@ -10,19 +10,19 @@ import {
 
 import * as fs from 'fs'
 
-// In renderer process (web page).
-// https://github.com/electron/electron/blob/master/docs/api/ipc-renderer.md
-console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
+// 在渲染器进程中(网页)。
+// Https://github.com/electron/electron/blob/master/docs/api/ipc-renderer.md。
+console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // 印花“乒乓”
 
 ipcRenderer.on('asynchronous-reply', (event, arg: any) => {
-  console.log(arg) // prints "pong"
+  console.log(arg) // 印花“乒乓”
   event.sender.send('another-message', 'Hello World!')
 })
 
 ipcRenderer.send('asynchronous-message', 'ping')
 
-// web-frame
-// https://github.com/electron/electron/blob/master/docs/api/web-frame.md
+// Web框架。
+// Https://github.com/electron/electron/blob/master/docs/api/web-frame.md。
 
 webFrame.setZoomFactor(2)
 console.log(webFrame.getZoomFactor())
@@ -52,8 +52,8 @@ webFrame.executeJavaScript('return true;', true).then((result: boolean) => conso
 console.log(webFrame.getResourceUsage())
 webFrame.clearCache()
 
-// clipboard
-// https://github.com/electron/electron/blob/master/docs/api/clipboard.md
+// 剪贴板。
+// Https://github.com/electron/electron/blob/master/docs/api/clipboard.md。
 
 clipboard.writeText('Example String')
 clipboard.writeText('Example String', 'selection')
@@ -68,18 +68,18 @@ clipboard.write({
   image: clipboard.readImage()
 })
 
-// crash-reporter
-// https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
+// 撞车记者。
+// Https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md。
 
 crashReporter.start({
   productName: 'YourName',
   companyName: 'YourCompany',
-  submitURL: 'https://your-domain.com/url-to-submit',
+  submitURL: 'https:// Your-domain.com/url-to-submit‘，
   uploadToServer: true
 })
 
-// desktopCapturer
-// https://github.com/electron/electron/blob/master/docs/api/desktop-capturer.md
+// 台式机捕获器。
+// Https://github.com/electron/electron/blob/master/docs/api/desktop-capturer.md。
 
 desktopCapturer.getSources({ types: ['window', 'screen'] }).then(sources => {
   for (let i = 0; i < sources.length; ++i) {
@@ -110,14 +110,10 @@ function getUserMediaError (error: Error) {
   console.log('getUserMediaError', error)
 }
 
-// File object
-// https://github.com/electron/electron/blob/master/docs/api/file-object.md
+// 文件对象。
+// Https://github.com/electron/electron/blob/master/docs/api/file-object.md。
 
-/*
-<div id="holder">
-  Drag your file here
-</div>
-*/
+/* <div>将您的文件拖到此处</div>。*/
 
 const holder = document.getElementById('holder')
 
@@ -136,14 +132,14 @@ holder.ondrop = function (e) {
   return false
 }
 
-// nativeImage
-// https://github.com/electron/electron/blob/master/docs/api/native-image.md
+// 原生图像。
+// Https://github.com/electron/electron/blob/master/docs/api/native-image.md。
 
 const image = clipboard.readImage()
 
-// https://github.com/electron/electron/blob/master/docs/api/process.md
+// Https://github.com/electron/electron/blob/master/docs/api/process.md。
 
-// preload.js
+// Preload.js。
 const _setImmediate = setImmediate
 const _clearImmediate = clearImmediate
 process.once('loaded', function () {
@@ -151,16 +147,16 @@ process.once('loaded', function () {
   global.clearImmediate = _clearImmediate
 })
 
-// shell
-// https://github.com/electron/electron/blob/master/docs/api/shell.md
+// 壳。
+// Https://github.com/electron/electron/blob/master/docs/api/shell.md。
 
-shell.openExternal('https://github.com').then(() => {})
+shell.openExternal('https:// Github.com‘).然后(()=&gt;{})。
 
-// <webview>
-// https://github.com/electron/electron/blob/master/docs/api/web-view-tag.md
+// &lt;WebView&gt;。
+// Https://github.com/electron/electron/blob/master/docs/api/web-view-tag.md。
 
 const webview = document.createElement('webview')
-webview.loadURL('https://github.com')
+webview.loadURL('https:// Github.com‘)。
 
 webview.addEventListener('console-message', function (e) {
   console.log('Guest page logged a message:', e.message)
@@ -183,9 +179,9 @@ webview.addEventListener('close', function () {
   webview.src = 'about:blank'
 })
 
-// In embedder page.
+// 在嵌入器页面中。
 webview.addEventListener('ipc-message', function (event) {
-  console.log(event.channel) // Prints "pong"
+  console.log(event.channel) // 印花“乒乓”
 })
 webview.send('ping')
 webview.capturePage().then(image => { console.log(image) })
@@ -195,7 +191,7 @@ webview.capturePage().then(image => { console.log(image) })
   const focused: boolean = webview.isDevToolsFocused()
 }
 
-// In guest page.
+// 在来宾页面。
 ipcRenderer.on('ping', function () {
   ipcRenderer.sendToHost('pong')
 })

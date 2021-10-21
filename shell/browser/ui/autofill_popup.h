@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_AUTOFILL_POPUP_H_
 #define SHELL_BROWSER_UI_AUTOFILL_POPUP_H_
@@ -39,7 +39,7 @@ class AutofillPopup : public views::ViewObserver {
  private:
   friend class AutofillPopupView;
 
-  // views::ViewObserver:
+  // 视图：：视图观察者：
   void OnViewBoundsChanged(views::View* view) override;
   void OnViewIsDeleting(views::View* view) override;
 
@@ -59,33 +59,33 @@ class AutofillPopup : public views::ViewObserver {
 
   int selected_index_;
 
-  // Popup location
+  // 弹出位置。
   gfx::Rect popup_bounds_;
 
-  // Bounds of the autofilled element
+  // 自动填充元素的边界。
   gfx::Rect element_bounds_;
 
-  // Datalist suggestions
+  // 数据列表建议。
   std::vector<std::u16string> values_;
   std::vector<std::u16string> labels_;
 
-  // Font lists for the suggestions
+  // 建议的字体列表。
   gfx::FontList smaller_font_list_;
   gfx::FontList bold_font_list_;
 
-  // For sending the accepted suggestion to the render frame that
-  // asked to open the popup
+  // 用于将接受的建议发送到渲染帧，该渲染帧。
+  // 请求打开弹出窗口。
   content::RenderFrameHost* frame_host_ = nullptr;
 
-  // The popup view. The lifetime is managed by the owning Widget
+  // 弹出视图。生命周期由拥有的小部件管理。
   AutofillPopupView* view_ = nullptr;
 
-  // The parent view that the popup view shows on. Weak ref.
+  // 弹出式视图在其上显示的父视图。弱小的裁判。
   views::View* parent_ = nullptr;
 
   DISALLOW_COPY_AND_ASSIGN(AutofillPopup);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_AUTOFILL_POPUP_H_
+#endif  // Shell_Browser_UI_AutoFill_Popup_H_

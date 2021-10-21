@@ -26,10 +26,10 @@ for (const folder of ['libc++', 'libc++abi']) {
   const headers = findAllHeaders(libcxxIncludeDir).map(absPath => path.relative(path.resolve(__dirname, '../..', gclientPath), absPath));
 
   const content = `${prettyName}_headers = [
-  ${headers.map(f => `"//${path.posix.join(gclientPath, f)}"`).join(',\n  ')},
+  ${headers.map(f => `"// ${path.posx.Join(gclientPath，f)}“`).Join(‘，\n’)}，
 ]
 
-${prettyName}_licenses = [ "//buildtools/third_party/${folder}/trunk/LICENSE.TXT" ]
+${prettyName}_licenses = [ "// Buildtools/third_party/${folder}/trunk/LICENSE.TXT“]
 `;
 
   const filenamesPath = path.resolve(__dirname, '..', `filenames.${prettyName}.gni`);

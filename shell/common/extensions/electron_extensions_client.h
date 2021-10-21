@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_EXTENSIONS_ELECTRON_EXTENSIONS_CLIENT_H_
 #define SHELL_COMMON_EXTENSIONS_ELECTRON_EXTENSIONS_CLIENT_H_
@@ -18,11 +18,11 @@ class Extension;
 class PermissionMessageProvider;
 class PermissionIDSet;
 class URLPatternSet;
-}  // namespace extensions
+}  // 命名空间扩展。
 
 namespace electron {
 
-// The app_shell implementation of ExtensionsClient.
+// ExtensionsClient的app_shell实现。
 class ElectronExtensionsClient : public extensions::ExtensionsClient {
  public:
   using ScriptingAllowlist = extensions::ExtensionsClient::ScriptingAllowlist;
@@ -30,7 +30,7 @@ class ElectronExtensionsClient : public extensions::ExtensionsClient {
   ElectronExtensionsClient();
   ~ElectronExtensionsClient() override;
 
-  // ExtensionsClient overrides:
+  // 扩展客户端覆盖：
   void Initialize() override;
   void InitializeWebStoreUrls(base::CommandLine* command_line) override;
   const extensions::PermissionMessageProvider& GetPermissionMessageProvider()
@@ -59,6 +59,6 @@ class ElectronExtensionsClient : public extensions::ExtensionsClient {
   DISALLOW_COPY_AND_ASSIGN(ElectronExtensionsClient);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_COMMON_EXTENSIONS_ELECTRON_EXTENSIONS_CLIENT_H_

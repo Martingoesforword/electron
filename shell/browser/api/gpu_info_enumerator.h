@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_GPU_INFO_ENUMERATOR_H_
 #define SHELL_BROWSER_API_GPU_INFO_ENUMERATOR_H_
@@ -14,8 +14,8 @@
 
 namespace electron {
 
-// This class implements the enumerator for reading all the attributes in
-// GPUInfo into a dictionary.
+// 此类实现了用于读取中的所有属性的枚举器。
+// GPUInfo到字典中。
 class GPUInfoEnumerator final : public gpu::GPUInfo::Enumerator {
   const char* const kGPUDeviceKey = "gpuDevice";
   const char* const kVideoDecodeAcceleratorSupportedProfileKey =
@@ -53,10 +53,10 @@ class GPUInfoEnumerator final : public gpu::GPUInfo::Enumerator {
   std::unique_ptr<base::DictionaryValue> GetDictionary();
 
  private:
-  // The stack is used to manage nested values
+  // 堆栈用于管理嵌套值。
   std::stack<std::unique_ptr<base::DictionaryValue>> value_stack;
   std::unique_ptr<base::DictionaryValue> current;
 };
 
-}  // namespace electron
-#endif  // SHELL_BROWSER_API_GPU_INFO_ENUMERATOR_H_
+}  // 命名空间电子。
+#endif  // Shell_Browser_API_GPU_INFO_ENUMERATOR_H_

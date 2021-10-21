@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* Eslint-禁用*/
 chrome.storage.local.set({ key: 'value' }, () => {
   chrome.storage.local.get(['key'], ({ key }) => {
     const script = document.createElement('script')

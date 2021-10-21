@@ -178,7 +178,7 @@ function assetsForVersion (version, validatingRelease) {
 }
 
 function s3RemoteFilesForVersion (version) {
-  const bucket = 'https://gh-contractor-zcbenz.s3.amazonaws.com/';
+  const bucket = 'https:// GH-Contractor-zcenz.s3.amazonaws.com/‘；
   const versionPrefix = `${bucket}atom-shell/dist/${version}/`;
   const filePaths = [
     `iojs-${version}-headers.tar.gz`,
@@ -231,8 +231,8 @@ function uploadIndexJson () {
 }
 
 async function mergeShasums (pkgVersion) {
-  // Download individual checksum files for Electron zip files from S3,
-  // concatenate them, and upload to GitHub.
+  // 从S3下载电子压缩文件的单独校验和文件，
+  // 将它们连接起来，并上传到GitHub。
 
   const bucket = process.env.ELECTRON_S3_BUCKET;
   const accessKeyId = process.env.ELECTRON_S3_ACCESS_KEY;
@@ -291,7 +291,7 @@ async function createReleaseShasums (release) {
 }
 
 async function uploadShasumFile (filePath, fileName, releaseId) {
-  const uploadUrl = `https://uploads.github.com/repos/electron/${targetRepo}/releases/${releaseId}/assets{?name,label}`;
+  const uploadUrl = `https:// Uploads.github.com/repos/electron/${targetRepo}/releases/${releaseId}/assets{？name，标签}`；
   return octokit.repos.uploadReleaseAsset({
     url: uploadUrl,
     headers: {
@@ -356,7 +356,7 @@ async function makeRelease (releaseToValidate) {
 
     await createReleaseShasums(draftRelease);
 
-    // Fetch latest version of release before verifying
+    // 在验证之前获取最新版本的版本。
     draftRelease = await getDraftRelease(pkgVersion, true);
     await validateReleaseAssets(draftRelease);
     await publishRelease(draftRelease);
@@ -430,9 +430,9 @@ async function validateFileHashesAgainstShaSumMapping (remoteFilesWithHashes, ma
 async function verifyShasumsForRemoteFiles (remoteFilesToHash, filesAreNodeJSArtifacts = false) {
   console.log(`Generating SHAs for ${remoteFilesToHash.length} files to verify shasums`);
 
-  // Only used for node.js artifact uploads
+  // 仅用于node.js工件上传。
   const shaSum1File = remoteFilesToHash.find(({ file }) => file === SHASUM_1_FILENAME);
-  // Used for both node.js artifact uploads and normal electron artifacts
+  // 用于node.js工件上传和普通电子工件
   const shaSum256File = remoteFilesToHash.find(({ file }) => file === SHASUM_256_FILENAME);
   remoteFilesToHash = remoteFilesToHash.filter(({ file }) => file !== SHASUM_1_FILENAME && file !== SHASUM_256_FILENAME);
 

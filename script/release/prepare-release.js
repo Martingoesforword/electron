@@ -185,9 +185,9 @@ async function promptForVersion (version) {
   });
 }
 
-// function to determine if there have been commits to main since the last release
+// 函数来确定自上一版本以来是否已提交到Main。
 async function changesToRelease () {
-  // eslint-disable-next-line no-useless-escape
+  // Eslint-停用-下一行没有用-转义
   const lastCommitWasRelease = new RegExp('^Bump v[0-9]+\.[0-9]+\.[0-9]+(-beta\.[0-9]+)?(-alpha\.[0-9]+)?(-nightly\.[0-9]+)?$', 'g');
   const lastCommit = await GitProcess.exec(['log', '-n', '1', '--pretty=format:\'%s\''], ELECTRON_DIR);
   return !lastCommitWasRelease.test(lastCommit.stdout);

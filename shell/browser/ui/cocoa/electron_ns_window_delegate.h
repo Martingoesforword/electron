@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_COCOA_ELECTRON_NS_WINDOW_DELEGATE_H_
 #define SHELL_BROWSER_UI_COCOA_ELECTRON_NS_WINDOW_DELEGATE_H_
@@ -22,9 +22,9 @@ class NativeWindowMac;
   int level_;
   bool is_resizable_;
 
-  // Only valid during a live resize.
-  // Used to keep track of whether a resize is happening horizontally or
-  // vertically, even if physically the user is resizing in both directions.
+  // 仅在实时调整大小期间有效。
+  // 用于跟踪调整大小是水平进行还是。
+  // 垂直方向，即使在物理上用户在两个方向上都在调整大小。
   absl::optional<bool> resizingHorizontally_;
 }
 - (id)initWithShell:(electron::NativeWindowMac*)shell;

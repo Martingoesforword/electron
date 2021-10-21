@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NET_ELECTRON_URL_LOADER_FACTORY_H_
 #define SHELL_BROWSER_NET_ELECTRON_URL_LOADER_FACTORY_H_
@@ -25,14 +25,14 @@
 
 namespace electron {
 
-// Old Protocol API can only serve one type of response for one scheme.
+// 旧协议API只能为一个方案提供一种类型的响应。
 enum class ProtocolType {
   kBuffer,
   kString,
   kFile,
   kHttp,
   kStream,
-  kFree,  // special type for returning arbitrary type of response.
+  kFree,  // 用于返回任意类型响应的特殊类型。
 };
 
 using StartLoadingCallback = base::OnceCallback<void(gin::Arguments*)>;
@@ -40,16 +40,16 @@ using ProtocolHandler =
     base::RepeatingCallback<void(const network::ResourceRequest&,
                                  StartLoadingCallback)>;
 
-// scheme => (type, handler).
+// 方案=&gt;(类型，处理程序)。
 using HandlersMap =
     std::map<std::string, std::pair<ProtocolType, ProtocolHandler>>;
 
-// Implementation of URLLoaderFactory.
+// URLLoaderFactory的实现。
 class ElectronURLLoaderFactory : public network::SelfDeletingURLLoaderFactory {
  public:
-  // This class binds a URLLoader receiver in the case of a redirect, waiting
-  // for |FollowRedirect| to be called at which point the new request will be
-  // started, and the receiver will be unbound letting a new URLLoader bind it
+  // 此类在重定向、等待的情况下绑定URLLoader接收器。
+  // 对于要调用的|FollowRedirect|，新请求将在该点。
+  // 已启动，接收器将解除绑定，让新的URLLoader对其进行绑定。
   class RedirectedRequest : public network::mojom::URLLoader {
    public:
     RedirectedRequest(
@@ -64,7 +64,7 @@ class ElectronURLLoaderFactory : public network::SelfDeletingURLLoaderFactory {
             target_factory_remote);
     ~RedirectedRequest() override;
 
-    // network::mojom::URLLoader:
+    // Network：：mojom：：URLLoader：
     void FollowRedirect(
         const std::vector<std::string>& removed_headers,
         const net::HttpRequestHeaders& modified_headers,
@@ -97,7 +97,7 @@ class ElectronURLLoaderFactory : public network::SelfDeletingURLLoaderFactory {
       ProtocolType type,
       const ProtocolHandler& handler);
 
-  // network::mojom::URLLoaderFactory:
+  // Network：：mojom：：URLLoaderFactory：
   void CreateLoaderAndStart(
       mojo::PendingReceiver<network::mojom::URLLoader> loader,
       int32_t request_id,
@@ -159,7 +159,7 @@ class ElectronURLLoaderFactory : public network::SelfDeletingURLLoaderFactory {
       network::mojom::URLResponseHeadPtr head,
       const gin_helper::Dictionary& dict);
 
-  // Helper to send string as response.
+  // 将字符串作为响应发送的帮助器。
   static void SendContents(
       mojo::PendingRemote<network::mojom::URLLoaderClient> client,
       network::mojom::URLResponseHeadPtr head,
@@ -171,6 +171,6 @@ class ElectronURLLoaderFactory : public network::SelfDeletingURLLoaderFactory {
   DISALLOW_COPY_AND_ASSIGN(ElectronURLLoaderFactory);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_NET_ELECTRON_URL_LOADER_FACTORY_H_

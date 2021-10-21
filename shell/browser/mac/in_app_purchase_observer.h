@@ -1,6 +1,6 @@
-// Copyright (c) 2017 Amaplex Software, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 Amaplex Software，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_MAC_IN_APP_PURCHASE_OBSERVER_H_
 #define SHELL_BROWSER_MAC_IN_APP_PURCHASE_OBSERVER_H_
@@ -13,13 +13,13 @@
 
 #if defined(__OBJC__)
 @class InAppTransactionObserver;
-#else   // __OBJC__
+#else   // __对象__。
 class InAppTransactionObserver;
-#endif  // __OBJC__
+#endif  // __对象__。
 
 namespace in_app_purchase {
 
-// --------------------------- Structures ---------------------------
+// 。
 
 struct Payment {
   std::string productIdentifier = "";
@@ -40,7 +40,7 @@ struct Transaction {
   ~Transaction();
 };
 
-// --------------------------- Classes ---------------------------
+// 。
 
 class TransactionObserver {
  public:
@@ -58,6 +58,6 @@ class TransactionObserver {
   DISALLOW_COPY_AND_ASSIGN(TransactionObserver);
 };
 
-}  // namespace in_app_purchase
+}  // _app_purchase中的命名空间。
 
-#endif  // SHELL_BROWSER_MAC_IN_APP_PURCHASE_OBSERVER_H_
+#endif  // Shell_Browser_MAC_IN_APP_Purchase_Observator_H_

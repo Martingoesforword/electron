@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_WIN_ELECTRON_DESKTOP_NATIVE_WIDGET_AURA_H_
 #define SHELL_BROWSER_UI_WIN_ELECTRON_DESKTOP_NATIVE_WIDGET_AURA_H_
@@ -19,10 +19,10 @@ class ElectronDesktopNativeWidgetAura : public views::DesktopNativeWidgetAura {
   explicit ElectronDesktopNativeWidgetAura(
       NativeWindowViews* native_window_view);
 
-  // views::DesktopNativeWidgetAura:
+  // 视图：：DesktopNativeWidgetAura：
   void InitNativeWidget(views::Widget::InitParams params) override;
 
-  // internal::NativeWidgetPrivate:
+  // 内部：：NativeWidgetPrivate：
   void Activate() override;
 
  private:
@@ -32,12 +32,12 @@ class ElectronDesktopNativeWidgetAura : public views::DesktopNativeWidgetAura {
 
   NativeWindowViews* native_window_view_;
 
-  // Owned by DesktopNativeWidgetAura.
+  // 由DesktopNativeWidgetAura所有。
   views::DesktopWindowTreeHost* desktop_window_tree_host_;
 
   DISALLOW_COPY_AND_ASSIGN(ElectronDesktopNativeWidgetAura);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_UI_WIN_ELECTRON_DESKTOP_NATIVE_WIDGET_AURA_H_

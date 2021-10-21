@@ -17,12 +17,12 @@ const isLinuxOnArm = process.platform === 'linux' && process.arch.includes('arm'
 type CrashInfo = {
   prod: string
   ver: string
-  process_type: string // eslint-disable-line camelcase
+  process_type: string // Eslint-Disable-line驼峰实例。
   ptype: string
   platform: string
   _productName: string
   _version: string
-  upload_file_minidump: Buffer // eslint-disable-line camelcase
+  upload_file_minidump: Buffer // Eslint-Disable-line驼峰实例。
   guid: string
   mainProcessSpecific: 'mps' | undefined
   rendererSpecific: 'rs' | undefined
@@ -43,8 +43,8 @@ function checkCrash (expectedProcessType: string, fields: CrashInfo) {
   expect(String(fields._version)).to.equal(app.getVersion(), '_version');
   expect(fields.upload_file_minidump).to.be.an.instanceOf(Buffer);
 
-  // TODO(nornagon): minidumps are sometimes (not always) turning up empty on
-  // 32-bit Linux.  Figure out why.
+  // TODO(Nornagon)：小型转储有时(并不总是)是空的。
+  // 32位Linux。找出原因。
   if (!(process.platform === 'linux' && process.arch === 'ia32')) {
     expect(fields.upload_file_minidump.length).to.be.greaterThan(0);
   }
@@ -79,7 +79,7 @@ const startServer = async () => {
       fields[fieldname] = val;
     });
     busboy.on('finish', () => {
-      // breakpad id must be 16 hex digits.
+      // 断路板ID必须是16位十六进制数字。
       const reportId = Math.random().toString(16).split('.')[1].padStart(16, '0');
       res.end(reportId, async () => {
         req.socket.destroy();
@@ -111,7 +111,7 @@ function runCrashApp (crashType: string, port: number, extraArgs: Array<string> 
   const appPath = path.join(__dirname, 'fixtures', 'apps', 'crash');
   return runApp(appPath, [
     `--crash-type=${crashType}`,
-    `--crash-reporter-url=http://127.0.0.1:${port}`,
+    `--crash-reporter-url=http:// 127.0.0.1：${port}`，
     ...extraArgs
   ]);
 }
@@ -136,10 +136,10 @@ function waitForNewFileInDir (dir: string): Promise<string[]> {
   });
 }
 
-// TODO(nornagon): Fix tests on linux/arm.
+// TODO(Nornagon)：修复Linux/ARM上的测试。
 ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_TESTS)('crashReporter module', function () {
-  // TODO(nornagon): remove linux/breakpad tests once breakpad support is fully
-  // removed.
+  // TODO(Nornagon)：完全支持Breakpad后，删除Linux/BreakPad测试。
+  // 已删除。
   for (const enableLinuxCrashpad of (process.platform === 'linux' ? [false] : [false])) {
     const withLinuxCrashpad = enableLinuxCrashpad || (process.platform === 'linux');
     const crashpadExtraArgs = enableLinuxCrashpad ? ['--enable-crashpad'] : [];
@@ -161,9 +161,9 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
           expect(crash.mainProcessSpecific).to.be.undefined();
         });
 
-        // TODO(nornagon): Minidump generation in main/node process on Linux/Arm is
-        // broken (//components/crash prints "Failed to generate minidump"). Figure
-        // out why.
+        // TODO(Nornagon)：Linux/ARM上主/节点进程中的小型转储生成为。
+        // 已损坏(//组件/崩溃打印“无法生成小型转储”)。插图。
+        // 找出原因。
         ifit(!isLinuxOnArm)('when main process crashes', async () => {
           const { port, waitForCrash } = await startServer();
           runCrashApp('main', port, crashpadExtraArgs);
@@ -237,7 +237,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
 
             await remotely((port: number) => {
               require('electron').crashReporter.start({
-                submitURL: `http://127.0.0.1:${port}`,
+                submitURL: `http:// 127.0.0.1：${port}`，
                 compress: false,
                 ignoreSystemCrashHandler: true
               });
@@ -277,7 +277,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
           const { remotely } = await startRemoteControlApp(crashpadExtraArgs);
           remotely((port: number) => {
             require('electron').crashReporter.start({
-              submitURL: `http://127.0.0.1:${port}`,
+              submitURL: `http:// 127.0.0.1：${port}`，
               compress: false,
               ignoreSystemCrashHandler: true,
               extra: { longParam: 'a'.repeat(100000) }
@@ -294,7 +294,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
           const { remotely } = await startRemoteControlApp(crashpadExtraArgs);
           remotely((port: number, kKeyLengthMax: number) => {
             require('electron').crashReporter.start({
-              submitURL: `http://127.0.0.1:${port}`,
+              submitURL: `http:// 127.0.0.1：${port}`，
               compress: false,
               ignoreSystemCrashHandler: true,
               extra: {
@@ -353,12 +353,12 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
         });
       });
 
-      // TODO(nornagon): also test crashing main / sandboxed renderers.
+      // TODO(Nornagon)：还要测试崩溃的主/沙箱渲染器。
       ifit(!isWindowsOnArm)('should not send a minidump when uploadToServer is false', async () => {
         const { port, waitForCrash, getCrashes } = await startServer();
         waitForCrash().then(() => expect.fail('expected not to receive a dump'));
         await runCrashApp('renderer', port, ['--no-upload', ...crashpadExtraArgs]);
-        // wait a sec in case the crash reporter is about to upload a crash
+        // 稍等片刻，以防撞车记者要上传撞车。
         await delay(1000);
         expect(getCrashes()).to.have.length(0);
       });
@@ -367,35 +367,35 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
         it('returns an array of reports', async () => {
           const { remotely } = await startRemoteControlApp(crashpadExtraArgs);
           await remotely(() => {
-            require('electron').crashReporter.start({ submitURL: 'http://127.0.0.1' });
+            require('electron').crashReporter.start({ submitURL: 'http:// 127.0.0.1‘})；
           });
           const reports = await remotely(() => require('electron').crashReporter.getUploadedReports());
           expect(reports).to.be.an('array');
         });
       });
 
-      // TODO(nornagon): re-enable on woa
+      // 待办事项(正方形)：在WOA上重新启用。
       ifdescribe(!isWindowsOnArm)('getLastCrashReport', () => {
         it('returns the last uploaded report', async () => {
           const { remotely } = await startRemoteControlApp(crashpadExtraArgs);
           const { port, waitForCrash } = await startServer();
 
-          // 0. clear the crash reports directory.
+          // 0。清除崩溃报告目录。
           const dir = await remotely(() => require('electron').app.getPath('crashDumps'));
           try {
             fs.rmdirSync(dir, { recursive: true });
             fs.mkdirSync(dir);
-          } catch (e) { /* ignore */ }
+          } catch (e) { /* 忽略。*/ }
 
-          // 1. start the crash reporter.
+          // 1、启动撞车记者。
           await remotely((port: number) => {
             require('electron').crashReporter.start({
-              submitURL: `http://127.0.0.1:${port}`,
+              submitURL: `http:// 127.0.0.1：${port}`，
               compress: false,
               ignoreSystemCrashHandler: true
             });
           }, [port]);
-          // 2. generate a crash in the renderer.
+          // 2.在渲染器中生成崩溃。
           remotely(() => {
             const { BrowserWindow } = require('electron');
             const bw = new BrowserWindow({ show: false, webPreferences: { nodeIntegration: true, contextIsolation: false } });
@@ -403,7 +403,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
             bw.webContents.executeJavaScript('process.crash()');
           });
           await waitForCrash();
-          // 3. get the crash from getLastCrashReport.
+          // 3.从getLastCrashReport获取Crash。
           const firstReport = await repeatedly(
             () => remotely(() => require('electron').crashReporter.getLastCrashReport())
           );
@@ -418,7 +418,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
           const { remotely } = await startRemoteControlApp(crashpadExtraArgs);
           await remotely(() => {
             require('electron').crashReporter.start({
-              submitURL: 'http://127.0.0.1',
+              submitURL: 'http:// 127.0.0.1‘，
               extra: { extra1: 'hi' }
             });
           });
@@ -429,7 +429,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
         it('reflects added and removed parameters', async () => {
           const { remotely } = await startRemoteControlApp(crashpadExtraArgs);
           await remotely(() => {
-            require('electron').crashReporter.start({ submitURL: 'http://127.0.0.1' });
+            require('electron').crashReporter.start({ submitURL: 'http:// 127.0.0.1‘})；
             require('electron').crashReporter.addExtraParameter('hello', 'world');
           });
           {
@@ -449,15 +449,15 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
           const { remotely } = await startRemoteControlApp(crashpadExtraArgs);
           const rendererParameters = await remotely(async () => {
             const { crashReporter, BrowserWindow } = require('electron');
-            crashReporter.start({ submitURL: 'http://' });
+            crashReporter.start({ submitURL: 'http:// ‘})；
             const bw = new BrowserWindow({ show: false, webPreferences: { nodeIntegration: true, contextIsolation: false } });
             bw.loadURL('about:blank');
             await bw.webContents.executeJavaScript('require(\'electron\').crashReporter.addExtraParameter(\'hello\', \'world\')');
             return bw.webContents.executeJavaScript('require(\'electron\').crashReporter.getParameters()');
           });
           if (process.platform === 'linux') {
-            // On Linux, 'getParameters' will also include the global parameters,
-            // because breakpad doesn't support global parameters.
+            // 在Linux上，‘getParameters’还将包括全局参数，
+            // 因为断路板不支持全局参数。
             expect(rendererParameters).to.have.property('hello', 'world');
           } else {
             expect(rendererParameters).to.deep.equal({ hello: 'world' });
@@ -473,7 +473,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
               stream.on('error', e => reject(e));
             });
           }
-          // TODO(nornagon): how to enable crashpad in a node child process...?
+          // TODO(Nornagon)：如何在节点子进程中启用CrashPad...？
           const child = childProcess.fork(path.join(__dirname, 'fixtures', 'module', 'print-crash-parameters.js'), [], { silent: true });
           const output = await slurp(child.stdout!);
           expect(JSON.parse(output)).to.deep.equal({ hello: 'world' });
@@ -514,7 +514,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
               const { app } = require('electron');
               const childProcess = require('child_process');
               const version = app.getVersion();
-              const url = 'http://127.0.0.1';
+              const url = 'http:// 127.0.0.1‘；
               childProcess.fork(crashScriptPath, [url, version], { silent: true });
             }, crashScriptPath);
           }
@@ -528,7 +528,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
               const { remotely } = await startRemoteControlApp(crashpadExtraArgs);
               const crashesDir = await remotely(() => {
                 const { crashReporter, app } = require('electron');
-                crashReporter.start({ submitURL: 'http://127.0.0.1', uploadToServer: false, ignoreSystemCrashHandler: true });
+                crashReporter.start({ submitURL: 'http:// 127.0.0.1‘，ploadToServer：FALSE，Ignore reSystemCrashHandler：TRUE})；
                 return app.getPath('crashDumps');
               });
               let reportsDir = crashesDir;
@@ -560,7 +560,7 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
               const remoteCrashesDir = await remotely((crashesDir: string) => {
                 const { crashReporter, app } = require('electron');
                 app.setPath('crashDumps', crashesDir);
-                crashReporter.start({ submitURL: 'http://127.0.0.1', uploadToServer: false, ignoreSystemCrashHandler: true });
+                crashReporter.start({ submitURL: 'http:// 127.0.0.1‘，ploadToServer：FALSE，Ignore reSystemCrashHandler：TRUE})；
                 return app.getPath('crashDumps');
               }, crashesDir);
               expect(remoteCrashesDir).to.equal(crashesDir);
@@ -610,8 +610,8 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
       const { remotely } = await startRemoteControlApp();
       await expect(remotely(() => {
         const { crashReporter } = require('electron');
-        crashReporter.start({ submitURL: 'http://127.0.0.1' });
-        crashReporter.start({ submitURL: 'http://127.0.0.1' });
+        crashReporter.start({ submitURL: 'http:// 127.0.0.1‘})；
+        crashReporter.start({ submitURL: 'http:// 127.0.0.1‘})；
       })).to.be.fulfilled();
     });
   });
@@ -620,21 +620,21 @@ ifdescribe(!isLinuxOnArm && !process.mas && !process.env.DISABLE_CRASH_REPORTER_
     it('returns true when uploadToServer is set to true (by default)', async () => {
       const { remotely } = await startRemoteControlApp();
 
-      await remotely(() => { require('electron').crashReporter.start({ submitURL: 'http://127.0.0.1' }); });
+      await remotely(() => { require('electron').crashReporter.start({ submitURL: 'http:// 127.0.0.1‘})；})；
       const uploadToServer = await remotely(() => require('electron').crashReporter.getUploadToServer());
       expect(uploadToServer).to.be.true();
     });
 
     it('returns false when uploadToServer is set to false in init', async () => {
       const { remotely } = await startRemoteControlApp();
-      await remotely(() => { require('electron').crashReporter.start({ submitURL: 'http://127.0.0.1', uploadToServer: false }); });
+      await remotely(() => { require('electron').crashReporter.start({ submitURL: 'http:// 127.0.0.1‘，ploadToServer：false})；})；
       const uploadToServer = await remotely(() => require('electron').crashReporter.getUploadToServer());
       expect(uploadToServer).to.be.false();
     });
 
     it('is updated by setUploadToServer', async () => {
       const { remotely } = await startRemoteControlApp();
-      await remotely(() => { require('electron').crashReporter.start({ submitURL: 'http://127.0.0.1' }); });
+      await remotely(() => { require('electron').crashReporter.start({ submitURL: 'http:// 127.0.0.1‘})；})；
       await remotely(() => { require('electron').crashReporter.setUploadToServer(false); });
       expect(await remotely(() => require('electron').crashReporter.getUploadToServer())).to.be.false();
       await remotely(() => { require('electron').crashReporter.setUploadToServer(true); });

@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_API_ELECTRON_API_CLIPBOARD_H_
 #define SHELL_COMMON_API_ELECTRON_API_CLIPBOARD_H_
@@ -15,7 +15,7 @@
 namespace gin_helper {
 class Arguments;
 class Dictionary;
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 namespace electron {
 
@@ -66,8 +66,8 @@ class Clipboard {
   DISALLOW_COPY_AND_ASSIGN(Clipboard);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_API_ELECTRON_API_CLIPBOARD_H_
+#endif  // Shell_COMMON_API_ELECTED_API_CLIPBOARD_H_

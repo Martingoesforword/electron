@@ -1,6 +1,6 @@
-// Copyright (c) 2018 Amaplex Software, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 Amaplex Software，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_MAC_IN_APP_PURCHASE_PRODUCT_H_
 #define SHELL_BROWSER_MAC_IN_APP_PURCHASE_PRODUCT_H_
@@ -12,26 +12,26 @@
 
 namespace in_app_purchase {
 
-// --------------------------- Structures ---------------------------
+// 。
 
 struct Product {
-  // Product Identifier
+  // 产品标识符。
   std::string productIdentifier;
 
-  // Product Attributes
+  // 产品属性。
   std::string localizedDescription;
   std::string localizedTitle;
   std::string contentVersion;
   std::vector<uint32_t> contentLengths;
 
-  // Pricing Information
+  // 定价信息。
   double price = 0.0;
   std::string formattedPrice;
 
-  // Currency Information
+  // 货币信息。
   std::string currencyCode;
 
-  // Downloadable Content Information
+  // 可下载的内容信息。
   bool isDownloadable = false;
 
   Product(const Product&);
@@ -39,16 +39,16 @@ struct Product {
   ~Product();
 };
 
-// --------------------------- Typedefs ---------------------------
+// 。
 
 typedef base::OnceCallback<void(std::vector<in_app_purchase::Product>)>
     InAppPurchaseProductsCallback;
 
-// --------------------------- Functions ---------------------------
+// 。
 
 void GetProducts(const std::vector<std::string>& productIDs,
                  InAppPurchaseProductsCallback callback);
 
-}  // namespace in_app_purchase
+}  // _app_purchase中的命名空间。
 
-#endif  // SHELL_BROWSER_MAC_IN_APP_PURCHASE_PRODUCT_H_
+#endif  // Shell_Browser_MAC_IN_APP_Purchase_PRODUCT_H_

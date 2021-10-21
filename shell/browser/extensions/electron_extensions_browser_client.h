@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSIONS_BROWSER_CLIENT_H_
 #define SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSIONS_BROWSER_CLIENT_H_
@@ -27,19 +27,19 @@ class ProcessManagerDelegate;
 class ElectronProcessManagerDelegate;
 class ProcessMap;
 class ElectronComponentExtensionResourceManager;
-}  // namespace extensions
+}  // 命名空间扩展。
 
 namespace electron {
 
-// An ExtensionsBrowserClient that supports a single content::BrowserContext
-// with no related incognito context.
+// 支持单个内容的ExtensionsBrowserClient：：BrowserContext。
+// 没有相关的隐姓埋名上下文。
 class ElectronExtensionsBrowserClient
     : public extensions::ExtensionsBrowserClient {
  public:
   ElectronExtensionsBrowserClient();
   ~ElectronExtensionsBrowserClient() override;
 
-  // ExtensionsBrowserClient overrides:
+  // ExtensionsBrowserClient覆盖：
   bool IsShuttingDown() override;
   bool AreExtensionsDisabled(const base::CommandLine& command_line,
                              content::BrowserContext* context) override;
@@ -120,18 +120,18 @@ class ElectronExtensionsBrowserClient
       content::RenderFrameHost* render_frame_host,
       const extensions::Extension* extension) const override;
 
-  // Sets the API client.
+  // 设置API客户端。
   void SetAPIClientForTest(extensions::ExtensionsAPIClient* api_client);
 
  private:
-  // Support for extension APIs.
+  // 支持扩展API。
   std::unique_ptr<extensions::ExtensionsAPIClient> api_client_;
 
-  // Support for ProcessManager.
+  // 支持ProcessManager。
   std::unique_ptr<extensions::ElectronProcessManagerDelegate>
       process_manager_delegate_;
 
-  // The extension cache used for download and installation.
+  // 用于下载和安装的扩展缓存。
   std::unique_ptr<extensions::ExtensionCache> extension_cache_;
 
   std::unique_ptr<extensions::KioskDelegate> kiosk_delegate_;
@@ -142,6 +142,6 @@ class ElectronExtensionsBrowserClient
   DISALLOW_COPY_AND_ASSIGN(ElectronExtensionsBrowserClient);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSIONS_BROWSER_CLIENT_H_

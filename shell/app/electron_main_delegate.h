@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_APP_ELECTRON_MAIN_DELEGATE_H_
 #define SHELL_APP_ELECTRON_MAIN_DELEGATE_H_
@@ -27,7 +27,7 @@ class ElectronMainDelegate : public content::ContentMainDelegate {
   ~ElectronMainDelegate() override;
 
  protected:
-  // content::ContentMainDelegate:
+  // 内容：：ContentMainDelegate：
   bool BasicStartupComplete(int* exit_code) override;
   void PreSandboxStartup() override;
   void SandboxInitialized(const std::string& process_type) override;
@@ -62,6 +62,6 @@ class ElectronMainDelegate : public content::ContentMainDelegate {
   DISALLOW_COPY_AND_ASSIGN(ElectronMainDelegate);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_APP_ELECTRON_MAIN_DELEGATE_H_
+#endif  // Shell_APP_ELEMENT_Main_Delegate_H_

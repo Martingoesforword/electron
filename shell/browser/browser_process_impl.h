@@ -1,11 +1,11 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
-// This interface is for managing the global services of the application. Each
-// service is lazily created when requested the first time. The service getters
-// will return NULL if the service is not available, so callers must check for
-// this condition.
+// 该接口用于管理应用程序的全局服务。每个。
+// 服务是在第一次请求时延迟创建的。服务获取程序。
+// 如果服务不可用，则返回NULL，因此调用方必须检查。
+// 这种情况。
 
 #ifndef SHELL_BROWSER_BROWSER_PROCESS_IMPL_H_
 #define SHELL_BROWSER_BROWSER_PROCESS_IMPL_H_
@@ -26,11 +26,11 @@ namespace printing {
 class PrintJobManager;
 }
 
-// Empty definition for std::unique_ptr, rather than a forward declaration
+// STD：：UNIQUE_PTR的定义为空，而不是转发声明。
 class BackgroundModeManager {};
 
-// NOT THREAD SAFE, call only from the main thread.
-// These functions shouldn't return NULL unless otherwise noted.
+// 不是线程安全的，只能从主线程调用。
+// 除非另有说明，否则这些函数不应返回NULL。
 class BrowserProcessImpl : public BrowserProcess {
  public:
   BrowserProcessImpl();
@@ -113,4 +113,4 @@ class BrowserProcessImpl : public BrowserProcess {
   DISALLOW_COPY_AND_ASSIGN(BrowserProcessImpl);
 };
 
-#endif  // SHELL_BROWSER_BROWSER_PROCESS_IMPL_H_
+#endif  // Shell_Browser_Browser_Process_Impll_H_

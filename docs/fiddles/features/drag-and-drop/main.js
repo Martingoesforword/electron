@@ -18,11 +18,11 @@ function createWindow() {
 const iconName = path.join(__dirname, 'iconForDragAndDrop.png');
 const icon = fs.createWriteStream(iconName);
 
-// Create a new file to copy - you can also copy existing files.
+// 创建要复制的新文件-您也可以复制现有文件。
 fs.writeFileSync(path.join(__dirname, 'drag-and-drop-1.md'), '# First file to test drag and drop')
 fs.writeFileSync(path.join(__dirname, 'drag-and-drop-2.md'), '# Second file to test drag and drop')
 
-https.get('https://img.icons8.com/ios/452/drag-and-drop.png', (response) => {
+https.get('https:// Img.icons8.com/iOS/452/Drag-and-Drop.png‘，(Response)=&gt;{
   response.pipe(icon);
 });
 

@@ -34,11 +34,11 @@ const deprecate: ElectronInternal.DeprecationUtil = {
     }
   },
 
-  // remove a function with no replacement
+  // 在不替换的情况下删除函数。
   removeFunction: (fn, removedName) => {
     if (!fn) { throw Error(`'${removedName} function' is invalid or does not exist.`); }
 
-    // wrap the deprecated function to warn user
+    // 包装不推荐使用的函数以警告用户。
     const warn = warnOnce(`${fn.name} function`);
     return function (this: any) {
       warn();
@@ -46,7 +46,7 @@ const deprecate: ElectronInternal.DeprecationUtil = {
     } as unknown as typeof fn;
   },
 
-  // change the name of a function
+  // 更改函数的名称。
   renameFunction: (fn, newName) => {
     const warn = warnOnce(`${fn.name} function`, `${newName} function`);
     return function (this: any) {
@@ -63,9 +63,9 @@ const deprecate: ElectronInternal.DeprecationUtil = {
     } as unknown as typeof fn;
   },
 
-  // change the name of an event
+  // 更改事件的名称。
   event: (emitter, oldName, newName) => {
-    const warn = newName.startsWith('-') /* internal event */
+    const warn = newName.startsWith('-') /* 内部事件。*/
       ? warnOnce(`${oldName} event`)
       : warnOnce(`${oldName} event`, `${newName} event`);
     return emitter.on(newName, function (this: NodeJS.EventEmitter, ...args) {
@@ -76,10 +76,10 @@ const deprecate: ElectronInternal.DeprecationUtil = {
     });
   },
 
-  // remove a property with no replacement
+  // 删除不替换的属性。
   removeProperty: (o, removedName, onlyForValues) => {
-    // if the property's already been removed, warn about it
-    const info = Object.getOwnPropertyDescriptor((o as any).__proto__, removedName) // eslint-disable-line
+    // 如果该属性已被移除，请就此发出警告。
+    const info = Object.getOwnPropertyDescriptor((o as any).__proto__, removedName) // ESRINT-DISABLE-LINE。
     if (!info) {
       deprecate.log(`Unable to remove property '${removedName}' from an object that lacks it.`);
       return o;
@@ -89,7 +89,7 @@ const deprecate: ElectronInternal.DeprecationUtil = {
       return o;
     }
 
-    // wrap the deprecated property in an accessor to warn
+    // 将不推荐使用的属性包装在访问器中以发出警告。
     const warn = warnOnce(removedName);
     return Object.defineProperty(o, removedName, {
       configurable: true,
@@ -106,19 +106,19 @@ const deprecate: ElectronInternal.DeprecationUtil = {
     });
   },
 
-  // change the name of a property
+  // 更改属性的名称。
   renameProperty: (o, oldName, newName) => {
     const warn = warnOnce(oldName, newName);
 
-    // if the new property isn't there yet,
-    // inject it and warn about it
+    // 如果新房子还没建好，
+    // 注射它并警告它。
     if ((oldName in o) && !(newName in o)) {
       warn();
       o[newName] = (o as any)[oldName];
     }
 
-    // wrap the deprecated property in an accessor to warn
-    // and redirect to the new property
+    // 将不推荐使用的属性包装在访问器中以发出警告。
+    // 并重定向到新属性
     return Object.defineProperty(o, oldName, {
       get: () => {
         warn();

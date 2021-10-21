@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_RENDERER_API_ELECTRON_API_SPELL_CHECK_CLIENT_H_
 #define SHELL_RENDERER_API_ELECTRON_API_SPELL_CHECK_CLIENT_H_
@@ -21,7 +21,7 @@
 namespace blink {
 struct WebTextCheckingResult;
 class WebTextCheckingCompletion;
-}  // namespace blink
+}  // 命名空间闪烁。
 
 namespace electron {
 
@@ -38,13 +38,13 @@ class SpellCheckClient : public blink::WebSpellCheckPanelHostClient,
 
  private:
   class SpellcheckRequest;
-  // blink::WebTextCheckClient:
+  // BLINK：：WebTextCheckClient：
   void RequestCheckingOfText(const blink::WebString& textToCheck,
                              std::unique_ptr<blink::WebTextCheckingCompletion>
                                  completionCallback) override;
   bool IsSpellCheckingEnabled() const override;
 
-  // blink::WebSpellCheckPanelHostClient:
+  // Blink：：WebSpellCheckPanelHostClient：
   void ShowSpellingUI(bool show) override;
   bool IsShowingSpellingUI() override;
   void UpdateSpellingUIWithMisspelledWord(
@@ -60,43 +60,43 @@ class SpellCheckClient : public blink::WebSpellCheckPanelHostClient,
     ~SpellCheckScope();
   };
 
-  // Run through the word iterator and send out requests
-  // to the JS API for checking spellings of words in the current
-  // request.
+  // 运行单词迭代器并发出请求。
+  // 添加到JS API，用于检查当前。
+  // 请求。
   void SpellCheckText();
 
-  // Call JavaScript to check spelling a word.
-  // The javascript function will callback OnSpellCheckDone
-  // with the results of all the misspelled words.
+  // 调用JavaScript检查单词的拼写。
+  // Javascript函数将回调OnSpellCheckDone。
+  // 所有拼写错误的单词的结果。
   void SpellCheckWords(const SpellCheckScope& scope,
                        const std::set<std::u16string>& words);
 
-  // Returns whether or not the given word is a contraction of valid words
-  // (e.g. "word:word").
-  // Output variable contraction_words will contain individual
-  // words in the contraction.
+  // 返回给定词是否为有效词的缩写。
+  // (例如，“WORD：WORD”)。
+  // 输出变量CONSIMIT_WORD将包含INSERNAL。
+  // 缩写中的词语。
   bool IsContraction(const SpellCheckScope& scope,
                      const std::u16string& contraction,
                      std::vector<std::u16string>* contraction_words);
 
-  // Callback for the JS API which returns the list of misspelled words.
+  // JS API的回调，它返回拼写错误的单词列表。
   void OnSpellCheckDone(const std::vector<std::u16string>& misspelled_words);
 
-  // Represents character attributes used for filtering out characters which
-  // are not supported by this SpellCheck object.
+  // 表示用于筛选出。
+  // 此拼写检查对象不支持。
   SpellcheckCharAttribute character_attributes_;
 
-  // Represents word iterators used in this spellchecker. The |text_iterator_|
-  // splits text provided by WebKit into words, contractions, or concatenated
-  // words. The |contraction_iterator_| splits a concatenated word extracted by
-  // |text_iterator_| into word components so we can treat a concatenated word
-  // consisting only of correct words as a correct word.
+  // 表示此拼写检查器中使用的单词迭代器。文本迭代器|。
+  // 将WebKit提供的文本拆分为单词、缩写或连接。
+  // 字里行间。|contract_iterator_|用于拆分由以下项提取的连接单词。
+  // |text_iterator_|转换为Word组件，这样我们就可以处理连接在一起的单词。
+  // 只由正确的词作为正确的词组成。
   SpellcheckWordIterator text_iterator_;
   SpellcheckWordIterator contraction_iterator_;
 
-  // The parameters of a pending background-spellchecking request.
-  // (When WebKit sends two or more requests, we cancel the previous
-  // requests so we do not have to use vectors.)
+  // 挂起的后台拼写检查请求的参数。
+  // (当WebKit发送两个或更多请求时，我们会取消之前的。
+  // 请求，因此我们不必使用矢量。)。
   std::unique_ptr<SpellcheckRequest> pending_request_param_;
 
   v8::Isolate* isolate_;
@@ -107,8 +107,8 @@ class SpellCheckClient : public blink::WebSpellCheckPanelHostClient,
   DISALLOW_COPY_AND_ASSIGN(SpellCheckClient);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_RENDERER_API_ELECTRON_API_SPELL_CHECK_CLIENT_H_

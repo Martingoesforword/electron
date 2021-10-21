@@ -1,12 +1,12 @@
-// When using context isolation, the WebViewElement and the custom element
-// methods have to be defined in the main world to be able to be registered.
-//
-// Note: The hidden values can only be read/set inside the same context, all
-// methods that access the "internal" hidden value must be put in this file.
-//
-// Note: This file could be loaded in the main world of contextIsolation page,
-// which runs in browserify environment instead of Node environment, all native
-// modules must be passed from outside, all included files must be plain JS.
+// 使用上下文隔离时，WebViewElement和自定义元素。
+// 方法必须在主世界中定义才能注册。
+// 
+// 注意：隐藏的值只能在相同的上下文中读取/设置，所有。
+// 访问“内部”隐藏值的方法必须放入此文件中。
+// 
+// 注意：该文件可以加载到Context Isolation页面的主世界中，
+// 在浏览器环境中运行，而不是在节点环境中运行，均为本机。
+// 模块必须从外部传递，所有包含的文件必须是纯JS。
 
 import { WEB_VIEW_CONSTANTS } from '@electron/internal/renderer/web-view/web-view-constants';
 import { WebViewImpl, WebViewImplHooks, setupMethods } from '@electron/internal/renderer/web-view/web-view-impl';
@@ -14,7 +14,7 @@ import type { SrcAttribute } from '@electron/internal/renderer/web-view/web-view
 
 const internals = new WeakMap<HTMLElement, WebViewImpl>();
 
-// Return a WebViewElement class that is defined in this context.
+// 返回在此上下文中定义的WebViewElement类。
 const defineWebViewElement = (hooks: WebViewImplHooks) => {
   return class WebViewElement extends HTMLElement {
     static get observedAttributes () {
@@ -84,33 +84,33 @@ const defineWebViewElement = (hooks: WebViewImplHooks) => {
   };
 };
 
-// Register <webview> custom element.
+// 注册&lt;webview&gt;自定义元素。
 const registerWebViewElement = (hooks: WebViewImplHooks) => {
-  // I wish eslint wasn't so stupid, but it is
-  // eslint-disable-next-line
+  // 我希望埃斯林特不是那么愚蠢，但它确实是。
+  // Eslint-禁用-下一行。
   const WebViewElement = defineWebViewElement(hooks) as unknown as typeof ElectronInternal.WebViewElement
 
   setupMethods(WebViewElement, hooks);
 
-  // The customElements.define has to be called in a special scope.
+  // CustomElements.Define必须在特殊范围内调用。
   hooks.allowGuestViewElementDefinition(window, () => {
     window.customElements.define('webview', WebViewElement);
     window.WebView = WebViewElement;
 
-    // Delete the callbacks so developers cannot call them and produce unexpected
-    // behavior.
+    // 删除回调，这样开发人员就不会调用它们并产生意外的。
+    // 行为。
     delete WebViewElement.prototype.connectedCallback;
     delete WebViewElement.prototype.disconnectedCallback;
     delete WebViewElement.prototype.attributeChangedCallback;
 
-    // Now that |observedAttributes| has been retrieved, we can hide it from
-    // user code as well.
-    // TypeScript is concerned that we're deleting a read-only attribute
+    // 既然已经检索到|servedAttributes|，我们就可以将其隐藏起来。
+    // 用户代码也是如此。
+    // TypeScript担心我们正在删除一个只读属性。
     delete (WebViewElement as any).observedAttributes;
   });
 };
 
-// Prepare to register the <webview> element.
+// 准备注册&lt;webview&gt;元素。
 export const setupWebView = (hooks: WebViewImplHooks) => {
   const useCapture = true;
   const listener = (event: Event) => {

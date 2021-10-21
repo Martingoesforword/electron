@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_RENDERER_RENDERER_CLIENT_BASE_H_
 #define SHELL_RENDERER_RENDERER_CLIENT_BASE_H_
@@ -13,16 +13,16 @@
 #include "electron/buildflags/buildflags.h"
 #include "printing/buildflags/buildflags.h"
 #include "shell/common/gin_helper/dictionary.h"
-// In SHARED_INTERMEDIATE_DIR.
-#include "widevine_cdm_version.h"  // NOLINT(build/include_directory)
+// 在SHARED_MIDENTAL_DIR中。
+#include "widevine_cdm_version.h"  // NOLINT(BUILD/INCLUDE_DIRECTORY)。
 
 #if defined(WIDEVINE_CDM_AVAILABLE)
-#include "chrome/renderer/media/chrome_key_systems_provider.h"  // nogncheck
+#include "chrome/renderer/media/chrome_key_systems_provider.h"  // 点名检查。
 #endif
 
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
-#include "chrome/renderer/pepper/chrome_pdf_print_client.h"  // nogncheck
-#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)
+#include "chrome/renderer/pepper/chrome_pdf_print_client.h"  // 点名检查。
+#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)。
 
 #if BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
 #include "services/service_manager/public/cpp/binder_registry.h"
@@ -60,7 +60,7 @@ class RendererClientBase : public content::ContentRendererClient
   static RendererClientBase* Get();
 
 #if BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
-  // service_manager::LocalInterfaceProvider implementation.
+  // SERVICE_MANAGER：：LocalInterfaceProvider实现。
   void GetInterface(const std::string& name,
                     mojo::ScopedMessagePipeHandle interface_pipe) override;
 #endif
@@ -76,7 +76,7 @@ class RendererClientBase : public content::ContentRendererClient
   std::unique_ptr<blink::WebPrescientNetworking> CreatePrescientNetworking(
       content::RenderFrame* render_frame) override;
 
-  // Get the context that the Electron API is running in.
+  // 获取运行Electron API的上下文。
   v8::Local<v8::Context> GetContext(blink::WebLocalFrame* frame,
                                     v8::Isolate* isolate) const;
 
@@ -97,7 +97,7 @@ class RendererClientBase : public content::ContentRendererClient
                    gin_helper::Dictionary* process,
                    content::RenderFrame* render_frame);
 
-  // content::ContentRendererClient:
+  // 内容：：ContentRendererClient：
   void RenderThreadStarted() override;
   void ExposeInterfacesToBrowser(mojo::BinderMap* binders) override;
   void RenderFrameCreated(content::RenderFrame*) override;
@@ -143,8 +143,8 @@ class RendererClientBase : public content::ContentRendererClient
 
  protected:
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
-  // app_shell embedders may need custom extensions client interfaces.
-  // This class takes ownership of the returned object.
+  // APP_SHELL嵌入器可能需要自定义扩展客户端接口。
+  // 此类取得返回对象的所有权。
   virtual extensions::ExtensionsClient* CreateExtensionsClient();
 #endif
 
@@ -158,7 +158,7 @@ class RendererClientBase : public content::ContentRendererClient
   ChromeKeySystemsProvider key_systems_provider_;
 #endif
   std::string renderer_client_id_;
-  // An increasing ID used for identifying an V8 context in this process.
+  // 用于标识此流程中的V8上下文的递增ID。
   int64_t next_context_id_ = 0;
 
 #if BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
@@ -169,6 +169,6 @@ class RendererClientBase : public content::ContentRendererClient
 #endif
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_RENDERER_RENDERER_CLIENT_BASE_H_
+#endif  // SHELL_RENDER_RENDER_CLIENT_BASE_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_ELECTRON_BROWSER_CONTEXT_H_
 #define SHELL_BROWSER_ELECTRON_BROWSER_CONTEXT_H_
@@ -48,7 +48,7 @@ class ProtocolRegistry;
 
 class ElectronBrowserContext : public content::BrowserContext {
  public:
-  // partition_id => browser_context
+  // 分区id=&gt;浏览器上下文。
   struct PartitionKey {
     std::string partition;
     bool in_memory;
@@ -69,9 +69,9 @@ class ElectronBrowserContext : public content::BrowserContext {
   using BrowserContextMap =
       std::map<PartitionKey, std::unique_ptr<ElectronBrowserContext>>;
 
-  // Get or create the BrowserContext according to its |partition| and
-  // |in_memory|. The |options| will be passed to constructor when there is no
-  // existing BrowserContext.
+  // 根据BrowserContext的|分区|获取或创建BrowserContext。
+  // In_memory|。如果没有|Options|，则会将|Options|传递给构造函数。
+  // 现有的BrowserContext。
   static ElectronBrowserContext* From(
       const std::string& partition,
       bool in_memory,
@@ -87,7 +87,7 @@ class ElectronBrowserContext : public content::BrowserContext {
   predictors::PreconnectManager* GetPreconnectManager();
   scoped_refptr<network::SharedURLLoaderFactory> GetURLLoaderFactory();
 
-  // content::BrowserContext:
+  // 内容：：BrowserContext：
   base::FilePath GetPath() override;
   bool IsOffTheRecord() override;
   content::ResourceContext* GetResourceContext() override;
@@ -127,8 +127,8 @@ class ElectronBrowserContext : public content::BrowserContext {
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
   extensions::ElectronExtensionSystem* extension_system() {
-    // Guard usages of extension_system() with !IsOffTheRecord()
-    // There is no extension system for in-memory sessions
+    // 使用！IsOffTheRecord()保护Extension_System()的用法。
+    // 没有用于内存中会话的扩展系统。
     DCHECK(!IsOffTheRecord());
     return extension_system_;
   }
@@ -149,7 +149,7 @@ class ElectronBrowserContext : public content::BrowserContext {
                          bool in_memory,
                          base::DictionaryValue options);
 
-  // Initialize pref registry.
+  // 初始化首选项注册表。
   void InitPrefs();
 
   ValueMapPrefStore* in_memory_pref_store_ = nullptr;
@@ -173,11 +173,11 @@ class ElectronBrowserContext : public content::BrowserContext {
   int max_cache_size_ = 0;
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
-  // Owned by the KeyedService system.
+  // 由KeyedService系统拥有。
   extensions::ElectronExtensionSystem* extension_system_;
 #endif
 
-  // Shared URLLoaderFactory.
+  // 共享URLLoaderFactory。
   scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory_;
 
   network::mojom::SSLConfigPtr ssl_config_;
@@ -188,6 +188,6 @@ class ElectronBrowserContext : public content::BrowserContext {
   DISALLOW_COPY_AND_ASSIGN(ElectronBrowserContext);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_ELECTRON_BROWSER_CONTEXT_H_
+#endif  // Shell_Browser_Electronics_Browser_Context_H_

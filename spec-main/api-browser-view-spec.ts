@@ -171,10 +171,10 @@ describe('BrowserView module', () => {
 
       w.close();
 
-      view.webContents.loadURL(`file://${fixtures}/pages/blank.html`);
+      view.webContents.loadURL(`file:// ${fixtures}/ages/blank.html`)；
       await emittedOnce(view.webContents, 'did-finish-load');
 
-      // Clean up - the afterEach hook assumes the webContents on w is still alive.
+      // 清理-After Each钩子假定w上的webContents仍然是活动的。
       w = new BrowserWindow({ show: false });
       w2.close();
       w2.destroy();
@@ -254,7 +254,7 @@ describe('BrowserView module', () => {
       const rc = await startRemoteControlApp();
       await rc.remotely(() => {
         const { BrowserView, app } = require('electron');
-        new BrowserView({})  // eslint-disable-line
+        new BrowserView({})  // ESRINT-DISABLE-LINE。
         setTimeout(() => {
           app.quit();
         });
@@ -285,7 +285,7 @@ describe('BrowserView module', () => {
       view = new BrowserView();
       w.setBrowserView(view);
       view.webContents.setWindowOpenHandler(({ url, frameName }) => {
-        expect(url).to.equal('http://host/');
+        expect(url).to.equal('http:// Host/‘)；
         expect(frameName).to.equal('host');
         done();
         return { action: 'deny' };

@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_CONSTRUCTIBLE_H_
 #define SHELL_COMMON_GIN_HELPER_CONSTRUCTIBLE_H_
@@ -14,28 +14,28 @@ namespace gin_helper {
 template <typename T>
 class EventEmitterMixin;
 
-// Helper class for Wrappable objects which should be constructible with 'new'
-// in JavaScript.
-//
-// To use, inherit from gin::Wrappable and gin_helper::Constructible, and
-// define the static methods New and FillObjectTemplate:
-//
-//   class Example : public gin::Wrappable<Example>,
-//                   public gin_helper::Constructible<Example> {
-//    public:
-//     static gin::Handle<Tray> New(...usual gin method arguments...);
-//     static v8::Local<v8::ObjectTemplate> FillObjectTemplate(
-//         v8::Isolate*,
-//         v8::Local<v8::ObjectTemplate>);
-//   }
-//
-// Do NOT define the usual gin::Wrappable::GetObjectTemplateBuilder. It will
-// not be called for Constructible classes.
-//
-// To expose the constructor, call GetConstructor:
-//
-//   gin::Dictionary dict(isolate, exports);
-//   dict.Set("Example", Example::GetConstructor(context));
+// 应使用“new”构造的可包装对象的帮助器类。
+// 用JavaScript编写。
+// 
+// 要使用，请继承自gin：：Wrappable和gin_helper：：Construction，以及。
+// 定义静态方法New和FillObjectTemplate：
+// 
+// 类示例：public gin：：Wrappable&lt;示例&gt;，
+// Public gin_helper：：可构造&lt;示例&gt;{。
+// 公众：
+// Static gin：：Handle&lt;Tray&gt;New(...通常的gin方法参数...)；
+// 静态v8：：local&lt;v8：：ObjectTemplate&gt;FillObjectTemplate(。
+// V8：：Isolate*，
+// V8：：local&lt;v8：：ObjectTemplate&gt;)；
+// }。
+// 
+// 不要定义通常的gin：：Wrappable：：GetObjectTemplateBuilder。会的。
+// 不能为可构造类调用。
+// 
+// 要公开构造函数，请调用GetConstructor：
+// 
+// Gin：：字典字典(隔离、导出)；
+// Dic.Set(“Example”，Example：：GetConstructor(Context))；
 template <typename T>
 class Constructible {
  public:
@@ -64,6 +64,6 @@ class Constructible {
   }
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
-#endif  // SHELL_COMMON_GIN_HELPER_CONSTRUCTIBLE_H_
+#endif  // Shell_COMMON_GIN_HELPER_CONSTRUCTABLE_H_

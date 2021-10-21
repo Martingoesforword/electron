@@ -1,7 +1,7 @@
 const { ipcRenderer, webFrame } = require('electron');
 
 if (process.isMainFrame) {
-  // https://github.com/electron/electron/issues/17252
+  // Https
   ipcRenderer.on('executeJavaScriptInFrame', (event, frameRoutingId, code, responseId) => {
     const frame = webFrame.findFrameByRoutingId(frameRoutingId);
     if (!frame) {

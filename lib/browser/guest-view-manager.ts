@@ -23,14 +23,14 @@ const embedderElementsMap = new Map<string, number>();
 
 function sanitizeOptionsForGuest (options: Record<string, any>) {
   const ret = { ...options };
-  // WebContents values can't be sent over IPC.
+  // WebContents值不能通过IPC发送。
   delete ret.webContents;
   return ret;
 }
 
 function makeWebPreferences (embedder: Electron.WebContents, params: Record<string, any>) {
-  // parse the 'webpreferences' attribute string, if set
-  // this uses the same parsing rules as window.open uses for its features
+  // 如果已设置，则解析“WebPreferences”属性字符串。
+  // 这与window.open对其功能使用的解析规则相同。
   const parsedWebPreferences =
     typeof params.webpreferences === 'string'
       ? parseWebViewWebPreferences(params.webpreferences)
@@ -53,7 +53,7 @@ function makeWebPreferences (embedder: Electron.WebContents, params: Record<stri
     webPreferences.preloadURL = params.preload;
   }
 
-  // Security options that guest will always inherit from embedder
+  // 来宾将始终从Embedder继承的安全选项。
   const inheritedWebPreferences = new Map([
     ['contextIsolation', true],
     ['javascript', false],
@@ -64,7 +64,7 @@ function makeWebPreferences (embedder: Electron.WebContents, params: Record<stri
     ['enableWebSQL', false]
   ]);
 
-  // Inherit certain option values from embedder
+  // 从嵌入器继承某些选项值。
   const lastWebPreferences = embedder.getLastWebPreferences()!;
   for (const [name, value] of inheritedWebPreferences) {
     if (lastWebPreferences[name as keyof Electron.WebPreferences] === value) {
@@ -75,7 +75,7 @@ function makeWebPreferences (embedder: Electron.WebContents, params: Record<stri
   return webPreferences;
 }
 
-// Create a new guest instance.
+// 创建一个新的来宾实例。
 const createGuest = function (embedder: Electron.WebContents, embedderFrameId: number, elementInstanceId: number, params: Record<string, any>) {
   const webPreferences = makeWebPreferences(embedder, params);
   const event = eventBinding.createWithSender(embedder);
@@ -85,7 +85,7 @@ const createGuest = function (embedder: Electron.WebContents, embedderFrameId: n
     return -1;
   }
 
-  // eslint-disable-next-line no-undef
+  // Eslint-able-next-line no-undef。
   const guest = (webContents as typeof ElectronInternal.WebContents).create({
     ...webPreferences,
     type: 'webview',
@@ -99,19 +99,19 @@ const createGuest = function (embedder: Electron.WebContents, embedderFrameId: n
     embedder
   });
 
-  // Clear the guest from map when it is destroyed.
+  // 当地图被销毁时，请将客人从地图上清除。
   guest.once('destroyed', () => {
     if (guestInstances.has(guestInstanceId)) {
       detachGuest(embedder, guestInstanceId);
     }
   });
 
-  // Init guest web view after attached.
+  // 附加后初始化来宾Web视图。
   guest.once('did-attach' as any, function (this: Electron.WebContents, event: Electron.Event) {
     const previouslyAttached = this.viewInstanceId != null;
     this.viewInstanceId = params.instanceId;
 
-    // Only load URL and set size on first attach
+    // 仅在第一次附加时加载URL并设置大小。
     if (previouslyAttached) {
       return;
     }
@@ -143,7 +143,7 @@ const createGuest = function (embedder: Electron.WebContents, embedderFrameId: n
     return props;
   };
 
-  // Dispatch events to embedder.
+  // 将事件调度到Embedder。
   for (const event of supportedWebViewEvents) {
     guest.on(event as any, function (_, ...args: any[]) {
       sendToEmbedder(IPC_MESSAGES.GUEST_VIEW_INTERNAL_DISPATCH_EVENT, event, makeProps(event, args));
@@ -159,7 +159,7 @@ const createGuest = function (embedder: Electron.WebContents, embedderFrameId: n
     });
   });
 
-  // Dispatch guest's IPC messages to embedder.
+  // 将访客的IPC消息发送到Embedder。
   guest.on('ipc-message-host' as any, function (event: Electron.IpcMainEvent, channel: string, args: any[]) {
     sendToEmbedder(IPC_MESSAGES.GUEST_VIEW_INTERNAL_DISPATCH_EVENT, 'ipc-message', {
       frameId: [event.processId, event.frameId],
@@ -168,8 +168,8 @@ const createGuest = function (embedder: Electron.WebContents, embedderFrameId: n
     });
   });
 
-  // Notify guest of embedder window visibility when it is ready
-  // FIXME Remove once https://github.com/electron/electron/issues/6828 is fixed
+  // 当嵌入式窗口准备就绪时通知来宾嵌入式窗口可见性。
+  // 修复https://github.com/electron/electron/issues/6828修复后删除。
   guest.on('dom-ready', function () {
     const guestInstance = guestInstances.get(guestInstanceId);
     if (guestInstance != null && guestInstance.visibilityState != null) {
@@ -177,7 +177,7 @@ const createGuest = function (embedder: Electron.WebContents, embedderFrameId: n
     }
   });
 
-  // Destroy the old guest when attaching.
+  // 附加时毁掉老客人。
   const key = `${embedder.id}-${elementInstanceId}`;
   const oldGuestInstanceId = embedderElementsMap.get(key);
   if (oldGuestInstanceId != null) {
@@ -198,7 +198,7 @@ const createGuest = function (embedder: Electron.WebContents, embedderFrameId: n
   return guestInstanceId;
 };
 
-// Remove an guest-embedder relationship.
+// 删除来宾-嵌入者关系。
 const detachGuest = function (embedder: Electron.WebContents, guestInstanceId: number) {
   const guestInstance = guestInstances.get(guestInstanceId);
 
@@ -215,8 +215,8 @@ const detachGuest = function (embedder: Electron.WebContents, guestInstanceId: n
   embedderElementsMap.delete(key);
 };
 
-// Once an embedder has had a guest attached we watch it for destruction to
-// destroy any remaining guests.
+// 一旦一个嵌入器附加了一个访客，我们就会观察它的销毁情况。
+// 毁掉所有剩下的客人。
 const watchedEmbedders = new Set<Electron.WebContents>();
 const watchEmbedder = function (embedder: Electron.WebContents) {
   if (watchedEmbedders.has(embedder)) {
@@ -224,7 +224,7 @@ const watchEmbedder = function (embedder: Electron.WebContents) {
   }
   watchedEmbedders.add(embedder);
 
-  // Forward embedder window visibility change events to guest
+  // 将嵌入器窗口可见性更改事件转发给来宾。
   const onVisibilityChange = function (visibilityState: VisibilityState) {
     for (const guestInstance of guestInstances.values()) {
       guestInstance.visibilityState = visibilityState;
@@ -236,15 +236,15 @@ const watchEmbedder = function (embedder: Electron.WebContents) {
   embedder.on('-window-visibility-change' as any, onVisibilityChange);
 
   embedder.once('will-destroy' as any, () => {
-    // Usually the guestInstances is cleared when guest is destroyed, but it
-    // may happen that the embedder gets manually destroyed earlier than guest,
-    // and the embedder will be invalid in the usual code path.
+    // 通常，当Guest被销毁时，guestInstance会被清除，但它。
+    // 可能会发生嵌入器在客户之前被手动销毁的情况，
+    // 并且该嵌入器在通常的代码路径中将是无效的。
     for (const [guestInstanceId, guestInstance] of guestInstances) {
       if (guestInstance.embedder === embedder) {
         detachGuest(embedder, guestInstanceId);
       }
     }
-    // Clear the listeners.
+    // 清除监听程序。
     embedder.removeListener('-window-visibility-change' as any, onVisibilityChange);
     watchedEmbedders.delete(embedder);
   });
@@ -288,7 +288,7 @@ handleMessageSync(IPC_MESSAGES.GUEST_VIEW_MANAGER_DETACH_GUEST, function (event,
   return detachGuest(event.sender, guestInstanceId);
 });
 
-// this message is sent by the actual <webview>
+// 此消息是由实际的&lt;webview&gt;发送的。
 ipcMainInternal.on(IPC_MESSAGES.GUEST_VIEW_MANAGER_FOCUS_CHANGE, function (event: ElectronInternal.IpcMainInternalEvent, focus: boolean) {
   event.sender.emit('-focus-change', {}, focus);
 });
@@ -329,7 +329,7 @@ handleMessageSync(IPC_MESSAGES.GUEST_VIEW_MANAGER_PROPERTY_SET, function (event,
   (guest as any)[property] = val;
 });
 
-// Returns WebContents from its guest id hosted in given webContents.
+// 从托管在给定webContents中的来宾ID返回WebContents。
 const getGuestForWebContents = function (guestInstanceId: number, contents: Electron.WebContents) {
   const guestInstance = guestInstances.get(guestInstanceId);
   if (!guestInstance) {

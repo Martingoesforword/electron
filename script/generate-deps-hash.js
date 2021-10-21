@@ -2,17 +2,17 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
-// Fallback to blow away old cache keys
+// 回退以清除旧的缓存键。
 const FALLBACK_HASH_VERSION = 3;
 
-// Per platform hash versions to bust the cache on different platforms
+// 每个平台的散列版本，以破坏不同平台上的缓存。
 const HASH_VERSIONS = {
   darwin: 3,
   win32: 4,
   linux: 3
 };
 
-// Base files to hash
+// 要散列的基本文件。
 const filesToHash = [
   path.resolve(__dirname, '../DEPS'),
   path.resolve(__dirname, '../yarn.lock'),
@@ -30,23 +30,23 @@ const addAllFiles = (dir) => {
   }
 };
 
-// Add all patch files to the hash
+// 将所有修补程序文件添加到散列。
 addAllFiles(path.resolve(__dirname, '../patches'));
 
-// Create Hash
+// 创建哈希。
 const hasher = crypto.createHash('SHA256');
 hasher.update(`HASH_VERSION:${HASH_VERSIONS[process.platform] || FALLBACK_HASH_VERSION}`);
 for (const file of filesToHash) {
   hasher.update(fs.readFileSync(file));
 }
 
-// Add the GCLIENT_EXTRA_ARGS variable to the hash
+// 将GCLIENT_EXTRA_ARGS变量添加到散列。
 const extraArgs = process.env.GCLIENT_EXTRA_ARGS || 'no_extra_args';
 hasher.update(extraArgs);
 
 const effectivePlatform = extraArgs.includes('host_os=mac') ? 'darwin' : process.platform;
 
-// Write the hash to disk
+// 将散列写入磁盘
 fs.writeFileSync(path.resolve(__dirname, '../.depshash'), hasher.digest('hex'));
 
 let targetContent = `${effectivePlatform}\n${process.env.TARGET_ARCH}\n${process.env.GN_CONFIG}\n${undefined}\n${process.env.GN_EXTRA_ARGS}\n${process.env.GN_BUILDFLAG_ARGS}`;

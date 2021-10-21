@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_ASAR_ARCHIVE_H_
 #define SHELL_COMMON_ASAR_ARCHIVE_H_
@@ -38,8 +38,8 @@ struct IntegrityPayload {
   std::vector<std::string> blocks;
 };
 
-// This class represents an asar package, and provides methods to read
-// information from it. It is thread-safe after |Init| has been called.
+// 此类表示asar包，并提供读取。
+// 其中的信息。在|Init|被调用之后，它是线程安全的。
 class Archive {
  public:
   struct FileInfo {
@@ -62,33 +62,33 @@ class Archive {
   explicit Archive(const base::FilePath& path);
   virtual ~Archive();
 
-  // Read and parse the header.
+  // 读取并解析标题。
   bool Init();
 
   absl::optional<IntegrityPayload> HeaderIntegrity() const;
   absl::optional<base::FilePath> RelativePath() const;
 
-  // Get the info of a file.
+  // 获取文件的信息。
   bool GetFileInfo(const base::FilePath& path, FileInfo* info) const;
 
-  // Fs.stat(path).
+  // Fs.stat(路径)。
   bool Stat(const base::FilePath& path, Stats* stats) const;
 
-  // Fs.readdir(path).
+  // Fs.readdir(路径)。
   bool Readdir(const base::FilePath& path,
                std::vector<base::FilePath>* files) const;
 
-  // Fs.realpath(path).
+  // Fs.realpath(路径)。
   bool Realpath(const base::FilePath& path, base::FilePath* realpath) const;
 
-  // Copy the file into a temporary file, and return the new path.
-  // For unpacked file, this method will return its real path.
+  // 将文件复制到临时文件中，并返回新路径。
+  // 对于解压缩的文件，此方法将返回其真实路径。
   bool CopyFileOut(const base::FilePath& path, base::FilePath* out);
 
-  // Returns the file's fd.
-  // Using this fd will not validate the integrity of any files
-  // you read out of the ASAR manually.  Callers are responsible
-  // for integrity validation after this fd is handed over.
+  // 返回文件的FD。
+  // 使用此FD不会验证任何文件的完整性。
+  // 您可以手动读出ASAR。打电话的人要负责。
+  // 用于此FD移交后的完整性验证。
   int GetUnsafeFD() const;
 
   base::FilePath path() const { return path_; }
@@ -102,7 +102,7 @@ class Archive {
   uint32_t header_size_ = 0;
   std::unique_ptr<base::DictionaryValue> header_;
 
-  // Cached external temporary files.
+  // 缓存的外部临时文件。
   base::Lock external_files_lock_;
   std::unordered_map<base::FilePath::StringType,
                      std::unique_ptr<ScopedTemporaryFile>>
@@ -111,6 +111,6 @@ class Archive {
   DISALLOW_COPY_AND_ASSIGN(Archive);
 };
 
-}  // namespace asar
+}  // 命名空间asar。
 
 #endif  // SHELL_COMMON_ASAR_ARCHIVE_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_BROWSER_VIEW_H_
 #define SHELL_BROWSER_API_ELECTRON_API_BROWSER_VIEW_H_
@@ -39,14 +39,14 @@ class BrowserView : public gin::Wrappable<BrowserView>,
                     public content::WebContentsObserver,
                     public ExtendedWebContentsObserver {
  public:
-  // gin_helper::Constructible
+  // Gin_helper：：可构造的。
   static gin::Handle<BrowserView> New(gin_helper::ErrorThrower thrower,
                                       gin::Arguments* args);
   static v8::Local<v8::ObjectTemplate> FillObjectTemplate(
       v8::Isolate*,
       v8::Local<v8::ObjectTemplate>);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
 
   WebContents* web_contents() const { return api_web_contents_; }
@@ -58,10 +58,10 @@ class BrowserView : public gin::Wrappable<BrowserView>,
   BrowserView(gin::Arguments* args, const gin_helper::Dictionary& options);
   ~BrowserView() override;
 
-  // content::WebContentsObserver:
+  // 内容：：WebContentsViewer：
   void WebContentsDestroyed() override;
 
-  // ExtendedWebContentsObserver:
+  // ExtendedWebContentsViewer：
   void OnDraggableRegionsUpdated(
       const std::vector<mojom::DraggableRegionPtr>& regions) override;
 
@@ -82,8 +82,8 @@ class BrowserView : public gin::Wrappable<BrowserView>,
   DISALLOW_COPY_AND_ASSIGN(BrowserView);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_BROWSER_VIEW_H_

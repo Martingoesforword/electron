@@ -1,7 +1,7 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_COCOA_ELECTRON_MENU_CONTROLLER_H_
 #define SHELL_BROWSER_UI_COCOA_ELECTRON_MENU_CONTROLLER_H_
@@ -16,12 +16,12 @@ namespace electron {
 class ElectronMenuModel;
 }
 
-// A controller for the cross-platform menu model. The menu that's created
-// has the tag and represented object set for each menu item. The object is a
-// NSValue holding a pointer to the model for that level of the menu (to
-// allow for hierarchical menus). The tag is the index into that model for
-// that particular item. It is important that the model outlives this object
-// as it only maintains weak references.
+// 用于跨平台菜单模型的控制器。创建的菜单。
+// 为每个菜单项设置标签和表示的对象。该对象是一个。
+// NSValue保持指向该级别菜单的模型的指针(到。
+// 允许分层菜单)。标记是进入该模型的索引。
+// 那件特别的物品。很重要的一点是，模型的寿命要比该对象的寿命长。
+// 因为它只维护弱引用。
 @interface ElectronMenuController
     : NSObject <NSMenuDelegate, NSSharingServiceDelegate> {
  @protected
@@ -32,35 +32,35 @@ class ElectronMenuModel;
   base::OnceClosure closeCallback;
 }
 
-// Builds a NSMenu from the pre-built model (must not be nil). Changes made
-// to the contents of the model after calling this will not be noticed.
+// 从预置模型构建NSMenu(不得为空)。所做的更改。
+// 调用此函数后将不会注意到模型的内容。
 - (id)initWithModel:(electron::ElectronMenuModel*)model
     useDefaultAccelerator:(BOOL)use;
 
 - (void)setCloseCallback:(base::OnceClosure)callback;
 
-// Populate current NSMenu with |model|.
+// 使用|型号|填充当前NSMenu。
 - (void)populateWithModel:(electron::ElectronMenuModel*)model;
 
-// Programmatically close the constructed menu.
+// 以编程方式关闭构造的菜单。
 - (void)cancel;
 
 - (electron::ElectronMenuModel*)model;
 - (void)setModel:(electron::ElectronMenuModel*)model;
 
-// Access to the constructed menu if the complex initializer was used. If the
-// default initializer was used, then this will create the menu on first call.
+// 如果使用了复杂初始值设定项，则访问构造的菜单。如果。
+// 使用了默认初始值设定项，然后这将在第一次调用时创建菜单。
 - (NSMenu*)menu;
 
 - (base::scoped_nsobject<NSMenuItem>)
     makeMenuItemForIndex:(NSInteger)index
                fromModel:(electron::ElectronMenuModel*)model;
 
-// Whether the menu is currently open.
+// 菜单当前是否打开。
 - (BOOL)isMenuOpen;
 
-// NSMenuDelegate methods this class implements. Subclasses should call super
-// if extending the behavior.
+// 此类实现的NSMenuDelegate方法。子类应调用Super类。
+// 如果扩展行为的话。
 - (void)menuWillOpen:(NSMenu*)menu;
 - (void)menuDidClose:(NSMenu*)menu;
 

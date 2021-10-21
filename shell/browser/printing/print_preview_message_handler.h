@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_PRINTING_PRINT_PREVIEW_MESSAGE_HANDLER_H_
 #define SHELL_BROWSER_PRINTING_PRINT_PREVIEW_MESSAGE_HANDLER_H_
@@ -24,7 +24,7 @@ class RenderFrameHost;
 
 namespace electron {
 
-// Manages the print preview handling for a WebContents.
+// 管理WebContents的打印预览处理。
 class PrintPreviewMessageHandler
     : public printing::mojom::PrintPreviewUI,
       public content::WebContentsUserData<PrintPreviewMessageHandler> {
@@ -52,7 +52,7 @@ class PrintPreviewMessageHandler
                               printing::mojom::PrintCompositor::Status status,
                               base::ReadOnlySharedMemoryRegion region);
 
-  // printing::mojo::PrintPreviewUI:
+  // 正在打印：：mojo：：PrintPreviewUI：
   void SetOptionsFromDocument(
       const printing::mojom::OptionsFromDocumentParamsPtr params,
       int32_t request_id) override {}
@@ -98,6 +98,6 @@ class PrintPreviewMessageHandler
   DISALLOW_COPY_AND_ASSIGN(PrintPreviewMessageHandler);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_PRINTING_PRINT_PREVIEW_MESSAGE_HANDLER_H_

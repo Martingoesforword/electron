@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE.chromium file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在LICENSE.Cr文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_WRAPPABLE_BASE_H_
 #define SHELL_COMMON_GIN_HELPER_WRAPPABLE_BASE_H_
@@ -13,22 +13,22 @@ class Arguments;
 
 namespace gin_helper {
 
-// Wrappable is a base class for C++ objects that have corresponding v8 wrapper
-// objects. To retain a Wrappable object on the stack, use a gin::Handle.
-//
-// USAGE:
-// // my_class.h
-// class MyClass : Wrappable<MyClass> {
-//  public:
-//   ...
-// };
-//
-// Subclasses should also typically have private constructors and expose a
-// static Create function that returns a gin::Handle. Forcing creators through
-// this static Create function will enforce that clients actually create a
-// wrapper for the object. If clients fail to create a wrapper for a wrappable
-// object, the object will leak because we use the weak callback from the
-// wrapper as the signal to delete the wrapped object.
+// Wrappable是具有相应V8包装器的C++对象的基类。
+// 物体。若要将Wrappable对象保留在堆栈上，请使用gin：：Handle。
+// 
+// 用途：
+// //my_class.h。
+// 类MyClass：可包装的&lt;MyClass&gt;{。
+// 公众：
+// ..。
+// }；
+// 
+// 子类通常还应该具有私有构造函数，并公开。
+// 返回gin：：Handle的静态创建函数。迫使创作者通过。
+// 此静态创建函数将强制客户端实际创建。
+// 对象的包装。如果客户端无法为可包装的。
+// 对象，则该对象将泄漏，因为我们使用。
+// 包装器作为删除包装对象的信号。
 class WrappableBase {
  public:
   WrappableBase();
@@ -36,25 +36,25 @@ class WrappableBase {
   WrappableBase& operator=(const WrappableBase&) = delete;
   virtual ~WrappableBase();
 
-  // Retrieve the v8 wrapper object corresponding to this object.
+  // 检索与该对象对应的V8包装器对象。
   v8::Local<v8::Object> GetWrapper() const;
   v8::MaybeLocal<v8::Object> GetWrapper(v8::Isolate* isolate) const;
 
-  // Returns the Isolate this object is created in.
+  // 返回在其中创建此对象的隔离。
   v8::Isolate* isolate() const { return isolate_; }
 
  protected:
-  // Called after the "_init" method gets called in JavaScript.
+  // 在JavaScript中调用“_init”方法之后调用。
   virtual void AfterInit(v8::Isolate* isolate) {}
 
-  // Bind the C++ class to the JS wrapper.
-  // This method should only be called by classes using Constructor.
+  // 将C++类绑定到JS包装器。
+  // 此方法只能由使用构造函数的类调用。
   virtual void InitWith(v8::Isolate* isolate, v8::Local<v8::Object> wrapper);
 
-  // Helper to init with arguments.
+  // 用参数初始化的帮助器。
   void InitWithArgs(gin::Arguments* args);
 
-  v8::Global<v8::Object> wrapper_;  // Weak
+  v8::Global<v8::Object> wrapper_;  // 瘦弱。
 
  private:
   static void FirstWeakCallback(
@@ -65,6 +65,6 @@ class WrappableBase {
   v8::Isolate* isolate_ = nullptr;
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 #endif  // SHELL_COMMON_GIN_HELPER_WRAPPABLE_BASE_H_

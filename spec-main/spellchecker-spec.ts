@@ -28,9 +28,9 @@ ifdescribe(features.isBuiltinSpellCheckerEnabled())('spellchecker', function () 
     return (await contextMenuPromise)[1] as Electron.ContextMenuParams;
   }
 
-  // When the page is just loaded, the spellchecker might not be ready yet. Since
-  // there is no event to know the state of spellchecker, the only reliable way
-  // to detect spellchecker is to keep checking with a busy loop.
+  // 当页面刚刚加载时，拼写检查器可能还没有准备好。自.以来。
+  // 没有任何事件可以知道拼写检查器的状态，这是唯一可靠的方法。
+  // 检测拼写检查器就是在忙碌的循环中不断检查。
   async function rightClickUntil (fn: (params: Electron.ContextMenuParams) => boolean) {
     const now = Date.now();
     const timeout = (process.env.IS_ASAN ? 180 : 10) * 1000;
@@ -42,10 +42,10 @@ ifdescribe(features.isBuiltinSpellCheckerEnabled())('spellchecker', function () 
     return contextMenuParams;
   }
 
-  // Setup a server to download hunspell dictionary.
+  // 设置服务器以下载Hunspell词典。
   const server = http.createServer((req, res) => {
-    // The provided is minimal dict for testing only, full list of words can
-    // be found at src/third_party/hunspell_dictionaries/xx_XX.dic.
+    // 所提供的是仅用于测试的最小词典，完整的单词列表可以。
+    // 可在src/third_party/hunspell_dictionaries/xx_XX.dic.上找到。
     fs.readFile(path.join(__dirname, '/../../third_party/hunspell_dictionaries/xx-XX-3-0.bdic'), function (err, data) {
       if (err) {
         console.error('Failed to read dictionary file');
@@ -77,7 +77,7 @@ ifdescribe(features.isBuiltinSpellCheckerEnabled())('spellchecker', function () 
             sandbox
           }
         });
-        w.webContents.session.setSpellCheckerDictionaryDownloadURL(`http://127.0.0.1:${(server.address() as AddressInfo).port}/`);
+        w.webContents.session.setSpellCheckerDictionaryDownloadURL(`http:// 127.0.0.1：${(server.address()as AddressInfo).port}/`)；
         w.webContents.session.setSpellCheckerLanguages(['en-US']);
         await w.loadFile(path.resolve(__dirname, './fixtures/chromium/spellchecker.html'));
       });
@@ -86,7 +86,7 @@ ifdescribe(features.isBuiltinSpellCheckerEnabled())('spellchecker', function () 
         await closeWindow(w);
       });
 
-      // Context menu test can not run on Windows.
+      // 上下文菜单测试无法在Windows上运行。
       const shouldRun = process.platform !== 'win32';
 
       ifit(shouldRun)('should detect correctly spelled words as correct', async () => {
@@ -144,9 +144,9 @@ ifdescribe(features.isBuiltinSpellCheckerEnabled())('spellchecker', function () 
           w.webContents.session.spellCheckerEnabled = false;
           v8Util.runUntilIdle();
           expect(w.webContents.session.spellCheckerEnabled).to.be.false();
-          // spellCheckerEnabled is sent to renderer asynchronously and there is
-          // no event notifying when it is finished, so wait a little while to
-          // ensure the setting has been changed in renderer.
+          // SpellCheckerEnabled被异步发送到渲染器，并且。
+          // 没有事件通知它何时完成，因此请稍等片刻。
+          // 确保已在渲染器中更改设置。
           await delay(500);
           expect(await callWebFrameFn('isWordMisspelled("typograpy")')).to.equal(false);
 
@@ -162,7 +162,7 @@ ifdescribe(features.isBuiltinSpellCheckerEnabled())('spellchecker', function () 
         let ses: Session;
 
         beforeEach(async () => {
-          // ensure a new session runs on each test run
+          // 确保在每次测试运行时都运行一个新会话。
           ses = session.fromPartition(`persist:customdictionary-test-${Date.now()}`);
         });
 
@@ -204,7 +204,7 @@ ifdescribe(features.isBuiltinSpellCheckerEnabled())('spellchecker', function () 
             expect(wordList).to.have.length(0);
           });
 
-          // remove API will always return false because we can't add words
+          // Remove API将始终返回False，因为我们无法添加单词
           it('should fail for non-persistent sessions', async () => {
             const tempSes = session.fromPartition('temporary');
             const result = tempSes.addWordToSpellCheckerDictionary('foobar');

@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { ifdescribe, delay } from './spec-helpers';
 
-// FIXME: The tests are skipped on arm/arm64.
+// 修复：跳过ARM/ARM 64上的测试。
 ifdescribe(!(['arm', 'arm64'].includes(process.arch)))('contentTracing', () => {
   const record = async (options: TraceConfig | TraceCategoriesAndOptions, outputFilePath: string | undefined, recordTimeInMilliseconds = 1e1) => {
     await app.whenReady();
@@ -45,22 +45,22 @@ ifdescribe(!(['arm', 'arm64'].includes(process.arch)))('contentTracing', () => {
     });
 
     it('accepts a trace config', async () => {
-      // (alexeykuzmin): All categories are excluded on purpose,
-      // so only metadata gets into the output file.
+      // (Alexeykuzmin)：所有类别都被故意排除在外，
+      // 因此，只有元数据才会进入输出文件。
       const config = {
         excluded_categories: ['*']
       };
       await record(config, outputFilePath);
 
-      // If the `excluded_categories` param above is not respected, categories
-      // like `node,node.environment` will be included in the output.
+      // 如果不遵守上面的`excluded_categories`参数，则类别。
+      // 与`node一样，输出中也会包含node.Environmental`。
       const content = fs.readFileSync(outputFilePath).toString();
       expect(content.includes('"cat":"node,node.environment"')).to.be.false();
     });
 
     it('accepts "categoryFilter" and "traceOptions" as a config', async () => {
-      // (alexeykuzmin): All categories are excluded on purpose,
-      // so only metadata gets into the output file.
+      // (Alexeykuzmin)：所有类别都被故意排除在外，
+      // 因此，只有元数据才会进入输出文件。
       const config = {
         categoryFilter: '__ThisIsANonexistentCategory__',
         traceOptions: ''
@@ -69,10 +69,10 @@ ifdescribe(!(['arm', 'arm64'].includes(process.arch)))('contentTracing', () => {
 
       expect(fs.existsSync(outputFilePath)).to.be.true('output exists');
 
-      // If the `categoryFilter` param above is not respected
-      // the file size will be above 50KB.
+      // 如果不遵守上面的`CategyFilter`参数。
+      // 文件大小将超过50KB。
       const fileSizeInKiloBytes = getFileSizeInKiloBytes(outputFilePath);
-      const expectedMaximumFileSize = 10; // Depends on a platform.
+      const expectedMaximumFileSize = 10; // 取决于平台。
 
       expect(fileSizeInKiloBytes).to.be.above(0,
         `the trace output file is empty, check "${outputFilePath}"`);
@@ -98,17 +98,17 @@ ifdescribe(!(['arm', 'arm64'].includes(process.arch)))('contentTracing', () => {
     });
 
     it('calls its callback with a result file path', async () => {
-      const resultFilePath = await record(/* options */ {}, outputFilePath);
+      const resultFilePath = await record(/* 选项。*/ {}, outputFilePath);
       expect(resultFilePath).to.be.a('string').and.be.equal(outputFilePath);
     });
 
     it('creates a temporary file when an empty string is passed', async function () {
-      const resultFilePath = await record(/* options */ {}, /* outputFilePath */ '');
+      const resultFilePath = await record(/* 选项。*/ {}, /* OutputFilePath。*/ '');
       expect(resultFilePath).to.be.a('string').that.is.not.empty('result path');
     });
 
     it('creates a temporary file when no path is passed', async function () {
-      const resultFilePath = await record(/* options */ {}, /* outputFilePath */ undefined);
+      const resultFilePath = await record(/* 选项。*/ {}, /* OutputFilePath。*/ undefined);
       expect(resultFilePath).to.be.a('string').that.is.not.empty('result path');
     });
 
@@ -119,7 +119,7 @@ ifdescribe(!(['arm', 'arm64'].includes(process.arch)))('contentTracing', () => {
 
   describe('captured events', () => {
     it('include V8 samples from the main process', async function () {
-      // This test is flaky on macOS CI.
+      // 这个测试在MacOSCI上是不可靠的。
       this.retries(3);
 
       await contentTracing.startRecording({

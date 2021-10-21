@@ -5,30 +5,30 @@ import { IPC_MESSAGES } from '@electron/internal/common/ipc-messages';
 
 const { contextIsolationEnabled } = internalContextBridge;
 
-// This file implements the following APIs over the ctx bridge:
-// - window.open()
-// - window.opener.blur()
-// - window.opener.close()
-// - window.opener.eval()
-// - window.opener.focus()
-// - window.opener.location
-// - window.opener.print()
-// - window.opener.closed
-// - window.opener.postMessage()
-// - window.history.back()
-// - window.history.forward()
-// - window.history.go()
-// - window.history.length
-// - window.prompt()
-// - document.hidden
-// - document.visibilityState
+// 此文件通过CTX网桥实现以下API：
+// -window.open()。
+// -window.opener.blur()。
+// -window.opener.close()。
+// -window.opener.eval()。
+// -window.opener.ocus()。
+// -window.opener.location。
+// -window.opener.print()。
+// -window.opener.closed。
+// -window.opener.postMessage()。
+// -window.History y.back()。
+// -window.History y.ward()。
+// -window.History y.go()。
+// -window.History y.length。
+// -window.Prompt()。
+// -文档。隐藏。
+// -Docent.visibilityState。
 
-// Helper function to resolve relative url.
+// 解析相对url的帮助器函数。
 const resolveURL = (url: string, base: string) => new URL(url, base).href;
 
-// Use this method to ensure values expected as strings in the main process
-// are convertible to strings in the renderer process. This ensures exceptions
-// converting values to strings are thrown in this process.
+// 使用此方法可确保主进程中预期的值为字符串。
+// 在呈现器进程中可以转换为字符串。这确保了例外情况。
+// 将值转换为字符串在此过程中抛出。
 const toString = (value: any) => {
   return value != null ? `${value}` : value;
 };
@@ -63,10 +63,7 @@ class LocationProxy {
 
   private guestId: number;
 
-  /**
-   * Beware: This decorator will have the _prototype_ as the `target`. It defines properties
-   * commonly found in URL on the LocationProxy.
-   */
+  /* **注意：该修饰符将_Prototype_作为`target`。它定义了LocationProxy上的URL中常见的属性*。*/
   private static ProxyProperty<T> (target: LocationProxy, propertyKey: LocationProperties) {
     Object.defineProperty(target, propertyKey, {
       enumerable: true,
@@ -79,8 +76,8 @@ class LocationProxy {
       set: function (this: LocationProxy, newVal: T) {
         const guestURL = this.getGuestURL();
         if (guestURL) {
-          // TypeScript doesn't want us to assign to read-only variables.
-          // It's right, that's bad, but we're doing it anyway.
+          // TypeScript不希望我们将其赋给只读变量。
+          // 是的，那很糟糕，但我们还是要这么做。
           (guestURL as any)[propertyKey] = newVal;
 
           return this._invokeWebContentsMethod('loadURL', guestURL.toString());
@@ -114,9 +111,9 @@ class LocationProxy {
   }
 
   constructor (guestId: number) {
-    // eslint will consider the constructor "useless"
-    // unless we assign them in the body. It's fine, that's what
-    // TS would do anyway.
+    // Eslint会认为构造函数“毫无用处”
+    // 除非我们把它们分配到身体里。很好，就是这样。
+    // 不管怎样，这也行。
     this.guestId = guestId;
     this.getGuestURL = this.getGuestURL.bind(this);
   }
@@ -128,8 +125,8 @@ class LocationProxy {
   private getGuestURL (): URL | null {
     const maybeURL = this._invokeWebContentsMethodSync('getURL') as string;
 
-    // When there's no previous frame the url will be blank, so account for that here
-    // to prevent url parsing errors on an empty string.
+    // 当没有之前的帧时，url将为空，因此请在此处说明这一点。
+    // 以防止空字符串上的URL解析错误。
     const urlString = maybeURL !== '' ? maybeURL : 'about:blank';
     try {
       return new URL(urlString);
@@ -153,7 +150,7 @@ interface SafelyBoundBrowserWindowProxy {
   location: WindowProxy['location'];
   blur: WindowProxy['blur'];
   close: WindowProxy['close'];
-  eval: typeof eval; // eslint-disable-line no-eval
+  eval: typeof eval; // Eslint-Disable-line无求值。
   focus: WindowProxy['focus'];
   print: WindowProxy['print'];
   postMessage: WindowProxy['postMessage'];
@@ -166,9 +163,9 @@ class BrowserWindowProxy {
   private _location: LocationProxy
   private guestId: number
 
-  // TypeScript doesn't allow getters/accessors with different types,
-  // so for now, we'll have to make do with an "any" in the mix.
-  // https://github.com/Microsoft/TypeScript/issues/2521
+  // TypeScript不允许不同类型的getter/存取器，
+  // 因此，目前，我们只能凑合着在组合中使用“Any”。
+  // Https://github.com/Microsoft/TypeScript/issues/2521。
   public get location (): LocationProxy | any {
     return this._location.getSafe();
   }
@@ -245,7 +242,7 @@ class BrowserWindowProxy {
 export const windowSetup = (
   isWebView: boolean, openerId: number, isHiddenPage: boolean, usesNativeWindowOpen: boolean) => {
   if (!process.sandboxed && !isWebView) {
-    // Override default window.close.
+    // 覆盖默认窗口。关闭。
     window.close = function () {
       ipcRendererInternal.send(IPC_MESSAGES.BROWSER_WINDOW_CLOSE);
     };
@@ -253,8 +250,8 @@ export const windowSetup = (
   }
 
   if (!usesNativeWindowOpen) {
-    // TODO(MarshallOfSound): Make compatible with ctx isolation without hole-punch
-    // Make the browser window or guest view emit "new-window" event.
+    // TODO(MarshallOfSound)：兼容CTX隔离，无需打孔。
+    // 使浏览器窗口或来宾视图发出“new-window”事件。
     window.open = function (url?: string, frameName?: string, features?: string) {
       if (url != null && url !== '') {
         url = resolveURL(url, location.href);
@@ -269,29 +266,29 @@ export const windowSetup = (
     if (contextIsolationEnabled) internalContextBridge.overrideGlobalValueWithDynamicPropsFromIsolatedWorld(['open'], window.open);
   }
 
-  // If this window uses nativeWindowOpen, but its opener window does not, we
-  // need to proxy window.opener in order to let the page communicate with its
-  // opener.
-  // Additionally, windows opened from a nativeWindowOpen child of a
-  // non-nativeWindowOpen parent will initially have their WebPreferences
-  // copied from their opener before having them updated, meaning openerId is
-  // initially incorrect. We detect this situation by checking for
-  // window.opener, which will be non-null for a natively-opened child, so we
-  // can ignore the openerId in that case, since it's incorrectly copied from
-  // the parent. This is, uh, confusing, so here's a diagram that will maybe
-  // help?
-  //
-  // [ grandparent window ] --> [ parent window ] --> [ child window ]
-  //     n.W.O = false             n.W.O = true         n.W.O = true
-  //        id = 1                    id = 2               id = 3
-  //  openerId = 0              openerId = 1         openerId = 1  <- !!wrong!!
-  //    opener = null             opener = null        opener = [parent window]
+  // 如果此窗口使用nativeWindowOpen，但其打开窗口不使用，则我们。
+  // 需要代理window.opener才能让页面与其。
+  // 开场白。
+  // 此外，从的nativeWindowOpen子级打开的窗口。
+  // 非本机WindowOpen父级最初将拥有其WebPreferences。
+  // 在更新之前从其打开程序复制，这意味着openerId。
+  // 一开始是不正确的。我们通过检查。
+  // Window.opener，它对于本地打开的子级来说将是非空的，因此我们。
+  // 在这种情况下可以忽略openerId，因为它是从。
+  // 家长。这个，呃，令人困惑，所以这张图可能会。
+  // 帮助?。
+  // 
+  // [祖父窗口]--&gt;[父窗口]--&gt;[子窗口]。
+  // N.W.O=FALSE N.W.O=TRUE N.W.O=TRUE。
+  // Id=1 id=2 id=3。
+  // OpenerId=0 openerId=1 openerId=1&lt;-！！错误！！
+  // OPENER=NULL OPENER=NULL OPENER=[父窗口]。
   if (openerId && !window.opener) {
     window.opener = getOrCreateProxy(openerId);
     if (contextIsolationEnabled) internalContextBridge.overrideGlobalValueWithDynamicPropsFromIsolatedWorld(['opener'], window.opener);
   }
 
-  // But we do not support prompt().
+  // 但是我们不支持Prompt()。
   window.prompt = function () {
     throw new Error('prompt() is and will not be supported.');
   };
@@ -301,12 +298,12 @@ export const windowSetup = (
     ipcRendererInternal.on(IPC_MESSAGES.GUEST_WINDOW_POSTMESSAGE, function (
       _event, sourceId: number, message: any, sourceOrigin: string
     ) {
-      // Manually dispatch event instead of using postMessage because we also need to
-      // set event.source.
-      //
-      // Why any? We can't construct a MessageEvent and we can't
-      // use `as MessageEvent` because you're not supposed to override
-      // data, origin, and source
+      // 手动调度事件而不是使用PostMessage，因为我们还需要。
+      // 设置Event.Source。
+      // 
+      // 为什么会有呢？我们不能构造MessageEvent，也不能。
+      // 使用`as MessageEvent`，因为您不应该重写。
+      // 数据、来源和来源。
       const event: any = document.createEvent('Event');
       event.initEvent('message', false, false);
 
@@ -319,16 +316,16 @@ export const windowSetup = (
   }
 
   if (isWebView) {
-    // Webview `document.visibilityState` tracks window visibility (and ignores
-    // the actual <webview> element visibility) for backwards compatibility.
-    // See discussion in #9178.
-    //
-    // Note that this results in duplicate visibilitychange events (since
-    // Chromium also fires them) and potentially incorrect visibility change.
-    // We should reconsider this decision for Electron 2.0.
+    // WebView`Docent.visibilityState`跟踪窗口可见性(并忽略。
+    // 实际的&lt;webview&gt;元素可见性)以实现向后兼容性。
+    // 参见#9178中的讨论。
+    // 
+    // 请注意，这会导致重复的VisibilityChange事件(因为。
+    // 铬也会激发它们)，并可能导致不正确的能见度变化。
+    // 对于Electron2.0，我们应该重新考虑这一决定。
     let cachedVisibilityState = isHiddenPage ? 'hidden' : 'visible';
 
-    // Subscribe to visibilityState changes.
+    // 订阅VisibilityState更改。
     ipcRendererInternal.on(IPC_MESSAGES.GUEST_INSTANCE_VISIBILITY_CHANGE, function (_event, visibilityState: VisibilityState) {
       if (cachedVisibilityState !== visibilityState) {
         cachedVisibilityState = visibilityState;
@@ -336,7 +333,7 @@ export const windowSetup = (
       }
     });
 
-    // Make document.hidden and document.visibilityState return the correct value.
+    // 使Docent.Hidden和Docent.visibilityState返回正确的值。
     const getDocumentHidden = () => cachedVisibilityState !== 'visible';
     Object.defineProperty(document, 'hidden', {
       get: getDocumentHidden

@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_EVENT_EMITTER_H_
 #define SHELL_COMMON_GIN_HELPER_EVENT_EMITTER_H_
@@ -31,24 +31,24 @@ v8::Local<v8::Object> CreateNativeEvent(
     content::RenderFrameHost* frame,
     electron::mojom::ElectronBrowser::MessageSyncCallback callback);
 
-}  // namespace internal
+}  // 命名空间内部。
 
-// Provide helperers to emit event in JavaScript.
+// 提供帮助器以在JavaScript中发出事件。
 template <typename T>
 class EventEmitter : public gin_helper::Wrappable<T> {
  public:
   using Base = gin_helper::Wrappable<T>;
   using ValueArray = std::vector<v8::Local<v8::Value>>;
 
-  // Make the convinient methods visible:
-  // https://isocpp.org/wiki/faq/templates#nondependent-name-lookup-members
+  // 使方便的方法可见：
+  // Https://isocpp.org/wiki/faq/templates#nondependent-name-lookup-members。
   v8::Isolate* isolate() const { return Base::isolate(); }
   v8::Local<v8::Object> GetWrapper() const { return Base::GetWrapper(); }
   v8::MaybeLocal<v8::Object> GetWrapper(v8::Isolate* isolate) const {
     return Base::GetWrapper(isolate);
   }
 
-  // this.emit(name, event, args...);
+  // This.emit(名称，事件，参数...)；
   template <typename... Args>
   bool EmitCustomEvent(base::StringPiece name,
                        v8::Local<v8::Object> event,
@@ -58,7 +58,7 @@ class EventEmitter : public gin_helper::Wrappable<T> {
         std::forward<Args>(args)...);
   }
 
-  // this.emit(name, new Event(), args...);
+  // This.emit(name，new event()，args...)；
   template <typename... Args>
   bool Emit(base::StringPiece name, Args&&... args) {
     v8::Locker locker(isolate());
@@ -75,13 +75,13 @@ class EventEmitter : public gin_helper::Wrappable<T> {
   EventEmitter() {}
 
  private:
-  // this.emit(name, event, args...);
+  // This.emit(名称，事件，参数...)；
   template <typename... Args>
   bool EmitWithEvent(base::StringPiece name,
                      v8::Local<v8::Object> event,
                      Args&&... args) {
-    // It's possible that |this| will be deleted by EmitEvent, so save anything
-    // we need from |this| before calling EmitEvent.
+    // EmitEvent可能会删除|此|文件，因此请保存所有内容。
+    // 在调用EmitEvent之前，我们需要|this|。
     auto* isolate = this->isolate();
     auto context = isolate->GetCurrentContext();
     gin_helper::EmitEvent(isolate, GetWrapper(), name, event,
@@ -97,6 +97,6 @@ class EventEmitter : public gin_helper::Wrappable<T> {
   DISALLOW_COPY_AND_ASSIGN(EventEmitter);
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
-#endif  // SHELL_COMMON_GIN_HELPER_EVENT_EMITTER_H_
+#endif  // Shell_COMMON_GIN_HELPER_EVENT_EMITER_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2020 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_WIN_DIALOG_THREAD_H_
 #define SHELL_BROWSER_UI_WIN_DIALOG_THREAD_H_
@@ -13,19 +13,19 @@
 
 namespace dialog_thread {
 
-// Returns the dedicated single-threaded sequence that the dialog will be on.
+// 返回对话框所在的专用单线程序列。
 using TaskRunner = scoped_refptr<base::SingleThreadTaskRunner>;
 TaskRunner CreateDialogTaskRunner();
 
-// Runs the |execute| in dialog thread and pass result to |done| in UI thread.
+// 运行对话框线程中的|Execute|，并将结果传递给UI线程中的|Done|。
 template <typename R>
 void Run(base::OnceCallback<R()> execute, base::OnceCallback<void(R)> done) {
-  // dialogThread.postTask(() => {
-  //   r = execute()
-  //   uiThread.postTask(() => {
-  //     done(r)
-  //   }
-  // })
+  // DialogThread.postTask(()=&gt;{。
+  // R=执行()。
+  // UiThread.postTask(()=&gt;{。
+  // 完成(R)。
+  // }。
+  // })。
   TaskRunner task_runner = CreateDialogTaskRunner();
   task_runner->PostTask(
       FROM_HERE,
@@ -39,24 +39,24 @@ void Run(base::OnceCallback<R()> execute, base::OnceCallback<void(R)> done) {
                     [](TaskRunner task_runner, base::OnceCallback<void(R)> done,
                        R r) {
                       std::move(done).Run(std::move(r));
-                      // Task runner will destroyed automatically after the
-                      // scope ends.
+                      // 任务运行器将在。
+                      // 作用域结束。
                     },
                     std::move(task_runner), std::move(done), std::move(r)));
           },
           std::move(task_runner), std::move(execute), std::move(done)));
 }
 
-// Adaptor to handle the |execute| that returns bool.
+// 用于处理返回bool的|Execute|的适配器。
 template <typename R>
 void Run(base::OnceCallback<bool(R*)> execute,
          base::OnceCallback<void(bool, R)> done) {
-  // run(() => {
-  //   result = execute(&value)
-  //   return {result, value}
-  // }, ({result, value}) => {
-  //   done(result, value)
-  // })
+  // 运行(()=&gt;{。
+  // 结果=EXECUTE(&VALUE)。
+  // 返回{Result，Value}。
+  // }，({结果，值})=&gt;{。
+  // 完成(结果、值)。
+  // })。
   struct Result {
     bool result;
     R value;
@@ -75,6 +75,6 @@ void Run(base::OnceCallback<bool(R*)> execute,
           std::move(done)));
 }
 
-}  // namespace dialog_thread
+}  // 命名空间对话框_线程。
 
-#endif  // SHELL_BROWSER_UI_WIN_DIALOG_THREAD_H_
+#endif  // Shell_Browser_UI_Win_DIALOG_THREAD_H_

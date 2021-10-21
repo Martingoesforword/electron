@@ -1,35 +1,35 @@
-// Modules to control application life and create native browser window
+// 用于控制应用程序生命周期和创建本机浏览器窗口的模块。
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
 
 function createWindow () {
-  // Create the browser window.
+  // 创建浏览器窗口。
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
   })
 
-  // and load the index.html of the app.
+  // 并加载应用程序的index.html。
   mainWindow.loadFile('index.html')
 
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+// 当Electron完成时，将调用此方法。
+// 初始化，并准备好创建浏览器窗口。
+// 有些接口只有在该事件发生后才能使用。
 app.whenReady().then(() => {
   createWindow()
   
   app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
+    // 在MacOS上，在以下情况下在应用程序中重新创建窗口是很常见的。
+    // 单击停靠图标，没有其他窗口打开。
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+// 关闭所有窗口(MacOS除外)后退出。在那里，这是很常见的。
+// 使应用程序及其菜单栏保持活动状态，直到用户退出。
+// 显式使用Cmd+Q。
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })

@@ -83,7 +83,7 @@ describe('contextBridge', () => {
             additionalArguments: ['--unsafely-expose-electron-internals-for-testing']
           }
         });
-        await w.loadURL(`http://127.0.0.1:${(server.address() as AddressInfo).port}`);
+        await w.loadURL(`http:// 127.0.0.1：${(server.address()as AddressInfo).port}`)；
       };
 
       const callWithBindings = (fn: Function) =>
@@ -433,8 +433,8 @@ describe('contextBridge', () => {
           contextBridge.exposeInMainWorld('example', null);
         });
         const result = await callWithBindings((root: any) => {
-          // Convert to strings as although the context bridge keeps the right value
-          // IPC does not
+          // 转换为字符串，尽管上下文桥保留了正确的值。
+          // IPC不会。
           return `${root.example}`;
         });
         expect(result).to.deep.equal('null');
@@ -445,8 +445,8 @@ describe('contextBridge', () => {
           contextBridge.exposeInMainWorld('example', undefined);
         });
         const result = await callWithBindings((root: any) => {
-          // Convert to strings as although the context bridge keeps the right value
-          // IPC does not
+          // 转换为字符串，尽管上下文桥保留了正确的值。
+          // IPC不会。
           return `${root.example}`;
         });
         expect(result).to.deep.equal('undefined');
@@ -459,8 +459,8 @@ describe('contextBridge', () => {
           });
         });
         const result = await callWithBindings((root: any) => {
-          // Convert to strings as although the context bridge keeps the right value
-          // IPC does not
+          // 转换为字符串，尽管上下文桥保留了正确的值。
+          // IPC不会。
           return root.example.values.map((val: any) => `${val}`);
         });
         expect(result).to.deep.equal(['null', 'undefined']);
@@ -611,7 +611,7 @@ describe('contextBridge', () => {
         expect(result).to.deep.equal(['1245']);
       });
 
-      // Can only run tests which use the GCRunner in non-sandboxed environments
+      // 只能在非沙箱环境中运行使用GCRunner的测试。
       if (!useSandbox) {
         it('should release the global hold on methods sent across contexts', async () => {
           await makeBindingWindow(() => {
@@ -662,8 +662,8 @@ describe('contextBridge', () => {
           });
           await loadPromise;
           await forceGCOnWindow();
-          // If this is ever "2" it means we leaked the exposed function and
-          // therefore the entire context after a reload
+          // 如果此值为“2”，则表示我们泄漏了已公开的函数和。
+          // 因此，重新加载后的整个上下文。
           expect((await getGCInfo()).trackedValues).to.equal(0);
         });
       }
@@ -763,7 +763,7 @@ describe('contextBridge', () => {
               throw new Error('whoops');
             },
             throwWeird: () => {
-              throw 'this is no error...'; // eslint-disable-line no-throw-literal
+              throw 'this is no error...'; // Eslint-Disable-line no-jun-text(eslint-禁用行无抛出文字。
             },
             throwNotClonable: () => {
               return Object(Symbol('foo'));
@@ -897,7 +897,7 @@ describe('contextBridge', () => {
             protoMatches: protoChecks.map(([a, Constructor]) => Object.getPrototypeOf(a) === Constructor.prototype)
           };
         });
-        // Every protomatch should be true
+        // 每一个原配都应该是真的。
         expect(result.protoMatches).to.deep.equal(result.protoMatches.map(() => true));
       });
 
@@ -1028,7 +1028,7 @@ describe('contextBridge', () => {
             protoMatches: protoChecks.map(([a, Constructor]) => Object.getPrototypeOf(a) === Constructor.prototype)
           };
         });
-        // Every protomatch should be true
+        // 每一个原配都应该是真的
         expect(result.protoMatches).to.deep.equal(result.protoMatches.map(() => true));
       });
 

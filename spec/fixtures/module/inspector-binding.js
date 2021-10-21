@@ -2,7 +2,7 @@ const inspector = require('inspector');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
-// This test case will set a breakpoint 4 lines below
+// 此测试用例将在下面4行设置断点
 function debuggedFunction () {
   let i;
   let accum = 0;

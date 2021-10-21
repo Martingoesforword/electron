@@ -6,7 +6,7 @@ const basicNotification = {
 const notification = {
   title: 'Notification with image',
   body: 'Short message plus a custom image',
-  icon: 'https://via.placeholder.com/150'
+  icon: 'https:// Via.placeholder.co
 }
 
 const basicNotificationButton = document.getElementById('basic-noti')

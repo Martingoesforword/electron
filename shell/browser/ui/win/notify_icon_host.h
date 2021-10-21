@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_WIN_NOTIFY_ICON_HOST_H_
 #define SHELL_BROWSER_UI_WIN_NOTIFY_ICON_HOST_H_
@@ -30,7 +30,7 @@ class NotifyIconHost {
  private:
   typedef std::vector<NotifyIcon*> NotifyIcons;
 
-  // Static callback invoked when a message comes in to our messaging window.
+  // 当消息进入我们的消息传递窗口时调用静态回调。
   static LRESULT CALLBACK WndProcStatic(HWND hwnd,
                                         UINT message,
                                         WPARAM wparam,
@@ -43,28 +43,28 @@ class NotifyIconHost {
 
   UINT NextIconId();
 
-  // The unique icon ID we will assign to the next icon.
+  // 我们将分配给下一个图标的唯一图标ID。
   UINT next_icon_id_ = 1;
 
-  // List containing all active NotifyIcons.
+  // 包含所有活动NotifyIcons的列表。
   NotifyIcons notify_icons_;
 
-  // The window class of |window_|.
+  // |Window_|的窗口类。
   ATOM atom_ = 0;
 
-  // The handle of the module that contains the window procedure of |window_|.
+  // 包含|Window_|的窗口过程的模块的句柄。
   HMODULE instance_ = nullptr;
 
-  // The window used for processing events.
+  // 用于处理事件的窗口。
   HWND window_ = nullptr;
 
-  // The message ID of the "TaskbarCreated" message, sent to us when we need to
-  // reset our status icons.
+  // “TaskbarCreated”消息的消息ID，在我们需要时发送给我们。
+  // 重置我们的状态图标。
   UINT taskbar_created_message_ = 0;
 
   DISALLOW_COPY_AND_ASSIGN(NotifyIconHost);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_WIN_NOTIFY_ICON_HOST_H_
+#endif  // Shell_Browser_UI_Win_Notify_ICON_HOST_H_

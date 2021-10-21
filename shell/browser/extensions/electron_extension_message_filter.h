@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Samuel Maddock <sam@samuelmaddock.com>.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Samuel Maddock&lt;Sam@samuelmaddock.com&gt;。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSION_MESSAGE_FILTER_H_
 #define SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSION_MESSAGE_FILTER_H_
@@ -24,14 +24,14 @@ struct Message;
 
 namespace electron {
 
-// This class filters out incoming Electron-specific IPC messages from the
-// extension process on the IPC thread.
+// 类过滤掉传入的特定于电子的IPC消息。
+// IPC线程上的扩展进程。
 class ElectronExtensionMessageFilter : public content::BrowserMessageFilter {
  public:
   ElectronExtensionMessageFilter(int render_process_id,
                                  content::BrowserContext* browser_context);
 
-  // content::BrowserMessageFilter methods:
+  // 内容：：BrowserMessageFilter方法：
   bool OnMessageReceived(const IPC::Message& message) override;
   void OverrideThreadForMessage(const IPC::Message& message,
                                 content::BrowserThread::ID* thread) override;
@@ -54,15 +54,15 @@ class ElectronExtensionMessageFilter : public content::BrowserMessageFilter {
 
   const int render_process_id_;
 
-  // The BrowserContext associated with our renderer process.  This should only
-  // be accessed on the UI thread! Furthermore since this class is refcounted it
-  // may outlive |browser_context_|, so make sure to NULL check if in doubt;
-  // async calls and the like.
+  // 与我们的呈现器进程相关联的BrowserContext。这应该只是。
+  // 可以在UI线程上访问！此外，由于这一类是重新计算的，所以。
+  // 可能比|BROWSER_CONTEXT_|更长，因此如果有疑问，请确保检查为空；
+  // 异步呼叫等。
   content::BrowserContext* browser_context_;
 
   DISALLOW_COPY_AND_ASSIGN(ElectronExtensionMessageFilter);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSION_MESSAGE_FILTER_H_

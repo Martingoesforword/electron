@@ -1,6 +1,6 @@
-// Copyright 2014 Cheng Zhao. All rights reserved.
-// Use of this source code is governed by MIT license that can be found in the
-// LICENSE file.
+// 版权所有2014程昭。版权所有。
+// 此源代码的使用受麻省理工学院许可管理，该许可可在。
+// 许可证文件。
 
 #ifndef SHELL_COMMON_GIN_HELPER_PERSISTENT_DICTIONARY_H_
 #define SHELL_COMMON_GIN_HELPER_PERSISTENT_DICTIONARY_H_
@@ -9,11 +9,11 @@
 
 namespace gin_helper {
 
-// Like Dictionary, but stores object in persistent handle so you can keep it
-// safely on heap.
-//
-// TODO(zcbenz): The only user of this class is ElectronTouchBar, we should
-// migrate away from this class.
+// 与Dictionary类似，但将对象存储在永久句柄中，以便您可以保留它。
+// 安全地在堆上。
+// 
+// TODO(Zcbenz)：此类的唯一用户是ElectronTouchBar，我们应该。
+// 从这个班级迁移出去。
 class PersistentDictionary {
  public:
   PersistentDictionary();
@@ -42,7 +42,7 @@ class PersistentDictionary {
   v8::Global<v8::Object> handle_;
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 namespace gin {
 
@@ -58,6 +58,6 @@ struct Converter<gin_helper::PersistentDictionary> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 #endif  // SHELL_COMMON_GIN_HELPER_PERSISTENT_DICTIONARY_H_

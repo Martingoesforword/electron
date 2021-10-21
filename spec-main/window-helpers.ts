@@ -5,18 +5,18 @@ import { emittedOnce } from './events-helpers';
 async function ensureWindowIsClosed (window: BrowserWindow | null) {
   if (window && !window.isDestroyed()) {
     if (window.webContents && !window.webContents.isDestroyed()) {
-      // If a window isn't destroyed already, and it has non-destroyed WebContents,
-      // then calling destroy() won't immediately destroy it, as it may have
-      // <webview> children which need to be destroyed first. In that case, we
-      // await the 'closed' event which signals the complete shutdown of the
-      // window.
+      // 如果窗口尚未销毁，并且它具有未销毁的WebContents，
+      // 那么调用Destroy()不会立即销毁它，因为它可能已经销毁了。
+      // &lt;webview&gt;需要先销毁的子项。那样的话，我们。
+      // 等待发出完全关闭信号的“Closed”事件。
+      // 窗户。
       const isClosed = emittedOnce(window, 'closed');
       window.destroy();
       await isClosed;
     } else {
-      // If there's no WebContents or if the WebContents is already destroyed,
-      // then the 'closed' event has already been emitted so there's nothing to
-      // wait for.
+      // 如果没有WebContents或者WebContents已被销毁，
+      // 则“Closed”事件已经发出，因此没有什么可以。
+      // 等一下。
       window.destroy();
     }
   }

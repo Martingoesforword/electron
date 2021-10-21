@@ -10,9 +10,9 @@ import * as ipcMainUtils from '@electron/internal/browser/ipc-main-internal-util
 import { MessagePortMain } from '@electron/internal/browser/message-port-main';
 import { IPC_MESSAGES } from '@electron/internal/common/ipc-messages';
 
-// session is not used here, the purpose is to make sure session is initalized
-// before the webContents module.
-// eslint-disable-next-line
+// 此处不使用会话，其目的是确保会话已初始化。
+// 在webContents模块之前。
+// Eslint-禁用-下一行。
 session
 
 let nextId = 0;
@@ -22,7 +22,7 @@ const getNextId = function () {
 
 type PostData = LoadURLOptions['postData']
 
-// Stock page sizes
+// 库存页面大小。
 const PDFPageSizes: Record<string, ElectronInternal.MediaSize> = {
   A5: {
     custom_display_name: 'A5',
@@ -63,22 +63,22 @@ const PDFPageSizes: Record<string, ElectronInternal.MediaSize> = {
   }
 } as const;
 
-// The minimum micron size Chromium accepts is that where:
-// Per printing/units.h:
-//  * kMicronsPerInch - Length of an inch in 0.001mm unit.
-//  * kPointsPerInch - Length of an inch in CSS's 1pt unit.
-//
-// Formula: (kPointsPerInch / kMicronsPerInch) * size >= 1
-//
-// Practically, this means microns need to be > 352 microns.
-// We therefore need to verify this or it will silently fail.
+// 铬可接受的最小微米尺寸为：
+// 每个打印/单位。h：
+// *kMicronsPerInch-以0.001毫米为单位的英寸长度。
+// *kPointsPerInch-以CSS的1pt单位表示的英寸长度。
+// 
+// 公式：(kPointsPerInch/kMicronsPerInch)*Size&gt;=1。
+// 
+// 实际上，这意味着微米需要大于352微米。
+// 因此，我们需要验证这一点，否则它将默默失败。
 const isValidCustomPageSize = (width: number, height: number) => {
   return [width, height].every(x => x > 352);
 };
 
-// Default printing setting
+// 默认打印设置。
 const defaultPrintingSetting = {
-  // Customizable.
+  // 可自定义。
   pageRange: [] as {from: number, to: number}[],
   mediaSize: {} as ElectronInternal.MediaSize,
   landscape: false,
@@ -87,14 +87,14 @@ const defaultPrintingSetting = {
   scaleFactor: 100,
   shouldPrintBackgrounds: false,
   shouldPrintSelectionOnly: false,
-  // Non-customizable.
+  // 不可自定义。
   printWithCloudPrint: false,
   printWithPrivet: false,
   printWithExtension: false,
   pagesPerSheet: 1,
   isFirstRequest: false,
   previewUIID: 0,
-  // True, if the document source is modifiable. e.g. HTML and not PDF.
+  // 如果文档源是可修改的，则为True。例如HTML而不是PDF。
   previewModifiable: true,
   printToPDF: true,
   deviceName: 'Save as PDF',
@@ -104,7 +104,7 @@ const defaultPrintingSetting = {
   rasterizePDF: false,
   duplex: 0,
   copies: 1,
-  // 2 = color - see ColorModel in //printing/print_job_constants.h
+  // 2=COLOR-请参阅//PRINTING/print_job_constants.h中的ColorModel。
   color: 2,
   collate: true,
   printerType: 2,
@@ -112,7 +112,7 @@ const defaultPrintingSetting = {
   url: undefined as string | undefined
 } as const;
 
-// JavaScript implementations of WebContents.
+// WebContents的JavaScript实现。
 const binding = process._linkedBinding('electron_browser_web_contents');
 const printing = process._linkedBinding('electron_browser_printing');
 const { WebContents } = binding as { WebContents: { prototype: Electron.WebContents } };
@@ -153,7 +153,7 @@ WebContents.prototype._sendToFrameInternal = function (frameId, channel, ...args
   return true;
 };
 
-// Following methods are mapped to webFrame.
+// 以下方法映射到webFrame。
 const webFrameMethods = [
   'insertCSS',
   'insertText',
@@ -177,8 +177,8 @@ const waitTillCanExecuteJavaScript = async (webContents: Electron.WebContents) =
   });
 };
 
-// Make sure WebContents::executeJavaScript would run the code only when the
-// WebContents has been loaded.
+// 确保WebContents：：ecuteJavaScript仅在以下情况下运行代码。
+// 已加载WebContents。
 WebContents.prototype.executeJavaScript = async function (code, hasUserGesture) {
   await waitTillCanExecuteJavaScript(this);
   return ipcMainUtils.invokeInWebContents(this, IPC_MESSAGES.RENDERER_WEB_FRAME_METHOD, 'executeJavaScript', String(code), !!hasUserGesture);
@@ -188,7 +188,7 @@ WebContents.prototype.executeJavaScriptInIsolatedWorld = async function (worldId
   return ipcMainUtils.invokeInWebContents(this, IPC_MESSAGES.RENDERER_WEB_FRAME_METHOD, 'executeJavaScriptInIsolatedWorld', worldId, code, !!hasUserGesture);
 };
 
-// Translate the options of printToPDF.
+// 将printToPDF的选项转换为。
 
 let pendingPromise: Promise<any> | undefined;
 WebContents.prototype.printToPDF = async function (options) {
@@ -254,7 +254,7 @@ WebContents.prototype.printToPDF = async function (options) {
       return Promise.reject(error);
     }
 
-    // Chromium uses 1-based page ranges, so increment each by 1.
+    // Chrome使用以1为基数的页面范围，因此每个页面范围递增1。
     printSettings.pageRange = [{
       from: pageRanges.from + 1,
       to: pageRanges.to + 1
@@ -286,7 +286,7 @@ WebContents.prototype.printToPDF = async function (options) {
     }
   }
 
-  // Optionally set size for PDF.
+  // 可以选择设置PDF的大小。
   if (options.pageSize !== undefined) {
     const pageSize = options.pageSize;
     if (typeof pageSize === 'object') {
@@ -295,7 +295,7 @@ WebContents.prototype.printToPDF = async function (options) {
         return Promise.reject(error);
       }
 
-      // Dimensions in Microns - 1 meter = 10^6 microns
+      // 尺寸(微米)-1米=10^6微米。
       const height = Math.ceil(pageSize.height);
       const width = Math.ceil(pageSize.width);
       if (!isValidCustomPageSize(width, height)) {
@@ -319,9 +319,9 @@ WebContents.prototype.printToPDF = async function (options) {
     printSettings.mediaSize = PDFPageSizes.A4;
   }
 
-  // Chromium expects this in a 0-100 range number, not as float
+  // 铬需要0-100范围内的数字，而不是浮点数。
   printSettings.scaleFactor = Math.ceil(printSettings.scaleFactor) % 100;
-  // PrinterType enum from //printing/print_job_constants.h
+  // 来自//printing/print_job_conants.h的PrinterType枚举。
   printSettings.printerType = 2;
   if (this._printToPDF) {
     if (pendingPromise) {
@@ -337,10 +337,10 @@ WebContents.prototype.printToPDF = async function (options) {
 };
 
 WebContents.prototype.print = function (options: ElectronInternal.WebContentsPrintOptions = {}, callback) {
-  // TODO(codebytere): deduplicate argument sanitization by moving rest of
-  // print param logic into new file shared between printToPDF and print
+  // TODO(Codebytere)：通过移动剩余的。
+  // 将参数逻辑打印到printToPDF和Print之间共享的新文件中。
   if (typeof options === 'object') {
-    // Optionally set size for PDF.
+    // 可以选择设置PDF的大小。
     if (options.pageSize !== undefined) {
       const pageSize = options.pageSize;
       if (typeof pageSize === 'object') {
@@ -348,7 +348,7 @@ WebContents.prototype.print = function (options: ElectronInternal.WebContentsPri
           throw new Error('height and width properties are required for pageSize');
         }
 
-        // Dimensions in Microns - 1 meter = 10^6 microns
+        // 尺寸(微米)-1米=10^6微米。
         const height = Math.ceil(pageSize.height);
         const width = Math.ceil(pageSize.width);
         if (!isValidCustomPageSize(width, height)) {
@@ -381,8 +381,8 @@ WebContents.prototype.print = function (options: ElectronInternal.WebContentsPri
 };
 
 WebContents.prototype.getPrinters = function () {
-  // TODO(nornagon): this API has nothing to do with WebContents and should be
-  // moved.
+  // TODO(Nornagon)：此API与WebContents无关，应该是。
+  // 搬家了。
   if (printing.getPrinterList) {
     return printing.getPrinterList();
   } else {
@@ -436,29 +436,29 @@ WebContents.prototype.loadURL = function (url, options) {
     const navigationListener = (event: Electron.Event, url: string, isSameDocument: boolean, isMainFrame: boolean) => {
       if (isMainFrame) {
         if (navigationStarted && !isSameDocument) {
-          // the webcontents has started another unrelated navigation in the
-          // main frame (probably from the app calling `loadURL` again); reject
-          // the promise
-          // We should only consider the request aborted if the "navigation" is
-          // actually navigating and not simply transitioning URL state in the
-          // current context.  E.g. pushState and `location.hash` changes are
-          // considered navigation events but are triggered with isSameDocument.
-          // We can ignore these to allow virtual routing on page load as long
-          // as the routing does not leave the document
+          // Web内容已在中启动了另一个不相关的导航。
+          // Main Frame(可能来自再次调用`loadURL`的应用程序)；拒绝。
+          // 诺言。
+          // 只有当“导航”是时，我们才应该考虑中止请求。
+          // 中的URL状态进行实际导航，而不是简单地转换。
+          // 当前上下文。例如，Push State和`location.hash`更改是。
+          // 考虑导航事件，但使用isSameDocument触发。
+          // 我们可以忽略这些，以便在页面加载时允许虚拟路由。
+          // 因为发送路线不会离开文档。
           return rejectAndCleanup(-3, 'ERR_ABORTED', url);
         }
         navigationStarted = true;
       }
     };
     const stopLoadingListener = () => {
-      // By the time we get here, either 'finish' or 'fail' should have fired
-      // if the navigation occurred. However, in some situations (e.g. when
-      // attempting to load a page with a bad scheme), loading will stop
-      // without emitting finish or fail. In this case, we reject the promise
-      // with a generic failure.
-      // TODO(jeremy): enumerate all the cases in which this can happen. If
-      // the only one is with a bad scheme, perhaps ERR_INVALID_ARGUMENT
-      // would be more appropriate.
+      // 我们到这里的时候，不是“结束”就是“失败”
+      // 如果发生导航的话。但是，在某些情况下(例如，当。
+      // 试图加载具有错误方案的页面)，加载将停止。
+      // 不会发出光洁度或失败。在这种情况下，我们拒绝承诺。
+      // 出现了一般性的故障。
+      // TODO(Jeremy)：列举所有可能发生这种情况的情况。如果。
+      // 唯一一个错误方案可能是ERR_INVALID_ARGUMENT。
+      // 会更合适。
       rejectAndCleanup(-2, 'ERR_FAILED', url);
     };
     const removeListeners = () => {
@@ -474,7 +474,7 @@ WebContents.prototype.loadURL = function (url, options) {
     this.on('did-stop-loading', stopLoadingListener);
     this.on('destroyed', stopLoadingListener);
   });
-  // Add a no-op rejection handler to silence the unhandled rejection error.
+  // 添加无操作拒绝处理程序以使未处理的拒绝错误静默。
   p.catch(() => {});
   this._loadURL(url, options);
   this.emit('load-url', url, options);
@@ -547,10 +547,10 @@ const loggingEnabled = () => {
   return environment.hasVar('ELECTRON_ENABLE_LOGGING') || commandLine.hasSwitch('enable-logging');
 };
 
-// Add JavaScript wrappers for WebContents class.
+// 为WebContents类添加JavaScript包装器。
 WebContents.prototype._init = function () {
-  // Read off the ID at construction time, so that it's accessible even after
-  // the underlying C++ WebContents is destroyed.
+  // 在施工时读出ID，这样即使在。
+  // 底层C++WebContents被销毁。
   const id = this.id;
   Object.defineProperty(this, 'id', {
     value: id,
@@ -559,7 +559,7 @@ WebContents.prototype._init = function () {
 
   this._windowOpenHandler = null;
 
-  // Dispatch IPC messages to the ipc module.
+  // 将IPC消息发送到IPC模块。
   this.on('-ipc-message' as any, function (this: Electron.WebContents, event: Electron.IpcMainEvent, internal: boolean, channel: string, args: any[]) {
     addSenderFrameToEvent(event);
     if (internal) {
@@ -613,19 +613,19 @@ WebContents.prototype._init = function () {
   this.on('render-process-gone', (event, details) => {
     app.emit('render-process-gone', event, this, details);
 
-    // Log out a hint to help users better debug renderer crashes.
+    // 注销提示以帮助用户更好地调试渲染器崩溃。
     if (loggingEnabled()) {
-      console.info(`Renderer process ${details.reason} - see https://www.electronjs.org/docs/tutorial/application-debugging for potential debugging information.`);
+      console.info(`Renderer process ${details.reason} - see https:// 潜在调试信息的www.electronjs.org/docs/tutorial/application-debugging。`)；
     }
   });
 
-  // The devtools requests the webContents to reload.
+  // DevTools请求重新加载webContents。
   this.on('devtools-reload-page', function (this: Electron.WebContents) {
     this.reload();
   });
 
   if (this.getType() !== 'remote') {
-    // Make new windows requested by links behave like "window.open".
+    // 使链接请求的新窗口的行为类似于“window.open”。
     this.on('-new-window' as any, (event: ElectronInternal.Event, url: string, frameName: string, disposition: Electron.HandlerDetails['disposition'],
       rawFeatures: string, referrer: Electron.Referrer, postData: PostData) => {
       const postBody = postData ? {
@@ -669,9 +669,9 @@ WebContents.prototype._init = function () {
         postBody
       };
       windowOpenOverriddenOptions = this._callWindowOpenHandler(event, details);
-      // if attempting to use this API with the deprecated new-window event,
-      // windowOpenOverriddenOptions will always return null. This ensures
-      // short-term backwards compatibility until new-window is removed.
+      // 如果尝试将此API与不推荐使用的new-Window事件一起使用，
+      // WindowOpenOverriddenOptions将始终返回NULL。这确保了。
+      // 短期向后兼容，直到删除新窗口。
       const parsedFeatures = parseFeatures(rawFeatures);
       const overriddenFeatures: BrowserWindowConstructorOptions = {
         ...parsedFeatures.options,
@@ -681,9 +681,9 @@ WebContents.prototype._init = function () {
 
       if (!event.defaultPrevented) {
         const secureOverrideWebPreferences = windowOpenOverriddenOptions ? {
-          // Allow setting of backgroundColor as a webPreference even though
-          // it's technically a BrowserWindowConstructorOptions option because
-          // we need to access it in the renderer at init time.
+          // 允许将backround Color设置为Web首选项，即使。
+          // 从技术上讲，它是BrowserWindowConstructorOptions选项，因为。
+          // 我们需要在初始化时在渲染器中访问它。
           backgroundColor: windowOpenOverriddenOptions.backgroundColor,
           transparent: windowOpenOverriddenOptions.transparent,
           ...windowOpenOverriddenOptions.webPreferences
@@ -694,8 +694,8 @@ WebContents.prototype._init = function () {
       }
     });
 
-    // Create a new browser window for the native implementation of
-    // "window.open", used in sandbox and nativeWindowOpen mode.
+    // 为的本机实现创建新的浏览器窗口。
+    // Window.open，沙盒和原生WindowOpen模式下使用。
     this.on('-add-new-contents' as any, (event: ElectronInternal.Event, webContents: Electron.WebContents, disposition: string,
       _userGesture: boolean, _left: number, _top: number, _width: number, _height: number, url: string, frameName: string,
       referrer: Electron.Referrer, rawFeatures: string, postData: PostData) => {
@@ -741,7 +741,7 @@ WebContents.prototype._init = function () {
   const event = process._linkedBinding('electron_browser_event').createEmpty();
   app.emit('web-contents-created', event, this);
 
-  // Properties
+  // 属性
 
   Object.defineProperty(this, 'audioMuted', {
     get: () => this.isAudioMuted(),
@@ -774,7 +774,7 @@ WebContents.prototype._init = function () {
   });
 };
 
-// Public APIs.
+// 公共接口。
 export function create (options = {}): Electron.WebContents {
   return new (WebContents as any)(options);
 }
@@ -792,8 +792,8 @@ export function getFocusedWebContents () {
   for (const contents of binding.getAllWebContents()) {
     if (!contents.isFocused()) continue;
     if (focused == null) focused = contents;
-    // Return webview web contents which may be embedded inside another
-    // web contents that is also reporting as focused
+    // 返回可能嵌入到另一个网页中的WebView网页内容。
+    // 也报告为焦点的Web内容
     if (contents.getType() === 'webview') return contents;
   }
   return focused;

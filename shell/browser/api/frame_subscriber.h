@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_FRAME_SUBSCRIBER_H_
 #define SHELL_BROWSER_API_FRAME_SUBSCRIBER_H_
@@ -19,7 +19,7 @@
 namespace gfx {
 class Image;
 class Rect;
-}  // namespace gfx
+}  // 命名空间gfx。
 
 namespace electron {
 
@@ -47,7 +47,7 @@ class FrameSubscriber : public content::WebContentsObserver,
   void RenderViewHostChanged(content::RenderViewHost* old_host,
                              content::RenderViewHost* new_host) override;
 
-  // viz::mojom::FrameSinkVideoConsumer implementation.
+  // VIZ：：mojom：：FrameSinkVideoConsumer实现。
   void OnFrameCaptured(
       base::ReadOnlySharedMemoryRegion data,
       ::media::mojom::VideoFrameInfoPtr info,
@@ -59,7 +59,7 @@ class FrameSubscriber : public content::WebContentsObserver,
 
   void Done(const gfx::Rect& damage, const SkBitmap& frame);
 
-  // Get the pixel size of render view.
+  // 获取渲染视图的像素大小。
   gfx::Size GetRenderViewSize() const;
 
   FrameCaptureCallback callback_;
@@ -73,8 +73,8 @@ class FrameSubscriber : public content::WebContentsObserver,
   DISALLOW_COPY_AND_ASSIGN(FrameSubscriber);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_FRAME_SUBSCRIBER_H_
+#endif  // Shell_Browser_API_Frame_Subscriber_H_

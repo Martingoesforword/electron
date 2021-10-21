@@ -145,5 +145,5 @@ describe('Notification module', () => {
     }
   });
 
-  // TODO(sethlu): Find way to test init with notification icon?
+  // TODO(Sethlu)：想办法用通知图标测试初始化吗？
 });

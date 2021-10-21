@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_SCREEN_H_
 #define SHELL_BROWSER_API_ELECTRON_API_SCREEN_H_
@@ -17,7 +17,7 @@ namespace gfx {
 class Point;
 class Rect;
 class Screen;
-}  // namespace gfx
+}  // 命名空间gfx。
 
 namespace electron {
 
@@ -44,7 +44,7 @@ class Screen : public gin::Wrappable<Screen>,
   display::Display GetDisplayNearestPoint(const gfx::Point& point);
   display::Display GetDisplayMatching(const gfx::Rect& match_rect);
 
-  // display::DisplayObserver:
+  // Display：：DisplayViewer：
   void OnDisplayAdded(const display::Display& new_display) override;
   void OnDisplayRemoved(const display::Display& old_display) override;
   void OnDisplayMetricsChanged(const display::Display& display,
@@ -56,8 +56,8 @@ class Screen : public gin::Wrappable<Screen>,
   DISALLOW_COPY_AND_ASSIGN(Screen);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_SCREEN_H_
+#endif  // Shell_Browser_API_Electronics_API_Screen_H_

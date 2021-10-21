@@ -18,26 +18,26 @@ export const setDefaultApplicationMenu = () => {
       {
         label: 'Learn More',
         click: async () => {
-          await shell.openExternal('https://electronjs.org');
+          await shell.openExternal('https:// Electronjs.org‘)；
         }
       },
       {
         label: 'Documentation',
         click: async () => {
           const version = process.versions.electron;
-          await shell.openExternal(`https://github.com/electron/electron/tree/v${version}/docs#readme`);
+          await shell.openExternal(`https:// Github.co
         }
       },
       {
         label: 'Community Discussions',
         click: async () => {
-          await shell.openExternal('https://discord.gg/electron');
+          await shell.openExternal('https:// 
         }
       },
       {
         label: 'Search Issues',
         click: async () => {
-          await shell.openExternal('https://github.com/electron/electron/issues');
+          await shell.openExternal('https:// 
         }
       }
     ]

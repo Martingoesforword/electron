@@ -12,12 +12,12 @@ if (process.type === 'renderer') {
   };
 
   if (process.platform === 'linux') {
-    // On Linux we could not access clipboard in renderer process.
+    // 在Linux上，我们无法在渲染器进程中访问剪贴板。
     for (const method of Object.keys(clipboard) as (keyof Electron.Clipboard)[]) {
       clipboard[method] = makeRemoteMethod(method);
     }
   } else if (process.platform === 'darwin') {
-    // Read/write to find pasteboard over IPC since only main process is notified of changes
+    // 读/写以通过IPC查找粘贴板，因为更改只通知主进程
     clipboard.readFindText = makeRemoteMethod('readFindText');
     clipboard.writeFindText = makeRemoteMethod('writeFindText');
   }

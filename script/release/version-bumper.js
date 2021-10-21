@@ -34,7 +34,7 @@ function parseCommandLine () {
   return opts;
 }
 
-// run the script
+// 运行脚本。
 async function main () {
   const opts = parseCommandLine();
   const currentVersion = await versionUtils.getElectronVersion();
@@ -48,7 +48,7 @@ async function main () {
     pre: parsed.prerelease
   };
 
-  // print would-be new version and exit early
+  // 打印潜在的新版本并提前退出。
   if (opts.dryRun) {
     console.log(`new version number would be: ${version}\n`);
     return 0;
@@ -58,20 +58,20 @@ async function main () {
     await updateSupported(version, supported);
   }
 
-  // update all version-related files
+  // 更新所有与版本相关的文件。
   await Promise.all([
     updateVersion(version),
     updatePackageJSON(version),
     updateWinRC(components)
   ]);
 
-  // commit all updated version-related files
+  // 提交所有更新的版本相关文件。
   await commitVersionBump(version);
 
   console.log(`Bumped to version: ${version}`);
 }
 
-// get next version for release based on [nightly, alpha, beta, stable]
+// 根据[每夜、阿尔法、测试版、稳定版]获取下一版本的发行版。
 async function nextVersion (bumpType, version) {
   if (
     versionUtils.isNightly(version) ||
@@ -134,13 +134,13 @@ function isMajorNightly (version, currentVersion) {
   return false;
 }
 
-// update VERSION file with latest release info
+// 使用最新版本信息更新版本文件。
 async function updateVersion (version) {
   const versionPath = path.resolve(ELECTRON_DIR, 'ELECTRON_VERSION');
   await writeFile(versionPath, version, 'utf8');
 }
 
-// update package metadata files with new version
+// 使用新版本更新包元数据文件。
 async function updatePackageJSON (version) {
   const filePath = path.resolve(ELECTRON_DIR, 'package.json');
   const file = require(filePath);
@@ -148,13 +148,13 @@ async function updatePackageJSON (version) {
   await writeFile(filePath, JSON.stringify(file, null, 2));
 }
 
-// push bump commit to release branch
+// 将凹凸提交推送到释放分支。
 async function commitVersionBump (version) {
   const gitArgs = ['commit', '-a', '-m', `Bump v${version}`, '-n'];
   await GitProcess.exec(gitArgs, ELECTRON_DIR);
 }
 
-// updates electron.rc file with new semver values
+// 使用新的Semver值更新Electron.rc文件。
 async function updateWinRC (components) {
   const filePath = path.resolve(ELECTRON_DIR, 'shell', 'browser', 'resources', 'win', 'electron.rc');
   const data = await readFile(filePath, 'utf8');
@@ -171,7 +171,7 @@ async function updateWinRC (components) {
   await writeFile(filePath, arr.join('\n'));
 }
 
-// updates support.md file with new semver values (stable only)
+// 使用新的Semver值更新support.md文件(仅限稳定)
 async function updateSupported (version, filePath) {
   const v = parseInt(version);
   const newVersions = [`* ${v}.x.y`, `* ${v - 1}.x.y`, `* ${v - 2}.x.y`, `* ${v - 3}`];

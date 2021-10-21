@@ -1,11 +1,11 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
-//
-// Portions of this file are sourced from
-// chrome/browser/ui/views/frame/glass_browser_frame_view.h,
-// Copyright (c) 2012 The Chromium Authors,
-// which is governed by a BSD-style license
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
+// 
+// 此文件的某些部分源自。
+// Chrome/browser/ui/views/frame/glass_browser_frame_view.h，
+// 版权所有(C)2012 Chromium作者，
+// 它由BSD样式的许可证管理。
 
 #ifndef SHELL_BROWSER_UI_VIEWS_WIN_FRAME_VIEW_H_
 #define SHELL_BROWSER_UI_VIEWS_WIN_FRAME_VIEW_H_
@@ -24,18 +24,18 @@ class WinFrameView : public FramelessView {
 
   void Init(NativeWindowViews* window, views::Widget* frame) override;
 
-  // Alpha to use for features in the titlebar (the window title and caption
-  // buttons) when the window is inactive. They are opaque when active.
+  // 用于标题栏中的要素(窗口标题和标题)的Alpha。
+  // 按钮)，当窗口处于非活动状态时。它们在处于活动状态时是不透明的。
   static constexpr SkAlpha kInactiveTitlebarFeatureAlpha = 0x66;
 
   SkColor GetReadableFeatureColor(SkColor background_color);
 
-  // views::NonClientFrameView:
+  // 视图：：NonClientFrameView：
   gfx::Rect GetWindowBoundsForClientBounds(
       const gfx::Rect& client_bounds) const override;
   int NonClientHitTest(const gfx::Point& point) override;
 
-  // views::View:
+  // 视图：：视图：
   const char* GetClassName() const override;
 
   NativeWindowViews* window() const { return window_; }
@@ -45,12 +45,12 @@ class WinFrameView : public FramelessView {
 
   bool ShouldCustomDrawSystemTitlebar() const;
 
-  // Visual height of the titlebar when the window is maximized (i.e. excluding
-  // the area above the top of the screen).
+  // 窗口最大化时标题栏的视觉高度(即不包括。
+  // 屏幕顶部上方的区域)。
   int TitlebarMaximizedVisualHeight() const;
 
  protected:
-  // views::View:
+  // 视图：：视图：
   void Layout() override;
 
  private:
@@ -58,33 +58,33 @@ class WinFrameView : public FramelessView {
 
   int FrameBorderThickness() const;
 
-  // Returns the thickness of the window border for the top edge of the frame,
-  // which is sometimes different than FrameBorderThickness(). Does not include
-  // the titlebar/tabstrip area. If |restored| is true, this is calculated as if
-  // the window was restored, regardless of its current state.
+  // 返回框架上边缘的窗口边框厚度，
+  // 它有时与FrameBorderThickness()不同。不包括。
+  // 标题栏/选项卡栏区域。如果|RESTORED|为TRUE，则按如下方式计算。
+  // 无论窗口的当前状态如何，窗口都已恢复。
   int FrameTopBorderThickness(bool restored) const;
   int FrameTopBorderThicknessPx(bool restored) const;
 
-  // Returns the height of the titlebar for popups or other browser types that
-  // don't have tabs.
+  // 返回弹出窗口或其他浏览器类型的标题栏高度，
+  // 没有标签。
   int TitlebarHeight(bool restored) const;
 
-  // Returns the y coordinate for the top of the frame, which in maximized mode
-  // is the top of the screen and in restored mode is 1 pixel below the top of
-  // the window to leave room for the visual border that Windows draws.
+  // 返回框架顶部的y坐标，该坐标处于最大化模式。
+  // 是屏幕的顶部，在还原模式下是比。
+  // 为Windows绘制的可视边框留出空间的窗口。
   int WindowTopY() const;
 
   void LayoutCaptionButtons();
   void LayoutWindowControlsOverlay();
 
-  // The container holding the caption buttons (minimize, maximize, close, etc.)
-  // May be null if the caption button container is destroyed before the frame
-  // view. Always check for validity before using!
+  // 容纳标题按钮(最小化、最大化、关闭等)的容器。
+  // 如果字幕按钮容器在帧之前被销毁，则可能为空。
+  // 查看。在使用之前一定要检查有效性！
   WinCaptionButtonContainer* caption_button_container_;
 
   DISALLOW_COPY_AND_ASSIGN(WinFrameView);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_VIEWS_WIN_FRAME_VIEW_H_
+#endif  // Shell_Browser_UI_Views_Win_Frame_View_H_

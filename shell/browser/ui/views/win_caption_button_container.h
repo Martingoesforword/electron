@@ -1,6 +1,6 @@
-// Copyright 2020 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2020年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_VIEWS_WIN_CAPTION_BUTTON_CONTAINER_H_
 #define SHELL_BROWSER_UI_VIEWS_WIN_CAPTION_BUTTON_CONTAINER_H_
@@ -18,37 +18,37 @@ namespace electron {
 class WinFrameView;
 class WinCaptionButton;
 
-// Provides a container for Windows 10 caption buttons that can be moved between
-// frame and browser window as needed. When extended horizontally, becomes a
-// grab bar for moving the window.
+// 为Windows 10标题按钮提供容器，这些按钮可以在。
+// 根据需要设置框架和浏览器窗口。当水平扩展时，将成为。
+// 用于移动窗户的抓取杆。
 class WinCaptionButtonContainer : public views::View,
                                   public views::WidgetObserver {
  public:
   explicit WinCaptionButtonContainer(WinFrameView* frame_view);
   ~WinCaptionButtonContainer() override;
 
-  // Tests to see if the specified |point| (which is expressed in this view's
-  // coordinates and which must be within this view's bounds) is within one of
-  // the caption buttons. Returns one of HitTestCompat enum defined in
-  // ui/base/hit_test.h, HTCAPTION if the area hit would be part of the window's
-  // drag handle, and HTNOWHERE otherwise.
-  // See also ClientView::NonClientHitTest.
+  // 测试以查看指定的|point|(在此视图的。
+  // 坐标且必须在此视图的边界内)在以下其中之一。
+  // 标题按钮。返回中定义的HitTestCompat枚举之一。
+  // Ui/base/hit_test.h，如果区域点击将是窗口的一部分，则返回HTCAPTION。
+  // 拖动控制柄，否则拖动HTNOWHERE。
+  // 另请参阅ClientView：：NonClientHitTest。
   int NonClientHitTest(const gfx::Point& point) const;
 
  private:
-  // views::View:
+  // 视图：：视图：
   void AddedToWidget() override;
   void RemovedFromWidget() override;
 
-  // views::WidgetObserver:
+  // 视图：：WidgetViewer：
   void OnWidgetBoundsChanged(views::Widget* widget,
                              const gfx::Rect& new_bounds) override;
 
   void ResetWindowControls();
 
-  // Sets caption button visibility and enabled state based on window state.
-  // Only one of maximize or restore button should ever be visible at the same
-  // time, and both are disabled in tablet UI mode.
+  // 根据窗口状态设置标题按钮的可见性和启用状态。
+  // 同时只能看到最大化或恢复按钮中的一个。
+  // 时间，两者在Tablet UI模式下都被禁用。
   void UpdateButtons();
 
   WinFrameView* const frame_view_;
@@ -65,6 +65,6 @@ class WinCaptionButtonContainer : public views::View,
           base::BindRepeating(&WinCaptionButtonContainer::UpdateButtons,
                               base::Unretained(this)));
 };
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_UI_VIEWS_WIN_CAPTION_BUTTON_CONTAINER_H_

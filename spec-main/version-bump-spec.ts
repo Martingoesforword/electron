@@ -38,13 +38,13 @@ class GitFake {
     this.branches[channel] = tags;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // Eslint-disable-next-line@tyescript-eslint/no-unuse-vars。
   exec (args: string[], path: string, options?: IGitExecutionOptions | undefined): Promise<IGitResult> {
     let stdout = '';
     const stderr = '';
     const exitCode = 0;
 
-    // handle for promoting from current master HEAD
+    // 用于从当前主负责人提升的句柄。
     let branch = 'stable';
     const v = (args[2] === 'HEAD') ? 'stable' : args[3];
     if (v.includes('nightly')) branch = 'nightly';
@@ -184,8 +184,8 @@ describe('version-bumper', () => {
     });
   });
 
-  // On macOS Circle CI we don't have a real git environment due to running
-  // gclient sync on a linux machine. These tests therefore don't run as expected.
+  // 在MacOS Circle CI上，由于正在运行，我们没有真正的GIT环境。
+  // Linux机器上的gclient同步。因此，这些测试不会按预期运行。
   ifdescribe(!(process.platform === 'linux' && process.arch.indexOf('arm') === 0) && process.platform !== 'darwin')('nextVersion', () => {
     describe('bump versions', () => {
       const nightlyPattern = /[0-9.]*(-nightly.(\d{4})(\d{2})(\d{2}))$/g;
@@ -215,7 +215,7 @@ describe('version-bumper', () => {
       it('bumps to a nightly version above our switch from N-0-x to N-x-y branch names', async () => {
         const version = 'v2.0.0-nightly.19950901';
         const next = await nextVersion('nightly', version);
-        // If it starts with v8 then we didn't bump above the 8-x-y branch
+        // 如果它从V8开始，那么我们没有超过8-x-y分支。
         expect(next.startsWith('v8')).to.equal(false);
       });
 
@@ -226,7 +226,7 @@ describe('version-bumper', () => {
         ).to.be.rejectedWith('Cannot bump to beta from stable.');
       });
 
-      // TODO ELECTRON 15: Re-enable after Electron 15 alpha has released
+      // TODO电子15：在电子15α释放后重新启用。
       it.skip('bumps to beta from nightly', async () => {
         const version = 'v2.0.0-nightly.19950901';
         const next = await nextVersion('beta', version);
@@ -286,8 +286,8 @@ describe('version-bumper', () => {
     });
   });
 
-  // If we don't plan on continuing to support an alpha channel past Electron 15,
-  // these tests will be removed. Otherwise, integrate into the bump versions tests
+  // 如果我们不打算继续支持超过电子15的阿尔法通道，
+  // 这些测试将被删除。否则，请集成到凹凸版本测试中
   describe('bump versions - alpha channel', () => {
     const alphaPattern = /[0-9.]*(-alpha[0-9.]*)/g;
     const betaPattern = /[0-9.]*(-beta[0-9.]*)/g;

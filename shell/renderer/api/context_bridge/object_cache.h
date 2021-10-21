@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_RENDERER_API_CONTEXT_BRIDGE_OBJECT_CACHE_H_
 #define SHELL_RENDERER_API_CONTEXT_BRIDGE_OBJECT_CACHE_H_
@@ -34,14 +34,14 @@ class ObjectCache final {
       v8::Local<v8::Value> from) const;
 
  private:
-  // object_identity ==> [from_value, proxy_value]
+  // Object_Identity==&gt;[FROM_VALUE，PROXY_VALUE]。
   std::unordered_map<int, std::forward_list<ObjectCachePair>> proxy_map_;
 };
 
-}  // namespace context_bridge
+}  // 命名空间上下文桥接器。
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_RENDERER_API_CONTEXT_BRIDGE_OBJECT_CACHE_H_

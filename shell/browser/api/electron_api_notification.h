@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_NOTIFICATION_H_
 #define SHELL_BROWSER_API_ELECTRON_API_NOTIFICATION_H_
@@ -23,7 +23,7 @@ namespace gin {
 class Arguments;
 template <typename T>
 class Handle;
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -37,14 +37,14 @@ class Notification : public gin::Wrappable<Notification>,
  public:
   static bool IsSupported();
 
-  // gin_helper::Constructible
+  // Gin_helper：：可构造的。
   static gin::Handle<Notification> New(gin_helper::ErrorThrower thrower,
                                        gin::Arguments* args);
   static v8::Local<v8::ObjectTemplate> FillObjectTemplate(
       v8::Isolate*,
       v8::Local<v8::ObjectTemplate>);
 
-  // NotificationDelegate:
+  // 通知代表：
   void NotificationAction(int index) override;
   void NotificationClick() override;
   void NotificationReplied(const std::string& reply) override;
@@ -53,7 +53,7 @@ class Notification : public gin::Wrappable<Notification>,
   void NotificationClosed() override;
   void NotificationFailed(const std::string& error) override;
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
 
  protected:
@@ -63,7 +63,7 @@ class Notification : public gin::Wrappable<Notification>,
   void Show();
   void Close();
 
-  // Prop Getters
+  // 道具吸气器。
   std::u16string GetTitle() const;
   std::u16string GetSubtitle() const;
   std::u16string GetBody() const;
@@ -77,7 +77,7 @@ class Notification : public gin::Wrappable<Notification>,
   std::u16string GetCloseButtonText() const;
   std::u16string GetToastXml() const;
 
-  // Prop Setters
+  // 道具设定器。
   void SetTitle(const std::u16string& new_title);
   void SetSubtitle(const std::u16string& new_subtitle);
   void SetBody(const std::u16string& new_body);
@@ -115,8 +115,8 @@ class Notification : public gin::Wrappable<Notification>,
   DISALLOW_COPY_AND_ASSIGN(Notification);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_NOTIFICATION_H_

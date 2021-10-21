@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_TRAY_ICON_GTK_H_
 #define SHELL_BROWSER_UI_TRAY_ICON_GTK_H_
@@ -18,16 +18,16 @@ class TrayIconGtk : public TrayIcon, public views::StatusIconLinux::Delegate {
   TrayIconGtk();
   ~TrayIconGtk() override;
 
-  // TrayIcon:
+  // 托盘图标：
   void SetImage(const gfx::Image& image) override;
   void SetToolTip(const std::string& tool_tip) override;
   void SetContextMenu(ElectronMenuModel* menu_model) override;
 
-  // views::StatusIconLinux::Delegate
+  // 视图：：StatusIconLinux：：Delegate。
   void OnClick() override;
   bool HasClickAction() override;
-  // The following four methods are only used by StatusIconLinuxDbus, which we
-  // aren't yet using, so they are given stub implementations.
+  // 以下四种方法仅由StatusIconLinuxDbus使用，我们。
+  // 还没有使用，所以会给他们提供存根实现。
   const gfx::ImageSkia& GetImage() const override;
   const std::u16string& GetToolTip() const override;
   ui::MenuModel* GetMenuModel() const override;
@@ -42,6 +42,6 @@ class TrayIconGtk : public TrayIcon, public views::StatusIconLinux::Delegate {
   DISALLOW_COPY_AND_ASSIGN(TrayIconGtk);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_TRAY_ICON_GTK_H_
+#endif  // Shell_Browser_UI_Tray_ICON_GTK_H_

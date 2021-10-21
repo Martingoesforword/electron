@@ -1,4 +1,4 @@
-/* eslint-disable no-var */
+/* Eslint-禁用no-var。*/
 declare var internalBinding: any;
 declare var binding: { get: (name: string) => any; process: NodeJS.Process; createPreloadScript: (src: string) => Function };
 
@@ -249,11 +249,11 @@ declare namespace NodeJS {
     log: NodeJS.WriteStream['write'];
     activateUvLoop(): void;
 
-    // Additional events
+    // 其他活动。
     once(event: 'document-start', listener: () => any): this;
     once(event: 'document-end', listener: () => any): this;
 
-    // Additional properties
+    // 其他属性。
     _firstFileName?: string;
 
     helperExecPath: string;
@@ -302,57 +302,37 @@ declare interface Window {
   trustedTypes: TrustedTypePolicyFactory;
 }
 
-/**
- * The ResizeObserver interface is used to observe changes to Element's content
- * rect.
- *
- * It is modeled after MutationObserver and IntersectionObserver.
- */
+/* **ResizeWatch接口用于观察元素内容的变化*RECT。**仿照MutationWatch和IntersectionWatch。*/
 declare class ResizeObserver {
   constructor (callback: ResizeObserverCallback);
 
-  /**
-   * Adds target to the list of observed elements.
-   */
+  /* **将目标添加到观察元素列表。*/
   observe: (target: Element) => void;
 
-  /**
-   * Removes target from the list of observed elements.
-   */
+  /* **从观察到的元素列表中删除目标。*/
   unobserve: (target: Element) => void;
 
-  /**
-   * Clears both the observationTargets and activeTargets lists.
-   */
+  /* **清除servationTargets和activeTargets列表。*/
   disconnect: () => void;
 }
 
-/**
- * This callback delivers ResizeObserver's notifications. It is invoked by a
- * broadcast active observations algorithm.
- */
+/* **此回调传递ResizeWatch的通知。它由*广播主动观测算法调用。*/
 interface ResizeObserverCallback {
   (entries: ResizeObserverEntry[], observer: ResizeObserver): void;
 }
 
 interface ResizeObserverEntry {
-  /**
-   * @param target The Element whose size has changed.
-   */
+  /* **@param目标大小已更改的元素。*/
   new (target: Element): ResizeObserverEntry;
 
-  /**
-   * The Element whose size has changed.
-   */
+  /* **大小发生变化的元素。*/
   readonly target: Element;
 
-  /**
-   * Element's content rect when ResizeObserverCallback is invoked.
-   */
+  /* **调用ResizeObserverCallback时元素的内容RECT。*/
   readonly contentRect: DOMRectReadOnly;
 }
 
-// https://w3c.github.io/webappsec-trusted-types/dist/spec/#trusted-types
+// Https://w3c.github.io/webappsec-trusted-types/dist/spec/#trusted-types。
 
 type TrustedHTML = string;
 type TrustedScript = string;
@@ -360,7 +340,7 @@ type TrustedScriptURL = string;
 type TrustedType = TrustedHTML | TrustedScript | TrustedScriptURL;
 type StringContext = 'TrustedHTML' | 'TrustedScript' | 'TrustedScriptURL';
 
-// https://w3c.github.io/webappsec-trusted-types/dist/spec/#typedef-trustedtypepolicy
+// Https://w3c.github.io/webappsec-trusted-types/dist/spec/#typedef-trustedtypepolicy。
 
 interface TrustedTypePolicy {
   createHTML(input: string, ...arguments: any[]): TrustedHTML;
@@ -368,7 +348,7 @@ interface TrustedTypePolicy {
   createScriptURL(input: string, ...arguments: any[]): TrustedScriptURL;
 }
 
-// https://w3c.github.io/webappsec-trusted-types/dist/spec/#typedef-trustedtypepolicyoptions
+// Https://w3c.github.io/webappsec-trusted-types/dist/spec/#typedef-trustedtypepolicyoptions。
 
 interface TrustedTypePolicyOptions {
   createHTML?: (input: string, ...arguments: any[]) => TrustedHTML;
@@ -376,7 +356,7 @@ interface TrustedTypePolicyOptions {
   createScriptURL?: (input: string, ...arguments: any[]) => TrustedScriptURL;
 }
 
-// https://w3c.github.io/webappsec-trusted-types/dist/spec/#typedef-trustedtypepolicyfactory
+// Https://w3c.github.io/webappsec-trusted-types/dist/spec/#typedef-trustedtypepolicyfactory
 
 interface TrustedTypePolicyFactory {
   createPolicy(policyName: string, policyOptions: TrustedTypePolicyOptions): TrustedTypePolicy

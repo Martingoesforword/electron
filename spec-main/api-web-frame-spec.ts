@@ -56,8 +56,8 @@ describe('webFrame module', () => {
       new Promise<[string[], boolean]>(resolve => {
         ipcMain.on('spec-spell-check', (e, words, callbackDefined) => {
           if (words.length === 5) {
-            // The API calls the provider after every completed word.
-            // The promise is resolved only after this event is received with all words.
+            // API在每个完成的单词之后调用提供程序。
+            // 只有在收到这个事件和所有的词语之后，这个承诺才能得到解决。
             resolve([words, callbackDefined]);
           }
         });

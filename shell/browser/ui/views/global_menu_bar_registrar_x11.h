@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_VIEWS_GLOBAL_MENU_BAR_REGISTRAR_X11_H_
 #define SHELL_BROWSER_UI_VIEWS_GLOBAL_MENU_BAR_REGISTRAR_X11_H_
@@ -14,12 +14,12 @@
 #include "ui/base/glib/glib_signal.h"
 #include "ui/gfx/x/xproto.h"
 
-// Advertises our menu bars to Unity.
-//
-// GlobalMenuBarX11 is responsible for managing the DbusmenuServer for each
-// x11::Window. We need a separate object to own the dbus channel to
-// com.canonical.AppMenu.Registrar and to register/unregister the mapping
-// between a x11::Window and the DbusmenuServer instance we are offering.
+// 向Unity宣传我们的菜单栏。
+// 
+// GlobalMenuBarX11负责管理每个服务器的DbusmenuServer。
+// X11：：Window。我们需要一个单独的对象来拥有dbus通道。
+// Com.canonical.AppMenu.Registry并注册/取消注册映射。
+// 在x11：：Window和我们提供的DbusmenuServer实例之间。
 class GlobalMenuBarRegistrarX11 {
  public:
   static GlobalMenuBarRegistrarX11* GetInstance();
@@ -33,7 +33,7 @@ class GlobalMenuBarRegistrarX11 {
   GlobalMenuBarRegistrarX11();
   ~GlobalMenuBarRegistrarX11();
 
-  // Sends the actual message.
+  // 发送实际消息。
   void RegisterXWindow(x11::Window window);
   void UnregisterXWindow(x11::Window window);
 
@@ -50,8 +50,8 @@ class GlobalMenuBarRegistrarX11 {
 
   GDBusProxy* registrar_proxy_ = nullptr;
 
-  // x11::Window which want to be registered, but haven't yet been because
-  // we're waiting for the proxy to become available.
+  // 想要注册但尚未注册的X11：：Window，因为。
+  // 我们正在等待代理服务器可用。
   std::set<x11::Window> live_windows_;
 
   DISALLOW_COPY_AND_ASSIGN(GlobalMenuBarRegistrarX11);

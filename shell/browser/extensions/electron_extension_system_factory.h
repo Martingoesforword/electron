@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSION_SYSTEM_FACTORY_H_
 #define SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSION_SYSTEM_FACTORY_H_
@@ -11,10 +11,10 @@
 
 namespace extensions {
 
-// A factory that provides ElectronExtensionSystem.
+// 提供ElectronExtensionSystem的工厂。
 class ElectronExtensionSystemFactory : public ExtensionSystemProvider {
  public:
-  // ExtensionSystemProvider implementation:
+  // ExtensionSystemProvider实现：
   ExtensionSystem* GetForBrowserContext(
       content::BrowserContext* context) override;
 
@@ -26,7 +26,7 @@ class ElectronExtensionSystemFactory : public ExtensionSystemProvider {
   ElectronExtensionSystemFactory();
   ~ElectronExtensionSystemFactory() override;
 
-  // BrowserContextKeyedServiceFactory implementation:
+  // BrowserContextKeyedServiceFactory实现：
   KeyedService* BuildServiceInstanceFor(
       content::BrowserContext* context) const override;
   content::BrowserContext* GetBrowserContextToUse(
@@ -36,6 +36,6 @@ class ElectronExtensionSystemFactory : public ExtensionSystemProvider {
   DISALLOW_COPY_AND_ASSIGN(ElectronExtensionSystemFactory);
 };
 
-}  // namespace extensions
+}  // 命名空间扩展。
 
 #endif  // SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSION_SYSTEM_FACTORY_H_

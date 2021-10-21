@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_MESSAGE_PORT_H_
 #define SHELL_BROWSER_API_MESSAGE_PORT_H_
@@ -18,11 +18,11 @@ namespace gin {
 class Arguments;
 template <typename T>
 class Handle;
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
-// A non-blink version of blink::MessagePort.
+// Blink：：MessagePort的非闪烁版本。
 class MessagePort : public gin::Wrappable<MessagePort>, mojo::MessageReceiver {
  public:
   ~MessagePort() override;
@@ -49,7 +49,7 @@ class MessagePort : public gin::Wrappable<MessagePort>, mojo::MessageReceiver {
       const std::vector<gin::Handle<MessagePort>>& ports,
       bool* threw_exception);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
   static gin::WrapperInfo kWrapperInfo;
@@ -58,19 +58,19 @@ class MessagePort : public gin::Wrappable<MessagePort>, mojo::MessageReceiver {
  private:
   MessagePort();
 
-  // The blink version of MessagePort uses the very nice "ActiveScriptWrapper"
-  // class, which keeps the object alive through the V8 embedder hooks into the
-  // GC lifecycle: see
-  // https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/platform/heap/thread_state.cc;l=258;drc=b892cf58e162a8f66cd76d7472f129fe0fb6a7d1
-  // We do not have that luxury, so we brutishly use v8::Global to accomplish
-  // something similar. Critically, whenever the value of
-  // "HasPendingActivity()" changes, we must call Pin() or Unpin() as
-  // appropriate.
+  // MessagePort的闪烁版本使用了非常好的“ActiveScriptWrapper”
+  // 类，该类通过v8嵌入器钩子将对象保持为活动状态。
+  // GC生命周期：请参阅。
+  // Https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/platform/heap/thread_state.cc；l=258；drc=b892cf58e162a8f66cd76d7472f129fe0fb6a7d1。
+  // 我们没有这种奢侈，所以我们粗暴地使用V8：：GLOBAL来完成。
+  // 类似的东西。关键的是，每当。
+  // “HasPendingActivity()”更改，我们必须将Pin()或Unpin()调用为。
+  // 恰如其分。
   bool HasPendingActivity() const;
   void Pin();
   void Unpin();
 
-  // mojo::MessageReceiver
+  // MOJO：：MessageReceiver。
   bool Accept(mojo::Message* mojo_message) override;
 
   std::unique_ptr<mojo::Connector> connector_;
@@ -79,13 +79,13 @@ class MessagePort : public gin::Wrappable<MessagePort>, mojo::MessageReceiver {
 
   v8::Global<v8::Value> pinned_;
 
-  // The internal port owned by this class. The handle itself is moved into the
-  // |connector_| while entangled.
+  // 此类拥有的内部端口。句柄本身被移动到。
+  // |Connector_|处于纠缠状态。
   blink::MessagePortDescriptor port_;
 
   base::WeakPtrFactory<MessagePort> weak_factory_{this};
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_MESSAGE_PORT_H_
+#endif  // Shell_Browser_API_Message_Port_H_

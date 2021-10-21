@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_OSR_OSR_WEB_CONTENTS_VIEW_H_
 #define SHELL_BROWSER_OSR_OSR_WEB_CONTENTS_VIEW_H_
@@ -8,8 +8,8 @@
 #include "shell/browser/native_window.h"
 #include "shell/browser/native_window_observer.h"
 
-#include "content/browser/renderer_host/render_view_host_delegate_view.h"  // nogncheck
-#include "content/browser/web_contents/web_contents_view.h"  // nogncheck
+#include "content/browser/renderer_host/render_view_host_delegate_view.h"  // 点名检查。
+#include "content/browser/web_contents/web_contents_view.h"  // 点名检查。
 #include "content/public/browser/web_contents.h"
 #include "shell/browser/osr/osr_render_widget_host_view.h"
 #include "third_party/blink/public/common/page/drag_mojom_traits.h"
@@ -34,13 +34,13 @@ class OffScreenWebContentsView : public content::WebContentsView,
   void SetWebContents(content::WebContents*);
   void SetNativeWindow(NativeWindow* window);
 
-  // NativeWindowObserver:
+  // NativeWindowViewer：
   void OnWindowResize() override;
   void OnWindowClosed() override;
 
   gfx::Size GetSize();
 
-  // content::WebContentsView:
+  // 内容：：WebContentsView：
   gfx::NativeView GetNativeView() const override;
   gfx::NativeView GetContentNativeView() const override;
   gfx::NativeWindow GetTopLevelNativeWindow() const override;
@@ -67,7 +67,7 @@ class OffScreenWebContentsView : public content::WebContentsView,
   bool CloseTabAfterEventTrackingIfNeeded() override;
 #endif
 
-  // content::RenderViewHostDelegateView
+  // 内容：：RenderViewHostDelegateView。
   void StartDragging(const content::DropData& drop_data,
                      blink::DragOperationsMask allowed_ops,
                      const gfx::ImageSkia& image,
@@ -95,7 +95,7 @@ class OffScreenWebContentsView : public content::WebContentsView,
   int frame_rate_ = 60;
   OnPaintCallback callback_;
 
-  // Weak refs.
+  // 软弱的裁判。
   content::WebContents* web_contents_ = nullptr;
 
 #if defined(OS_MAC)
@@ -103,6 +103,6 @@ class OffScreenWebContentsView : public content::WebContentsView,
 #endif
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_OSR_OSR_WEB_CONTENTS_VIEW_H_
+#endif  // Shell_Browser_OSR_OSR_Web_Contents_VIEW_H_

@@ -23,7 +23,7 @@ if (serialResult.status !== 0) {
 }
 
 let serialHex = serialResult.stdout.toString().replace(/^serial=/, '').trim();
-// Pad the serial number out to 18 hex chars
+// 将序列号填入18个十六进制字符
 while (serialHex.length < 18) {
   serialHex = `0${serialHex}`;
 }

@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_RENDERER_GUEST_VIEW_CONTAINER_H_
 #define SHELL_RENDERER_GUEST_VIEW_CONTAINER_H_
@@ -40,6 +40,6 @@ class GuestViewContainer {
   DISALLOW_COPY_AND_ASSIGN(GuestViewContainer);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_RENDERER_GUEST_VIEW_CONTAINER_H_
+#endif  // Shell_渲染器_Guest_VIEW_CONTAINER_H_

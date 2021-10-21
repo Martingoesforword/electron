@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_X_X_WINDOW_UTILS_H_
 #define SHELL_BROWSER_UI_X_X_WINDOW_UTILS_H_
@@ -11,25 +11,25 @@
 
 namespace electron {
 
-// Sends a message to the x11 window manager, enabling or disabling the |state|
-// for _NET_WM_STATE.
+// 向x11窗口管理器发送消息，启用或禁用|STATE。
+// FOR_NET_WM_STATE。
 void SetWMSpecState(x11::Window window, bool enabled, x11::Atom state);
 
-// Sets the _NET_WM_WINDOW_TYPE of window.
+// 设置窗口的_NET_WM_WINDOW_TYPE。
 void SetWindowType(x11::Window window, const std::string& type);
 
-// Returns true if the bus name "com.canonical.AppMenu.Registrar" is available.
+// 如果总线名称“com.canonical.AppMenu.Registry”可用，则返回TRUE。
 bool ShouldUseGlobalMenuBar();
 
-// Bring the given window to the front regardless of focus.
+// 不管焦点如何，都将给定的窗口放在前面。
 void MoveWindowToForeground(x11::Window window);
 
-// Move a given window above the other one.
+// 将给定窗口移动到另一个窗口上方。
 void MoveWindowAbove(x11::Window window, x11::Window other_window);
 
-// Return true is the given window exists, false otherwise.
+// 如果给定窗口存在，则返回TRUE，否则返回FALSE。
 bool IsWindowValid(x11::Window window);
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_X_X_WINDOW_UTILS_H_
+#endif  // Shell_Browser_UI_X_X_Window_Utils_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2015 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 #ifndef SHELL_BROWSER_ELECTRON_PDF_WEB_CONTENTS_HELPER_CLIENT_H_
 #define SHELL_BROWSER_ELECTRON_PDF_WEB_CONTENTS_HELPER_CLIENT_H_
 
@@ -17,7 +17,7 @@ class ElectronPDFWebContentsHelperClient
   ~ElectronPDFWebContentsHelperClient() override;
 
  private:
-  // pdf::PDFWebContentsHelperClient
+  // PDF：：PDFWebContentsHelperClient。
   void UpdateContentRestrictions(content::WebContents* contents,
                                  int content_restrictions) override;
   void OnPDFHasUnsupportedFeature(content::WebContents* contents) override;

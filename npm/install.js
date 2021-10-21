@@ -23,19 +23,19 @@ const platform = process.env.npm_config_platform || process.platform;
 let arch = process.env.npm_config_arch || process.arch;
 
 if (platform === 'darwin' && process.platform === 'darwin' && arch === 'x64') {
-  // When downloading for macOS ON macOS and we think we need x64 we should
-  // check if we're running under rosetta and download the arm64 version if appropriate
+  // 在MacOS上下载MacOS时，我们认为我们需要x64，我们应该。
+  // 检查我们是否在Rosetta下运行，如果合适，请下载arm64版本。
   try {
     const output = childProcess.execSync('sysctl -in sysctl.proc_translated');
     if (output.toString().trim() === '1') {
       arch = 'arm64';
     }
   } catch {
-    // Ignore failure
+    // 忽略故障。
   }
 }
 
-// downloads if not cached
+// 下载(如果未缓存)。
 downloadArtifact({
   version,
   artifactName: 'electron',
@@ -67,7 +67,7 @@ function isInstalled () {
   return fs.existsSync(electronPath);
 }
 
-// unzips and makes path.txt point at the correct executable
+// 解压缩并使path.txt指向正确的可执行文件
 function extractFile (zipPath) {
   return new Promise((resolve, reject) => {
     extract(zipPath, { dir: path.join(__dirname, 'dist') }, err => {

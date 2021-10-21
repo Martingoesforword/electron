@@ -1,6 +1,6 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2019年Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_HID_ELECTRON_HID_DELEGATE_H_
 #define SHELL_BROWSER_HID_ELECTRON_HID_DELEGATE_H_
@@ -27,7 +27,7 @@ class ElectronHidDelegate : public content::HidDelegate,
   ElectronHidDelegate& operator=(ElectronHidDelegate&) = delete;
   ~ElectronHidDelegate() override;
 
-  // content::HidDelegate:
+  // 内容：：HidDelegate：
   std::unique_ptr<content::HidChooser> RunChooser(
       content::RenderFrameHost* render_frame_host,
       std::vector<blink::mojom::HidDeviceFilterPtr> filters,
@@ -47,7 +47,7 @@ class ElectronHidDelegate : public content::HidDelegate,
       const std::string& guid) override;
   bool IsFidoAllowedForOrigin(const url::Origin& origin) override;
 
-  // HidChooserContext::DeviceObserver:
+  // HidChooserContext：：DeviceViewer：
   void OnDeviceAdded(const device::mojom::HidDeviceInfo&) override;
   void OnDeviceRemoved(const device::mojom::HidDeviceInfo&) override;
   void OnDeviceChanged(const device::mojom::HidDeviceInfo&) override;
@@ -79,6 +79,6 @@ class ElectronHidDelegate : public content::HidDelegate,
   base::WeakPtrFactory<ElectronHidDelegate> weak_factory_{this};
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_HID_ELECTRON_HID_DELEGATE_H_
+#endif  // Shell_Browser_HID_Electronics_HID_Delegate_H_

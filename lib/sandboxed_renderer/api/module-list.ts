@@ -19,7 +19,7 @@ export const moduleList: ElectronInternal.ModuleEntry[] = [
     name: 'webFrame',
     loader: () => require('@electron/internal/renderer/api/web-frame')
   },
-  // The internal modules, invisible unless you know their names.
+  // 内部模块是不可见的，除非你知道它们的名字。
   {
     name: 'deprecate',
     loader: () => require('@electron/internal/common/api/deprecate'),

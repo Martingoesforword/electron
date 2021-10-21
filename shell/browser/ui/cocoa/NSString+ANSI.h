@@ -1,8 +1,8 @@
-// Created by Kent Karlsson on 3/11/16.
-// Copyright (c) 2016 Bit Bar. All rights reserved.
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 由肯特·卡尔松于2016年3月11日创作。
+// 版权所有(C)2016位栏。版权所有。
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_COCOA_NSSTRING_ANSI_H_
 #define SHELL_BROWSER_UI_COCOA_NSSTRING_ANSI_H_
@@ -14,4 +14,4 @@
 - (NSMutableAttributedString*)attributedStringParsingANSICodes;
 @end
 
-#endif  // SHELL_BROWSER_UI_COCOA_NSSTRING_ANSI_H_
+#endif  // Shell_Browser_UI_COCA_NSSTRING_ANSI_H_

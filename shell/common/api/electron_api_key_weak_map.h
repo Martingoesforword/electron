@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_API_ELECTRON_API_KEY_WEAK_MAP_H_
 #define SHELL_COMMON_API_ELECTRON_API_KEY_WEAK_MAP_H_
@@ -39,7 +39,7 @@ class KeyWeakMap : public gin_helper::Wrappable<KeyWeakMap<K>> {
   ~KeyWeakMap() override {}
 
  private:
-  // API for KeyWeakMap.
+  // KeyWeakMap接口。
   void Set(v8::Isolate* isolate, const K& key, v8::Local<v8::Object> object) {
     key_weak_map_.Set(isolate, key, object);
   }
@@ -57,8 +57,8 @@ class KeyWeakMap : public gin_helper::Wrappable<KeyWeakMap<K>> {
   DISALLOW_COPY_AND_ASSIGN(KeyWeakMap);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_API_ELECTRON_API_KEY_WEAK_MAP_H_
+#endif  // Shell_COMMON_API_ELEMENT_API_KEY_弱_MAP_H_

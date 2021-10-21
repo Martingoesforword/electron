@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NOTIFICATIONS_MAC_COCOA_NOTIFICATION_H_
 #define SHELL_BROWSER_NOTIFICATIONS_MAC_COCOA_NOTIFICATION_H_
@@ -21,7 +21,7 @@ class CocoaNotification : public Notification {
                     NotificationPresenter* presenter);
   ~CocoaNotification() override;
 
-  // Notification:
+  // 通知：
   void Show(const NotificationOptions& options) override;
   void Dismiss() override;
 
@@ -43,6 +43,6 @@ class CocoaNotification : public Notification {
   DISALLOW_COPY_AND_ASSIGN(CocoaNotification);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_NOTIFICATIONS_MAC_COCOA_NOTIFICATION_H_

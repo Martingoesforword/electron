@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_COCOA_ELECTRON_NS_WINDOW_H_
 #define SHELL_BROWSER_UI_COCOA_ELECTRON_NS_WINDOW_H_
@@ -13,7 +13,7 @@ namespace electron {
 
 class NativeWindowMac;
 
-// Prevents window from resizing during the scope.
+// 防止窗口在作用域期间调整大小。
 class ScopedDisableResize {
  public:
   ScopedDisableResize() { disable_resize_ = true; }
@@ -25,7 +25,7 @@ class ScopedDisableResize {
   static bool disable_resize_;
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 @interface ElectronNSWindow : NativeWidgetMacNSWindow {
  @private
@@ -46,4 +46,4 @@ class ScopedDisableResize {
 - (NSImage*)_cornerMask;
 @end
 
-#endif  // SHELL_BROWSER_UI_COCOA_ELECTRON_NS_WINDOW_H_
+#endif  // Shell_Browser_UI_Cocoa_Electronics_NS_Window_H_

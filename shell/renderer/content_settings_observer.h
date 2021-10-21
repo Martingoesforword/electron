@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_RENDERER_CONTENT_SETTINGS_OBSERVER_H_
 #define SHELL_RENDERER_CONTENT_SETTINGS_OBSERVER_H_
@@ -17,16 +17,16 @@ class ContentSettingsObserver : public content::RenderFrameObserver,
   explicit ContentSettingsObserver(content::RenderFrame* render_frame);
   ~ContentSettingsObserver() override;
 
-  // blink::WebContentSettingsClient implementation.
+  // Blink：：WebContentSettingsClient实现。
   bool AllowStorageAccessSync(StorageType storage_type) override;
 
  private:
-  // content::RenderFrameObserver implementation.
+  // 内容：：RenderFrameWatch实现。
   void OnDestruct() override;
 
   DISALLOW_COPY_AND_ASSIGN(ContentSettingsObserver);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_RENDERER_CONTENT_SETTINGS_OBSERVER_H_
+#endif  // Shell_渲染器_内容_设置_观察者_H_

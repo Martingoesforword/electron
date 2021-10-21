@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_AUTO_UPDATER_H_
 #define SHELL_BROWSER_AUTO_UPDATER_H_
@@ -23,23 +23,23 @@ namespace auto_updater {
 
 class Delegate {
  public:
-  // An error happened.
+  // 发生错误。
   virtual void OnError(const std::string& message) {}
 
   virtual void OnError(const std::string& message,
                        const int code,
                        const std::string& domain) {}
 
-  // Checking to see if there is an update
+  // 正在检查是否有更新。
   virtual void OnCheckingForUpdate() {}
 
-  // There is an update available and it is being downloaded
+  // 有可用的更新，正在下载。
   virtual void OnUpdateAvailable() {}
 
-  // There is no available update.
+  // 没有可用的更新。
   virtual void OnUpdateNotAvailable() {}
 
-  // There is a new update which has been downloaded.
+  // 已经下载了一个新的更新。
   virtual void OnUpdateDownloaded(const std::string& release_notes,
                                   const std::string& release_name,
                                   const base::Time& release_date,
@@ -53,14 +53,14 @@ class AutoUpdater {
  public:
   typedef std::map<std::string, std::string> HeaderMap;
 
-  // Gets/Sets the delegate.
+  // 获取/设置委托。
   static Delegate* GetDelegate();
   static void SetDelegate(Delegate* delegate);
 
   static std::string GetFeedURL();
-  // FIXME(zcbenz): We should not do V8 in this file, this method should only
-  // accept C++ struct as parameter, and atom_api_auto_updater.cc is responsible
-  // for parsing the parameter from JavaScript.
+  // FIXME(Zcbenz)：我们不应该在这个文件中使用V8，这个方法应该只。
+  // 接受C++struct作为参数，ATOM_API_AUTO_updater.cc负责。
+  // 用于从JavaScript解析参数。
   static void SetFeedURL(gin::Arguments* args);
   static void CheckForUpdates();
   static void QuitAndInstall();
@@ -71,6 +71,6 @@ class AutoUpdater {
   DISALLOW_IMPLICIT_CONSTRUCTORS(AutoUpdater);
 };
 
-}  // namespace auto_updater
+}  // 命名空间自动更新程序(_U)。
 
-#endif  // SHELL_BROWSER_AUTO_UPDATER_H_
+#endif  // Shell_Browser_AUTO_UPDATER_H_

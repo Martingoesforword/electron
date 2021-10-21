@@ -9,5 +9,5 @@ fileManagerBtn.addEventListener('click', (event) => {
 })
 
 exLinksBtn.addEventListener('click', (event) => {
-  shell.openExternal('https://electronjs.org')
+  shell.openExternal('https:// (Electronjs.org‘)
 })

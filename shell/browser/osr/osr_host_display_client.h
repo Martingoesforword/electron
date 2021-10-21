@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_OSR_OSR_HOST_DISPLAY_CLIENT_H_
 #define SHELL_BROWSER_OSR_OSR_HOST_DISPLAY_CLIENT_H_
@@ -29,7 +29,7 @@ class LayeredWindowUpdater : public viz::mojom::LayeredWindowUpdater {
 
   void SetActive(bool active);
 
-  // viz::mojom::LayeredWindowUpdater implementation.
+  // VIZ：：mojom：：LayeredWindowUpdater实现。
   void OnAllocatedSharedMemory(const gfx::Size& pixel_size,
                                base::UnsafeSharedMemoryRegion region) override;
   void Draw(const gfx::Rect& damage_rect, DrawCallback draw_callback) override;
@@ -76,6 +76,6 @@ class OffScreenHostDisplayClient : public viz::HostDisplayClient {
   DISALLOW_COPY_AND_ASSIGN(OffScreenHostDisplayClient);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_OSR_OSR_HOST_DISPLAY_CLIENT_H_
+#endif  // Shell_Browser_OSR_OSR_HOST_DISPLAY_CLIENT_H_

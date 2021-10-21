@@ -32,7 +32,7 @@ export function createGuest (iframe: HTMLIFrameElement, elementInstanceId: numbe
   }
 
   const embedderFrameId = webFrame.getWebFrameId(iframe.contentWindow!);
-  if (embedderFrameId < 0) { // this error should not happen.
+  if (embedderFrameId < 0) { // 此错误不应发生。
     throw new Error('Invalid embedder frame');
   }
 

@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_WEB_CONTENTS_H_
 #define SHELL_BROWSER_API_ELECTRON_API_WEB_CONTENTS_H_
@@ -97,7 +97,7 @@ using DevicePermissionMap = std::map<
     std::map<content::PermissionType,
              std::map<url::Origin, std::vector<std::unique_ptr<base::Value>>>>>;
 
-// Wrapper around the content::WebContents.
+// 对Content：：WebContents进行包装。
 class WebContents : public gin::Wrappable<WebContents>,
                     public gin_helper::EventEmitterMixin<WebContents>,
                     public gin_helper::Constructible<WebContents>,
@@ -109,35 +109,35 @@ class WebContents : public gin::Wrappable<WebContents>,
                     public InspectableWebContentsViewDelegate {
  public:
   enum class Type {
-    kBackgroundPage,  // An extension background page.
-    kBrowserWindow,   // Used by BrowserWindow.
-    kBrowserView,     // Used by BrowserView.
-    kRemote,          // Thin wrap around an existing WebContents.
-    kWebView,         // Used by <webview>.
-    kOffScreen,       // Used for offscreen rendering
+    kBackgroundPage,  // 扩展背景页。
+    kBrowserWindow,   // 由BrowserWindow使用。
+    kBrowserView,     // 由BrowserView使用。
+    kRemote,          // 将现有的WebContents薄薄地包裹起来。
+    kWebView,         // 由&lt;webview&gt;使用。
+    kOffScreen,       // 用于屏幕外渲染。
   };
 
-  // Create a new WebContents and return the V8 wrapper of it.
+  // 创建一个新的WebContents并返回它的V8包装器。
   static gin::Handle<WebContents> New(v8::Isolate* isolate,
                                       const gin_helper::Dictionary& options);
 
-  // Create a new V8 wrapper for an existing |web_content|.
-  //
-  // The lifetime of |web_contents| will be managed by this class.
+  // 为现有|web_content|创建新的V8包装器。
+  // 
+  // |web_content|的生存期将由此类管理。
   static gin::Handle<WebContents> CreateAndTake(
       v8::Isolate* isolate,
       std::unique_ptr<content::WebContents> web_contents,
       Type type);
 
-  // Get the api::WebContents associated with |web_contents|. Returns nullptr
-  // if there is no associated wrapper.
+  // 获取|web_Contents|关联的API：：WebContents。返回nullptr。
+  // 如果没有关联的包装器。
   static WebContents* From(content::WebContents* web_contents);
   static WebContents* FromID(int32_t id);
 
-  // Get the V8 wrapper of the |web_contents|, or create one if not existed.
-  //
-  // The lifetime of |web_contents| is NOT managed by this class, and the type
-  // of this wrapper is always REMOTE.
+  // 获取|web_content|的V8包装器，如果不存在，则创建一个。
+  // 
+  // |web_content|的生存期不受此类管理，并且类型。
+  // 这个包装器的属性总是远程的。
   static gin::Handle<WebContents> FromOrCreate(
       v8::Isolate* isolate,
       content::WebContents* web_contents);
@@ -146,7 +146,7 @@ class WebContents : public gin::Wrappable<WebContents>,
       v8::Isolate* isolate,
       const gin_helper::Dictionary& web_preferences);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   static v8::Local<v8::ObjectTemplate> FillObjectTemplate(
       v8::Isolate*,
@@ -221,20 +221,20 @@ class WebContents : public gin::Wrappable<WebContents>,
                            printing::CompletionCallback print_callback,
                            std::u16string device_name,
                            bool silent,
-                           // <error, default_printer_name>
+                           // &lt;ERROR，DEFAULT_PRINTER_NAME&gt;。
                            std::pair<std::string, std::u16string> info);
   void Print(gin::Arguments* args);
-  // Print current page as PDF.
+  // 将当前页面打印为PDF。
   v8::Local<v8::Promise> PrintToPDF(base::DictionaryValue settings);
 #endif
 
   void SetNextChildWebPreferences(const gin_helper::Dictionary);
 
-  // DevTools workspace api.
+  // DevTools工作区API。
   void AddWorkSpace(gin::Arguments* args, const base::FilePath& path);
   void RemoveWorkSpace(gin::Arguments* args, const base::FilePath& path);
 
-  // Editing commands.
+  // 编辑命令。
   void Undo();
   void Redo();
   void Cut();
@@ -251,31 +251,31 @@ class WebContents : public gin::Wrappable<WebContents>,
   void ShowDefinitionForSelection();
   void CopyImageAt(int x, int y);
 
-  // Focus.
+  // 集中注意力。
   void Focus();
   bool IsFocused() const;
 
-  // Send WebInputEvent to the page.
+  // 将WebInputEvent发送到页面。
   void SendInputEvent(v8::Isolate* isolate, v8::Local<v8::Value> input_event);
 
-  // Subscribe to the frame updates.
+  // 订阅帧更新。
   void BeginFrameSubscription(gin::Arguments* args);
   void EndFrameSubscription();
 
-  // Dragging native items.
+  // 拖动本机项目。
   void StartDrag(const gin_helper::Dictionary& item, gin::Arguments* args);
 
-  // Captures the page with |rect|, |callback| would be called when capturing is
-  // done.
+  // 使用|RECT|捕获页面，捕获时将调用|Callback|。
+  // 搞定了。
   v8::Local<v8::Promise> CapturePage(gin::Arguments* args);
 
-  // Methods for creating <webview>.
+  // 创建&lt;webview&gt;的方法。
   bool IsGuest() const;
   void AttachToIframe(content::WebContents* embedder_web_contents,
                       int embedder_frame_id);
   void DetachFromOuterFrame();
 
-  // Methods for offscreen rendering
+  // 屏幕外渲染的方法。
   bool IsOffScreen() const;
 #if BUILDFLAG(ENABLE_OSR)
   void OnPaint(const gfx::Rect& dirty_rect, const SkBitmap& bitmap);
@@ -288,19 +288,19 @@ class WebContents : public gin::Wrappable<WebContents>,
   void Invalidate();
   gfx::Size GetSizeForNewRenderView(content::WebContents*) override;
 
-  // Methods for zoom handling.
+  // 缩放处理的方法。
   void SetZoomLevel(double level);
   double GetZoomLevel() const;
   void SetZoomFactor(gin_helper::ErrorThrower thrower, double factor);
   double GetZoomFactor() const;
 
-  // Callback triggered on permission response.
+  // 权限响应触发回调。
   void OnEnterFullscreenModeForTab(
       content::RenderFrameHost* requesting_frame,
       const blink::mojom::FullscreenOptions& options,
       bool allowed);
 
-  // Create window with the given disposition.
+  // 使用给定的配置创建窗口。
   void OnCreateWindow(const GURL& target_url,
                       const content::Referrer& referrer,
                       const std::string& frame_name,
@@ -308,24 +308,24 @@ class WebContents : public gin::Wrappable<WebContents>,
                       const std::string& features,
                       const scoped_refptr<network::ResourceRequestBody>& body);
 
-  // Returns the preload script path of current WebContents.
+  // 返回当前WebContents的预加载脚本路径。
   std::vector<base::FilePath> GetPreloadPaths() const;
 
-  // Returns the web preferences of current WebContents.
+  // 返回当前WebContents的Web首选项。
   v8::Local<v8::Value> GetWebPreferences(v8::Isolate* isolate) const;
   v8::Local<v8::Value> GetLastWebPreferences(v8::Isolate* isolate) const;
 
-  // Returns the owner window.
+  // 返回所有者窗口。
   v8::Local<v8::Value> GetOwnerBrowserWindow(v8::Isolate* isolate) const;
 
-  // Notifies the web page that there is user interaction.
+  // 通知网页存在用户交互。
   void NotifyUserActivation();
 
   v8::Local<v8::Promise> TakeHeapSnapshot(v8::Isolate* isolate,
                                           const base::FilePath& file_path);
   v8::Local<v8::Promise> GetProcessMemoryInfo(v8::Isolate* isolate);
 
-  // Properties.
+  // 财产。
   int32_t ID() const { return id_; }
   v8::Local<v8::Value> Session(v8::Isolate* isolate);
   content::WebContents* HostWebContents() const;
@@ -339,7 +339,7 @@ class WebContents : public gin::Wrappable<WebContents>,
     observers_.AddObserver(obs);
   }
   void RemoveObserver(ExtendedWebContentsObserver* obs) {
-    // Trying to remove from an empty collection leads to an access violation
+    // 尝试从空集合中移除会导致访问冲突。
     if (!observers_.empty())
       observers_.RemoveObserver(obs);
   }
@@ -347,7 +347,7 @@ class WebContents : public gin::Wrappable<WebContents>,
   bool EmitNavigationEvent(const std::string& event,
                            content::NavigationHandle* navigation_handle);
 
-  // this.emit(name, new Event(sender, message), args...);
+  // This.emit(名称，新事件(发送者，消息)，参数...)；
   template <typename... Args>
   bool EmitWithSender(base::StringPiece name,
                       content::RenderFrameHost* sender,
@@ -372,15 +372,15 @@ class WebContents : public gin::Wrappable<WebContents>,
   }
 #endif
 
-  // Set the window as owner window.
+  // 将该窗口设置为所有者窗口。
   void SetOwnerWindow(NativeWindow* owner_window);
   void SetOwnerWindow(content::WebContents* web_contents,
                       NativeWindow* owner_window);
 
-  // Returns the WebContents managed by this delegate.
+  // 返回此委托管理的WebContents。
   content::WebContents* GetWebContents() const;
 
-  // Returns the WebContents of devtools.
+  // 返回DevTools的WebContents。
   content::WebContents* GetDevToolsWebContents() const;
 
   InspectableWebContents* inspectable_web_contents() const {
@@ -395,7 +395,7 @@ class WebContents : public gin::Wrappable<WebContents>,
     fullscreen_frame_ = rfh;
   }
 
-  // mojom::ElectronBrowser
+  // Mojom：：电子浏览器。
   void Message(bool internal,
                const std::string& channel,
                blink::CloneableMessage arguments,
@@ -427,37 +427,37 @@ class WebContents : public gin::Wrappable<WebContents>,
       electron::mojom::ElectronBrowser::DoGetZoomLevelCallback callback);
   void SetImageAnimationPolicy(const std::string& new_policy);
 
-  // Grants |origin| access to |device|.
-  // To be used in place of ObjectPermissionContextBase::GrantObjectPermission.
+  // 授予|源|访问|设备|的权限。
+  // 将取代ObjectPermissionContextBase：：GrantObjectPermission.使用。
   void GrantDevicePermission(const url::Origin& origin,
                              const base::Value* device,
                              content::PermissionType permissionType,
                              content::RenderFrameHost* render_frame_host);
 
-  // Returns the list of devices that |origin| has been granted permission to
-  // access. To be used in place of
-  // ObjectPermissionContextBase::GetGrantedObjects.
+  // 返回|Origin|已被授予权限的设备列表。
+  // 进入。将被用来代替。
+  // ObjectPermissionContextBase：：GetGrantedObjects.。
   std::vector<base::Value> GetGrantedDevices(
       const url::Origin& origin,
       content::PermissionType permissionType,
       content::RenderFrameHost* render_frame_host);
 
  private:
-  // Does not manage lifetime of |web_contents|.
+  // 不管理|WEB_CONTENTS|的生存期。
   WebContents(v8::Isolate* isolate, content::WebContents* web_contents);
-  // Takes over ownership of |web_contents|.
+  // 接管|web_content|的所有权。
   WebContents(v8::Isolate* isolate,
               std::unique_ptr<content::WebContents> web_contents,
               Type type);
-  // Creates a new content::WebContents.
+  // 创建新的Content：：WebContents。
   WebContents(v8::Isolate* isolate, const gin_helper::Dictionary& options);
   ~WebContents() override;
 
-  // Delete this if garbage collection has not started.
+  // 如果垃圾收集尚未开始，请删除此选项。
   void DeleteThisIfAlive();
 
-  // Creates a InspectableWebContents object and takes ownership of
-  // |web_contents|.
+  // 创建InspectableWebContents对象并取得。
+  // |web_Contents|。
   void InitWithWebContents(std::unique_ptr<content::WebContents> web_contents,
                            ElectronBrowserContext* browser_context,
                            bool is_guest);
@@ -474,7 +474,7 @@ class WebContents : public gin::Wrappable<WebContents>,
                              extensions::mojom::ViewType view_type);
 #endif
 
-  // content::WebContentsDelegate:
+  // 内容：：WebContentsDelegate：
   bool DidAddMessageToConsole(content::WebContents* source,
                               blink::mojom::ConsoleMessageLevel level,
                               const std::u16string& message,
@@ -564,7 +564,7 @@ class WebContents : public gin::Wrappable<WebContents>,
   void UpdatePreferredSize(content::WebContents* web_contents,
                            const gfx::Size& pref_size) override;
 
-  // content::WebContentsObserver:
+  // 内容：：WebContentsViewer：
   void BeforeUnloadFired(bool proceed,
                          const base::TimeTicks& proceed_time) override;
   void RenderFrameCreated(content::RenderFrameHost* render_frame_host) override;
@@ -609,10 +609,10 @@ class WebContents : public gin::Wrappable<WebContents>,
   void OnCursorChanged(const content::WebCursor& cursor) override;
   void DidAcquireFullscreen(content::RenderFrameHost* rfh) override;
 
-  // InspectableWebContentsDelegate:
+  // InspectableWebContentsDelegate：
   void DevToolsReloadPage() override;
 
-  // InspectableWebContentsViewDelegate:
+  // InspectableWebContentsViewDelegate：
   void DevToolsFocused() override;
   void DevToolsOpened() override;
   void DevToolsClosed() override;
@@ -627,15 +627,15 @@ class WebContents : public gin::Wrappable<WebContents>,
   OffScreenRenderWidgetHostView* GetOffScreenRenderWidgetHostView() const;
 #endif
 
-  // Called when received a synchronous message from renderer to
-  // get the zoom level.
+  // 在接收到来自呈现器的同步消息时调用。
+  // 获取缩放级别。
   void OnGetZoomLevel(content::RenderFrameHost* frame_host,
                       IPC::Message* reply_msg);
 
   void InitZoomController(content::WebContents* web_contents,
                           const gin_helper::Dictionary& options);
 
-  // content::WebContentsDelegate:
+  // 内容：：WebContentsDelegate：
   bool CanOverscrollContent() override;
   std::unique_ptr<content::EyeDropper> OpenEyeDropper(
       content::RenderFrameHost* frame,
@@ -657,7 +657,7 @@ class WebContents : public gin::Wrappable<WebContents>,
       const gfx::Size& natural_size) override;
   void ExitPictureInPicture() override;
 
-  // InspectableWebContentsDelegate:
+  // InspectableWebContentsDelegate：
   void DevToolsSaveToFile(const std::string& url,
                           const std::string& content,
                           bool save_as) override;
@@ -677,7 +677,7 @@ class WebContents : public gin::Wrappable<WebContents>,
                             const std::string& query) override;
   void DevToolsSetEyeDropperActive(bool active) override;
 
-  // InspectableWebContentsViewDelegate:
+  // InspectableWebContentsViewDelegate：
 #if defined(TOOLKIT_VIEWS) && !defined(OS_MAC)
   ui::ImageModel GetDevToolsWindowIcon() override;
 #endif
@@ -688,7 +688,7 @@ class WebContents : public gin::Wrappable<WebContents>,
 
   void ColorPickedInEyeDropper(int r, int g, int b, int a);
 
-  // DevTools index event callbacks.
+  // DevTools索引事件回调。
   void OnDevToolsIndexingWorkCalculated(int request_id,
                                         const std::string& file_system_path,
                                         int total_work);
@@ -701,9 +701,9 @@ class WebContents : public gin::Wrappable<WebContents>,
                                  const std::string& file_system_path,
                                  const std::vector<std::string>& file_paths);
 
-  // Set fullscreen mode triggered by html api.
+  // 设置html接口触发的全屏模式。
   void SetHtmlApiFullscreen(bool enter_fullscreen);
-  // Update the html fullscreen flag in both browser and renderer.
+  // 在浏览器和渲染器中更新html全屏标志。
   void UpdateHtmlApiFullscreen(bool fullscreen);
 
   v8::Global<v8::Value> session_;
@@ -718,43 +718,43 @@ class WebContents : public gin::Wrappable<WebContents>,
   std::unique_ptr<extensions::ScriptExecutor> script_executor_;
 #endif
 
-  // The host webcontents that may contain this webcontents.
+  // 可能包含此Web内容的宿主Web内容。
   WebContents* embedder_ = nullptr;
 
-  // Whether the guest view has been attached.
+  // 是否已附加来宾视图。
   bool attached_ = false;
 
-  // The zoom controller for this webContents.
+  // 此webContents的缩放控制器。
   WebContentsZoomController* zoom_controller_ = nullptr;
 
-  // The type of current WebContents.
+  // 当前WebContents的类型。
   Type type_ = Type::kBrowserWindow;
 
   int32_t id_;
 
-  // Request id used for findInPage request.
+  // 用于findInPage请求的请求ID。
   uint32_t find_in_page_request_id_ = 0;
 
-  // Whether background throttling is disabled.
+  // 是否禁用后台限制。
   bool background_throttling_ = true;
 
-  // Whether to enable devtools.
+  // 是否启用DevTools。
   bool enable_devtools_ = true;
 
-  // Observers of this WebContents.
+  // 此Web内容的观察者。
   base::ObserverList<ExtendedWebContentsObserver> observers_;
 
   v8::Global<v8::Value> pending_child_web_preferences_;
 
-  // The window that this WebContents belongs to.
+  // 此WebContents所属的窗口。
   base::WeakPtr<NativeWindow> owner_window_;
 
   bool offscreen_ = false;
 
-  // Whether window is fullscreened by HTML5 api.
+  // 是否使用HTML5 API对窗口进行全屏显示。
   bool html_fullscreen_ = false;
 
-  // Whether window is fullscreened by window api.
+  // 窗口API是否对窗口进行全屏显示。
   bool native_fullscreen_ = false;
 
   scoped_refptr<DevToolsFileSystemIndexer> devtools_file_system_indexer_;
@@ -763,17 +763,17 @@ class WebContents : public gin::Wrappable<WebContents>,
 
   ElectronBrowserContext* browser_context_;
 
-  // The stored InspectableWebContents object.
-  // Notice that inspectable_web_contents_ must be placed after
-  // dialog_manager_, so we can make sure inspectable_web_contents_ is
-  // destroyed before dialog_manager_, otherwise a crash would happen.
+  // 存储的InspectableWebContents对象。
+  // 请注意，检查表_Web_CONTENTS_必须放在。
+  // DIALOG_MANAGER_，因此我们可以确保检查表_Web_CONTENTS_是。
+  // 在DIALOG_MANAGER_之前销毁，否则将发生崩溃。
   std::unique_ptr<InspectableWebContents> inspectable_web_contents_;
 
-  // Maps url to file path, used by the file requests sent from devtools.
+  // 将url映射到文件路径，由DevTools发送的文件请求使用。
   typedef std::map<std::string, base::FilePath> PathsMap;
   PathsMap saved_files_;
 
-  // Map id to index job, used for file system indexing requests from devtools.
+  // 将ID映射到索引作业，用于来自DevTools的文件系统索引请求。
   typedef std::
       map<int, scoped_refptr<DevToolsFileSystemIndexer::FileSystemIndexingJob>>
           DevToolsIndexingJobsMap;
@@ -785,10 +785,10 @@ class WebContents : public gin::Wrappable<WebContents>,
   scoped_refptr<base::TaskRunner> print_task_runner_;
 #endif
 
-  // Stores the frame thats currently in fullscreen, nullptr if there is none.
+  // 存储当前在全屏中的帧，如果没有帧，则存储nullptr。
   content::RenderFrameHost* fullscreen_frame_ = nullptr;
 
-  // In-memory cache that holds objects that have been granted permissions.
+  // 保存已被授予权限的对象的内存中缓存。
   DevicePermissionMap granted_devices_;
 
   base::WeakPtrFactory<WebContents> weak_factory_{this};
@@ -796,8 +796,8 @@ class WebContents : public gin::Wrappable<WebContents>,
   DISALLOW_COPY_AND_ASSIGN(WebContents);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_WEB_CONTENTS_H_

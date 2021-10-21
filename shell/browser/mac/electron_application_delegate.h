@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #import <Cocoa/Cocoa.h>
 
@@ -11,7 +11,7 @@
   base::scoped_nsobject<ElectronMenuController> menu_controller_;
 }
 
-// Sets the menu that will be returned in "applicationDockMenu:".
+// 设置将在“application ationDockMenu：”中返回的菜单。
 - (void)setApplicationDockMenu:(electron::ElectronMenuModel*)model;
 
 @end

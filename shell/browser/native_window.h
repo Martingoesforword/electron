@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NATIVE_WINDOW_H_
 #define SHELL_BROWSER_NATIVE_WINDOW_H_
@@ -34,12 +34,12 @@ class Point;
 class Rect;
 enum class ResizeEdge;
 class Size;
-}  // namespace gfx
+}  // 命名空间gfx。
 
 namespace gin_helper {
 class Dictionary;
 class PersistentDictionary;
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 namespace electron {
 
@@ -57,8 +57,8 @@ class NativeWindow : public base::SupportsUserData,
  public:
   ~NativeWindow() override;
 
-  // Create window with existing WebContents, the caller is responsible for
-  // managing the window's live.
+  // 使用现有WebContents创建窗口，调用方负责。
+  // 管理窗口的实况。
   static NativeWindow* Create(const gin_helper::Dictionary& options,
                               NativeWindow* parent = nullptr);
 
@@ -140,7 +140,7 @@ class NativeWindow : public base::SupportsUserData,
   virtual bool IsActive() const = 0;
 #endif
 
-  // Ability to augment the window title for the screen readers.
+  // 能够为屏幕阅读器增加窗口标题。
   void SetAccessibleTitle(const std::string& title);
   std::string GetAccessibleTitle();
 
@@ -178,20 +178,20 @@ class NativeWindow : public base::SupportsUserData,
   virtual gfx::AcceleratedWidget GetAcceleratedWidget() const = 0;
   virtual NativeWindowHandle GetNativeWindowHandle() const = 0;
 
-  // Taskbar/Dock APIs.
+  // 任务栏/Dock接口。
   enum class ProgressState {
-    kNone,           // no progress, no marking
-    kIndeterminate,  // progress, indeterminate
-    kError,          // progress, errored (red)
-    kPaused,         // progress, paused (yellow)
-    kNormal,         // progress, not marked (green)
+    kNone,           // 没有进展，没有记分。
+    kIndeterminate,  // 进展，不确定。
+    kError,          // 进度，出错(红色)。
+    kPaused,         // 进度，暂停(黄色)。
+    kNormal,         // 进度，未标记(绿色)。
   };
 
   virtual void SetProgressBar(double progress, const ProgressState state) = 0;
   virtual void SetOverlayIcon(const gfx::Image& overlay,
                               const std::string& description) = 0;
 
-  // Workspace APIs.
+  // 工作区API。
   virtual void SetVisibleOnAllWorkspaces(
       bool visible,
       bool visibleOnFullScreen = false,
@@ -201,10 +201,10 @@ class NativeWindow : public base::SupportsUserData,
 
   virtual void SetAutoHideCursor(bool auto_hide);
 
-  // Vibrancy API
+  // Viviancy API。
   virtual void SetVibrancy(const std::string& type);
 
-  // Traffic Light API
+  // 交通灯空气污染指数。
 #if defined(OS_MAC)
   virtual void SetWindowButtonVisibility(bool visible) = 0;
   virtual bool GetWindowButtonVisibility() const = 0;
@@ -214,12 +214,12 @@ class NativeWindow : public base::SupportsUserData,
   virtual void UpdateFrame() = 0;
 #endif
 
-  // Touchbar API
+  // 触摸栏API。
   virtual void SetTouchBar(std::vector<gin_helper::PersistentDictionary> items);
   virtual void RefreshTouchBarItem(const std::string& item_id);
   virtual void SetEscapeTouchBarItem(gin_helper::PersistentDictionary item);
 
-  // Native Tab API
+  // 本机选项卡API。
   virtual void SelectPreviousTab();
   virtual void SelectNextTab();
   virtual void MergeAllWindows();
@@ -227,25 +227,25 @@ class NativeWindow : public base::SupportsUserData,
   virtual void ToggleTabBar();
   virtual bool AddTabbedWindow(NativeWindow* window);
 
-  // Toggle the menu bar.
+  // 切换菜单栏。
   virtual void SetAutoHideMenuBar(bool auto_hide);
   virtual bool IsMenuBarAutoHide();
   virtual void SetMenuBarVisibility(bool visible);
   virtual bool IsMenuBarVisible();
 
-  // Set the aspect ratio when resizing window.
+  // 调整窗口大小时设置纵横比。
   double GetAspectRatio();
   gfx::Size GetAspectRatioExtraSize();
   virtual void SetAspectRatio(double aspect_ratio, const gfx::Size& extra_size);
 
-  // File preview APIs.
+  // 文件预览接口。
   virtual void PreviewFile(const std::string& path,
                            const std::string& display_name);
   virtual void CloseFilePreview();
 
   virtual void SetGTKDarkThemeEnabled(bool use_dark_theme) {}
 
-  // Converts between content bounds and window bounds.
+  // 在内容边界和窗口边界之间转换。
   virtual gfx::Rect ContentBoundsToWindowBounds(
       const gfx::Rect& bounds) const = 0;
   virtual gfx::Rect WindowBoundsToContentBounds(
@@ -258,13 +258,13 @@ class NativeWindow : public base::SupportsUserData,
   virtual gfx::Rect GetWindowControlsOverlayRect();
   virtual void SetWindowControlsOverlayRect(const gfx::Rect& overlay_rect);
 
-  // Methods called by the WebContents.
+  // WebContents调用的方法。
   virtual void HandleKeyboardEvent(
       content::WebContents*,
       const content::NativeWebKeyboardEvent& event) {}
 
-  // Public API used by platform-dependent delegates and observers to send UI
-  // related notifications.
+  // 平台相关的委托和观察者用来发送UI的公共API。
+  // 相关通知。
   void NotifyWindowRequestPreferredWith(int* width);
   void NotifyWindowCloseButtonClicked();
   void NotifyWindowClosed();
@@ -340,7 +340,7 @@ class NativeWindow : public base::SupportsUserData,
  protected:
   NativeWindow(const gin_helper::Dictionary& options, NativeWindow* parent);
 
-  // views::WidgetDelegate:
+  // 视图：：WidgetDelegate：
   views::Widget* GetWidget() override;
   const views::Widget* GetWidget() const override;
   std::u16string GetAccessibleWindowTitle() const override;
@@ -355,10 +355,10 @@ class NativeWindow : public base::SupportsUserData,
         [&browser_view](NativeBrowserView* n) { return (n == browser_view); });
   }
 
-  // The boolean parsing of the "titleBarOverlay" option
+  // “title BarOverlay”选项的布尔解析。
   bool titlebar_overlay_ = false;
 
-  // The "titleBarStyle" option.
+  // “TitleBarStyle”选项。
   TitleBarStyle title_bar_style_ = TitleBarStyle::kNormal;
 
  private:
@@ -366,47 +366,47 @@ class NativeWindow : public base::SupportsUserData,
 
   static int32_t next_id_;
 
-  // The content view, weak ref.
+  // 内容视图，弱引用。
   views::View* content_view_ = nullptr;
 
-  // Whether window has standard frame.
+  // 窗口是否有标准框架。
   bool has_frame_ = true;
 
-  // Whether window is transparent.
+  // 窗口是否透明。
   bool transparent_ = false;
 
-  // Minimum and maximum size, stored as content size.
+  // 最小和最大大小，存储为内容大小。
   extensions::SizeConstraints size_constraints_;
 
-  // Whether window can be resized larger than screen.
+  // 窗口大小是否可以调整为大于屏幕。
   bool enable_larger_than_screen_ = false;
 
-  // The windows has been closed.
+  // 窗户已经关上了。
   bool is_closed_ = false;
 
-  // Used to display sheets at the appropriate horizontal and vertical offsets
-  // on macOS.
+  // 用于在适当的水平和垂直偏移处显示图纸。
+  // 在MacOS上。
   double sheet_offset_x_ = 0.0;
   double sheet_offset_y_ = 0.0;
 
-  // Used to maintain the aspect ratio of a view which is inside of the
-  // content view.
+  // 用于保持视图的纵横比，该视图位于。
+  // 内容视图。
   double aspect_ratio_ = 0.0;
   gfx::Size aspect_ratio_extraSize_;
 
-  // The parent window, it is guaranteed to be valid during this window's life.
+  // 父窗口，则保证在此窗口的生命周期内有效。
   NativeWindow* parent_ = nullptr;
 
-  // Is this a modal window.
+  // 这是模态窗口吗？
   bool is_modal_ = false;
 
-  // The browser view layer.
+  // 浏览器视图层。
   std::list<NativeBrowserView*> browser_views_;
 
-  // Observers of this window.
+  // 这个窗口的观察者。
   base::ObserverList<NativeWindowObserver> observers_;
 
-  // Accessible title.
+  // 易访问的标题。
   std::u16string accessible_title_;
 
   gfx::Rect overlay_rect_;
@@ -416,7 +416,7 @@ class NativeWindow : public base::SupportsUserData,
   DISALLOW_COPY_AND_ASSIGN(NativeWindow);
 };
 
-// This class provides a hook to get a NativeWindow from a WebContents.
+// 此类提供了从WebContents获取NativeWindow的挂钩。
 class NativeWindowRelay
     : public content::WebContentsUserData<NativeWindowRelay> {
  public:
@@ -436,6 +436,6 @@ class NativeWindowRelay
   base::WeakPtr<NativeWindow> native_window_;
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_NATIVE_WINDOW_H_
+#endif  // Shell_Browser_Native_Window_H_

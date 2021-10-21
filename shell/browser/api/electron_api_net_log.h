@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_NET_LOG_H_
 #define SHELL_BROWSER_API_ELECTRON_API_NET_LOG_H_
@@ -28,7 +28,7 @@ class ElectronBrowserContext;
 
 namespace api {
 
-// The code is referenced from the net_log::NetExportFileWriter class.
+// 代码引用自Net_log：：NetExportFileWriter类。
 class NetLog : public gin::Wrappable<NetLog> {
  public:
   static gin::Handle<NetLog> Create(v8::Isolate* isolate,
@@ -39,7 +39,7 @@ class NetLog : public gin::Wrappable<NetLog> {
   v8::Local<v8::Promise> StopLogging(gin::Arguments* args);
   bool IsCurrentlyLogging() const;
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -72,8 +72,8 @@ class NetLog : public gin::Wrappable<NetLog> {
   DISALLOW_COPY_AND_ASSIGN(NetLog);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_NET_LOG_H_
+#endif  // Shell_Browser_API_ELECTED_API_NET_LOG_H_

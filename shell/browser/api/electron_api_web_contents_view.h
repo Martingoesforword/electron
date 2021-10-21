@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_WEB_CONTENTS_VIEW_H_
 #define SHELL_BROWSER_API_ELECTRON_API_WEB_CONTENTS_VIEW_H_
@@ -20,27 +20,27 @@ class WebContents;
 
 class WebContentsView : public View, public content::WebContentsObserver {
  public:
-  // Create a new instance of WebContentsView.
+  // 创建WebContentsView的新实例。
   static gin::Handle<WebContentsView> Create(
       v8::Isolate* isolate,
       const gin_helper::Dictionary& web_preferences);
 
-  // Return the cached constructor function.
+  // 返回缓存的构造函数。
   static v8::Local<v8::Function> GetConstructor(v8::Isolate* isolate);
 
-  // gin_helper::Wrappable
+  // GINE_HELPER：：Wrappable。
   static void BuildPrototype(v8::Isolate* isolate,
                              v8::Local<v8::FunctionTemplate> prototype);
 
-  // Public APIs.
+  // 公共接口。
   gin::Handle<WebContents> GetWebContents(v8::Isolate* isolate);
 
  protected:
-  // Takes an existing WebContents.
+  // 采用现有的WebContents。
   WebContentsView(v8::Isolate* isolate, gin::Handle<WebContents> web_contents);
   ~WebContentsView() override;
 
-  // content::WebContentsObserver:
+  // 内容：：WebContentsViewer：
   void WebContentsDestroyed() override;
 
  private:
@@ -48,15 +48,15 @@ class WebContentsView : public View, public content::WebContentsObserver {
       gin_helper::Arguments* args,
       const gin_helper::Dictionary& web_preferences);
 
-  // Keep a reference to v8 wrapper.
+  // 请保留对V8包装器的引用。
   v8::Global<v8::Value> web_contents_;
   api::WebContents* api_web_contents_;
 
   DISALLOW_COPY_AND_ASSIGN(WebContentsView);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_WEB_CONTENTS_VIEW_H_

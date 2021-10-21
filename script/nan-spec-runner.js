@@ -31,10 +31,10 @@ async function main () {
   const cxx = path.resolve(clangDir, 'clang++');
   const ld = path.resolve(clangDir, 'lld');
 
-  // TODO(ckerr) this is cribbed from read obj/electron/electron_app.ninja.
-  // Maybe it would be better to have this script literally open up that
-  // file and pull cflags_cc from it instead of using bespoke code here?
-  // I think it's unlikely to work; but if it does, it would be more futureproof
+  // TODO(Ckerr)这是从读取obj/Electronics/Electronics_app.ninsa中抄袭的。
+  // 也许让这个脚本从字面上打开这一点会更好。
+  // 在这里使用定制的代码，而不是创建一个文件并从中拉出cflag_cc？
+  // 我认为这不太可能行得通，但如果行得通，那就更有说服力了。
   const cxxflags = [
     '-std=c++14',
     '-nostdinc++',

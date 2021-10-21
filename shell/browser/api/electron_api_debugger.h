@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_DEBUGGER_H_
 #define SHELL_BROWSER_API_ELECTRON_API_DEBUGGER_H_
@@ -20,7 +20,7 @@
 namespace content {
 class DevToolsAgentHost;
 class WebContents;
-}  // namespace content
+}  // 命名空间内容。
 
 namespace electron {
 
@@ -34,7 +34,7 @@ class Debugger : public gin::Wrappable<Debugger>,
   static gin::Handle<Debugger> Create(v8::Isolate* isolate,
                                       content::WebContents* web_contents);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -44,12 +44,12 @@ class Debugger : public gin::Wrappable<Debugger>,
   Debugger(v8::Isolate* isolate, content::WebContents* web_contents);
   ~Debugger() override;
 
-  // content::DevToolsAgentHostClient:
+  // 内容：：DevToolsAgentHostClient：
   void AgentHostClosed(content::DevToolsAgentHost* agent_host) override;
   void DispatchProtocolMessage(content::DevToolsAgentHost* agent_host,
                                base::span<const uint8_t> message) override;
 
-  // content::WebContentsObserver:
+  // 内容：：WebContentsViewer：
   void RenderFrameHostChanged(content::RenderFrameHost* old_rfh,
                               content::RenderFrameHost* new_rfh) override;
 
@@ -63,7 +63,7 @@ class Debugger : public gin::Wrappable<Debugger>,
   v8::Local<v8::Promise> SendCommand(gin::Arguments* args);
   void ClearPendingRequests();
 
-  content::WebContents* web_contents_;  // Weak Reference.
+  content::WebContents* web_contents_;  // 弱引用。
   scoped_refptr<content::DevToolsAgentHost> agent_host_;
 
   PendingRequestMap pending_requests_;
@@ -72,8 +72,8 @@ class Debugger : public gin::Wrappable<Debugger>,
   DISALLOW_COPY_AND_ASSIGN(Debugger);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_DEBUGGER_H_
+#endif  // Shell_Browser_API_Electronics_API_Debugger_H_

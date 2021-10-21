@@ -1,6 +1,6 @@
-// Copyright (c) 2015 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2015年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #ifndef SHELL_BROWSER_NOTIFICATIONS_PLATFORM_NOTIFICATION_SERVICE_H_
 #define SHELL_BROWSER_NOTIFICATIONS_PLATFORM_NOTIFICATION_SERVICE_H_
@@ -20,7 +20,7 @@ class PlatformNotificationService
   ~PlatformNotificationService() override;
 
  protected:
-  // content::PlatformNotificationService:
+  // 内容：：PlatformNotificationService：
   void DisplayNotification(
       content::RenderFrameHost* render_frame_host,
       const std::string& notification_id,
@@ -50,6 +50,6 @@ class PlatformNotificationService
   DISALLOW_COPY_AND_ASSIGN(PlatformNotificationService);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_NOTIFICATIONS_PLATFORM_NOTIFICATION_SERVICE_H_

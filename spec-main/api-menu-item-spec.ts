@@ -98,7 +98,7 @@ describe('MenuItems', () => {
         return groups;
       };
 
-      // returns array of checked menuitems in [begin,end)
+      // 返回[Begin，End)中选中的菜单项的数组。
       const findChecked = (menuItems: MenuItem[], begin: number, end: number) => {
         const checked = [];
         for (let i = begin; i < end; i++) {
@@ -144,12 +144,12 @@ describe('MenuItems', () => {
         groups.forEach(g => {
           const groupId = (menu.items[g.begin!] as any).groupId;
 
-          // groupId should be previously unused
-          // expect(usedGroupIds.has(groupId)).to.be.false('group id present')
+          // GroupId应该是以前未使用过的。
+          // Expect(usedGroupIds.has(groupId)).to.be.false(‘group id Present’)。
           expect(usedGroupIds).not.to.contain(groupId);
           usedGroupIds.add(groupId);
 
-          // everything in the group should have the same id
+          // 组中的所有内容都应该具有相同的ID
           for (let i = g.begin!; i < g.end!; ++i) {
             expect((menu.items[i] as any).groupId).to.equal(groupId);
           }

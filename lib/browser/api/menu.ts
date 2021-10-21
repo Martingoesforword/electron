@@ -9,7 +9,7 @@ const checked = new WeakMap<MenuItem, boolean>();
 let applicationMenu: MenuType | null = null;
 let groupIdIndex = 0;
 
-/* Instance Methods */
+/* 实例方法。*/
 
 Menu.prototype._init = function () {
   this.commandsMap = {};
@@ -58,7 +58,7 @@ Menu.prototype._executeCommand = function (event, id) {
 };
 
 Menu.prototype._menuWillShow = function () {
-  // Ensure radio groups have at least one menu item selected
+  // 确保单选按钮组至少选择了一个菜单项。
   for (const id of Object.keys(this.groupsMap)) {
     const found = this.groupsMap[id].find(item => item.checked) || null;
     if (!found) checked.set(this.groupsMap[id][0], true);
@@ -71,15 +71,15 @@ Menu.prototype.popup = function (options = {}) {
   }
   let { window, x, y, positioningItem, callback } = options;
 
-  // no callback passed
+  // 未传递回调。
   if (!callback || typeof callback !== 'function') callback = () => {};
 
-  // set defaults
+  // 设置默认值。
   if (typeof x !== 'number') x = -1;
   if (typeof y !== 'number') y = -1;
   if (typeof positioningItem !== 'number') positioningItem = -1;
 
-  // find which window to use
+  // 查找要使用的窗口。
   const wins = BaseWindow.getAllWindows();
   if (!wins || wins.indexOf(window as any) === -1) {
     window = BaseWindow.getFocusedWindow() as any;
@@ -99,8 +99,8 @@ Menu.prototype.closePopup = function (window) {
   if (window instanceof BaseWindow) {
     this.closePopupAt(window.id);
   } else {
-    // Passing -1 (invalid) would make closePopupAt close the all menu runners
-    // belong to this menu.
+    // 传递(无效)将使-1\f25 closePopupAt-1\f6关闭所有菜单运行器。
+    // 属于这个菜单。
     this.closePopupAt(-1);
   }
 };
@@ -133,19 +133,19 @@ Menu.prototype.insert = function (pos, item) {
     throw new RangeError(`Position ${pos} cannot be greater than the total MenuItem count`);
   }
 
-  // insert item depending on its type
+  // 根据项目类型插入项目。
   insertItemByType.call(this, item, pos);
 
-  // set item properties
+  // 设置项目属性。
   if (item.sublabel) this.setSublabel(pos, item.sublabel);
   if (item.toolTip) this.setToolTip(pos, item.toolTip);
   if (item.icon) this.setIcon(pos, item.icon);
   if (item.role) this.setRole(pos, item.role);
 
-  // Make menu accessable to items.
+  // 使项目可以访问菜单。
   item.overrideReadOnlyProperty('menu', this);
 
-  // Remember the items.
+  // 记住这些项目。
   this.items.splice(pos, 0, item);
   this.commandsMap[item.commandId] = item;
 };
@@ -157,13 +157,13 @@ Menu.prototype._callMenuWillShow = function () {
   });
 };
 
-/* Static Methods */
+/* 静态方法。*/
 
 Menu.getApplicationMenu = () => applicationMenu;
 
 Menu.sendActionToFirstResponder = bindings.sendActionToFirstResponder;
 
-// set application menu with a preexisting menu
+// 使用预先存在的菜单设置应用程序菜单。
 Menu.setApplicationMenu = function (menu: MenuType) {
   if (menu && menu.constructor !== Menu) {
     throw new TypeError('Invalid menu');
@@ -206,9 +206,9 @@ Menu.buildFromTemplate = function (template) {
   return menu;
 };
 
-/* Helper Functions */
+/* 帮助器函数。*/
 
-// validate the template against having the wrong attribute
+// 验证模板是否具有错误的属性。
 function areValidTemplateItems (template: (MenuItemConstructorOptions | MenuItem)[]) {
   return template.every(item =>
     item != null &&
@@ -228,7 +228,7 @@ function sortTemplate (template: (MenuItemConstructorOptions | MenuItem)[]) {
   return sorted;
 }
 
-// Search between separators to find a radio menu item and return its group id
+// 在分隔符之间搜索以查找单选菜单项并返回其组ID。
 function generateGroupId (items: (MenuItemConstructorOptions | MenuItem)[], pos: number) {
   if (pos > 0) {
     for (let idx = pos - 1; idx >= 0; idx--) {
@@ -246,13 +246,13 @@ function generateGroupId (items: (MenuItemConstructorOptions | MenuItem)[], pos:
 }
 
 function removeExtraSeparators (items: (MenuItemConstructorOptions | MenuItem)[]) {
-  // fold adjacent separators together
+  // 将相邻的分隔符折叠在一起。
   let ret = items.filter((e, idx, arr) => {
     if (e.visible === false) return true;
     return e.type !== 'separator' || idx === 0 || arr[idx - 1].type !== 'separator';
   });
 
-  // remove edge separators
+  // 删除边缘分隔符。
   ret = ret.filter((e, idx, arr) => {
     if (e.visible === false) return true;
     return e.type !== 'separator' || (idx !== 0 && idx !== arr.length - 1);
@@ -268,14 +268,14 @@ function insertItemByType (this: MenuType, item: MenuItem, pos: number) {
     separator: () => this.insertSeparator(pos),
     submenu: () => this.insertSubMenu(pos, item.commandId, item.label, item.submenu),
     radio: () => {
-      // Grouping radio menu items
+      // 对单选菜单项进行分组。
       item.overrideReadOnlyProperty('groupId', generateGroupId(this.items, pos));
       if (this.groupsMap[item.groupId] == null) {
         this.groupsMap[item.groupId] = [];
       }
       this.groupsMap[item.groupId].push(item);
 
-      // Setting a radio menu item should flip other items in the group.
+      // 设置单选菜单项应翻转组中的其他项。
       checked.set(item, item.checked);
       Object.defineProperty(item, 'checked', {
         enumerable: true,

@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NET_NODE_STREAM_LOADER_H_
 #define SHELL_BROWSER_NET_NODE_STREAM_LOADER_H_
@@ -19,14 +19,14 @@
 
 namespace electron {
 
-// Read data from node Stream and feed it to NetworkService.
-//
-// This class manages its own lifetime and should delete itself when the
-// connection is lost or finished.
-//
-// We use |paused mode| to read data from |Readable| stream, so we don't need to
-// copy data from buffer and hold it in memory, and we only need to make sure
-// the passed |Buffer| is alive while writing data to pipe.
+// 从Node Stream读取数据并将其提供给NetworkService。
+// 
+// 此类管理其自身的生存期，并应在。
+// 连接丢失或完成。
+// 
+// 我们使用|暂停模式|从|可读|流中读取数据，因此不需要。
+// 从缓冲区复制数据并将其保存在内存中，我们只需要确保。
+// 将数据写入管道时，传递的|Buffer|是活动的。
 class NodeStreamLoader : public network::mojom::URLLoader {
  public:
   NodeStreamLoader(network::mojom::URLResponseHeadPtr head,
@@ -46,10 +46,10 @@ class NodeStreamLoader : public network::mojom::URLLoader {
   void ReadMore();
   void DidWrite(MojoResult result);
 
-  // Subscribe to events of |emitter|.
+  // 订阅|发射器|的活动。
   void On(const char* event, EventCallback callback);
 
-  // URLLoader:
+  // URLLoader：
   void FollowRedirect(
       const std::vector<std::string>& removed_headers,
       const net::HttpRequestHeaders& modified_headers,
@@ -67,31 +67,31 @@ class NodeStreamLoader : public network::mojom::URLLoader {
   v8::Global<v8::Object> emitter_;
   v8::Global<v8::Value> buffer_;
 
-  // Mojo data pipe where the data that is being read is written to.
+  // 正在读取的数据写入的MOJO数据管道。
   std::unique_ptr<mojo::DataPipeProducer> producer_;
 
-  // Whether we are in the middle of write.
+  // 我们是否在写到一半。
   bool is_writing_ = false;
 
-  // Whether we are in the middle of a stream.read().
+  // 我们是否在流的中间。read()。
   bool is_reading_ = false;
 
-  // When NotifyComplete is called while writing, we will save the result and
-  // quit with it after the write is done.
+  // 当在写入过程中调用NotifyComplete时，我们将保存结果并。
+  // 在写入完成后使用它退出。
   bool ended_ = false;
   int result_ = net::OK;
 
-  // When the stream emits the readable event, we only want to start reading
-  // data if the stream was not readable before, so we store the state in a
-  // flag.
+  // 当流发出Readable事件时，我们只想开始读取。
+  // 数据(如果流以前不可读)，因此我们将状态存储在。
+  // 旗帜。
   bool readable_ = false;
 
-  // It's possible for reads to be queued using nextTick() during read()
-  // which will cause 'readable' to emit during ReadMore, so we track if
-  // that occurred in a flag.
+  // 可以在read()过程中使用nextTick()对读取进行排队。
+  // 这将导致在Readmore过程中发出“可读性”，因此我们跟踪。
+  // 出现在一面旗帜上。
   bool has_read_waiting_ = false;
 
-  // Store the V8 callbacks to unsubscribe them later.
+  // 存储V8回调，以便稍后取消订阅。
   std::map<std::string, v8::Global<v8::Value>> handlers_;
 
   base::WeakPtrFactory<NodeStreamLoader> weak_factory_{this};
@@ -99,6 +99,6 @@ class NodeStreamLoader : public network::mojom::URLLoader {
   DISALLOW_COPY_AND_ASSIGN(NodeStreamLoader);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_NET_NODE_STREAM_LOADER_H_
+#endif  // Shell_Browser_Net_Node_Stream_Loader_H_

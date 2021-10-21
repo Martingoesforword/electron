@@ -5,7 +5,7 @@ const { ifdescribe } = require('./spec-helpers');
 
 const { clipboard, nativeImage } = require('electron');
 
-// FIXME(zcbenz): Clipboard tests are failing on WOA.
+// 修复(Zcbenz)：WOA上的剪贴板测试失败。
 ifdescribe(process.platform !== 'win32' || process.arch !== 'arm64')('clipboard module', () => {
   const fixtures = path.resolve(__dirname, 'fixtures');
 
@@ -52,13 +52,13 @@ ifdescribe(process.platform !== 'win32' || process.arch !== 'arm64')('clipboard 
     });
 
     it('returns title and url', () => {
-      clipboard.writeBookmark('a title', 'https://electronjs.org');
+      clipboard.writeBookmark('a title', 'https:// Electronjs.org‘)；
 
       const readBookmark = clipboard.readBookmark();
       if (process.platform !== 'win32') {
         expect(readBookmark.title).to.equal('a title');
       }
-      expect(clipboard.readBookmark().url).to.equal('https://electronjs.org');
+      expect(clipboard.readBookmark().url).to.equal('https:// Electronjs.org‘)；
 
       clipboard.writeText('no bookmark');
       expect(clipboard.readBookmark()).to.deep.equal({

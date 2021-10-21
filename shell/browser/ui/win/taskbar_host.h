@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_WIN_TASKBAR_HOST_H_
 #define SHELL_BROWSER_UI_WIN_TASKBAR_HOST_H_
@@ -35,35 +35,35 @@ class TaskbarHost {
   TaskbarHost();
   virtual ~TaskbarHost();
 
-  // Add or update the buttons in thumbar.
+  // 添加或更新拇指条中的按钮。
   bool SetThumbarButtons(HWND window,
                          const std::vector<ThumbarButton>& buttons);
 
   void RestoreThumbarButtons(HWND window);
 
-  // Set the progress state in taskbar.
+  // 在任务栏中设置进度状态。
   bool SetProgressBar(HWND window,
                       double value,
                       const NativeWindow::ProgressState state);
 
-  // Set the overlay icon in taskbar.
+  // 在任务栏中设置覆盖图标。
   bool SetOverlayIcon(HWND window,
                       const SkBitmap& overlay,
                       const std::string& text);
 
-  // Set the region of the window to show as a thumbnail in taskbar.
+  // 将窗口区域设置为任务栏中的缩略图。
   bool SetThumbnailClip(HWND window, const gfx::Rect& region);
 
-  // Set the tooltip for the thumbnail in taskbar.
+  // 在任务栏中设置缩略图的工具提示。
   bool SetThumbnailToolTip(HWND window, const std::string& tooltip);
 
-  // Called by the window that there is a button in thumbar clicked.
+  // 由点击了拇指条中的按钮的窗口调用。
   bool HandleThumbarButtonEvent(int button_id);
 
   void SetThumbarButtonsAdded(bool added) { thumbar_buttons_added_ = added; }
 
  private:
-  // Initialize the taskbar object.
+  // 初始化任务栏对象。
   bool InitializeTaskbar();
 
   using CallbackMap = std::map<int, base::RepeatingClosure>;
@@ -71,15 +71,15 @@ class TaskbarHost {
 
   std::vector<ThumbarButton> last_buttons_;
 
-  // The COM object of taskbar.
+  // 任务栏的COM对象。
   Microsoft::WRL::ComPtr<ITaskbarList3> taskbar_;
 
-  // Whether we have already added the buttons to thumbar.
+  // 我们是否已经将按钮添加到拇指条。
   bool thumbar_buttons_added_ = false;
 
   DISALLOW_COPY_AND_ASSIGN(TaskbarHost);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_WIN_TASKBAR_HOST_H_
+#endif  // Shell_Browser_UI_Win_Taskbar_HOST_H_

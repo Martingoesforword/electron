@@ -24,7 +24,7 @@ describe('session.serviceWorkers', () => {
     const uuid = v4();
 
     server = http.createServer((req, res) => {
-      // /{uuid}/{file}
+      // /{uuid}/{file}。
       const file = req.url!.split('/')[2]!;
 
       if (file.endsWith('.js')) {
@@ -34,7 +34,7 @@ describe('session.serviceWorkers', () => {
     });
     await new Promise<void>(resolve => {
       server.listen(0, '127.0.0.1', () => {
-        baseUrl = `http://localhost:${(server.address() as AddressInfo).port}/${uuid}`;
+        baseUrl = `http:// 本地主机：${(server.address()as AddressInfo).port}/${uuid}`；
         resolve();
       });
     });

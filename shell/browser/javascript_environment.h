@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_JAVASCRIPT_ENVIRONMENT_H_
 #define SHELL_BROWSER_JAVASCRIPT_ENVIRONMENT_H_
@@ -9,18 +9,18 @@
 
 #include "base/macros.h"
 #include "gin/public/isolate_holder.h"
-#include "uv.h"  // NOLINT(build/include_directory)
+#include "uv.h"  // NOLINT(BUILD/INCLUDE_DIRECTORY)。
 #include "v8/include/v8-locker.h"
 
 namespace node {
 class Environment;
 class MultiIsolatePlatform;
-}  // namespace node
+}  // 命名空间节点。
 
 namespace electron {
 
 class MicrotasksRunner;
-// Manage the V8 isolate and context automatically.
+// 自动管理V8隔离和上下文。
 class JavascriptEnvironment {
  public:
   explicit JavascriptEnvironment(uv_loop_t* event_loop);
@@ -39,7 +39,7 @@ class JavascriptEnvironment {
 
  private:
   v8::Isolate* Initialize(uv_loop_t* event_loop);
-  // Leaked on exit.
+  // 出口漏水了。
   node::MultiIsolatePlatform* platform_;
 
   v8::Isolate* isolate_;
@@ -52,7 +52,7 @@ class JavascriptEnvironment {
   DISALLOW_COPY_AND_ASSIGN(JavascriptEnvironment);
 };
 
-// Manage the Node Environment automatically.
+// 自动管理节点环境。
 class NodeEnvironment {
  public:
   explicit NodeEnvironment(node::Environment* env);
@@ -66,6 +66,6 @@ class NodeEnvironment {
   DISALLOW_COPY_AND_ASSIGN(NodeEnvironment);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_JAVASCRIPT_ENVIRONMENT_H_
+#endif  // Shell_Browser_JavaScript_Environment_H_

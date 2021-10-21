@@ -1,7 +1,7 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Copyright (c) 2013 Adam Roben <adam@roben.org>. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 版权所有(C)2013 Adam Roben&lt;adam@roben.org&gt;。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #ifndef SHELL_BROWSER_UI_INSPECTABLE_WEB_CONTENTS_VIEW_H_
 #define SHELL_BROWSER_UI_INSPECTABLE_WEB_CONTENTS_VIEW_H_
@@ -27,25 +27,25 @@ class InspectableWebContentsView {
   InspectableWebContentsView() {}
   virtual ~InspectableWebContentsView() {}
 
-  // The delegate manages its own life.
+  // 代理管理自己的生活。
   void SetDelegate(InspectableWebContentsViewDelegate* delegate) {
     delegate_ = delegate;
   }
   InspectableWebContentsViewDelegate* GetDelegate() const { return delegate_; }
 
 #if defined(TOOLKIT_VIEWS) && !defined(OS_MAC)
-  // Returns the container control, which has devtools view attached.
+  // 返回附加了DevTools视图的容器控件。
   virtual views::View* GetView() = 0;
 
-  // Returns the web view control, which can be used by the
-  // GetInitiallyFocusedView() to set initial focus to web view.
+  // 返回web视图控件，该控件可由。
+  // GetInitiallyFocusedView()将初始焦点设置为Web视图。
   virtual views::View* GetWebView() = 0;
 #else
   virtual gfx::NativeView GetNativeView() const = 0;
 #endif
 
   virtual void ShowDevTools(bool activate) = 0;
-  // Hide the DevTools view.
+  // 隐藏DevTools视图。
   virtual void CloseDevTools() = 0;
   virtual bool IsDevToolsViewShowing() = 0;
   virtual bool IsDevToolsViewFocused() = 0;
@@ -55,9 +55,9 @@ class InspectableWebContentsView {
   virtual void SetTitle(const std::u16string& title) = 0;
 
  private:
-  InspectableWebContentsViewDelegate* delegate_ = nullptr;  // weak references.
+  InspectableWebContentsViewDelegate* delegate_ = nullptr;  // 弱引用。
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_UI_INSPECTABLE_WEB_CONTENTS_VIEW_H_

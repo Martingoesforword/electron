@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSION_SYSTEM_H_
 #define SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSION_SYSTEM_H_
@@ -30,33 +30,33 @@ namespace extensions {
 class ElectronExtensionLoader;
 class ValueStoreFactory;
 
-// A simplified version of ExtensionSystem for app_shell. Allows
-// app_shell to skip initialization of services it doesn't need.
+// APP_SHELL的ExtensionSystem的简化版本。允许。
+// APP_SHELL跳过它不需要的服务的初始化。
 class ElectronExtensionSystem : public ExtensionSystem {
  public:
   using InstallUpdateCallback = ExtensionSystem::InstallUpdateCallback;
   explicit ElectronExtensionSystem(content::BrowserContext* browser_context);
   ~ElectronExtensionSystem() override;
 
-  // Loads an unpacked extension from a directory. Returns the extension on
-  // success, or nullptr otherwise.
+  // 从目录加载未打包的扩展名。返回上的分机号。
+  // 成功，否则返回nullptr。
   void LoadExtension(
       const base::FilePath& extension_dir,
       int load_flags,
       base::OnceCallback<void(const Extension*, const std::string&)> cb);
 
-  // Finish initialization for the shell extension system.
+  // 完成外壳扩展系统的初始化。
   void FinishInitialization();
 
-  // Reloads the extension with id |extension_id|.
+  // 重新加载id|EXTENSION_ID|的扩展。
   void ReloadExtension(const ExtensionId& extension_id);
 
   void RemoveExtension(const ExtensionId& extension_id);
 
-  // KeyedService implementation:
+  // KeyedService实施：
   void Shutdown() override;
 
-  // ExtensionSystem implementation:
+  // 扩展系统实施：
   void InitForRegularProfile(bool extensions_enabled) override;
   ExtensionService* extension_service() override;
   RuntimeData* runtime_data() override;
@@ -96,9 +96,9 @@ class ElectronExtensionSystem : public ExtensionSystem {
       scoped_refptr<Extension> extension);
   void LoadComponentExtensions();
 
-  content::BrowserContext* browser_context_;  // Not owned.
+  content::BrowserContext* browser_context_;  // 不是所有的。
 
-  // Data to be accessed on the IO thread. Must outlive process_manager_.
+  // 要在IO线程上访问的数据。必须超过PROCESS_MANAGER_。
   scoped_refptr<InfoMap> info_map_;
 
   std::unique_ptr<ServiceWorkerManager> service_worker_manager_;
@@ -112,7 +112,7 @@ class ElectronExtensionSystem : public ExtensionSystem {
 
   scoped_refptr<value_store::ValueStoreFactory> store_factory_;
 
-  // Signaled when the extension system has completed its startup tasks.
+  // 当扩展系统完成其启动任务时发出信号。
   base::OneShotEvent ready_;
 
   base::WeakPtrFactory<ElectronExtensionSystem> weak_factory_{this};
@@ -120,6 +120,6 @@ class ElectronExtensionSystem : public ExtensionSystem {
   DISALLOW_COPY_AND_ASSIGN(ElectronExtensionSystem);
 };
 
-}  // namespace extensions
+}  // 命名空间扩展。
 
 #endif  // SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSION_SYSTEM_H_

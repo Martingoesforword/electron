@@ -1,6 +1,6 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE.chromium file.
+// 版权所有2019年Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在LICENSE.Cr文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_FUNCTION_TEMPLATE_H_
 #define SHELL_COMMON_GIN_HELPER_FUNCTION_TEMPLATE_H_
@@ -16,11 +16,11 @@
 #include "shell/common/gin_helper/microtasks_scope.h"
 #include "third_party/abseil-cpp/absl/types/optional.h"
 
-// This file is forked from gin/function_template.h with 2 differences:
-// 1. Support for additional types of arguments.
-// 2. Support for warning using destroyed objects.
-//
-// TODO(zcbenz): We should seek to remove this file after removing native_mate.
+// 此文件是从gin/function_template.h派生的，有两个不同之处：
+// 1.支持其他类型的参数。
+// 2.支持销毁对象告警。
+// 
+// TODO(Zcbenz)：在删除NATIVE_Mate之后，我们应该设法删除此文件。
 
 namespace gin_helper {
 
@@ -41,13 +41,13 @@ struct CallbackParamTraits<const T*> {
   typedef T* LocalType;
 };
 
-// CallbackHolder and CallbackHolderBase are used to pass a
-// base::RepeatingCallback from
-// CreateFunctionTemplate through v8 (via v8::FunctionTemplate) to
-// DispatchToCallback, where it is invoked.
+// CallbackHolder和CallbackHolderBase用于传递。
+// Base：：RepeatingCallback From。
+// CreateFunctionTemplate至V8(通过V8：：FunctionTemplate)。
+// DispatchToCallback，在其中调用它。
 
-// This simple base class is used so that we can share a single object template
-// among every CallbackHolder instance.
+// 使用这个简单的基类是为了让我们可以共享单个对象模板。
+// 在每个CallbackHolder实例中。
 class CallbackHolderBase {
  public:
   v8::Local<v8::External> GetHandle(v8::Isolate* isolate);
@@ -95,22 +95,22 @@ bool GetNextArgument(gin::Arguments* args,
   }
 }
 
-// Support absl::optional as output, which would be empty and do not throw error
-// when conversion to T fails.
+// 支持ABSL：：OPTIONAL作为输出，为空且不抛出错误。
+// 当转换为T失败时。
 template <typename T>
 bool GetNextArgument(gin::Arguments* args,
                      int create_flags,
                      bool is_first,
                      absl::optional<T>* result) {
   T converted;
-  // Use gin::Arguments::GetNext which always advances |next| counter.
+  // 使用gin：：Arguments：：GetNext，它始终前进|Next|Counter。
   if (args->GetNext(&converted))
     result->emplace(std::move(converted));
   return true;
 }
 
-// For advanced use cases, we allow callers to request the unparsed Arguments
-// object and poke around in it directly.
+// 对于高级用例，我们允许调用方请求未解析的参数。
+// 对象，并直接在其中四处窥探。
 inline bool GetNextArgument(gin::Arguments* args,
                             int create_flags,
                             bool is_first,
@@ -119,7 +119,7 @@ inline bool GetNextArgument(gin::Arguments* args,
   return true;
 }
 
-// It's common for clients to just need the isolate, so we make that easy.
+// 对于客户来说，只需要隔离是很常见的，所以我们让它变得简单。
 inline bool GetNextArgument(gin::Arguments* args,
                             int create_flags,
                             bool is_first,
@@ -128,8 +128,8 @@ inline bool GetNextArgument(gin::Arguments* args,
   return true;
 }
 
-// Allow clients to pass a util::Error to throw errors if they
-// don't need the full gin::Arguments
+// 允许客户端传递util：：Error以在以下情况下引发错误。
+// 不需要完整的杜松子酒：：参数。
 inline bool GetNextArgument(gin::Arguments* args,
                             int create_flags,
                             bool is_first,
@@ -138,7 +138,7 @@ inline bool GetNextArgument(gin::Arguments* args,
   return true;
 }
 
-// Supports the gin_helper::Arguments.
+// 支持gin_helper：：参数。
 inline bool GetNextArgument(gin::Arguments* args,
                             int create_flags,
                             bool is_first,
@@ -147,8 +147,8 @@ inline bool GetNextArgument(gin::Arguments* args,
   return true;
 }
 
-// Classes for generating and storing an argument pack of integer indices
-// (based on well-known "indices trick", see: http://goo.gl/bKKojn):
+// 用于生成和存储整数索引的参数包的类。
+// (基于广为人知的“指数把戏”，见：http://goo.gl/bKKojn)：
 template <size_t... indices>
 struct IndicesHolder {};
 
@@ -163,8 +163,8 @@ struct IndicesGenerator<0, indices...> {
   using type = IndicesHolder<indices...>;
 };
 
-// Class template for extracting and storing single argument for callback
-// at position |index|.
+// 用于提取和存储回调的单个参数的类模板。
+// 在位置|索引|。
 template <size_t index, typename ArgType>
 struct ArgumentHolder {
   using ArgLocalType = typename CallbackParamTraits<ArgType>::LocalType;
@@ -182,16 +182,16 @@ struct ArgumentHolder {
     }
     ok = GetNextArgument(args, create_flags, index == 0, &value);
     if (!ok) {
-      // Ideally we would include the expected c++ type in the error
-      // message which we can access via typeid(ArgType).name()
-      // however we compile with no-rtti, which disables typeid.
+      // 理想情况下，我们应该在错误中包含预期的c++类型。
+      // 我们可以通过typeid(ArgType).name()访问的消息。
+      // 但是，我们使用no-RTTI进行编译，这会禁用typeid。
       args->ThrowError();
     }
   }
 };
 
-// Class template for converting arguments from JavaScript to C++ and running
-// the callback with them.
+// 用于将参数从JavaScript转换为C++并运行的类模板。
+// 和他们一起回电。
 template <typename IndicesType, typename... ArgTypes>
 class Invoker {};
 
@@ -199,16 +199,16 @@ template <size_t... indices, typename... ArgTypes>
 class Invoker<IndicesHolder<indices...>, ArgTypes...>
     : public ArgumentHolder<indices, ArgTypes>... {
  public:
-  // Invoker<> inherits from ArgumentHolder<> for each argument.
-  // C++ has always been strict about the class initialization order,
-  // so it is guaranteed ArgumentHolders will be initialized (and thus, will
-  // extract arguments from Arguments) in the right order.
+  // 对于每个参数，调用器&lt;&gt;都继承自ArgumentHolder&lt;&gt;。
+  // C++对类的初始化顺序一直很严格，
+  // 因此可以保证ArgumentHolders将被初始化(因此，
+  // 以正确的顺序从参数中提取参数)。
   Invoker(gin::Arguments* args, int create_flags)
       : ArgumentHolder<indices, ArgTypes>(args, create_flags)..., args_(args) {
-    // GCC thinks that create_flags is going unused, even though the
-    // expansion above clearly makes use of it. Per jyasskin@, casting
-    // to void is the commonly accepted way to convince the compiler
-    // that you're actually using a parameter/varible.
+    // GCC认为CREATE_FLAGS没有使用，即使。
+    // 上面的扩张显然利用了它。Per Jyasskin@，选角。
+    // VALID是通常接受的说服编译器的方式。
+    // 您实际上正在使用一个参数/变量。
     (void)create_flags;
   }
 
@@ -222,9 +222,9 @@ class Invoker<IndicesHolder<indices...>, ArgTypes...>
         callback.Run(std::move(ArgumentHolder<indices, ArgTypes>::value)...));
   }
 
-  // In C++, you can declare the function foo(void), but you can't pass a void
-  // expression to foo. As a result, we must specialize the case of Callbacks
-  // that have the void return type.
+  // 在C++中，可以声明函数foo(Void)，但不能传递void。
+  // Foo的表达式。因此，我们必须专门化回调的情况。
+  // 具有void返回类型的。
   void DispatchToCallback(base::RepeatingCallback<void(ArgTypes...)> callback) {
     gin_helper::MicrotasksScope microtasks_scope(args_->isolate(), true);
     callback.Run(std::move(ArgumentHolder<indices, ArgTypes>::value)...);
@@ -240,8 +240,8 @@ class Invoker<IndicesHolder<indices...>, ArgTypes...>
   gin::Arguments* args_;
 };
 
-// DispatchToCallback converts all the JavaScript arguments to C++ types and
-// invokes the base::RepeatingCallback.
+// DispatchToCallback将所有JavaScript参数转换为C++类型。
+// 调用base：：RepeatingCallback。
 template <typename Sig>
 struct Dispatcher {};
 
@@ -265,16 +265,16 @@ struct Dispatcher<ReturnType(ArgTypes...)> {
   }
 };
 
-// CreateFunctionTemplate creates a v8::FunctionTemplate that will create
-// JavaScript functions that execute a provided C++ function or
-// base::RepeatingCallback.
-// JavaScript arguments are automatically converted via gin::Converter, as is
-// the return value of the C++ function, if any.
-//
-// NOTE: V8 caches FunctionTemplates for a lifetime of a web page for its own
-// internal reasons, thus it is generally a good idea to cache the template
-// returned by this function.  Otherwise, repeated method invocations from JS
-// will create substantial memory leaks. See http://crbug.com/463487.
+// CreateFunctionTemplate创建一个V8：：FunctionTemplate，该模板将创建。
+// 执行所提供的C++函数的JavaScript函数或。
+// Base：：RepeatingCallback。
+// JavaScript参数按原样通过gin：：Converter自动转换。
+// C++函数的返回值(如果有)。
+// 
+// 注意：V8缓存FunctionTemplate的时间为其自己的网页的整个生命周期。
+// 内部原因，因此缓存模板通常是个好主意。
+// 由此函数返回。否则，来自JS的重复方法调用。
+// 会造成大量内存泄漏。请参阅http://crbug.com/463487.。
 template <typename Sig>
 v8::Local<v8::FunctionTemplate> CreateFunctionTemplate(
     v8::Isolate* isolate,
@@ -289,9 +289,9 @@ v8::Local<v8::FunctionTemplate> CreateFunctionTemplate(
                                        isolate, holder->GetHandle(isolate)));
 }
 
-// Base template - used only for non-member function pointers. Other types
-// either go to one of the below specializations, or go here and fail to compile
-// because of base::Bind().
+// 基本模板-仅用于非成员函数指针。其他类型。
+// 要么转到以下专业化认证之一，要么转到此处编译失败。
+// 因为base：：bind()。
 template <typename T, typename Enable = void>
 struct CallbackTraits {
   static v8::Local<v8::FunctionTemplate> CreateTemplate(v8::Isolate* isolate,
@@ -301,7 +301,7 @@ struct CallbackTraits {
   }
 };
 
-// Specialization for base::RepeatingCallback.
+// Base：：RepeatingCallback的专门化。
 template <typename T>
 struct CallbackTraits<base::RepeatingCallback<T>> {
   static v8::Local<v8::FunctionTemplate> CreateTemplate(
@@ -311,10 +311,10 @@ struct CallbackTraits<base::RepeatingCallback<T>> {
   }
 };
 
-// Specialization for member function pointers. We need to handle this case
-// specially because the first parameter for callbacks to MFP should typically
-// come from the the JavaScript "this" object the function was called on, not
-// from the first normal parameter.
+// 成员函数指针的专门化。我们需要处理这个案子。
+// 特别是因为用于回调MFP的第一个参数通常应该。
+// 来自调用函数的JavaScript“this”对象，而不是。
+// 从第一个法线参数开始。
 template <typename T>
 struct CallbackTraits<
     T,
@@ -327,6 +327,6 @@ struct CallbackTraits<
   }
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
-#endif  // SHELL_COMMON_GIN_HELPER_FUNCTION_TEMPLATE_H_
+#endif  // Shell_COMMON_GIN_HELPER_Function_Template_H_

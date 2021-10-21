@@ -52,7 +52,7 @@ describe('node feature', () => {
         const clear = () => {
           if (interval === null || clearing) return;
 
-          // interval might trigger while clearing (remote is slow sometimes)
+          // 清除时可能触发间隔(远程有时很慢)。
           clearing = true;
           clearInterval(interval);
           clearing = false;
@@ -73,7 +73,7 @@ describe('node feature', () => {
         const [code, signal] = await exitPromise;
         expect(signal).to.equal(null);
 
-        // Exit code 9 indicates cli flag parsing failure
+        // 退出代码9表示CLI标志解析失败。
         expect(code).to.equal(9);
         child.kill();
       });
@@ -139,7 +139,7 @@ describe('node feature', () => {
       const env = Object.assign({}, process.env, {
         NODE_OPTIONS: `--require=${path.join(fixtures, 'module', 'fail.js')}`
       });
-      // App should exit with code 1.
+      // 应用程序应退出，并返回代码%1。
       const child = childProcess.spawn(process.execPath, [appPath], { env });
       const [code] = await emittedOnce(child, 'exit');
       expect(code).to.equal(1);
@@ -151,7 +151,7 @@ describe('node feature', () => {
         ELECTRON_FORCE_IS_PACKAGED: 'true',
         NODE_OPTIONS: `--require=${path.join(fixtures, 'module', 'fail.js')}`
       });
-      // App should exit with code 0.
+      // 应用程序应退出，代码为0。
       const child = childProcess.spawn(process.execPath, [appPath], { env });
       const [code] = await emittedOnce(child, 'exit');
       expect(code).to.equal(0);
@@ -283,12 +283,12 @@ describe('node feature', () => {
       child.stderr.on('data', listener);
       child.stdout.on('data', listener);
       await emittedOnce(child, 'exit');
-      if (output.trim().startsWith('Debugger listening on ws://')) {
+      if (output.trim().startsWith('Debugger listening on ws:// ‘)){。
         throw new Error('Inspector was started when it should not have been');
       }
     });
 
-    // IPC Electron child process not supported on Windows.
+    // Windows不支持IPC Electron子进程。
     ifit(process.platform !== 'win32')('does not crash when quitting with the inspector connected', function (done) {
       child = childProcess.spawn(process.execPath, [path.join(fixtures, 'module', 'delay-exit'), '--inspect=0'], {
         stdio: ['ipc']
@@ -304,11 +304,11 @@ describe('node feature', () => {
       const success = false;
       function listener (data: Buffer) {
         output += data;
-        console.log(data.toString()); // NOTE: temporary debug logging to try to catch flake.
+        console.log(data.toString()); // 注意：尝试捕获flake的临时调试日志记录。
         const match = /^Debugger listening on (ws:\/\/.+:\d+\/.+)\n/m.exec(output.trim());
         if (match) {
           cleanup();
-          // NOTE: temporary debug logging to try to catch flake.
+          // 注意：尝试捕获flake的临时调试日志记录。
           child.stderr.on('data', (m) => console.log(m.toString()));
           child.stdout.on('data', (m) => console.log(m.toString()));
           const w = (webContents as any).create({}) as WebContents;

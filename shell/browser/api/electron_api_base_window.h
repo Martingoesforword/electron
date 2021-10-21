@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_BASE_WINDOW_H_
 #define SHELL_BROWSER_API_ELECTRON_API_BASE_WINDOW_H_
@@ -39,17 +39,17 @@ class BaseWindow : public gin_helper::TrackableObject<BaseWindow>,
   NativeWindow* window() const { return window_.get(); }
 
  protected:
-  // Common constructor.
+  // 公共构造函数。
   BaseWindow(v8::Isolate* isolate, const gin_helper::Dictionary& options);
-  // Creating independent BaseWindow instance.
+  // 正在创建独立的BaseWindow实例。
   BaseWindow(gin_helper::Arguments* args,
              const gin_helper::Dictionary& options);
   ~BaseWindow() override;
 
-  // TrackableObject:
+  // TrackableObject：
   void InitWith(v8::Isolate* isolate, v8::Local<v8::Object> wrapper) override;
 
-  // NativeWindowObserver:
+  // NativeWindowViewer：
   void WillCloseWindow(bool* prevent_default) override;
   void OnWindowClosed() override;
   void OnWindowEndSession() override;
@@ -90,7 +90,7 @@ class BaseWindow : public gin_helper::TrackableObject<BaseWindow>,
   void OnWindowMessage(UINT message, WPARAM w_param, LPARAM l_param) override;
 #endif
 
-  // Public APIs of NativeWindow.
+  // NativeWindow的公共接口。
   void SetContentView(gin::Handle<View> view);
   void Close();
   virtual void CloseImmediately();
@@ -219,14 +219,14 @@ class BaseWindow : public gin_helper::TrackableObject<BaseWindow>,
   void CloseFilePreview();
   void SetGTKDarkThemeEnabled(bool use_dark_theme);
 
-  // Public getters of NativeWindow.
+  // NativeWindow的公共获取器。
   v8::Local<v8::Value> GetContentView() const;
   v8::Local<v8::Value> GetParentWindow() const;
   std::vector<v8::Local<v8::Object>> GetChildWindows() const;
   v8::Local<v8::Value> GetBrowserView(gin_helper::Arguments* args) const;
   bool IsModal() const;
 
-  // Extra APIs added in JS.
+  // JS中增加了额外的API。
   bool SetThumbarButtons(gin_helper::Arguments* args);
 #if defined(TOOLKIT_VIEWS)
   void SetIcon(v8::Isolate* isolate, v8::Local<v8::Value> icon);
@@ -248,12 +248,12 @@ class BaseWindow : public gin_helper::TrackableObject<BaseWindow>,
 #endif
   int32_t GetID() const;
 
-  // Helpers.
+  // 帮手。
 
-  // Remove BrowserView.
+  // 删除BrowserView。
   void ResetBrowserView();
 
-  // Remove this window from parent window's |child_windows_|.
+  // 从父窗口的|CHILD_WINDOWS_|中删除此窗口。
   void RemoveFromParentChildWindows();
 
   template <typename... Args>
@@ -277,14 +277,14 @@ class BaseWindow : public gin_helper::TrackableObject<BaseWindow>,
 
   std::unique_ptr<NativeWindow> window_;
 
-  // Reference to JS wrapper to prevent garbage collection.
+  // 引用JS包装器以防止垃圾回收。
   v8::Global<v8::Value> self_ref_;
 
   base::WeakPtrFactory<BaseWindow> weak_factory_{this};
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_BASE_WINDOW_H_
+#endif  // Shell_Browser_API_Electronics_API_BASE_Window_H_

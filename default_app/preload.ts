@@ -1,7 +1,7 @@
 import { ipcRenderer, contextBridge } from 'electron';
 
 const policy = window.trustedTypes.createPolicy('electron-default-app', {
-  // we trust the SVG contents
+  // 我们相信SVG的内容
   createHTML: input => input
 });
 

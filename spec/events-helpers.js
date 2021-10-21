@@ -1,24 +1,13 @@
-/**
- * @fileoverview A set of helper functions to make it easier to work
- * with events in async/await manner.
- */
+/* **@file概观一组帮助函数，可以更轻松地*以异步/等待的方式处理事件。*/
 
-/**
- * @param {!EventTarget} target
- * @param {string} eventName
- * @return {!Promise<!Event>}
- */
+/* **@param{！EventTarget}target*@param{string}eventName*@return{！Promise&lt;！Event&gt;}。*/
 const waitForEvent = (target, eventName) => {
   return new Promise(resolve => {
     target.addEventListener(eventName, resolve, { once: true });
   });
 };
 
-/**
- * @param {!EventEmitter} emitter
- * @param {string} eventName
- * @return {!Promise<!Array>} With Event as the first item.
- */
+/* **@param{！EventEmitter}发射器*@param{String}eventName*@return{！Promise&lt;！array&gt;}，第一项为Event。*/
 const emittedOnce = (emitter, eventName) => {
   return emittedNTimes(emitter, eventName, 1).then(([result]) => result);
 };

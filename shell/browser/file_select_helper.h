@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Microsoft. All rights reserved.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Microsoft。版权所有。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_FILE_SELECT_HELPER_H_
 #define SHELL_BROWSER_FILE_SELECT_HELPER_H_
@@ -25,19 +25,19 @@
 namespace content {
 class FileSelectListener;
 class WebContents;
-}  // namespace content
+}  // 命名空间内容。
 
 namespace ui {
 struct SelectedFileInfo;
 }
 
-// This class handles file-selection requests coming from renderer processes.
-// It implements both the initialisation and listener functions for
-// file-selection dialogs.
-//
-// Since FileSelectHelper listens to observations of a widget, it needs to live
-// on and be destroyed on the UI thread. References to FileSelectHelper may be
-// passed on to other threads.
+// 此类处理来自渲染器进程的文件选择请求。
+// 它实现了的初始化和监听器函数。
+// 文件选择对话框。
+// 
+// 由于FileSelectHelper监听对小部件的观察，因此它需要存活。
+// 并在UI线程上销毁。对FileSelectHelper的引用可能是。
+// 传递给其他线程。
 class FileSelectHelper : public base::RefCountedThreadSafe<
                              FileSelectHelper,
                              content::BrowserThread::DeleteOnUIThread>,
@@ -46,13 +46,13 @@ class FileSelectHelper : public base::RefCountedThreadSafe<
                          public content::RenderWidgetHostObserver,
                          private net::DirectoryLister::DirectoryListerDelegate {
  public:
-  // Show the file chooser dialog.
+  // 显示文件选择器对话框。
   static void RunFileChooser(
       content::RenderFrameHost* render_frame_host,
       scoped_refptr<content::FileSelectListener> listener,
       const blink::mojom::FileChooserParams& params);
 
-  // Enumerates all the files in directory.
+  // 枚举目录中的所有文件。
   static void EnumerateDirectory(
       content::WebContents* tab,
       scoped_refptr<content::FileSelectListener> listener,
@@ -77,11 +77,11 @@ class FileSelectHelper : public base::RefCountedThreadSafe<
   void RunFileChooserOnUIThread(const base::FilePath& default_path,
                                 blink::mojom::FileChooserParamsPtr params);
 
-  // Cleans up and releases this instance. This must be called after the last
-  // callback is received from the file chooser dialog.
+  // 清理并释放此实例。这必须在最后一个之后调用。
+  // 从文件选择器对话框接收回调。
   void RunFileChooserEnd();
 
-  // SelectFileDialog::Listener overrides.
+  // SelectFileDialog：：Listener覆盖。
   void FileSelected(const base::FilePath& path,
                     int index,
                     void* params) override;
@@ -95,11 +95,11 @@ class FileSelectHelper : public base::RefCountedThreadSafe<
       void* params) override;
   void FileSelectionCanceled(void* params) override;
 
-  // content::RenderWidgetHostObserver overrides.
+  // 内容：：RenderWidgetHostWatch覆盖。
   void RenderWidgetHostDestroyed(
       content::RenderWidgetHost* widget_host) override;
 
-  // content::WebContentsObserver overrides.
+  // 内容：：WebContentsViewer重写。
   void RenderFrameHostChanged(content::RenderFrameHost* old_host,
                               content::RenderFrameHost* new_host) override;
   void RenderFrameDeleted(content::RenderFrameHost* render_frame_host) override;
@@ -110,10 +110,10 @@ class FileSelectHelper : public base::RefCountedThreadSafe<
       scoped_refptr<content::FileSelectListener> listener,
       const base::FilePath& path);
 
-  // Kicks off a new directory enumeration.
+  // 开始新的目录枚举。
   void StartNewEnumeration(const base::FilePath& path);
 
-  // net::DirectoryLister::DirectoryListerDelegate overrides.
+  // NET：：DirectoryLister：：DirectoryListerDelegate重写。
   void OnListFile(
       const net::DirectoryLister::DirectoryListerData& data) override;
   void OnListDone(int error) override;
@@ -122,98 +122,98 @@ class FileSelectHelper : public base::RefCountedThreadSafe<
       const base::FilePath& path,
       std::vector<ui::SelectedFileInfo> selected_files);
 
-  // Cleans up and releases this instance. This must be called after the last
-  // callback is received from the enumeration code.
+  // 清理并释放此实例。这必须在最后一个之后调用。
+  // 从枚举代码接收回调。
   void EnumerateDirectoryEnd();
 
 #if defined(OS_MAC)
-  // Must be called from a MayBlock() task. Each selected file that is a package
-  // will be zipped, and the zip will be passed to the render view host in place
-  // of the package.
+  // 必须从MayBlock()任务调用。作为软件包的每个选定文件。
+  // 将被压缩，并且该压缩文件将被传递到适当的渲染视图主机。
+  // 包裹的一部分。
   void ProcessSelectedFilesMac(const std::vector<ui::SelectedFileInfo>& files);
 
-  // Saves the paths of |zipped_files| for later deletion. Passes |files| to the
-  // render view host.
+  // 保存|zipping_files|的路径以供以后删除。将|文件|传递给。
+  // 渲染视图主机。
   void ProcessSelectedFilesMacOnUIThread(
       const std::vector<ui::SelectedFileInfo>& files,
       const std::vector<base::FilePath>& zipped_files);
 
-  // Zips the package at |path| into a temporary destination. Returns the
-  // temporary destination, if the zip was successful. Otherwise returns an
-  // empty path.
+  // 将位于|PATH|的包压缩到临时目的地。返回。
+  // 如果压缩成功，则返回临时目的地。否则返回一个。
+  // 空路径。
   static base::FilePath ZipPackage(const base::FilePath& path);
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 
   void ConvertToFileChooserFileInfoList(
       const std::vector<ui::SelectedFileInfo>& files);
 
-  // Checks to see if scans are required for the specified files.
+  // 检查是否需要扫描指定的文件。
   void PerformContentAnalysisIfNeeded(
       std::vector<blink::mojom::FileChooserFileInfoPtr> list);
 
-  // Finish the PerformContentAnalysisIfNeeded() handling after the
-  // deep scanning checks have been performed.  Deep scanning may change the
-  // list of files chosen by the user, so the list of files passed here may be
-  // a subset of of the files passed to PerformContentAnalysisIfNeeded().
+  // 完成PerformContentAnalysisIfNeeded()处理。
+  // 已执行深度扫描检查。深度扫描可能会改变。
+  // 用户选择的文件列表，因此此处传递的文件列表可能是。
+  // 传递给PerformContentAnalysisIfNeeded()的文件的子集。
   void NotifyListenerAndEnd(
       std::vector<blink::mojom::FileChooserFileInfoPtr> list);
 
-  // Schedules the deletion of the files in |temporary_files_| and clears the
-  // vector.
+  // 计划删除|TEMPORARY_FILES_|中的文件并清除。
+  // 矢量。
   void DeleteTemporaryFiles();
 
-  // Cleans up when the initiator of the file chooser is no longer valid.
+  // 当文件选择器的启动器不再有效时进行清理。
   void CleanUp();
 
-  // Calls RunFileChooserEnd() if the webcontents was destroyed. Returns true
-  // if the file chooser operation shouldn't proceed.
+  // 如果Web内容已销毁，则调用RunFileChooserEnd()。返回TRUE。
+  // 如果文件选择器操作不应继续。
   bool AbortIfWebContentsDestroyed();
 
   void SetFileSelectListenerForTesting(
       scoped_refptr<content::FileSelectListener> listener);
 
-  // Helper method to get allowed extensions for select file dialog from
-  // the specified accept types as defined in the spec:
-  //   http://whatwg.org/html/number-state.html#attr-input-accept
-  // |accept_types| contains only valid lowercased MIME types or file extensions
-  // beginning with a period (.).
+  // 用于获取选择文件对话框允许的扩展名的帮助器方法。
+  // 规范中定义的指定接受类型：
+  // Http://whatwg.org/html/number-state.html#attr-input-accept。
+  // |Accept_Types|仅包含有效的小写MIME类型或文件扩展名。
+  // 以句点(.)开头。
   static std::unique_ptr<ui::SelectFileDialog::FileTypeInfo>
   GetFileTypesFromAcceptType(const std::vector<std::u16string>& accept_types);
 
-  // Check the accept type is valid. It is expected to be all lower case with
-  // no whitespace.
+  // 检查接受类型是否有效。它应该都是小写的，
+  // 没有空格。
   static bool IsAcceptTypeValid(const std::string& accept_type);
 
-  // Get a sanitized filename suitable for use as a default filename.
+  // 获取适合用作默认文件名的已清理文件名。
   static base::FilePath GetSanitizedFileName(
       const base::FilePath& suggested_path);
 
-  // The RenderFrameHost and WebContents for the page showing a file dialog
-  // (may only be one such dialog).
+  // 显示文件对话框的页面的RenderFrameHost和WebContents。
+  // (可能只有一个这样的对话框)。
   content::RenderFrameHost* render_frame_host_;
   content::WebContents* web_contents_;
 
-  // |listener_| receives the result of the FileSelectHelper.
+  // |listener_|接收FileSelectHelper的结果。
   scoped_refptr<content::FileSelectListener> listener_;
 
-  // Dialog box used for choosing files to upload from file form fields.
+  // 用于从文件表单域选择要上载的文件的对话框。
   scoped_refptr<ui::SelectFileDialog> select_file_dialog_;
   std::unique_ptr<ui::SelectFileDialog::FileTypeInfo> select_file_types_;
 
-  // The type of file dialog last shown. This is SELECT_NONE if an
-  // instance is created through the public EnumerateDirectory().
+  // 上次显示的文件对话框类型。这是SELECT_NONE，如果。
+  // 实例是通过公共EnumerateDirectory()创建的。
   ui::SelectFileDialog::Type dialog_type_;
 
-  // The mode of file dialog last shown.
+  // 上次显示的文件对话框模式。
   blink::mojom::FileChooserParams::Mode dialog_mode_;
 
-  // The enumeration root directory for EnumerateDirectory() and
-  // RunFileChooser with kUploadFolder.
+  // EnumerateDirectory()和EnumerateDirectory()的枚举根目录。
+  // 使用kUploadFolder运行FileChooser。
   base::FilePath base_dir_;
 
-  // Maintain an active directory enumeration.  These could come from the file
-  // select dialog or from drag-and-drop of directories.  There could not be
-  // more than one going on at a time.
+  // 维护Active Directory枚举。这些可能来自文件。
+  // 选择对话框或从拖放的目录中选择。不可能有。
+  // 一次不止一次。
   struct ActiveDirectoryEnumeration;
   std::unique_ptr<ActiveDirectoryEnumeration> directory_enumeration_;
 
@@ -221,11 +221,11 @@ class FileSelectHelper : public base::RefCountedThreadSafe<
                           content::RenderWidgetHostObserver>
       observation_{this};
 
-  // Temporary files only used on OSX. This class is responsible for deleting
-  // these files when they are no longer needed.
+  // 仅在OSX上使用的临时文件。这个类负责删除。
+  // 当不再需要这些文件时，请执行以下操作。
   std::vector<base::FilePath> temporary_files_;
 
   DISALLOW_COPY_AND_ASSIGN(FileSelectHelper);
 };
 
-#endif  // SHELL_BROWSER_FILE_SELECT_HELPER_H_
+#endif  // Shell_Browser_File_Select_Helper_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_EXTENSIONS_API_TABS_TABS_API_H_
 #define SHELL_BROWSER_EXTENSIONS_API_TABS_TABS_API_H_
@@ -15,7 +15,7 @@ class GURL;
 
 namespace extensions {
 
-// Implement API call tabs.executeScript and tabs.insertCSS.
+// 实现接口调用tab.ecuteScript和tab.insert tCSS。
 class ExecuteCodeInTabFunction : public ExecuteCodeFunction {
  public:
   ExecuteCodeInTabFunction();
@@ -23,7 +23,7 @@ class ExecuteCodeInTabFunction : public ExecuteCodeFunction {
  protected:
   ~ExecuteCodeInTabFunction() override;
 
-  // Initializes |execute_tab_id_| and |details_|.
+  // 初始化|Execute_tab_id_|和|Details_|。
   InitResult Init() override;
   bool CanExecuteScriptOnPage(std::string* error) override;
   ScriptExecutor* GetScriptExecutor(std::string* error) override;
@@ -31,7 +31,7 @@ class ExecuteCodeInTabFunction : public ExecuteCodeFunction {
   const GURL& GetWebViewSrc() const override;
 
  private:
-  // Id of tab which executes code.
+  // 执行代码的选项卡的ID。
   int execute_tab_id_;
 };
 
@@ -107,6 +107,6 @@ class TabsUpdateFunction : public ExtensionFunction {
 
   DECLARE_EXTENSION_FUNCTION("tabs.update", TABS_UPDATE)
 };
-}  // namespace extensions
+}  // 命名空间扩展。
 
-#endif  // SHELL_BROWSER_EXTENSIONS_API_TABS_TABS_API_H_
+#endif  // Shell_Browser_Extensions_API_Tabs_Tabs_API_H_

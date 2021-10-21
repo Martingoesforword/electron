@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_GTK_APP_INDICATOR_ICON_H_
 #define SHELL_BROWSER_UI_GTK_APP_INDICATOR_ICON_H_
@@ -34,20 +34,20 @@ namespace gtkui {
 
 class AppIndicatorIconMenu;
 
-// Status icon implementation which uses libappindicator.
+// 状态图标实现，使用libappIndicator。
 class AppIndicatorIcon : public views::StatusIconLinux {
  public:
-  // The id uniquely identifies the new status icon from other chrome status
-  // icons.
+  // 该id唯一地将新状态图标与其他Chrome状态相区别。
+  // 图标。
   AppIndicatorIcon(std::string id,
                    const gfx::ImageSkia& image,
                    const std::u16string& tool_tip);
   ~AppIndicatorIcon() override;
 
-  // Indicates whether libappindicator so could be opened.
+  // 指示是否可以打开libappdicator SO。
   static bool CouldOpen();
 
-  // Overridden from views::StatusIconLinux:
+  // 从Views：：StatusIconLinux中重写：
   void SetIcon(const gfx::ImageSkia& image) override;
   void SetToolTip(const std::u16string& tool_tip) override;
   void UpdatePlatformContextMenu(ui::MenuModel* menu) override;
@@ -55,24 +55,24 @@ class AppIndicatorIcon : public views::StatusIconLinux {
 
  private:
   struct SetImageFromFileParams {
-    // The temporary directory in which the icon(s) were written.
+    // 写入图标的临时目录。
     base::FilePath parent_temp_dir;
 
-    // The icon theme path to pass to libappindicator.
+    // 要传递给libappdicator的图标主题路径。
     std::string icon_theme_path;
 
-    // The icon name to pass to libappindicator.
+    // 要传递给libappIndicator的图标名称。
     std::string icon_name;
   };
 
-  // Writes |bitmap| to a temporary directory on a worker thread. The temporary
-  // directory is selected based on KDE's quirks.
+  // 将|位图|写入工作线程上的临时目录。临时性的。
+  // 目录是根据KDE的怪癖选择的。
   static SetImageFromFileParams WriteKDE4TempImageOnWorkerThread(
       const SkBitmap& bitmap,
       const base::FilePath& existing_temp_dir);
 
-  // Writes |bitmap| to a temporary directory on a worker thread. The temporary
-  // directory is selected based on Unity's quirks.
+  // 将|位图|写入工作线程上的临时目录。临时性的。
+  // 目录是根据Unity的怪癖选择的。
   static SetImageFromFileParams WriteUnityTempImageOnWorkerThread(
       const SkBitmap& bitmap,
       int icon_change_count,
@@ -81,21 +81,21 @@ class AppIndicatorIcon : public views::StatusIconLinux {
   void SetImageFromFile(const SetImageFromFileParams& params);
   void SetMenu();
 
-  // Sets a menu item at the top of the menu as a replacement for the status
-  // icon click action. Clicking on this menu item should simulate a status icon
-  // click by despatching a click event.
+  // 将菜单顶部的菜单项设置为状态的替换项。
+  // 图标单击操作。单击此菜单项应模拟状态图标。
+  // 通过分派单击事件来单击。
   void UpdateClickActionReplacementMenuItem();
 
-  // Callback for when the status icon click replacement menu item is activated.
+  // 状态图标单击替换菜单项激活时的回调。
   void OnClickActionReplacementMenuItemActivated();
 
   std::string id_;
   std::string tool_tip_;
 
-  // Used to select KDE or Unity for image setting.
+  // 用于选择KDE或Unity进行图像设置。
   base::nix::DesktopEnvironment desktop_env_;
 
-  // Gtk status icon wrapper
+  // GTK状态图标包装。
   AppIndicator* icon_ = nullptr;
 
   std::unique_ptr<AppIndicatorIconMenu> menu_;
@@ -109,8 +109,8 @@ class AppIndicatorIcon : public views::StatusIconLinux {
   DISALLOW_COPY_AND_ASSIGN(AppIndicatorIcon);
 };
 
-}  // namespace gtkui
+}  // 命名空间gtkui。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_GTK_APP_INDICATOR_ICON_H_
+#endif  // Shell_Browser_UI_GTK_APP_Indicator_ICON_H_

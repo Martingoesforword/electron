@@ -13,7 +13,7 @@ const octokit = new Octokit({
   auth: process.env.ELECTRON_GITHUB_TOKEN
 });
 
-const semverify = version => version.replace(/^origin\//, '').replace(/[xy]/g, '0').replace(/-/g, '.');
+const semverify = version => version.replace(/^origin\// ，‘’).place(/[xy]/g，‘0’).place(/-/g，‘.)；
 
 const runGit = async (args) => {
   console.info(`Running: git ${args.join(' ')}`);
@@ -76,7 +76,7 @@ const getAllBranches = async () => {
     return branches.split('\n')
       .map(branch => branch.trim())
       .filter(branch => !!branch)
-      // TODO(main-migration): Simplify once branch rename is complete.
+      // TODO(主迁移)：分支重命名完成后即可简化。
       .filter(branch => branch !== 'origin/HEAD -> origin/master' && branch !== 'origin/HEAD -> origin/main')
       .sort();
   } catch (err) {
@@ -95,9 +95,9 @@ const getPreviousStabilizationBranch = async (current) => {
     .filter(branch => branch !== current && branch !== `origin/${current}`);
 
   if (!semver.valid(current)) {
-    // since we don't seem to be on a stabilization branch right now,
-    // pick a placeholder name that will yield the newest branch
-    // as a comparison point.
+    // 因为我们现在看起来不像是在稳定局势的分支上，
+    // 选择将生成最新分支的占位符名称。
+    // 作为一个比较点。
     current = 'v999.999.999';
   }
 
@@ -120,8 +120,8 @@ const getPreviousPoint = async (point) => {
   const currentIsStable = tagIsStable(currentTag);
 
   try {
-    // First see if there's an earlier tag on the same branch
-    // that can serve as a reference point.
+    // 首先查看同一分支上是否有更早的标签。
+    // 这可以作为一个参考点。
     let tags = (await getTagsOnBranch(`${point}^`)).filter(tag => tagIsSupported(tag));
     if (currentIsStable) {
       tags = tags.filter(tag => tagIsStable(tag));
@@ -133,9 +133,9 @@ const getPreviousPoint = async (point) => {
     console.log('error', error);
   }
 
-  // Otherwise, use the newest stable release that preceeds this branch.
-  // To reach that you may have to walk past >1 branch, e.g. to get past
-  // 2-1-x which never had a stable release.
+  // 否则，请使用此分支之前的最新稳定版本。
+  // 要达到这一点，你可能需要走过1个以上的树枝，例如经过。
+  // 2-1-x从来没有稳定的释放。
   let branch = currentBranch;
   while (branch) {
     const prevBranch = await getPreviousStabilizationBranch(branch);

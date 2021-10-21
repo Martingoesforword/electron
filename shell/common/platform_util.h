@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_PLATFORM_UTIL_H_
 #define SHELL_COMMON_PLATFORM_UTIL_H_
@@ -17,12 +17,12 @@ namespace platform_util {
 
 typedef base::OnceCallback<void(const std::string&)> OpenCallback;
 
-// Show the given file in a file manager. If possible, select the file.
-// Must be called from the UI thread.
+// 在文件管理器中显示给定的文件。如果可能，请选择该文件。
+// 必须从UI线程调用。
 void ShowItemInFolder(const base::FilePath& full_path);
 
-// Open the given file in the desktop's default manner.
-// Must be called from the UI thread.
+// 以桌面的默认方式打开给定的文件。
+// 必须从UI线程调用。
 void OpenPath(const base::FilePath& full_path, OpenCallback callback);
 
 struct OpenExternalOptions {
@@ -30,20 +30,20 @@ struct OpenExternalOptions {
   base::FilePath working_dir;
 };
 
-// Open the given external protocol URL in the desktop's default manner.
-// (For example, mailto: URLs in the default mail user agent.)
+// 以桌面的默认方式打开给定的外部协议URL。
+// (例如，默认邮件用户代理中的mailto：URL。)。
 void OpenExternal(const GURL& url,
                   const OpenExternalOptions& options,
                   OpenCallback callback);
 
-// Move a file to trash, asynchronously.
+// 异步将文件移至垃圾桶。
 void TrashItem(const base::FilePath& full_path,
                base::OnceCallback<void(bool, const std::string&)> callback);
 
 void Beep();
 
 #if defined(OS_WIN)
-// SHGetFolderPath calls not covered by Chromium
+// Chromium未涵盖的SHGetFolderPath调用。
 bool GetFolderPath(int key, base::FilePath* result);
 #endif
 
@@ -53,11 +53,11 @@ bool SetLoginItemEnabled(bool enabled);
 #endif
 
 #if defined(OS_LINUX)
-// Returns a success flag.
-// Unlike libgtkui, does *not* use "chromium-browser.desktop" as a fallback.
+// 返回成功标志。
+// 与libgtkui不同，它“不”使用“Chrome-Browser.ktop”作为后备选项。
 bool GetDesktopName(std::string* setme);
 #endif
 
-}  // namespace platform_util
+}  // 命名空间Platform_util。
 
-#endif  // SHELL_COMMON_PLATFORM_UTIL_H_
+#endif  // Shell_COMMON_Platform_Util_H_

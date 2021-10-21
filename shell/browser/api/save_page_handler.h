@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_SAVE_PAGE_HANDLER_H_
 #define SHELL_BROWSER_API_SAVE_PAGE_HANDLER_H_
@@ -23,7 +23,7 @@ namespace electron {
 
 namespace api {
 
-// A self-destroyed class for handling save page request.
+// 用于处理保存页请求的自销毁类。
 class SavePageHandler : public content::DownloadManager::Observer,
                         public download::DownloadItem::Observer {
  public:
@@ -37,19 +37,19 @@ class SavePageHandler : public content::DownloadManager::Observer,
  private:
   void Destroy(download::DownloadItem* item);
 
-  // content::DownloadManager::Observer:
+  // 内容：：下载管理器：：观察者：
   void OnDownloadCreated(content::DownloadManager* manager,
                          download::DownloadItem* item) override;
 
-  // download::DownloadItem::Observer:
+  // 下载：：DownloadItem：：观察者：
   void OnDownloadUpdated(download::DownloadItem* item) override;
 
-  content::WebContents* web_contents_;  // weak
+  content::WebContents* web_contents_;  // 瘦弱。
   gin_helper::Promise<void> promise_;
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_SAVE_PAGE_HANDLER_H_
+#endif  // Shell_Browser_API_SAVE_PAGE_HANDLER_H_

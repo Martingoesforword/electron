@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NET_RESOLVE_PROXY_HELPER_H_
 #define SHELL_BROWSER_NET_RESOLVE_PROXY_HELPER_H_
@@ -33,7 +33,7 @@ class ResolveProxyHelper
 
  private:
   friend class base::RefCountedThreadSafe<ResolveProxyHelper>;
-  // A PendingRequest is a resolve request that is in progress, or queued.
+  // PendingRequest是正在进行或排队的解析请求。
   struct PendingRequest {
    public:
     PendingRequest(const GURL& url, ResolveProxyCallback callback);
@@ -49,27 +49,27 @@ class ResolveProxyHelper
     DISALLOW_COPY_AND_ASSIGN(PendingRequest);
   };
 
-  // Starts the first pending request.
+  // 启动第一个挂起的请求。
   void StartPendingRequest();
 
-  // network::mojom::ProxyLookupClient implementation.
+  // Network：：mojom：：ProxyLookupClient实现。
   void OnProxyLookupComplete(
       int32_t net_error,
       const absl::optional<net::ProxyInfo>& proxy_info) override;
 
-  // Self-reference. Owned as long as there's an outstanding proxy lookup.
+  // 自我参照。只要有出色的代理查询就可以了。
   scoped_refptr<ResolveProxyHelper> owned_self_;
 
   std::deque<PendingRequest> pending_requests_;
-  // Receiver for the currently in-progress request, if any.
+  // 当前正在进行的请求的接收方(如果有)。
   mojo::Receiver<network::mojom::ProxyLookupClient> receiver_{this};
 
-  // Weak Ref
+  // 弱参照。
   ElectronBrowserContext* browser_context_;
 
   DISALLOW_COPY_AND_ASSIGN(ResolveProxyHelper);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_NET_RESOLVE_PROXY_HELPER_H_
+#endif  // Shell_Browser_Net_Resolve_Proxy_Helper_H_

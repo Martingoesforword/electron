@@ -3,23 +3,23 @@ const v8 = require('v8');
 
 module.paths.push(path.resolve(__dirname, '../spec/node_modules'));
 
-// Extra module paths which can be used to load Mocha reporters
+// 可用于加载Mocha报告器的额外模块路径。
 if (process.env.ELECTRON_TEST_EXTRA_MODULE_PATHS) {
   for (const modulePath of process.env.ELECTRON_TEST_EXTRA_MODULE_PATHS.split(':')) {
     module.paths.push(modulePath);
   }
 }
 
-// Add search paths for loaded spec files
+// 为加载的等级库文件添加搜索路径。
 require('../spec/global-paths')(module.paths);
 
-// We want to terminate on errors, not throw up a dialog
+// 我们希望在出错时终止，而不是抛出一个对话框。
 process.on('uncaughtException', (err) => {
   console.error('Unhandled exception in main spec runner:', err);
   process.exit(1);
 });
 
-// Tell ts-node which tsconfig to use
+// 告诉ts-node使用哪个tsconfig。
 process.env.TS_NODE_PROJECT = path.resolve(__dirname, '../tsconfig.spec.json');
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
 
@@ -27,10 +27,10 @@ const { app, protocol } = require('electron');
 
 v8.setFlagsFromString('--expose_gc');
 app.commandLine.appendSwitch('js-flags', '--expose_gc');
-// Prevent the spec runner quiting when the first window closes
+// 防止等级库运行程序在第一个窗口关闭时退出。
 app.on('window-all-closed', () => null);
 
-// Use fake device for Media Stream to replace actual camera and microphone.
+// 使用媒体流的假设备来代替真实的摄像头和麦克风。
 app.commandLine.appendSwitch('use-fake-device-for-media-stream');
 app.commandLine.appendSwitch('host-rules', 'MAP localhost2 127.0.0.1');
 
@@ -72,14 +72,14 @@ app.whenReady().then(async () => {
   }
   const mocha = new Mocha(mochaOptions);
 
-  // The cleanup method is registered this way rather than through an
-  // `afterEach` at the top level so that it can run before other `afterEach`
-  // methods.
-  //
-  // The order of events is:
-  // 1. test completes,
-  // 2. `defer()`-ed methods run, in reverse order,
-  // 3. regular `afterEach` hooks run.
+  // Cleanup方法是以这种方式注册的，而不是通过。
+  // 顶层的`After Each`，以便它可以在其他`After Each`之前运行。
+  // 方法：研究方法。
+  // 
+  // 事件的顺序是：
+  // 1.测试结束，
+  // 2.以`defer()`为基础的方法以相反的顺序运行，
+  // 3.定期运行“After Each”挂钩。
   const { runCleanupFunctions } = require('./spec-helpers');
   mocha.suite.on('suite', function attach (suite) {
     suite.afterEach('cleanup', runCleanupFunctions);
@@ -100,8 +100,8 @@ app.whenReady().then(async () => {
       return false;
     }
 
-    // This allows you to run specific modules only:
-    // npm run test -match=menu
+    // 这仅允许您运行特定模块：
+    // NPM运行测试-匹配=菜单。
     const moduleMatch = process.env.npm_config_match
       ? new RegExp(process.env.npm_config_match, 'g')
       : null;
@@ -124,19 +124,19 @@ app.whenReady().then(async () => {
   });
 
   const cb = () => {
-    // Ensure the callback is called after runner is defined
+    // 确保在定义Runner之后调用回调。
     process.nextTick(() => {
       process.exit(runner.failures);
     });
   };
 
-  // Set up chai in the correct order
+  // 以正确的顺序设置Chai。
   const chai = require('chai');
   chai.use(require('chai-as-promised'));
   chai.use(require('dirty-chai'));
 
-  // Show full object diff
-  // https://github.com/chaijs/chai/issues/469
+  // 显示完全对象差异。
+  // Https://github.com/chaijs/chai/issues/469
   chai.config.truncateThreshold = 0;
 
   const runner = mocha.run(cb);

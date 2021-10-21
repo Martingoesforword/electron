@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_BROWSER_H_
 #define SHELL_BROWSER_BROWSER_H_
@@ -41,7 +41,7 @@ namespace electron {
 
 class ElectronMenuModel;
 
-// This class is used for control application-wide operations.
+// 此类用于控制应用程序范围的操作。
 class Browser : public WindowListObserver {
  public:
   Browser();
@@ -49,62 +49,62 @@ class Browser : public WindowListObserver {
 
   static Browser* Get();
 
-  // Try to close all windows and quit the application.
+  // 尝试关闭所有窗口并退出应用程序。
   void Quit();
 
-  // Exit the application immediately and set exit code.
+  // 立即退出应用程序并设置退出代码。
   void Exit(gin::Arguments* args);
 
-  // Cleanup everything and shutdown the application gracefully.
+  // 清理所有内容并正常关闭应用程序。
   void Shutdown();
 
-  // Focus the application.
+  // 聚焦应用程序。
   void Focus(gin::Arguments* args);
 
-  // Returns the version of the executable (or bundle).
+  // 返回可执行文件(或包)的版本。
   std::string GetVersion() const;
 
-  // Overrides the application version.
+  // 覆盖应用程序版本。
   void SetVersion(const std::string& version);
 
-  // Returns the application's name, default is just Electron.
+  // 返回应用程序的名称，默认值为Just Electron。
   std::string GetName() const;
 
-  // Overrides the application name.
+  // 覆盖应用程序名称。
   void SetName(const std::string& name);
 
-  // Add the |path| to recent documents list.
+  // 将|路径|添加到最近使用的文档列表。
   void AddRecentDocument(const base::FilePath& path);
 
-  // Clear the recent documents list.
+  // 清除最近的文档列表。
   void ClearRecentDocuments();
 
 #if defined(OS_WIN)
-  // Set the application user model ID.
+  // 设置应用程序用户模型ID。
   void SetAppUserModelID(const std::wstring& name);
 #endif
 
-  // Remove the default protocol handler registry key
+  // 删除默认协议处理程序注册表项。
   bool RemoveAsDefaultProtocolClient(const std::string& protocol,
                                      gin::Arguments* args);
 
-  // Set as default handler for a protocol.
+  // 设置为协议的默认处理程序。
   bool SetAsDefaultProtocolClient(const std::string& protocol,
                                   gin::Arguments* args);
 
-  // Query the current state of default handler for a protocol.
+  // 查询协议的默认处理程序的当前状态。
   bool IsDefaultProtocolClient(const std::string& protocol,
                                gin::Arguments* args);
 
   std::u16string GetApplicationNameForProtocol(const GURL& url);
 
 #if !defined(OS_LINUX)
-  // get the name, icon and path for an application
+  // 获取应用程序的名称、图标和路径。
   v8::Local<v8::Promise> GetApplicationInfoForProtocol(v8::Isolate* isolate,
                                                        const GURL& url);
 #endif
 
-  // Set/Get the badge count.
+  // 设置/获取徽章计数。
   bool SetBadgeCount(absl::optional<int> count);
   int GetBadgeCount();
 
@@ -122,7 +122,7 @@ class Browser : public WindowListObserver {
   };
 #endif
 
-  // Set/Get the login item settings of the app
+  // 设置/获取应用的登录项目设置。
   struct LoginItemSettings {
     bool open_at_login = false;
     bool open_as_hidden = false;
@@ -133,11 +133,11 @@ class Browser : public WindowListObserver {
     std::vector<std::u16string> args;
 
 #if defined(OS_WIN)
-    // used in browser::setLoginItemSettings
+    // 在Browser：：setLoginItemSettings中使用。
     bool enabled = true;
     std::wstring name;
 
-    // used in browser::getLoginItemSettings
+    // 在Browser：：getLoginItemSettings中使用。
     bool executable_will_launch_at_login = false;
     std::vector<LaunchItem> launch_items;
 #endif
@@ -150,81 +150,81 @@ class Browser : public WindowListObserver {
   LoginItemSettings GetLoginItemSettings(const LoginItemSettings& options);
 
 #if defined(OS_MAC)
-  // Set the handler which decides whether to shutdown.
+  // 设置决定是否关闭的处理程序。
   void SetShutdownHandler(base::RepeatingCallback<bool()> handler);
 
-  // Hide the application.
+  // 隐藏应用程序。
   void Hide();
 
-  // Show the application.
+  // 显示应用程序。
   void Show();
 
-  // Creates an activity and sets it as the one currently in use.
+  // 创建活动并将其设置为当前正在使用的活动。
   void SetUserActivity(const std::string& type,
                        base::DictionaryValue user_info,
                        gin::Arguments* args);
 
-  // Returns the type name of the current user activity.
+  // 返回当前用户活动的类型名称。
   std::string GetCurrentActivityType();
 
-  // Invalidates an activity and marks it as no longer eligible for
-  // continuation
+  // 使活动无效，并将其标记为不再符合。
+  // 续写。
   void InvalidateCurrentActivity();
 
-  // Marks this activity object as inactive without invalidating it.
+  // 将此活动对象标记为非活动，而不使其无效。
   void ResignCurrentActivity();
 
-  // Updates the current user activity
+  // 更新当前用户活动。
   void UpdateCurrentActivity(const std::string& type,
                              base::DictionaryValue user_info);
 
-  // Indicates that an user activity is about to be resumed.
+  // 指示用户活动即将恢复。
   bool WillContinueUserActivity(const std::string& type);
 
-  // Indicates a failure to resume a Handoff activity.
+  // 表示无法恢复转接活动。
   void DidFailToContinueUserActivity(const std::string& type,
                                      const std::string& error);
 
-  // Resumes an activity via hand-off.
+  // 通过切换恢复活动。
   bool ContinueUserActivity(const std::string& type,
                             base::DictionaryValue user_info,
                             base::DictionaryValue details);
 
-  // Indicates that an activity was continued on another device.
+  // 表示活动在另一台设备上继续。
   void UserActivityWasContinued(const std::string& type,
                                 base::DictionaryValue user_info);
 
-  // Gives an opportunity to update the Handoff payload.
+  // 提供更新转接有效负载的机会。
   bool UpdateUserActivityState(const std::string& type,
                                base::DictionaryValue user_info);
 
-  // Bounce the dock icon.
+  // 弹出坞站图标。
   enum class BounceType{
-      kCritical = 0,        // NSCriticalRequest
-      kInformational = 10,  // NSInformationalRequest
+      kCritical = 0,        // NSCriticalRequest。
+      kInformational = 10,  // NSInformationalRequest。
   };
   int DockBounce(BounceType type);
   void DockCancelBounce(int request_id);
 
-  // Bounce the Downloads stack.
+  // 弹出下载堆栈。
   void DockDownloadFinished(const std::string& filePath);
 
-  // Set/Get dock's badge text.
+  // 设置/获取码头的徽章文本。
   void DockSetBadgeText(const std::string& label);
   std::string DockGetBadgeText();
 
-  // Hide/Show dock.
+  // 隐藏/显示停靠。
   void DockHide();
   v8::Local<v8::Promise> DockShow(v8::Isolate* isolate);
   bool DockIsVisible();
 
-  // Set docks' menu.
+  // 设置码头菜单。
   void DockSetMenu(ElectronMenuModel* model);
 
-  // Set docks' icon.
+  // 设置码头的图标。
   void DockSetIcon(v8::Isolate* isolate, v8::Local<v8::Value> icon);
 
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 
   void ShowAboutPanel();
   void SetAboutPanelOptions(base::DictionaryValue options);
@@ -248,41 +248,41 @@ class Browser : public WindowListObserver {
     ~UserTask();
   };
 
-  // Add a custom task to jump list.
+  // 将自定义任务添加到跳转列表。
   bool SetUserTasks(const std::vector<UserTask>& tasks);
 
-  // Returns the application user model ID, if there isn't one, then create
-  // one from app's name.
-  // The returned string managed by Browser, and should not be modified.
+  // 返回应用程序用户模型ID，如果没有，则创建。
+  // 其中一个来自APP的名字。
+  // 返回的字符串由浏览器管理，不能修改。
   PCWSTR GetAppUserModelID();
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 
 #if defined(OS_LINUX)
-  // Whether Unity launcher is running.
+  // Unity Launcher是否正在运行。
   bool IsUnityRunning();
-#endif  // defined(OS_LINUX)
+#endif  // 已定义(OS_Linux)。
 
-  // Tell the application to open a file.
+  // 告诉应用程序打开一个文件。
   bool OpenFile(const std::string& file_path);
 
-  // Tell the application to open a url.
+  // 告诉应用程序打开一个URL。
   void OpenURL(const std::string& url);
 
 #if defined(OS_MAC)
-  // Tell the application to create a new window for a tab.
+  // 告诉应用程序为选项卡创建一个新窗口。
   void NewWindowForTab();
 
-  // Tell the application that application did become active
+  // 告诉应用程序该应用程序已变为活动状态。
   void DidBecomeActive();
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 
-  // Tell the application that application is activated with visible/invisible
-  // windows.
+  // 告诉应用程序已使用可见/不可见激活应用程序。
+  // 窗户。
   void Activate(bool has_visible_windows);
 
   bool IsEmojiPanelSupported();
 
-  // Tell the application the loading has been done.
+  // 告诉应用程序加载已经完成。
   void WillFinishLaunching();
   void DidFinishLaunching(base::DictionaryValue launch_info);
 
@@ -291,8 +291,8 @@ class Browser : public WindowListObserver {
   void PreMainMessageLoopRun();
   void PreCreateThreads();
 
-  // Stores the supplied |quit_closure|, to be run when the last Browser
-  // instance is destroyed.
+  // 存储提供的|QUIT_CLOSURE|，在最后一个浏览器。
+  // 实例已销毁。
   void SetMainMessageLoopQuitClosure(base::OnceClosure quit_closure);
 
   void AddObserver(BrowserObserver* obs) { observers_.AddObserver(obs); }
@@ -300,7 +300,7 @@ class Browser : public WindowListObserver {
   void RemoveObserver(BrowserObserver* obs) { observers_.RemoveObserver(obs); }
 
 #if defined(OS_MAC)
-  // Returns whether secure input is enabled
+  // 返回是否启用安全输入
   bool IsSecureKeyboardEntryEnabled();
   void SetSecureKeyboardEntryEnabled(bool enabled);
 #endif
@@ -311,41 +311,41 @@ class Browser : public WindowListObserver {
   v8::Local<v8::Value> WhenReady(v8::Isolate* isolate);
 
  protected:
-  // Returns the version of application bundle or executable file.
+  // 返回应用程序捆绑包或可执行文件的版本。
   std::string GetExecutableFileVersion() const;
 
-  // Returns the name of application bundle or executable file.
+  // 返回应用程序包或可执行文件的名称。
   std::string GetExecutableFileProductName() const;
 
-  // Send the will-quit message and then shutdown the application.
+  // 发送Will-Quit消息，然后关闭应用程序。
   void NotifyAndShutdown();
 
-  // Send the before-quit message and start closing windows.
+  // 发送退出前消息并开始关闭窗口。
   bool HandleBeforeQuit();
 
   bool is_quitting_ = false;
 
  private:
-  // WindowListObserver implementations:
+  // WindowListWatch实现：
   void OnWindowCloseCancelled(NativeWindow* window) override;
   void OnWindowAllClosed() override;
 
-  // Observers of the browser.
+  // 浏览器的观察者。
   base::ObserverList<BrowserObserver> observers_;
 
-  // Tracks tasks requesting file icons.
+  // 跟踪请求文件图标的任务。
   base::CancelableTaskTracker cancelable_task_tracker_;
 
-  // Whether `app.exit()` has been called
+  // 是否已调用`app.exit()`。
   bool is_exiting_ = false;
 
-  // Whether "ready" event has been emitted.
+  // 是否已发出“Ready”事件。
   bool is_ready_ = false;
 
-  // The browser is being shutdown.
+  // 浏览器正在关闭。
   bool is_shutdown_ = false;
 
-  // Null until/unless the default main message loop is running.
+  // 空，直到/除非默认的主消息循环正在运行。
   base::OnceClosure quit_main_message_loop_;
 
   int badge_count_ = 0;
@@ -368,13 +368,13 @@ class Browser : public WindowListObserver {
                            const absl::optional<std::string>& badge_content,
                            const std::string& badge_alt_string);
 
-  // In charge of running taskbar related APIs.
+  // 负责任务栏相关API的运行。
   TaskbarHost taskbar_host_;
 #endif
 
   DISALLOW_COPY_AND_ASSIGN(Browser);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_BROWSER_H_
+#endif  // 外壳浏览器浏览器H_

@@ -6,11 +6,7 @@ import { IPC_MESSAGES } from '../common/ipc-messages';
 
 const { contextIsolationEnabled } = internalContextBridge;
 
-/* Corrects for some Inspector adaptations needed in Electron.
-* 1) Use menu API to show context menu.
-* 2) Correct for Chromium returning undefined for filesystem.
-* 3) Use dialog API to override file chooser dialog.
-*/
+/* 更正了在电子战中需要调整的一些检验者。*1)使用Menu接口显示上下文菜单。*2)更正文件系统Chromium返回UNDEFINED。*3)使用DIALOG API覆盖文件选择器对话框。*/
 window.onload = function () {
   if (contextIsolationEnabled) {
     internalContextBridge.overrideGlobalValueFromIsolatedWorld([
@@ -29,13 +25,13 @@ window.onload = function () {
   }
 };
 
-// Extra / is needed as a result of MacOS requiring absolute paths
+// 由于MacOS需要绝对路径，因此需要额外的/。
 function completeURL (project: string, path: string) {
-  project = 'file:///';
+  project = 'file:// /‘；
   return `${project}${path}`;
 }
 
-// The DOM implementation expects (message?: string) => boolean
+// DOM实现需要(message？：string)=&gt;布尔值
 window.confirm = function (message?: string, title?: string) {
   return ipcRendererUtils.invokeSync(IPC_MESSAGES.INSPECTOR_CONFIRM, message, title) as boolean;
 };

@@ -1,4 +1,4 @@
-// tslint:disable:ordered-imports curly no-console no-angle-bracket-type-assertion object-literal-sort-keys only-arrow-functions
+// Tslint：DISABLE：ORDERED-导入花括号NO-控制台无尖括号-类型-断言对象-文字-仅排序键-箭头-函数。
 
 import {
   app,
@@ -29,22 +29,22 @@ import {
 
 import * as path from 'path'
 
-// Quick start
-// https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md
+// 快速启动。
+// Https://github.com/electron/electron/blob/master/docs/tutorial/quick-start.md。
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the javascript object is GCed.
+// 保留窗口对象的全局引用，如果不这样做，窗口将。
+// 在javascript对象为GCed时自动关闭。
 let mainWindow: Electron.BrowserWindow = null
 const mainWindow2: BrowserWindow = null
 
-// Quit when all windows are closed.
+// 关闭所有窗口后退出。
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
-// Check single instance app
+// 检查单实例应用程序。
 const gotLock = app.requestSingleInstanceLock()
 
 if (!gotLock) {
@@ -52,17 +52,17 @@ if (!gotLock) {
   process.exit(0)
 }
 
-// This method will be called when Electron has done everything
-// initialization and ready for creating browser windows.
+// 当Electron完成所有操作后，将调用此方法。
+// 初始化并准备好创建浏览器窗口。
 app.whenReady().then(() => {
-  // Create the browser window.
+  // 创建浏览器窗口。
   mainWindow = new BrowserWindow({ width: 800, height: 600 })
 
-  // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/index.html`)
-  mainWindow.loadURL('file://foo/bar', { userAgent: 'cool-agent', httpReferrer: 'greateRefferer' })
-  mainWindow.webContents.loadURL('file://foo/bar', { userAgent: 'cool-agent', httpReferrer: 'greateRefferer' })
-  mainWindow.webContents.loadURL('file://foo/bar', { userAgent: 'cool-agent', httpReferrer: 'greateRefferer', postData: [{ type: 'rawData', bytes: Buffer.from([123]) }] })
+  // 并加载应用程序的index.html。
+  mainWindow.loadURL(`file:// ${__dirname}/index.html`)。
+  mainWindow.loadURL('file:// Foo/bar‘，{userAgent：’Cool-agent‘，httpReferrer：’greateRefferer‘})。
+  mainWindow.webContents.loadURL('file:// Foo/bar‘，{userAgent：’Cool-agent‘，httpReferrer：’greateRefferer‘})。
+  mainWindow.webContents.loadURL('file:// Foo/bar‘，{userAgent：’Cool-agent‘，httpReferrer：’greateRefferer‘，postData：[{type：’rawData‘，bytes：Buffer.from([123])}]}。
 
   mainWindow.webContents.openDevTools()
   mainWindow.webContents.toggleDevTools()
@@ -72,11 +72,11 @@ app.whenReady().then(() => {
   mainWindow.webContents.removeWorkSpace('/path/to/workspace')
   const opened: boolean = mainWindow.webContents.isDevToolsOpened()
   const focused = mainWindow.webContents.isDevToolsFocused()
-  // Emitted when the window is closed.
+  // 在窗口关闭时发出。
   mainWindow.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
+    // 取消对窗口对象的引用，通常会存储窗口。
+    // 如果您的应用程序支持多窗口，则此时。
+    // 应在何时删除相应的元素。
     mainWindow = null
   })
 
@@ -110,7 +110,7 @@ app.whenReady().then(() => {
   mainWindow.webContents.stopFindInPage('keepSelection')
   mainWindow.webContents.stopFindInPage('activateSelection')
 
-  mainWindow.loadURL('https://github.com')
+  mainWindow.loadURL('https:// Github.com‘)。
 
   mainWindow.webContents.on('did-finish-load', function () {
     mainWindow.webContents.savePage('/tmp/test.html', 'HTMLComplete').then(() => {
@@ -130,7 +130,7 @@ app.whenReady().then(() => {
 
   mainWindow.webContents.debugger.on('message', function (event, method, params: any) {
     if (method === 'Network.requestWillBeSent') {
-      if (params.request.url === 'https://www.github.com') {
+      if (params.request.url === 'https:// Www.github.com‘){。
         mainWindow.webContents.debugger.detach()
       }
     }
@@ -168,10 +168,10 @@ app.whenReady().then(() => {
   })
 })
 
-// Locale
+// 区域设置。
 app.getLocale()
 
-// Desktop environment integration
+// 桌面环境集成。
 
 app.addRecentDocument('/Users/USERNAME/Desktop/work.type')
 app.clearRecentDocuments()
@@ -254,7 +254,7 @@ app.setJumpList([
       { type: 'file', path: 'C:\\Projects\\project2.proj' }
     ]
   },
-  { // has a name so type is assumed to be "custom"
+  { // 具有名称，因此类型被假定为“自定义”
     name: 'Tools',
     items: [
       {
@@ -281,7 +281,7 @@ app.setJumpList([
   {
     type: 'frequent'
   },
-  { // has no name and no type so type is assumed to be "tasks"
+  { // 没有名称和类型，因此假定类型为“Tasks”
     items: [
       {
         type: 'task',
@@ -316,14 +316,14 @@ app.setAboutPanelOptions({
   version: '1.2.3'
 })
 
-// Online/Offline Event Detection
-// https://github.com/electron/electron/blob/master/docs/tutorial/online-offline-events.md
+// 在线/离线事件检测。
+// Https://github.com/electron/electron/blob/master/docs/tutorial/online-offline-events.md。
 
 let onlineStatusWindow: Electron.BrowserWindow
 
 app.whenReady().then(() => {
   onlineStatusWindow = new BrowserWindow({ width: 0, height: 0, show: false, vibrancy: 'sidebar' })
-  onlineStatusWindow.loadURL(`file://${__dirname}/online-status.html`)
+  onlineStatusWindow.loadURL(`file:// ${__dirname}/online-status.html`)。
 })
 app.on('accessibility-support-changed', (_, enabled) => console.log('accessibility: ' + enabled))
 
@@ -331,8 +331,8 @@ ipcMain.on('online-status-changed', (event: any, status: any) => {
   console.log(status)
 })
 
-// Synopsis
-// https://github.com/electron/electron/blob/master/docs/api/synopsis.md
+// 提纲。
+// Https://github.com/electron/electron/blob/master/docs/api/synopsis.md。
 
 app.whenReady().then(() => {
   window = new BrowserWindow({
@@ -340,18 +340,18 @@ app.whenReady().then(() => {
     height: 600,
     titleBarStyle: 'hiddenInset'
   })
-  window.loadURL('https://github.com')
+  window.loadURL('https:// Github.com‘)。
 })
 
-// Supported command line switches
-// https://github.com/electron/electron/blob/master/docs/api/command-line-switches.md
+// 支持的命令行开关。
+// Https://github.com/electron/electron/blob/master/docs/api/command-line-switches.md。
 
 app.commandLine.appendSwitch('remote-debugging-port', '8315')
 app.commandLine.appendSwitch('host-rules', 'MAP * 127.0.0.1')
 app.commandLine.appendSwitch('vmodule', 'console=0')
 
-// systemPreferences
-// https://github.com/electron/electron/blob/master/docs/api/system-preferences.md
+// 系统首选项。
+// Https://github.com/electron/electron/blob/master/docs/api/system-preferences.md。
 
 const browserOptions = {
   width: 1000,
@@ -360,7 +360,7 @@ const browserOptions = {
   frame: true
 }
 
-// Make the window transparent only if the platform supports it.
+// 仅当平台支持时才使窗口透明。
 if (process.platform !== 'win32' || systemPreferences.isAeroGlassEnabled()) {
   browserOptions.transparent = true
   browserOptions.frame = false
@@ -374,27 +374,27 @@ if (process.platform === 'win32') {
 
 if (process.platform === 'darwin') {
   const value: string = systemPreferences.getUserDefault('Foo', 'string');
-  // @ts-expect-error
+  // @ts-Expect-Error。
   const value2: number = systemPreferences.getUserDefault('Foo', 'boolean');
 }
 
-// Create the window.
+// 创建窗口。
 const win1 = new BrowserWindow(browserOptions)
 
-// Navigate.
+// 导航。
 if (browserOptions.transparent) {
-  win1.loadURL('file://' + __dirname + '/index.html')
+  win1.loadURL('file:// ‘+__目录名+’/index.html‘)
 } else {
-  // No transparency, so we load a fallback that uses basic styles.
-  win1.loadURL('file://' + __dirname + '/fallback.html')
+  // 没有透明度，所以我们加载一个使用基本样式的后备。
+  win1.loadURL('file:// ‘+__目录名+’/fall back.html‘)。
 }
 
-// app
-// https://github.com/electron/electron/blob/master/docs/api/app.md
+// APP。
+// Https://github.com/electron/electron/blob/master/docs/api/app.md。
 
 app.on('certificate-error', function (event, webContents, url, error, certificate, callback) {
-  if (url === 'https://github.com') {
-    // Verification logic.
+  if (url === 'https:// Github.com‘){。
+    // 验证逻辑。
     event.preventDefault()
     callback(true)
   } else {
@@ -420,11 +420,11 @@ win2.once('ready-to-show', () => {
 app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
 app.exit(0)
 
-// auto-updater
-// https://github.com/electron/electron/blob/master/docs/api/auto-updater.md
+// 自动更新器。
+// Https://github.com/electron/electron/blob/master/docs/api/auto-updater.md。
 
 autoUpdater.setFeedURL({
-  url: 'http://mycompany.com/myapp/latest?version=' + app.getVersion(),
+  url: 'http:// Mycompany.com/myapp/Latest？Version=‘+app.getVersion()，
   headers: {
     key: 'value'
   },
@@ -441,15 +441,15 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName, releaseDa
   console.log('update-downloaded', releaseNotes, releaseName, releaseDate, updateURL)
 })
 
-// BrowserWindow
-// https://github.com/electron/electron/blob/master/docs/api/browser-window.md
+// 浏览器窗口。
+// Https://github.com/electron/electron/blob/master/docs/api/browser-window.md。
 
 let win3 = new BrowserWindow({ width: 800, height: 600, show: false })
 win3.on('closed', () => {
   win3 = null
 })
 
-win3.loadURL('https://github.com')
+win3.loadURL('https:// Github.com‘)。
 win3.show()
 
 const toolbarRect = document.getElementById('toolbar').getBoundingClientRect()
@@ -467,8 +467,8 @@ window.setVibrancy('selection')
 window.setVibrancy('popover')
 window.setIcon('/path/to/icon')
 
-// content-tracing
-// https://github.com/electron/electron/blob/master/docs/api/content-tracing.md
+// 内容跟踪。
+// Https://github.com/electron/electron/blob/master/docs/api/content-tracing.md。
 
 const options = {
   categoryFilter: '*',
@@ -484,10 +484,10 @@ contentTracing.startRecording(options).then(() => {
   }, 5000)
 })
 
-// dialog
-// https://github.com/electron/electron/blob/master/docs/api/dialog.md
+// 对话框。
+// Https://github.com/electron/electron/blob/master/docs/api/dialog.md。
 
-// variant without browserWindow
+// 不带浏览器窗口的变体。
 dialog.showOpenDialogSync({
   title: 'Testing showOpenDialog',
   defaultPath: '/var/log/syslog',
@@ -495,7 +495,7 @@ dialog.showOpenDialogSync({
   properties: ['openFile', 'openDirectory', 'multiSelections']
 })
 
-// variant with browserWindow
+// 与浏览器窗口不同。
 dialog.showOpenDialog(win3, {
   title: 'Testing showOpenDialog',
   defaultPath: '/var/log/syslog',
@@ -505,34 +505,34 @@ dialog.showOpenDialog(win3, {
   console.log(ret)
 })
 
-// global-shortcut
-// https://github.com/electron/electron/blob/master/docs/api/global-shortcut.md
+// 全局-快捷方式。
+// Https://github.com/electron/electron/blob/master/docs/api/global-shortcut.md。
 
-// Register a 'ctrl+x' shortcut listener.
+// 注册‘ctrl+x’快捷监听程序。
 const ret = globalShortcut.register('ctrl+x', () => {
   console.log('ctrl+x is pressed')
 })
 if (!ret) { console.log('registerion fails') }
 
-// Check whether a shortcut is registered.
+// 检查是否注册了快捷方式。
 console.log(globalShortcut.isRegistered('ctrl+x'))
 
-// Unregister a shortcut.
+// 取消注册快捷方式。
 globalShortcut.unregister('ctrl+x')
 
-// Unregister all shortcuts.
+// 取消注册所有快捷键。
 globalShortcut.unregisterAll()
 
-// ipcMain
-// https://github.com/electron/electron/blob/master/docs/api/ipc-main-process.md
+// IpcMain。
+// Https://github.com/electron/electron/blob/master/docs/api/ipc-main-process.md。
 
 ipcMain.on('asynchronous-message', (event, arg: any) => {
-  console.log(arg) // prints "ping"
+  console.log(arg) // 打印“ping”
   event.sender.send('asynchronous-reply', 'pong')
 })
 
 ipcMain.on('synchronous-message', (event, arg: any) => {
-  console.log(arg) // prints "ping"
+  console.log(arg) // 打印“ping”
   event.returnValue = 'pong'
 })
 
@@ -549,8 +549,8 @@ const winWindows = new BrowserWindow({
   type: 'toolbar'
 })
 
-// menu-item
-// https://github.com/electron/electron/blob/master/docs/api/menu-item.md
+// 菜单项。
+// Https://github.com/electron/electron/blob/master/docs/api/menu-item.md。
 
 const menuItem = new MenuItem({})
 
@@ -559,8 +559,8 @@ menuItem.click = (passedMenuItem: Electron.MenuItem, browserWindow: Electron.Bro
   console.log('click', passedMenuItem, browserWindow)
 }
 
-// menu
-// https://github.com/electron/electron/blob/master/docs/api/menu.md
+// 菜单。
+// Https://github.com/electron/electron/blob/master/docs/api/menu.md。
 
 let menu = new Menu()
 menu.append(new MenuItem({ label: 'MenuItem1', click: () => { console.log('item 1 clicked') } }))
@@ -573,7 +573,7 @@ console.log(menu.items)
 const pos = screen.getCursorScreenPoint()
 menu.popup({ x: pos.x, y: pos.y })
 
-// main.js
+// Main.js。
 const template = <Electron.MenuItemConstructorOptions[]> [
   {
     label: 'Electron',
@@ -740,7 +740,7 @@ const template = <Electron.MenuItemConstructorOptions[]> [
 
 menu = Menu.buildFromTemplate(template)
 
-Menu.setApplicationMenu(menu) // Must be called within app.whenReady().then(function(){ ... });
+Menu.setApplicationMenu(menu) // 必须在app.whenReady().Then(function(){...})内调用；
 
 Menu.buildFromTemplate([
   { label: '4', id: '4' },
@@ -759,7 +759,7 @@ Menu.buildFromTemplate([
   { label: '3' }
 ])
 
-// All possible MenuItem roles
+// 所有可能的MenuItem角色。
 Menu.buildFromTemplate([
   { role: 'undo' },
   { role: 'redo' },
@@ -807,11 +807,11 @@ Menu.buildFromTemplate([
   { role : 'moveTabToNewWindow'}
 ])
 
-// net
-// https://github.com/electron/electron/blob/master/docs/api/net.md
+// 网络。
+// Https://github.com/electron/electron/blob/master/docs/api/net.md。
 
 app.whenReady().then(() => {
-  const request = net.request('https://github.com')
+  const request = net.request('https:// Github.com‘)。
   request.setHeader('Some-Custom-Header-Name', 'Some-Custom-Header-Value')
   const header = request.getHeader('Some-Custom-Header-Name')
   request.removeHeader('Some-Custom-Header-Name')
@@ -852,8 +852,8 @@ app.whenReady().then(() => {
   request.abort()
 })
 
-// power-monitor
-// https://github.com/electron/electron/blob/master/docs/api/power-monitor.md
+// 电源监视器。
+// Https://github.com/electron/electron/blob/master/docs/api/power-monitor.md。
 
 app.whenReady().then(() => {
   powerMonitor.on('suspend', () => {
@@ -870,16 +870,16 @@ app.whenReady().then(() => {
   })
 })
 
-// power-save-blocker
-// https://github.com/electron/electron/blob/master/docs/api/power-save-blocker.md
+// 节电阻断器
+// Https://github.com/electron/electron/blob/master/docs/api/power-save-blocker.md。
 
 const id = powerSaveBlocker.start('prevent-display-sleep')
 console.log(powerSaveBlocker.isStarted(id))
 
 powerSaveBlocker.stop(id)
 
-// protocol
-// https://github.com/electron/electron/blob/master/docs/api/protocol.md
+// 协议。
+// Https://github.com/electron/electron/blob/master/docs/api/protocol.md。
 
 app.whenReady().then(() => {
   protocol.registerSchemesAsPrivileged([{ scheme: 'https', privileges: { standard: true, allowServiceWorkers: true } }])
@@ -905,8 +905,8 @@ app.whenReady().then(() => {
   const registered: boolean = protocol.isProtocolRegistered('atom')
 })
 
-// tray
-// https://github.com/electron/electron/blob/master/docs/api/tray.md
+// 托盘。
+// Https://github.com/electron/electron/blob/master/docs/api/tray.md。
 
 let appIcon: Electron.Tray = null
 app.whenReady().then(() => {
@@ -948,15 +948,15 @@ app.whenReady().then(() => {
   })
 })
 
-// clipboard
-// https://github.com/electron/electron/blob/master/docs/api/clipboard.md
+// 剪贴板。
+// Https://github.com/electron/electron/blob/master/docs/api/clipboard.md。
 
 {
   let str: string
   clipboard.writeText('Example String')
   clipboard.writeText('Example String', 'selection')
-  clipboard.writeBookmark('foo', 'http://example.com')
-  clipboard.writeBookmark('foo', 'http://example.com', 'selection')
+  clipboard.writeBookmark('foo', 'http:// Example.com‘)。
+  clipboard.writeBookmark('foo', 'http:// Example.com‘，’选择‘)。
   clipboard.writeFindText('foo')
   str = clipboard.readText('selection')
   str = clipboard.readFindText()
@@ -971,13 +971,13 @@ app.whenReady().then(() => {
   })
 }
 
-// crash-reporter
-// https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
+// 撞车记者。
+// Https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md。
 
 crashReporter.start({
   productName: 'YourName',
   companyName: 'YourCompany',
-  submitURL: 'https://your-domain.com/url-to-submit',
+  submitURL: 'https:// Your-domain.com/url-to-submit‘，
   uploadToServer: true,
   extra: {
     someKey: 'value'
@@ -987,8 +987,8 @@ crashReporter.start({
 console.log(crashReporter.getLastCrashReport())
 console.log(crashReporter.getUploadedReports())
 
-// nativeImage
-// https://github.com/electron/electron/blob/master/docs/api/native-image.md
+// 原生图像。
+// Https://github.com/electron/electron/blob/master/docs/api/native-image.md。
 
 const appIcon2 = new Tray('/Users/somebody/images/icon.png')
 const window2 = new BrowserWindow({ icon: '/Users/somebody/images/window.png' })
@@ -998,8 +998,8 @@ const appIcon4 = new Tray('/Users/somebody/images/icon.png')
 
 const image2 = nativeImage.createFromPath('/Users/somebody/images/icon.png')
 
-// process
-// https://github.com/electron/electron/blob/master/docs/api/process.md
+// 制程。
+// Https://github.com/electron/electron/blob/master/docs/api/process.md。
 
 console.log(process.versions.electron)
 console.log(process.versions.chrome)
@@ -1012,8 +1012,8 @@ process.crash()
 process.hang()
 process.setFdLimit(8192)
 
-// screen
-// https://github.com/electron/electron/blob/master/docs/api/screen.md
+// 筛网。
+// Https://github.com/electron/electron/blob/master/docs/api/screen.md。
 
 app.whenReady().then(() => {
   const size = screen.getPrimaryDisplay().workAreaSize
@@ -1050,8 +1050,8 @@ app.whenReady().then(() => {
   })
 })
 
-// shell
-// https://github.com/electron/electron/blob/master/docs/api/shell.md
+// 壳。
+// Https://github.com/electron/electron/blob/master/docs/api/shell.md。
 
 shell.showItemInFolder('/home/user/Desktop/test.txt')
 shell.trashItem('/home/user/Desktop/test.txt').then(() => {})
@@ -1060,7 +1060,7 @@ shell.openPath('/home/user/Desktop/test.txt').then(err => {
   if (err) console.log(err)
 })
 
-shell.openExternal('https://github.com', {
+shell.openExternal('https:// Github.com‘，{。
   activate: false
 }).then(() => {})
 
@@ -1068,10 +1068,10 @@ shell.beep()
 
 shell.writeShortcutLink('/home/user/Desktop/shortcut.lnk', 'update', shell.readShortcutLink('/home/user/Desktop/shortcut.lnk'))
 
-// cookies
-// https://github.com/electron/electron/blob/master/docs/api/cookies.md
+// 曲奇饼。
+// Https://github.com/electron/electron/blob/master/docs/api/cookies.md。
 {
-  // Query all cookies.
+  // 查询所有Cookie。
   session.defaultSession.cookies.get({})
     .then(cookies => {
       console.log(cookies)
@@ -1079,27 +1079,27 @@ shell.writeShortcutLink('/home/user/Desktop/shortcut.lnk', 'update', shell.readS
       console.log(error)
     })
 
-  // Query all cookies associated with a specific url.
-  session.defaultSession.cookies.get({ url: 'http://www.github.com' })
+  // 查询与特定URL关联的所有cookie。
+  session.defaultSession.cookies.get({ url: 'http:// Www.github.com‘})。
     .then(cookies => {
       console.log(cookies)
     }).catch((error: Error) => {
       console.log(error)
     })
 
-  // Set a cookie with the given cookie data;
-  // may overwrite equivalent cookies if they exist.
-  const cookie = { url: 'http://www.github.com', name: 'dummy_name', value: 'dummy' }
+  // 用给定的cookie数据设置cookie；
+  // 可能会覆盖等效的Cookie(如果存在)。
+  const cookie = { url: 'http:// Www.github.com‘，名称：’Dummy_Name‘，值：’Dummy‘}。
   session.defaultSession.cookies.set(cookie)
     .then(() => {
-      // success
+      // 成功。
     }, (error: Error) => {
       console.error(error)
     })
 }
 
-// session
-// https://github.com/electron/electron/blob/master/docs/api/session.md
+// 会话。
+// Https://github.com/electron/electron/blob/master/docs/api/session.md。
 
 session.defaultSession.on('will-download', (event, item, webContents) => {
   event.preventDefault()
@@ -1108,9 +1108,9 @@ session.defaultSession.on('will-download', (event, item, webContents) => {
   })
 })
 
-// In the main process.
+// 在主要过程中。
 session.defaultSession.on('will-download', (event, item, webContents) => {
-  // Set the save path, making Electron not to prompt a save dialog.
+  // 设置保存路径，使Electron不提示保存对话框。
   item.setSavePath('/tmp/save.pdf')
   console.log(item.getSavePath())
   console.log(item.getMimeType())
@@ -1138,14 +1138,14 @@ session.defaultSession.on('will-download', (event, item, webContents) => {
   })
 })
 
-// To emulate a GPRS connection with 50kbps throughput and 500 ms latency.
+// 模拟吞吐量为50kbps、延迟为500毫秒的GPRS连接。
 session.defaultSession.enableNetworkEmulation({
   latency: 500,
   downloadThroughput: 6400,
   uploadThroughput: 6400
 })
 
-// To emulate a network outage.
+// 来模拟网络中断。
 session.defaultSession.enableNetworkEmulation({
   offline: true
 })
@@ -1170,16 +1170,16 @@ session.defaultSession.setPermissionRequestHandler(function (webContents, permis
   callback(true)
 })
 
-// consider any url ending with `example.com`, `foobar.com`, `baz`
-// for integrated authentication.
+// 考虑任何以`example.com`、`foobar.com`、`baz`结尾的url。
+// 用于集成身份验证。
 session.defaultSession.allowNTLMCredentialsForDomains('*example.com, *foobar.com, *baz')
 
-// consider all urls for integrated authentication.
+// 考虑集成身份验证的所有URL。
 session.defaultSession.allowNTLMCredentialsForDomains('*')
 
-// Modify the user agent for all requests to the following urls.
+// 将所有请求的用户代理修改为以下URL。
 const filter = {
-  urls: ['https://*.github.com/*', '*://electron.github.io']
+  urls: ['https:// *.github.com/*‘，’*：//Electron.github.io‘]
 }
 
 session.defaultSession.webRequest.onBeforeSendHeaders(filter, function (details: any, callback: any) {
@@ -1195,8 +1195,8 @@ app.whenReady().then(function () {
   })
 })
 
-// webContents
-// https://github.com/electron/electron/blob/master/docs/api/web-contents.md
+// 网站内容。
+// Https://github.com/electron/electron/blob/master/docs/api/web-contents.md。
 
 console.log(webContents.getAllWebContents())
 console.log(webContents.getFocusedWebContents())
@@ -1211,7 +1211,7 @@ win4.webContents.on('paint', (event, dirty, _image) => {
   console.log(dirty, _image.getBitmap())
 })
 
-win4.loadURL('http://github.com')
+win4.loadURL('http:// Github.com‘)
 
 const unusedTouchBar = new TouchBar({
   items: [

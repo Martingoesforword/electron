@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_DICTIONARY_H_
 #define SHELL_COMMON_GIN_HELPER_DICTIONARY_H_
@@ -16,29 +16,29 @@
 
 namespace gin_helper {
 
-// Adds a few more extends methods to gin::Dictionary.
-//
-// Note that as the destructor of gin::Dictionary is not virtual, and we want to
-// convert between 2 types, we must not add any member.
+// 向gin：：DICTIONARY添加更多扩展方法。
+// 
+// 请注意，作为gin：：DICTIONARY的析构函数，它不是虚拟的，我们希望。
+// 在两种类型之间转换，我们不能添加任何成员。
 class Dictionary : public gin::Dictionary {
  public:
   Dictionary() : gin::Dictionary(nullptr) {}
   Dictionary(v8::Isolate* isolate, v8::Local<v8::Object> object)
       : gin::Dictionary(isolate, object) {}
 
-  // Allow implicitly converting from gin::Dictionary, as it is absolutely
-  // safe in this case.
-  Dictionary(const gin::Dictionary& dict)  // NOLINT(runtime/explicit)
+  // 允许从gin：：DICTIONARY隐式转换，因为它绝对。
+  // 在这种情况下是安全的。
+  Dictionary(const gin::Dictionary& dict)  // NOLINT(运行时/显式)。
       : gin::Dictionary(dict) {}
 
-  // Differences from the Get method in gin::Dictionary:
-  // 1. This is a const method;
-  // 2. It checks whether the key exists before reading;
-  // 3. It accepts arbitrary type of key.
+  // 与gin：：DICTIONARY中的GET方法不同：
+  // 1.这是一个常量方法；
+  // 2.读取前检查密钥是否存在；
+  // 3.接受任意类型的密钥。
   template <typename K, typename V>
   bool Get(const K& key, V* out) const {
-    // Check for existence before getting, otherwise this method will always
-    // returns true when T == v8::Local<v8::Value>.
+    // 在获取之前检查是否存在，否则此方法将始终。
+    // 当T==v8：：local&lt;v8：：value&gt;时返回TRUE。
     v8::Local<v8::Context> context = isolate()->GetCurrentContext();
     v8::Local<v8::Value> v8_key = gin::ConvertToV8(isolate(), key);
     v8::Local<v8::Value> value;
@@ -49,8 +49,8 @@ class Dictionary : public gin::Dictionary {
     return false;
   }
 
-  // Differences from the Set method in gin::Dictionary:
-  // 1. It accepts arbitrary type of key.
+  // 与gin：：DICTIONARY中的set方法不同：
+  // 1.接受任意类型的密钥。
   template <typename K, typename V>
   bool Set(const K& key, const V& val) {
     v8::Local<v8::Value> v8_value;
@@ -62,7 +62,7 @@ class Dictionary : public gin::Dictionary {
     return !result.IsNothing() && result.FromJust();
   }
 
-  // Like normal Get but put result in an absl::optional.
+  // 与普通GET类似，但PUT结果为ABSL：：Optional。
   template <typename T>
   bool GetOptional(base::StringPiece key, absl::optional<T>* out) const {
     T ret;
@@ -153,8 +153,8 @@ class Dictionary : public gin::Dictionary {
     return !result.IsNothing() && result.FromJust();
   }
 
-  // Note: If we plan to add more Set methods, consider adding an option instead
-  // of copying code.
+  // 注意：如果我们计划添加更多的set方法，请考虑添加一个选项。
+  // 抄袭代码。
   template <typename T>
   bool SetReadOnlyNonConfigurable(base::StringPiece key, T val) {
     v8::Local<v8::Value> v8_value;
@@ -188,10 +188,10 @@ class Dictionary : public gin::Dictionary {
   }
 
  private:
-  // DO NOT ADD ANY DATA MEMBER.
+  // 请勿添加任何数据成员。
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 namespace gin {
 
@@ -212,6 +212,6 @@ struct Converter<gin_helper::Dictionary> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
-#endif  // SHELL_COMMON_GIN_HELPER_DICTIONARY_H_
+#endif  // Shell_COMMON_GIN_HELPER_DICTIONARY_H_

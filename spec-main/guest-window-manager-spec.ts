@@ -70,15 +70,11 @@ describe('new-window event', () => {
         'x=50,y=20,title=sup',
         'show=false,top=1,left=1'
       ].forEach((features, index) => {
-        /**
-         * ATTN: If this test is failing, you likely just need to change
-         * `shouldOverwriteSnapshot` to true and then evaluate the snapshot diff
-         * to see if the change is harmless.
-         */
+        /* **注意：如果测试失败，您可能只需要将*`shouldOverwriteSnapshot`改为true，然后评估快照差异*，看看更改是否无害。*/
         it(`matches snapshot for ${features}`, async () => {
           const newSnapshot = await genSnapshot(browserWindow, features);
           newSnapshots.push(newSnapshot);
-          // TODO: The output when these fail could be friendlier.
+          // TODO：当这些操作失败时，输出可能会更友好。
           expect(stringifySnapshots(newSnapshot)).to.equal(stringifySnapshots(existingSnapshots[index]));
         });
       });
@@ -158,7 +154,7 @@ describe('webContents.setWindowOpenHandler', () => {
           assert.fail('did-create-window should not to be called with an overridden window.open');
         });
 
-        await browserWindow.webContents.loadURL('data:text/html,<a target="_blank" href="http://example.com" style="display: block; width: 100%; height: 100%; position: fixed; left: 0; top: 0;">link</a>');
+        await browserWindow.webContents.loadURL('data:text/html,<a target="_blank" href="http:// Example.com“style=”Display：Block；Width：100%；Height：100%；Position：Fixed；Left：0；top：0；“&gt;link</a>‘)；
         browserWindow.webContents.sendInputEvent({ type: 'mouseDown', x: 10, y: 10, button: 'left', clickCount: 1 });
         browserWindow.webContents.sendInputEvent({ type: 'mouseUp', x: 10, y: 10, button: 'left', clickCount: 1 });
 
@@ -180,7 +176,7 @@ describe('webContents.setWindowOpenHandler', () => {
           assert.fail('did-create-window should not to be called with an overridden window.open');
         });
 
-        await browserWindow.webContents.loadURL('data:text/html,<a href="http://example.com" style="display: block; width: 100%; height: 100%; position: fixed; left: 0; top: 0;">link</a>');
+        await browserWindow.webContents.loadURL('data:text/html,<a href="http:// Example.com“style=”Display：Block；Width：100%；Height：100%；Position：Fixed；Left：0；top：0；“&gt;link</a>‘)；
         browserWindow.webContents.sendInputEvent({ type: 'mouseDown', x: 10, y: 10, button: 'left', clickCount: 1, modifiers: ['shift'] });
         browserWindow.webContents.sendInputEvent({ type: 'mouseUp', x: 10, y: 10, button: 'left', clickCount: 1, modifiers: ['shift'] });
 
@@ -190,7 +186,7 @@ describe('webContents.setWindowOpenHandler', () => {
       it('fires handler with correct params', async () => {
         const testFrameName = 'test-frame-name';
         const testFeatures = 'top=10&left=10&something-unknown&show=no';
-        const testUrl = 'app://does-not-exist/';
+        const testUrl = 'app:// 不存在/‘；
         const details = await new Promise<Electron.HandlerDetails>(resolve => {
           browserWindow.webContents.setWindowOpenHandler((details) => {
             setTimeout(() => resolve(details));
@@ -218,14 +214,14 @@ describe('webContents.setWindowOpenHandler', () => {
           });
 
           browserWindow.webContents.loadURL(`data:text/html,${encodeURIComponent(`
-            <form action="http://example.com" target="_blank" method="POST" id="form">
+            <form action="http:// Example.com“target=”_Blank“method=”post“id=”form“&gt;。
               <input name="key" value="value"></input>
             </form>
             <script>form.submit()</script>
           `)}`);
         });
         const { url, frameName, features, disposition, referrer, postBody } = details;
-        expect(url).to.equal('http://example.com/');
+        expect(url).to.equal('http:// Example.com/‘)；
         expect(frameName).to.equal('');
         expect(features).to.deep.equal('');
         expect(disposition).to.equal('foreground-tab');
@@ -270,7 +266,7 @@ describe('webContents.setWindowOpenHandler', () => {
 
       it('does not hang parent window when denying window.open', async () => {
         browserWindow.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
-        browserWindow.webContents.executeJavaScript("window.open('https://127.0.0.1')");
+        browserWindow.webContents.executeJavaScript("window.open('https:// 127.0.0.1‘))；
         expect(await browserWindow.webContents.executeJavaScript('42')).to.equal(42);
       });
     });

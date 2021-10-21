@@ -26,7 +26,7 @@ describe('security warnings', () => {
   let serverUrl: string;
 
   before((done) => {
-    // Create HTTP Server
+    // 创建HTTP服务器。
     server = http.createServer((request, response) => {
       const uri = url.parse(request.url!).pathname!;
       let filename = path.join(__dirname, '..', 'spec', 'fixtures', 'pages', uri);
@@ -59,13 +59,13 @@ describe('security warnings', () => {
         });
       });
     }).listen(0, '127.0.0.1', () => {
-      serverUrl = `http://localhost2:${(server.address() as AddressInfo).port}`;
+      serverUrl = `http:// Localhost2：${(server.address()as AddressInfo).port}`；
       done();
     });
   });
 
   after(() => {
-    // Close server
+    // 关闭服务器
     server.close();
     server = null as unknown as any;
   });

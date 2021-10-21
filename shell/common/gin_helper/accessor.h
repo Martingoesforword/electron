@@ -1,14 +1,14 @@
-// Copyright (c) 2021 Samuel Maddock <sam@samuelmaddock.com>.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021年Samuel Maddock&lt;Sam@samuelmaddock.com&gt;。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_ACCESSOR_H_
 #define SHELL_COMMON_GIN_HELPER_ACCESSOR_H_
 
 namespace gin_helper {
 
-// Wrapper for a generic value to be used as an accessor in a
-// gin_helper::Dictionary.
+// 中用作访问器的泛型值的包装。
+// GIN_HELPER：：DICTIONARY。
 template <typename T>
 struct AccessorValue {
   T Value;
@@ -22,6 +22,6 @@ struct AccessorValue<const T*> {
   T* Value;
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
-#endif  // SHELL_COMMON_GIN_HELPER_ACCESSOR_H_
+#endif  // SHELL_COMMON_GIN_HELPER_ACCELER_H_

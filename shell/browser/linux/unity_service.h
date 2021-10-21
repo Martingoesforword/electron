@@ -1,23 +1,23 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_LINUX_UNITY_SERVICE_H_
 #define SHELL_BROWSER_LINUX_UNITY_SERVICE_H_
 
 namespace unity {
 
-// Returns whether unity is currently running.
+// 返回Unity当前是否正在运行。
 bool IsRunning();
 
-// If unity is running, sets the download counter in the dock icon. Any value
-// other than 0 displays the badge.
+// 如果Unity正在运行，则在坞站图标中设置下载计数器。任何值。
+// 如果不是0，则显示徽章。
 void SetDownloadCount(int count);
 
-// If unity is running, sets the download progress bar in the dock icon. Any
-// value between 0.0 and 1.0 (exclusive) shows the progress bar.
+// 如果Unity正在运行，则在坞站图标中设置下载进度条。任何。
+// 介于0.0和1.0(独占)之间的值显示进度条。
 void SetProgressFraction(float percentage);
 
-}  // namespace unity
+}  // 命名空间统一性。
 
-#endif  // SHELL_BROWSER_LINUX_UNITY_SERVICE_H_
+#endif  // Shell_Browser_Linux_Unity_SERVICE_H_

@@ -50,7 +50,7 @@ async function nextAlpha (v) {
     return a - b;
   });
 
-  // increment the latest existing alpha tag or start at alpha.1 if it's a new alpha line
+  // 递增最新的现有Alpha标签，如果是新的Alpha行，则从Alpha1开始。
   return tags.length === 0 ? `${next}-alpha.1` : semver.inc(tags.pop(), 'prerelease');
 }
 
@@ -64,7 +64,7 @@ async function nextBeta (v) {
     return a - b;
   });
 
-  // increment the latest existing beta tag or start at beta.1 if it's a new beta line
+  // 增加最新的现有测试版标签，如果是新的测试版，则从Beta.1开始。
   return tags.length === 0 ? `${next}-beta.1` : semver.inc(tags.pop(), 'prerelease');
 }
 
@@ -79,7 +79,7 @@ async function nextNightly (v) {
   const pre = `nightly.${getCurrentDate()}`;
 
   const branch = (await GitProcess.exec(['rev-parse', '--abbrev-ref', 'HEAD'], ELECTRON_DIR)).stdout.trim();
-  // TODO(main-migration): Simplify once main branch is renamed
+  // TODO(主迁移)：重命名主分支后即可简化
   if (branch === 'master' || branch === 'main') {
     next = semver.inc(await getLastMajorForMain(), 'major');
   } else if (isStable(v)) {

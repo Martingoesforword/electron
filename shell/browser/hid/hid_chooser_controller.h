@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_HID_HID_CHOOSER_CONTROLLER_H_
 #define SHELL_BROWSER_HID_HID_CHOOSER_CONTROLLER_H_
@@ -24,7 +24,7 @@
 
 namespace content {
 class RenderFrameHost;
-}  // namespace content
+}  // 命名空间内容。
 
 namespace electron {
 
@@ -32,17 +32,17 @@ class ElectronHidDelegate;
 
 class HidChooserContext;
 
-// HidChooserController provides data for the WebHID API permission prompt.
+// HidChooserController为WebHID API权限提示提供数据。
 class HidChooserController
     : public content::WebContentsObserver,
       public electron::HidChooserContext::DeviceObserver {
  public:
-  // Construct a chooser controller for Human Interface Devices (HID).
-  // |render_frame_host| is used to initialize the chooser strings and to access
-  // the requesting and embedding origins. |callback| is called when the chooser
-  // is closed, either by selecting an item or by dismissing the chooser dialog.
-  // The callback is called with the selected device, or nullptr if no device is
-  // selected.
+  // 构建人机界面设备(HID)的选择器控制器。
+  // |RENDER_FRAME_HOST|用于初始化选择器字符串并访问。
+  // 请求来源和嵌入来源。|callback|选择器时调用。
+  // 通过选择一项或关闭选择器对话框来关闭。
+  // 使用所选设备调用回调，如果没有设备，则调用nullptr。
+  // 被选中了。
   HidChooserController(content::RenderFrameHost* render_frame_host,
                        std::vector<blink::mojom::HidDeviceFilterPtr> filters,
                        content::HidChooser::Callback callback,
@@ -52,7 +52,7 @@ class HidChooserController
   HidChooserController& operator=(HidChooserController&) = delete;
   ~HidChooserController() override;
 
-  // HidChooserContext::DeviceObserver:
+  // HidChooserContext：：DeviceViewer：
   void OnDeviceAdded(const device::mojom::HidDeviceInfo& device_info) override;
   void OnDeviceRemoved(
       const device::mojom::HidDeviceInfo& device_info) override;
@@ -61,7 +61,7 @@ class HidChooserController
   void OnHidManagerConnectionError() override;
   void OnHidChooserContextShutdown() override;
 
-  // content::WebContentsObserver:
+  // 内容：：WebContentsViewer：
   void RenderFrameDeleted(content::RenderFrameHost* render_frame_host) override;
 
  private:
@@ -70,19 +70,19 @@ class HidChooserController
   bool DisplayDevice(const device::mojom::HidDeviceInfo& device) const;
   bool FilterMatchesAny(const device::mojom::HidDeviceInfo& device) const;
 
-  // Add |device_info| to |device_map_|. The device is added to the chooser item
-  // representing the physical device. If the chooser item does not yet exist, a
-  // new item is appended. Returns true if an item was appended.
+  // 将|DEVICE_INFO|添加到|DEVICE_MAP_|。该设备将添加到选择器项目中。
+  // 表示物理设备。如果选择器项尚不存在，则会引发。
+  // 将追加新项目。如果追加了项，则返回TRUE。
   bool AddDeviceInfo(const device::mojom::HidDeviceInfo& device_info);
 
-  // Remove |device_info| from |device_map_|. The device info is removed from
-  // the chooser item representing the physical device. If this would cause the
-  // item to be empty, the chooser item is removed. Does nothing if the device
-  // is not in the chooser item. Returns true if an item was removed.
+  // 从|DEVICE_MAP_|中删除|DEVICE_INFO|。设备信息将从。
+  // 表示物理设备的选择器项。如果这会导致。
+  // 项为空，则删除选择器项。如果该设备未执行任何操作，则不执行任何操作。
+  // 不在选择器项中。如果项已删除，则返回TRUE。
   bool RemoveDeviceInfo(const device::mojom::HidDeviceInfo& device_info);
 
-  // Update the information for the device described by |device_info| in the
-  // |device_map_|.
+  // 更新|DEVICE_INFO|中|DEVICE_INFO|描述的设备的信息。
+  // |device_map_|。
   void UpdateDeviceInfo(const device::mojom::HidDeviceInfo& device_info);
 
   void RunCallback(std::vector<device::mojom::HidDeviceInfoPtr> devices);
@@ -93,19 +93,19 @@ class HidChooserController
   const url::Origin origin_;
   const int frame_tree_node_id_;
 
-  // The lifetime of the chooser context is tied to the browser context used to
-  // create it, and may be destroyed while the chooser is still active.
+  // 选择器上下文的生存期与用于。
+  // 创建它，并且可以在选择器仍处于活动状态时将其销毁。
   base::WeakPtr<HidChooserContext> chooser_context_;
 
-  // Information about connected devices and their HID interfaces. A single
-  // physical device may expose multiple HID interfaces. Keys are physical
-  // device IDs, values are collections of HidDeviceInfo objects representing
-  // the HID interfaces hosted by the physical device.
+  // 有关连接的设备及其HID接口的信息。单曲。
+  // 物理设备可能暴露多个HID接口。密钥是物理密钥。
+  // 设备ID，值是HidDeviceInfo对象的集合，表示。
+  // 物理设备托管的HID接口。
   std::map<std::string, std::vector<device::mojom::HidDeviceInfoPtr>>
       device_map_;
 
-  // An ordered list of physical device IDs that determines the order of items
-  // in the chooser.
+  // 确定项目顺序的物理设备ID的有序列表。
+  // 在选择器里。
   std::vector<std::string> items_;
 
   base::ScopedObservation<HidChooserContext,
@@ -121,6 +121,6 @@ class HidChooserController
   base::WeakPtrFactory<HidChooserController> weak_factory_{this};
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_HID_HID_CHOOSER_CONTROLLER_H_
+#endif  // Shell_Browser_HID_HID_Chooser_Controller_H_

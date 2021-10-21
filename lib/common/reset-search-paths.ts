@@ -2,8 +2,8 @@ import * as path from 'path';
 
 const Module = require('module');
 
-// We do not want to allow use of the VM module in the renderer process as
-// it conflicts with Blink's V8::Context internal logic.
+// 我们不希望允许在渲染器进程中使用VM模块，因为。
+// 它与Blink的V8：：Context内部逻辑冲突。
 if (process.type === 'renderer') {
   const _load = Module._load;
   Module._load = function (request: string) {
@@ -14,13 +14,13 @@ if (process.type === 'renderer') {
   };
 }
 
-// Prevent Node from adding paths outside this app to search paths.
+// 阻止节点将此应用程序之外的路径添加到搜索路径。
 const resourcesPathWithTrailingSlash = process.resourcesPath + path.sep;
 const originalNodeModulePaths = Module._nodeModulePaths;
 Module._nodeModulePaths = function (from: string) {
   const paths: string[] = originalNodeModulePaths(from);
   const fromPath = path.resolve(from) + path.sep;
-  // If "from" is outside the app then we do nothing.
+  // 如果“From”在应用程序之外，那么我们什么也不做。
   if (fromPath.startsWith(resourcesPathWithTrailingSlash)) {
     return paths.filter(function (candidate) {
       return candidate.startsWith(resourcesPathWithTrailingSlash);
@@ -30,7 +30,7 @@ Module._nodeModulePaths = function (from: string) {
   }
 };
 
-// Make a fake Electron module that we will insert into the module cache
+// 制作一个假的电子模块，我们将把它插入到模块缓存中
 const makeElectronModule = (name: string) => {
   const electronModule = new Module('electron', null);
   electronModule.id = 'electron';

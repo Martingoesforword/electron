@@ -1,7 +1,7 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Copyright (c) 2013 Adam Roben <adam@roben.org>. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 版权所有(C)2013 Adam Roben&lt;adam@roben.org&gt;。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #ifndef SHELL_BROWSER_UI_INSPECTABLE_WEB_CONTENTS_H_
 #define SHELL_BROWSER_UI_INSPECTABLE_WEB_CONTENTS_H_
@@ -70,16 +70,16 @@ class InspectableWebContents
                           const base::Value* arg3);
   void InspectElement(int x, int y);
 
-  // Return the last position and size of devtools window.
+  // 返回DevTools窗口的最后位置和大小。
   gfx::Rect GetDevToolsBounds() const;
   void SaveDevToolsBounds(const gfx::Rect& bounds);
 
-  // Return the last set zoom level of devtools window.
+  // 返回上次设置的DevTools窗口的缩放级别。
   double GetDevToolsZoomLevel() const;
   void UpdateDevToolsZoomLevel(double level);
 
  private:
-  // DevToolsEmbedderMessageDispacher::Delegate
+  // DevToolsEmbedderMessageDispacher：：Delegate。
   void ActivateWindow() override;
   void CloseWindow() override;
   void LoadCompleted() override;
@@ -155,15 +155,15 @@ class InspectableWebContents
   void CanShowSurvey(DispatchCallback callback,
                      const std::string& trigger) override {}
 
-  // content::DevToolsFrontendHostDelegate:
+  // 内容：：DevToolsFrontendHostDelegate：
   void HandleMessageFromDevToolsFrontend(base::Value message);
 
-  // content::DevToolsAgentHostClient:
+  // 内容：：DevToolsAgentHostClient：
   void DispatchProtocolMessage(content::DevToolsAgentHost* agent_host,
                                base::span<const uint8_t> message) override;
   void AgentHostClosed(content::DevToolsAgentHost* agent_host) override;
 
-  // content::WebContentsObserver:
+  // 内容：：WebContentsViewer：
   void RenderFrameHostChanged(content::RenderFrameHost* old_host,
                               content::RenderFrameHost* new_host) override;
   void WebContentsDestroyed() override;
@@ -174,7 +174,7 @@ class InspectableWebContents
   void DidFinishNavigation(
       content::NavigationHandle* navigation_handle) override;
 
-  // content::WebContentsDelegate:
+  // 内容：：WebContentsDelegate：
   bool HandleKeyboardEvent(content::WebContents*,
                            const content::NativeWebKeyboardEvent&) override;
   void CloseContents(content::WebContents* source) override;
@@ -197,16 +197,16 @@ class InspectableWebContents
   std::string dock_state_;
   bool activate_ = true;
 
-  InspectableWebContentsDelegate* delegate_ = nullptr;  // weak references.
+  InspectableWebContentsDelegate* delegate_ = nullptr;  // 弱引用。
 
-  PrefService* pref_service_;  // weak reference.
+  PrefService* pref_service_;  // 弱引用。
 
   std::unique_ptr<content::WebContents> web_contents_;
 
-  // The default devtools created by this class when we don't have an external
-  // one assigned by SetDevToolsWebContents.
+  // 当我们没有外部。
+  // 一个由SetDevToolsWebContents分配的。
   std::unique_ptr<content::WebContents> managed_devtools_web_contents_;
-  // The external devtools assigned by SetDevToolsWebContents.
+  // 由SetDevToolsWebContents分配的外部DevTool。
   content::WebContents* external_devtools_web_contents_ = nullptr;
 
   bool is_guest_;
@@ -230,6 +230,6 @@ class InspectableWebContents
   DISALLOW_COPY_AND_ASSIGN(InspectableWebContents);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_INSPECTABLE_WEB_CONTENTS_H_
+#endif  // Shell_Browser_UI_Inspectable_Web_Contents_H_

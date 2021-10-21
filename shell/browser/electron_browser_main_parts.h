@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_ELECTRON_BROWSER_MAIN_PARTS_H_
 #define SHELL_BROWSER_ELECTRON_BROWSER_MAIN_PARTS_H_
@@ -78,28 +78,28 @@ class ElectronBrowserMainParts : public content::BrowserMainParts {
 
   static ElectronBrowserMainParts* Get();
 
-  // Sets the exit code, will fail if the message loop is not ready.
+  // 设置退出代码，如果消息循环未准备好，则退出代码将失败。
   bool SetExitCode(int code);
 
-  // Gets the exit code
+  // 获取退出代码。
   int GetExitCode() const;
 
-  // Returns the connection to GeolocationControl which can be
-  // used to enable the location services once per client.
+  // 返回到GeolocationControl的连接，该连接可以是。
+  // 用于为每个客户端启用一次定位服务。
   device::mojom::GeolocationControl* GetGeolocationControl();
 
 #if defined(OS_MAC)
   device::GeolocationManager* GetGeolocationManager();
 #endif
 
-  // Returns handle to the class responsible for extracting file icons.
+  // 将句柄返回给负责提取文件图标的类。
   IconManager* GetIconManager();
 
   Browser* browser() { return browser_.get(); }
   BrowserProcessImpl* browser_process() { return fake_browser_process_.get(); }
 
  protected:
-  // content::BrowserMainParts:
+  // 内容：：BrowserMainParts：
   int PreEarlyInitialization() override;
   void PostEarlyInitialization() override;
   int PreCreateThreads() override;
@@ -117,7 +117,7 @@ class ElectronBrowserMainParts : public content::BrowserMainParts {
   void PreCreateMainMessageLoopCommon();
 
 #if defined(OS_POSIX)
-  // Set signal handlers.
+  // 设置信号处理程序。
   void HandleSIGCHLD();
   void InstallShutdownSignalHandlers(
       base::OnceCallback<void()> shutdown_callback,
@@ -142,17 +142,17 @@ class ElectronBrowserMainParts : public content::BrowserMainParts {
 #endif
 
 #if defined(OS_LINUX)
-  // Used to notify the native theme of changes to dark mode.
+  // 用于通知本机主题更改为暗模式。
   std::unique_ptr<DarkThemeObserver> dark_theme_observer_;
 #endif
 
   std::unique_ptr<views::LayoutProvider> layout_provider_;
 
-  // A fake BrowserProcess object that used to feed the source code from chrome.
+  // 用于从Chrome馈送源代码的伪BrowserProcess对象。
   std::unique_ptr<BrowserProcessImpl> fake_browser_process_;
 
-  // A place to remember the exit code once the message loop is ready.
-  // Before then, we just exit() without any intermediate steps.
+  // 一个在消息循环准备好后记住退出代码的地方。
+  // 在此之前，我们只需退出()，而不需要任何中间步骤。
   absl::optional<int> exit_code_;
 
   std::unique_ptr<JavascriptEnvironment> js_env_;
@@ -179,6 +179,6 @@ class ElectronBrowserMainParts : public content::BrowserMainParts {
   DISALLOW_COPY_AND_ASSIGN(ElectronBrowserMainParts);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_ELECTRON_BROWSER_MAIN_PARTS_H_
+#endif  // Shell_Browser_Electronics_Browser_Main_Parts_H_

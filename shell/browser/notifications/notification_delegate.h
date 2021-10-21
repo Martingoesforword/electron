@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NOTIFICATIONS_NOTIFICATION_DELEGATE_H_
 #define SHELL_BROWSER_NOTIFICATIONS_NOTIFICATION_DELEGATE_H_
@@ -11,13 +11,13 @@ namespace electron {
 
 class NotificationDelegate {
  public:
-  // The native Notification object is destroyed.
+  // 本机通知对象被销毁。
   virtual void NotificationDestroyed() {}
 
-  // Failed to send the notification.
+  // 无法发送通知。
   virtual void NotificationFailed(const std::string& error) {}
 
-  // Notification was replied to
+  // 通知已回复。
   virtual void NotificationReplied(const std::string& reply) {}
   virtual void NotificationAction(int index) {}
 
@@ -30,6 +30,6 @@ class NotificationDelegate {
   ~NotificationDelegate() = default;
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_NOTIFICATIONS_NOTIFICATION_DELEGATE_H_

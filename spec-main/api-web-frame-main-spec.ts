@@ -16,7 +16,7 @@ describe('webFrameMain module', () => {
 
   type Server = { server: http.Server, url: string }
 
-  /** Creates an HTTP server whose handler embeds the given iframe src. */
+  /* *创建一个HTTP服务器，其处理程序嵌入给定的iframe src。*/
   const createServer = () => new Promise<Server>(resolve => {
     const server = http.createServer((req, res) => {
       const params = new URLSearchParams(url.parse(req.url || '').search || '');
@@ -27,7 +27,7 @@ describe('webFrameMain module', () => {
       }
     });
     server.listen(0, '127.0.0.1', () => {
-      const url = `http://127.0.0.1:${(server.address() as AddressInfo).port}/`;
+      const url = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}/`；
       resolve({ server, url });
     });
   });
@@ -205,14 +205,14 @@ describe('webFrameMain module', () => {
       await w.loadFile(path.join(subframesPath, 'frame-with-frame-container.html'));
       const { mainFrame } = w.webContents;
       w.destroy();
-      // Wait for WebContents, and thus RenderFrameHost, to be destroyed.
+      // 等待WebContents以及RenderFrameHost被销毁。
       await new Promise(resolve => setTimeout(resolve, 0));
       expect(() => mainFrame.url).to.throw();
     });
 
     it('persists through cross-origin navigation', async () => {
       const server = await createServer();
-      // 'localhost' is treated as a separate origin.
+      // “localhost”被视为单独的来源。
       const crossOriginUrl = server.url.replace('127.0.0.1', 'localhost');
       await w.loadURL(server.url);
       const { mainFrame } = w.webContents;
@@ -231,7 +231,7 @@ describe('webFrameMain module', () => {
     it('can find each frame from navigation events', async () => {
       const w = new BrowserWindow({ show: false, webPreferences: { contextIsolation: true } });
 
-      // frame-with-frame-container.html, frame-with-frame.html, frame.html
+      // Frame-with-Frame-tainer.html、Frame-with-Frame.html、Frame.html。
       const didFrameFinishLoad = emittedNTimes(w.webContents, 'did-frame-finish-load', 3);
       w.loadFile(path.join(subframesPath, 'frame-with-frame-container.html'));
 
@@ -266,9 +266,9 @@ describe('webFrameMain module', () => {
     it('is not emitted upon cross-origin navigation', async () => {
       const server = await createServer();
 
-      // HACK: Use 'localhost' instead of '127.0.0.1' so Chromium treats it as
-      // a separate origin because differing ports aren't enough 🤔
-      const secondUrl = `http://localhost:${new URL(server.url).port}`;
+      // 黑客：使用“localhost”而不是“127.0.0.1”，因此Chromium将其视为。
+      // 单独的来源，因为不同的端口没有足够的🤔。
+      const secondUrl = `http:// 本地主机：${new url(server.url).port}`；
 
       const w = new BrowserWindow({ show: false });
       await w.webContents.loadURL(server.url);

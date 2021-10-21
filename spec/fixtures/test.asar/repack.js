@@ -1,5 +1,5 @@
-// Use this script to regenerate these fixture files
-// using a new version of the asar package
+// 使用此脚本重新生成这些装置文件。
+// 使用新版本的asar软件包
 
 const asar = require('asar');
 const fs = require('fs');

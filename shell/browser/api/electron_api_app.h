@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_APP_H_
 #define SHELL_BROWSER_API_ELECTRON_API_APP_H_
@@ -58,7 +58,7 @@ class App : public ElectronBrowserClient::Delegate,
   static gin::Handle<App> Create(v8::Isolate* isolate);
   static App* Get();
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -82,7 +82,7 @@ class App : public ElectronBrowserClient::Delegate,
  private:
   ~App() override;
 
-  // BrowserObserver:
+  // 浏览器观察者：
   void OnBeforeQuit(bool* prevent_default) override;
   void OnWillQuit(bool* prevent_default) override;
   void OnWindowAllClosed() override;
@@ -115,7 +115,7 @@ class App : public ElectronBrowserClient::Delegate,
   void OnDidBecomeActive() override;
 #endif
 
-  // content::ContentBrowserClient:
+  // 内容：：ContentBrowserClient：
   void AllowCertificateError(
       content::WebContents* web_contents,
       int cert_error,
@@ -146,11 +146,11 @@ class App : public ElectronBrowserClient::Delegate,
                        bool opener_suppressed,
                        bool* no_javascript_access) override;
 
-  // content::GpuDataManagerObserver:
+  // 内容：：GpuDataManagerWatch：
   void OnGpuInfoUpdate() override;
   void OnGpuProcessCrashed(base::TerminationStatus status) override;
 
-  // content::BrowserChildProcessObserver:
+  // 内容：：BrowserChildProcessWatch：
   void BrowserChildProcessLaunchedAndConnected(
       const content::ChildProcessData& data) override;
   void BrowserChildProcessHostDisconnected(
@@ -178,7 +178,7 @@ class App : public ElectronBrowserClient::Delegate,
   void SetAppLogsPath(gin_helper::ErrorThrower thrower,
                       absl::optional<base::FilePath> custom_path);
 
-  // Get/Set the pre-defined path in PathService.
+  // 获取/设置PathService中的预定义路径。
   base::FilePath GetPath(gin_helper::ErrorThrower thrower,
                          const std::string& name);
   void SetPath(gin_helper::ErrorThrower thrower,
@@ -237,12 +237,12 @@ class App : public ElectronBrowserClient::Delegate,
 #endif
 
 #if defined(OS_WIN)
-  // Get the current Jump List settings.
+  // 获取当前的跳转列表设置。
   v8::Local<v8::Value> GetJumpListSettings();
 
-  // Set or remove a custom Jump List for the application.
+  // 设置或删除应用程序的自定义跳转列表。
   JumpListResult SetJumpList(v8::Local<v8::Value> val, gin::Arguments* args);
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 
   std::unique_ptr<ProcessSingleton> process_singleton_;
 
@@ -250,7 +250,7 @@ class App : public ElectronBrowserClient::Delegate,
   std::unique_ptr<CertificateManagerModel> certificate_manager_model_;
 #endif
 
-  // Tracks tasks requesting file icons.
+  // 跟踪请求文件图标的任务。
   base::CancelableTaskTracker cancelable_task_tracker_;
 
   base::FilePath app_path_;
@@ -265,8 +265,8 @@ class App : public ElectronBrowserClient::Delegate,
   DISALLOW_COPY_AND_ASSIGN(App);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_APP_H_
+#endif  // Shell_Browser_API_Electronics_API_APP_H_

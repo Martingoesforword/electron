@@ -33,10 +33,10 @@ describe('inAppPurchase module', function () {
     expect(inAppPurchase.getReceiptURL()).to.match(/_MASReceipt\/receipt$/);
   });
 
-  // The following three tests are disabled because they hit Apple servers, and
-  // Apple started blocking requests from AWS IPs (we think), so they fail on CI.
-  // TODO: find a way to mock out the server requests so we can test these APIs
-  // without relying on a remote service.
+  // 以下三个测试被禁用，因为它们击中了Apple服务器，并且。
+  // 苹果开始屏蔽来自AWS IP的请求(我们认为)，所以他们在CI上失败了。
+  // TODO：找到一种方法来模拟服务器请求，这样我们就可以测试这些API。
+  // 而不依赖于远程服务。
   xdescribe('handles product purchases', () => {
     it('purchaseProduct() fails when buying invalid product', async () => {
       const success = await inAppPurchase.purchaseProduct('non-exist', 1);

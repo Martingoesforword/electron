@@ -80,19 +80,19 @@ async function cleanReleaseArtifacts () {
   const releaseId = args.releaseID.length > 0 ? args.releaseID : null;
   const isNightly = args.tag.includes('nightly');
 
-  // try to revert commit regardless of tag and draft deletion status
+  // 尝试恢复提交，而不考虑标记和草稿删除状态。
   await revertBumpCommit(args.tag);
 
   if (releaseId) {
     if (isNightly) {
       await deleteDraft(releaseId, 'nightlies');
 
-      // We only need to delete the Electron tag since the
-      // nightly tag is only created at publish-time.
+      // 我们只需要删除电子标签，因为。
+      // 夜间标签仅在发布时创建。
       await deleteTag(args.tag, 'electron');
     } else {
       const deletedElectronDraft = await deleteDraft(releaseId, 'electron');
-      // don't delete tag unless draft deleted successfully
+      // 除非草稿删除成功，否则不要删除标签
       if (deletedElectronDraft) {
         await deleteTag(args.tag, 'electron');
       }

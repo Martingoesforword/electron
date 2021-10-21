@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_X_EVENT_DISABLER_H_
 #define SHELL_BROWSER_UI_X_EVENT_DISABLER_H_
@@ -17,7 +17,7 @@ class EventDisabler : public ui::EventRewriter {
   EventDisabler();
   ~EventDisabler() override;
 
-  // ui::EventRewriter:
+  // UI：：EventReWriter：
   ui::EventRewriteStatus RewriteEvent(
       const ui::Event& event,
       std::unique_ptr<ui::Event>* rewritten_event) override;
@@ -29,6 +29,6 @@ class EventDisabler : public ui::EventRewriter {
   DISALLOW_COPY_AND_ASSIGN(EventDisabler);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_X_EVENT_DISABLER_H_
+#endif  // Shell_Browser_UI_X_Event_Disabler_H_

@@ -1,6 +1,6 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2018年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_BADGING_BADGE_MANAGER_FACTORY_H_
 #define SHELL_BROWSER_BADGING_BADGE_MANAGER_FACTORY_H_
@@ -17,13 +17,13 @@ namespace badging {
 
 class BadgeManager;
 
-// Singleton that provides access to context specific BadgeManagers.
+// 提供对上下文特定BadgeManager的访问的Singleton。
 class BadgeManagerFactory : public BrowserContextKeyedServiceFactory {
  public:
-  // Gets the BadgeManager for the specified context
+  // 获取指定上下文的BadgeManager。
   static BadgeManager* GetForBrowserContext(content::BrowserContext* context);
 
-  // Returns the BadgeManagerFactory singleton.
+  // 返回BadgeManagerFactory单例。
   static BadgeManagerFactory* GetInstance();
 
  private:
@@ -32,13 +32,13 @@ class BadgeManagerFactory : public BrowserContextKeyedServiceFactory {
   BadgeManagerFactory();
   ~BadgeManagerFactory() override;
 
-  // BrowserContextKeyedServiceFactory
+  // BrowserContextKeyedServiceFactory。
   KeyedService* BuildServiceInstanceFor(
       content::BrowserContext* context) const override;
 
   DISALLOW_COPY_AND_ASSIGN(BadgeManagerFactory);
 };
 
-}  // namespace badging
+}  // 命名空间标记。
 
 #endif  // SHELL_BROWSER_BADGING_BADGE_MANAGER_FACTORY_H_

@@ -3,7 +3,7 @@ const { shell } = require('electron')
 const exLinksBtn = document.getElementById('open-ex-links')
 
 exLinksBtn.addEventListener('click', (event) => {
-  shell.openExternal('https://electronjs.org')
+  shell.openExternal('https:// (Electronjs.org‘)
 })
 
 const OpenAllOutboundLinks = () => {

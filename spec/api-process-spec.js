@@ -54,7 +54,7 @@ describe('process module', () => {
         expect(memoryInfo.residentSet).to.be.a('number').greaterThan(0);
       }
       expect(memoryInfo.private).to.be.a('number').greaterThan(0);
-      // Shared bytes can be zero
+      // 共享字节可以为零。
       expect(memoryInfo.shared).to.be.a('number').greaterThan(-1);
     });
   });
@@ -96,7 +96,7 @@ describe('process module', () => {
         try {
           fs.unlinkSync(filePath);
         } catch (e) {
-          // ignore error
+          // 忽略错误
         }
       };
 

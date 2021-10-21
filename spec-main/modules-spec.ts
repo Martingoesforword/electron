@@ -108,7 +108,7 @@ describe('modules support', () => {
   });
 
   describe('Module._nodeModulePaths', () => {
-    // Work around the hack in spec/global-paths.
+    // 在spec/global-path中解决黑客问题。
     beforeEach(() => {
       Module.ignoreGlobalPathsHack = true;
     });

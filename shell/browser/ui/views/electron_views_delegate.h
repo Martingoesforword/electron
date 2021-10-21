@@ -1,6 +1,6 @@
-// Copyright (c) 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #ifndef SHELL_BROWSER_UI_VIEWS_ELECTRON_VIEWS_DELEGATE_H_
 #define SHELL_BROWSER_UI_VIEWS_ELECTRON_VIEWS_DELEGATE_H_
@@ -20,7 +20,7 @@ class ViewsDelegate : public views::ViewsDelegate {
   ~ViewsDelegate() override;
 
  protected:
-  // views::ViewsDelegate:
+  // 视图：：视图委派：
   void SaveWindowPlacement(const views::Widget* window,
                            const std::string& window_name,
                            const gfx::Rect& bounds,
@@ -57,16 +57,16 @@ class ViewsDelegate : public views::ViewsDelegate {
 #if defined(OS_WIN)
   using AppbarAutohideEdgeMap = std::map<HMONITOR, int>;
 
-  // Callback on main thread with the edges. |returned_edges| is the value that
-  // was returned from the call to GetAutohideEdges() that initiated the lookup.
+  // 带边缘的主线程上的回调。|RETURNED_EDGES|是返回的值。
+  // 从启动查找的GetAutohideEdges()调用返回。
   void OnGotAppbarAutohideEdges(base::OnceClosure callback,
                                 HMONITOR monitor,
                                 int returned_edges,
                                 int edges);
 
   AppbarAutohideEdgeMap appbar_autohide_edge_map_;
-  // If true we're in the process of notifying a callback from
-  // GetAutohideEdges().start a new query.
+  // 如果为True，则我们正在通知来自。
+  // GetAutohideEdges()。启动新查询。
   bool in_autohide_edges_callback_ = false;
 
   base::WeakPtrFactory<ViewsDelegate> weak_factory_{this};
@@ -75,6 +75,6 @@ class ViewsDelegate : public views::ViewsDelegate {
   DISALLOW_COPY_AND_ASSIGN(ViewsDelegate);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_UI_VIEWS_ELECTRON_VIEWS_DELEGATE_H_

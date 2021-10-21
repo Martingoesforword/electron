@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_HID_HID_CHOOSER_CONTEXT_H_
 #define SHELL_BROWSER_HID_HID_CHOOSER_CONTEXT_H_
@@ -37,13 +37,13 @@ extern const char kHidVendorIdKey[];
 extern const char kHidProductIdKey[];
 extern const char kHidSerialNumberKey[];
 
-// Manages the internal state and connection to the device service for the
-// Human Interface Device (HID) chooser UI.
+// 控件的内部状态和到设备服务的连接。
+// 人机接口设备(HID)选择器UI。
 class HidChooserContext : public KeyedService,
                           public device::mojom::HidManagerClient {
  public:
-  // This observer can be used to be notified when HID devices are connected or
-  // disconnected.
+  // 此观察器可用于在HID设备已连接或。
+  // 已断开连接。
   class DeviceObserver : public base::CheckedObserver {
    public:
     virtual void OnDeviceAdded(const device::mojom::HidDeviceInfo&) = 0;
@@ -51,8 +51,8 @@ class HidChooserContext : public KeyedService,
     virtual void OnDeviceChanged(const device::mojom::HidDeviceInfo&) = 0;
     virtual void OnHidManagerConnectionError() = 0;
 
-    // Called when the HidChooserContext is shutting down. Observers must remove
-    // themselves before returning.
+    // 在HidChooserContext关闭时调用。观察员必须移除。
+    // 在回来之前。
     virtual void OnHidChooserContextShutdown() = 0;
   };
 
@@ -61,18 +61,18 @@ class HidChooserContext : public KeyedService,
   HidChooserContext& operator=(const HidChooserContext&) = delete;
   ~HidChooserContext() override;
 
-  // Returns a human-readable string identifier for |device|.
+  // 返回|device|的人类可读的字符串标识符。
   static std::u16string DisplayNameFromDeviceInfo(
       const device::mojom::HidDeviceInfo& device);
 
-  // Returns true if a persistent permission can be granted for |device|.
+  // 如果可以为|device|授予持久权限，则返回TRUE。
   static bool CanStorePersistentEntry(
       const device::mojom::HidDeviceInfo& device);
 
   static base::Value DeviceInfoToValue(
       const device::mojom::HidDeviceInfo& device);
 
-  // HID-specific interface for granting and checking permissions.
+  // 用于授予和检查权限的HID特定接口。
   void GrantDevicePermission(const url::Origin& origin,
                              const device::mojom::HidDeviceInfo& device,
                              content::RenderFrameHost* render_frame_host);
@@ -80,16 +80,16 @@ class HidChooserContext : public KeyedService,
                            const device::mojom::HidDeviceInfo& device,
                            content::RenderFrameHost* render_frame_host);
 
-  // For ScopedObserver.
+  // 用于作用域观察者。
   void AddDeviceObserver(DeviceObserver* observer);
   void RemoveDeviceObserver(DeviceObserver* observer);
 
-  // Forward HidManager::GetDevices.
+  // 转发HidManager：：GetDevices。
   void GetDevices(device::mojom::HidManager::GetDevicesCallback callback);
 
-  // Only call this if you're sure |devices_| has been initialized before-hand.
-  // The returned raw pointer is owned by |devices_| and will be destroyed when
-  // the device is removed.
+  // 只有在确定|DEVICES_|已预先初始化的情况下才调用此函数。
+  // 返回的原始指针归|DEVICES_|所有，在发生以下情况时将被销毁。
+  // 该设备将被移除。
   const device::mojom::HidDeviceInfo* GetDeviceInfo(const std::string& guid);
 
   device::mojom::HidManager* GetHidManager();
@@ -97,7 +97,7 @@ class HidChooserContext : public KeyedService,
   base::WeakPtr<HidChooserContext> AsWeakPtr();
 
  private:
-  // device::mojom::HidManagerClient implementation:
+  // Device：：mojom：：HidManagerClient实现：
   void DeviceAdded(device::mojom::HidDeviceInfoPtr device_info) override;
   void DeviceRemoved(device::mojom::HidDeviceInfoPtr device_info) override;
   void DeviceChanged(device::mojom::HidDeviceInfoPtr device_info) override;
@@ -117,10 +117,10 @@ class HidChooserContext : public KeyedService,
   base::queue<device::mojom::HidManager::GetDevicesCallback>
       pending_get_devices_requests_;
 
-  // Tracks the set of devices to which an origin has access to.
+  // 跟踪源有权访问的设备集。
   std::map<url::Origin, std::set<std::string>> ephemeral_devices_;
 
-  // Map from device GUID to device info.
+  // 从设备GUID映射到设备信息。
   std::map<std::string, device::mojom::HidDeviceInfoPtr> devices_;
 
   mojo::Remote<device::mojom::HidManager> hid_manager_;
@@ -131,6 +131,6 @@ class HidChooserContext : public KeyedService,
   base::WeakPtrFactory<HidChooserContext> weak_factory_{this};
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_HID_HID_CHOOSER_CONTEXT_H_
+#endif  // Shell_Browser_HID_HID_Chooser_Context_H_

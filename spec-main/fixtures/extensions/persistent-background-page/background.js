@@ -1,1 +1,1 @@
-/* eslint-disable no-undef */
+/* Eslint-禁用no-undef*/

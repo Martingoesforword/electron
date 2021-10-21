@@ -72,17 +72,17 @@ const main = async () => {
     const webpackTargetWithDeps = {
       ...webpackTarget,
       dependencies: (JSON.parse(output) as string[])
-        // Remove whitespace
+        // 删除空格。
         .map(line => line.trim())
-        // Get the relative path
+        // 获取相对路径。
         .map(line => path.relative(rootPath, line).replace(/\\/g, '/'))
-        // Only care about files in //electron
+        // 只关心//电子邮件中的文件。
         .filter(line => !line.startsWith('..'))
-        // Only care about our own files
+        // 只关心我们自己的文件。
         .filter(line => !line.startsWith('node_modules'))
-        // All webpack builds depend on the tsconfig  and package json files
+        // 所有webpack构建都依赖于tsconfig和包json文件。
         .concat(['tsconfig.json', 'tsconfig.electron.json', 'package.json', ...typingFiles])
-        // Make the generated list easier to read
+        // 使生成的列表更易于阅读
         .sort()
     };
     await fs.remove(tmpDir);

@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_EVENT_H_
 #define SHELL_BROWSER_API_EVENT_H_
@@ -19,32 +19,32 @@ class Event : public gin::Wrappable<Event> {
 
   static gin::Handle<Event> Create(v8::Isolate* isolate);
 
-  // Pass the callback to be invoked.
+  // 传递要调用的回调。
   void SetCallback(InvokeCallback callback);
 
-  // event.PreventDefault().
+  // Event.PreventDefault()。
   void PreventDefault(v8::Isolate* isolate);
 
-  // event.sendReply(value), used for replying to synchronous messages and
-  // `invoke` calls.
+  // Event.sendReply(Value)，用于回复同步消息和。
+  // ‘Invoke`调用。
   bool SendReply(v8::Isolate* isolate, v8::Local<v8::Value> result);
 
  protected:
   Event();
   ~Event() override;
 
-  // gin::Wrappable:
+  // 杜松子酒：：可包装的：
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
   const char* GetTypeName() override;
 
  private:
-  // Replyer for the synchronous messages.
+  // 同步消息的复制器。
   InvokeCallback callback_;
 
   DISALLOW_COPY_AND_ASSIGN(Event);
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
-#endif  // SHELL_BROWSER_API_EVENT_H_
+#endif  // Shell_Browser_API_Event_H_

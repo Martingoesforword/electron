@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_VIEWS_FRAMELESS_VIEW_H_
 #define SHELL_BROWSER_UI_VIEWS_FRAMELESS_VIEW_H_
@@ -23,11 +23,11 @@ class FramelessView : public views::NonClientFrameView {
 
   virtual void Init(NativeWindowViews* window, views::Widget* frame);
 
-  // Returns whether the |point| is on frameless window's resizing border.
+  // 返回|point|是否在无框架窗口的调整边框上。
   int ResizingBorderHitTest(const gfx::Point& point);
 
  protected:
-  // views::NonClientFrameView:
+  // 视图：：NonClientFrameView：
   gfx::Rect GetBoundsForClientView() const override;
   gfx::Rect GetWindowBoundsForClientBounds(
       const gfx::Rect& client_bounds) const override;
@@ -38,13 +38,13 @@ class FramelessView : public views::NonClientFrameView {
   void UpdateWindowTitle() override;
   void SizeConstraintsChanged() override;
 
-  // Overridden from View:
+  // 从视图覆盖：
   gfx::Size CalculatePreferredSize() const override;
   gfx::Size GetMinimumSize() const override;
   gfx::Size GetMaximumSize() const override;
   const char* GetClassName() const override;
 
-  // Not owned.
+  // 不是所有的。
   NativeWindowViews* window_ = nullptr;
   views::Widget* frame_ = nullptr;
 
@@ -54,6 +54,6 @@ class FramelessView : public views::NonClientFrameView {
   DISALLOW_COPY_AND_ASSIGN(FramelessView);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_VIEWS_FRAMELESS_VIEW_H_
+#endif  // Shell_Browser_UI_Views_Framless_VIEW_H_

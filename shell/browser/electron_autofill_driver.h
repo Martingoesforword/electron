@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_ELECTRON_AUTOFILL_DRIVER_H_
 #define SHELL_BROWSER_ELECTRON_AUTOFILL_DRIVER_H_
@@ -41,6 +41,6 @@ class AutofillDriver : public mojom::ElectronAutofillDriver {
   mojo::AssociatedReceiver<mojom::ElectronAutofillDriver> receiver_;
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_ELECTRON_AUTOFILL_DRIVER_H_
+#endif  // 外壳浏览器电子自动填充驱动程序H_

@@ -9,8 +9,8 @@ interface MutationHandler {
   handleMutation (_oldValue: any, _newValue: any): any;
 }
 
-// Attribute objects.
-// Default implementation of a WebView attribute.
+// 属性对象。
+// WebView属性的默认实现。
 export class WebViewAttribute implements MutationHandler {
   public value: any;
   public ignoreMutation = false;
@@ -22,24 +22,24 @@ export class WebViewAttribute implements MutationHandler {
     this.defineProperty();
   }
 
-  // Retrieves and returns the attribute's value.
+  // 检索并返回属性的值。
   public getValue () {
     return this.webViewImpl.webviewNode.getAttribute(this.name) || this.value;
   }
 
-  // Sets the attribute's value.
+  // 设置属性的值。
   public setValue (value: any) {
     this.webViewImpl.webviewNode.setAttribute(this.name, value || '');
   }
 
-  // Changes the attribute's value without triggering its mutation handler.
+  // 更改属性的值，而不触发其突变处理程序。
   public setValueIgnoreMutation (value: any) {
     this.ignoreMutation = true;
     this.setValue(value);
     this.ignoreMutation = false;
   }
 
-  // Defines this attribute as a property on the webview node.
+  // 将此属性定义为WebView节点上的属性。
   public defineProperty () {
     return Object.defineProperty(this.webViewImpl.webviewNode, this.name, {
       get: () => {
@@ -52,11 +52,11 @@ export class WebViewAttribute implements MutationHandler {
     });
   }
 
-  // Called when the attribute's value changes.
+  // 在属性值更改时调用。
   public handleMutation: MutationHandler['handleMutation'] = () => undefined
 }
 
-// An attribute that is treated as a Boolean.
+// 被视为布尔值的属性。
 class BooleanAttribute extends WebViewAttribute {
   getValue () {
     return this.webViewImpl.webviewNode.hasAttribute(this.name);
@@ -71,7 +71,7 @@ class BooleanAttribute extends WebViewAttribute {
   }
 }
 
-// Attribute representing the state of the storage partition.
+// 表示存储分区状态的属性。
 export class PartitionAttribute extends WebViewAttribute {
   public validPartitionId = true
 
@@ -82,7 +82,7 @@ export class PartitionAttribute extends WebViewAttribute {
   public handleMutation = (oldValue: any, newValue: any) => {
     newValue = newValue || '';
 
-    // The partition cannot change if the webview has already navigated.
+    // 如果Web视图已导航，则无法更改分区。
     if (!this.webViewImpl.beforeFirstNavigation) {
       console.error(WEB_VIEW_CONSTANTS.ERROR_MSG_ALREADY_NAVIGATED);
       this.setValueIgnoreMutation(oldValue);
@@ -95,7 +95,7 @@ export class PartitionAttribute extends WebViewAttribute {
   }
 }
 
-// Attribute that handles the location and navigation of the webview.
+// 属性，该属性处理Web视图的位置和导航。
 export class SrcAttribute extends WebViewAttribute {
   public observer!: MutationObserver;
 
@@ -115,31 +115,31 @@ export class SrcAttribute extends WebViewAttribute {
   public setValueIgnoreMutation (value: any) {
     super.setValueIgnoreMutation(value);
 
-    // takeRecords() is needed to clear queued up src mutations. Without it, it
-    // is possible for this change to get picked up asynchronously by src's
-    // mutation observer |observer|, and then get handled even though we do not
-    // want to handle this mutation.
+    // 需要TakeRecords()来清除排队的src突变。没有它，它就会。
+    // 这一更改可能会被src的。
+    // 变异观察者|观察者|，然后得到处理，即使我们没有。
+    // 想要处理这种变异。
     this.observer.takeRecords();
   }
 
   public handleMutation = (oldValue: any, newValue: any) => {
-    // Once we have navigated, we don't allow clearing the src attribute.
-    // Once <webview> enters a navigated state, it cannot return to a
-    // placeholder state.
+    // 导航之后，我们不允许清除src属性。
+    // 一旦进入导航状态，它就无法返回到。
+    // 占位符状态。
     if (!newValue && oldValue) {
-      // src attribute changes normally initiate a navigation. We suppress
-      // the next src attribute handler call to avoid reloading the page
-      // on every guest-initiated navigation.
+      // SRC属性更改通常会启动导航。我们压制。
+      // 下一个src属性处理程序调用以避免重新加载页面。
+      // 在每个来宾发起的导航上。
       this.setValueIgnoreMutation(oldValue);
       return;
     }
     this.parse();
   }
 
-  // The purpose of this mutation observer is to catch assignment to the src
-  // attribute without any changes to its value. This is useful in the case
-  // where the webview guest has crashed and navigating to the same address
-  // spawns off a new process.
+  // 此变异观测器的目的是捕捉对src的赋值。
+  // 属性，而不对其值进行任何更改。这在这种情况下很有用。
+  // Webview来宾已崩溃并导航到相同地址的位置。
+  // 产生了一个新的过程。
   public setupMutationObserver () {
     this.observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
@@ -173,7 +173,7 @@ export class SrcAttribute extends WebViewAttribute {
       return;
     }
 
-    // Navigate to |this.src|.
+    // 导航至|this.src|。
     const opts: Record<string, string> = {};
 
     const httpreferrer = this.webViewImpl.attributes.get(WEB_VIEW_CONSTANTS.ATTRIBUTE_HTTPREFERRER)!.getValue();
@@ -190,21 +190,21 @@ export class SrcAttribute extends WebViewAttribute {
   }
 }
 
-// Attribute specifies HTTP referrer.
+// 属性指定HTTP Referrer。
 class HttpReferrerAttribute extends WebViewAttribute {
   constructor (webViewImpl: WebViewImpl) {
     super(WEB_VIEW_CONSTANTS.ATTRIBUTE_HTTPREFERRER, webViewImpl);
   }
 }
 
-// Attribute specifies user agent
+// 属性指定用户代理。
 class UserAgentAttribute extends WebViewAttribute {
   constructor (webViewImpl: WebViewImpl) {
     super(WEB_VIEW_CONSTANTS.ATTRIBUTE_USERAGENT, webViewImpl);
   }
 }
 
-// Attribute that set preload script.
+// 设置预加载脚本的属性。
 class PreloadAttribute extends WebViewAttribute {
   constructor (webViewImpl: WebViewImpl) {
     super(WEB_VIEW_CONSTANTS.ATTRIBUTE_PRELOAD, webViewImpl);
@@ -227,28 +227,28 @@ class PreloadAttribute extends WebViewAttribute {
   }
 }
 
-// Attribute that specifies the blink features to be enabled.
+// 属性，该属性指定要启用的闪烁功能。
 class BlinkFeaturesAttribute extends WebViewAttribute {
   constructor (webViewImpl: WebViewImpl) {
     super(WEB_VIEW_CONSTANTS.ATTRIBUTE_BLINKFEATURES, webViewImpl);
   }
 }
 
-// Attribute that specifies the blink features to be disabled.
+// 属性，该属性指定要禁用的闪烁功能。
 class DisableBlinkFeaturesAttribute extends WebViewAttribute {
   constructor (webViewImpl: WebViewImpl) {
     super(WEB_VIEW_CONSTANTS.ATTRIBUTE_DISABLEBLINKFEATURES, webViewImpl);
   }
 }
 
-// Attribute that specifies the web preferences to be enabled.
+// 属性，该属性指定要启用的Web首选项。
 class WebPreferencesAttribute extends WebViewAttribute {
   constructor (webViewImpl: WebViewImpl) {
     super(WEB_VIEW_CONSTANTS.ATTRIBUTE_WEBPREFERENCES, webViewImpl);
   }
 }
 
-// Sets up all of the webview attributes.
+// 设置所有WebView属性。
 export function setupWebViewAttributes (self: WebViewImpl) {
   return new Map<string, WebViewAttribute>([
     [WEB_VIEW_CONSTANTS.ATTRIBUTE_PARTITION, new PartitionAttribute(self)],

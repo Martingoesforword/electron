@@ -15,5 +15,5 @@ app.once('ready', async () => {
       process.exit(details.exitCode);
     }
   });
-  await w.webContents.loadURL('chrome://checkcrash');
+  await w.webContents.loadURL('chrome:// CheckCrash‘)；
 });

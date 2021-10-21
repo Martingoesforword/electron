@@ -131,12 +131,12 @@ describe('node feature', () => {
 
     describe('child_process.exec', () => {
       (process.platform === 'linux' ? it : it.skip)('allows executing a setuid binary from non-sandboxed renderer', () => {
-        // Chrome uses prctl(2) to set the NO_NEW_PRIVILEGES flag on Linux (see
-        // https://github.com/torvalds/linux/blob/40fde647cc/Documentation/userspace-api/no_new_privs.rst).
-        // We disable this for unsandboxed processes, which the renderer tests
-        // are running in. If this test fails with an error like 'effective uid
-        // is not 0', then it's likely that our patch to prevent the flag from
-        // being set has become ineffective.
+        // Chrome使用prctl(2)在Linux上设置NO_NEW_PRIVILES标志(请参见。
+        // Https://github.com/torvalds/linux/blob/40fde647cc/Documentation/userspace-api/no_new_privs.rst).。
+        // 我们对未沙箱的进程禁用此功能，渲染器会对其进行测试。
+        // 都在磨合。如果此测试失败，并出现类似‘Efficient uid’的错误。
+        // 不是0‘，那么很可能是我们的补丁用来防止旗帜。
+        // 被设定已经变得无效。
         const stdout = ChildProcess.execSync('sudo --help');
         expect(stdout).to.not.be.empty();
       });
@@ -176,7 +176,7 @@ describe('node feature', () => {
 
     describe('URL handling in the renderer process', () => {
       it('can successfully handle WHATWG URLs constructed by Blink', () => {
-        const url = new URL('file://' + path.resolve(fixtures, 'pages', 'base-page.html'));
+        const url = new URL('file:// ‘+path.Resolve(Fixtures，’Pages‘，’base-page.html‘))；
         expect(() => {
           fs.createReadStream(url);
         }).to.not.throw();
@@ -310,11 +310,11 @@ describe('node feature', () => {
       crypto.createDiffieHellman('abc');
       crypto.createDiffieHellman('abc', 2);
 
-      // Needed to test specific DiffieHellman ctors.
+      // 需要测试特定的DiffieHellman因子。
 
-      // eslint-disable-next-line no-octal
+      // Eslint-Disable-Next行无八进制。
       crypto.createDiffieHellman('abc', Buffer.from([02]));
-      // eslint-disable-next-line no-octal
+      // Eslint-Disable-Next行无八进制。
       crypto.createDiffieHellman('abc', '123');
     });
 
@@ -345,7 +345,7 @@ describe('node feature', () => {
       }).to.not.throw();
     });
 
-    // TODO: figure out why process.stdout.isTTY is true on Darwin but not Linux/Win.
+    // TODO：弄清楚为什么在Darwin上process.stdout.isTTY是真的，而在Linux/win上不是。
     ifit(process.platform !== 'darwin')('isTTY should be undefined in the renderer process', function () {
       expect(process.stdout.isTTY).to.be.undefined();
     });

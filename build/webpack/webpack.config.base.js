@@ -126,7 +126,7 @@ if ((globalThis.process || binding.process).argv.includes("--profile-electron-in
           'electron/main$': electronAPIFile,
           'electron/renderer$': electronAPIFile,
           'electron/common$': electronAPIFile,
-          // Force timers to resolve to our dependency that doesn't use window.postMessage
+          // 强制计时器解析为不使用window.postMessage的依赖项。
           timers: path.resolve(electronRoot, 'node_modules', 'timers-browserify', 'main.js')
         },
         extensions: ['.ts', '.js']
@@ -142,7 +142,7 @@ if ((globalThis.process || binding.process).argv.includes("--profile-electron-in
             configFile: path.resolve(electronRoot, 'tsconfig.electron.json'),
             transpileOnly: onlyPrintingGraph,
             ignoreDiagnostics: [
-              // File '{0}' is not under 'rootDir' '{1}'.
+              // 文件‘{0}’不在‘rootDir’‘{1}’下。
               6059
             ]
           }
@@ -151,8 +151,8 @@ if ((globalThis.process || binding.process).argv.includes("--profile-electron-in
       node: {
         __dirname: false,
         __filename: false,
-        // We provide our own "timers" import above, any usage of setImmediate inside
-        // one of our renderer bundles should import it from the 'timers' package
+        // 我们在上面提供了我们自己的“计时器”导入，在内部使用setImmediate。
+        // 我们的一个呈现器捆绑包应该从‘Timers’包中导入它
         setImmediate: false
       },
       optimization: {

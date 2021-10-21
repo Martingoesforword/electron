@@ -1,9 +1,9 @@
 import { app, session } from 'electron/main';
 
-// Global protocol APIs.
+// 全局协议API。
 const protocol = process._linkedBinding('electron_browser_protocol');
 
-// Fallback protocol APIs of default session.
+// 默认会话的回退协议API。
 Object.setPrototypeOf(protocol, new Proxy({}, {
   get (_target, property) {
     if (!app.isReady()) return;
@@ -11,7 +11,7 @@ Object.setPrototypeOf(protocol, new Proxy({}, {
     const protocol = session.defaultSession!.protocol;
     if (!Object.prototype.hasOwnProperty.call(protocol, property)) return;
 
-    // Returning a native function directly would throw error.
+    // 直接返回本机函数会引发错误。
     return (...args: any[]) => (protocol[property as keyof Electron.Protocol] as Function)(...args);
   },
 

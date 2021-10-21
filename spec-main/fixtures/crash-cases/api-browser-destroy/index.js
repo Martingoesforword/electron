@@ -2,7 +2,7 @@ const { app, BrowserWindow, BrowserView } = require('electron');
 const { expect } = require('chai');
 
 function createWindow () {
-  // Create the browser window.
+  // 创建浏览器窗口。
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,

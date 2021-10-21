@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* Eslint-禁用驼峰案例*/
 const AWS = require('aws-sdk');
 const fs = require('fs');
 const path = require('path');

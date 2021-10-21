@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NET_PROXYING_URL_LOADER_FACTORY_H_
 #define SHELL_BROWSER_NET_PROXYING_URL_LOADER_FACTORY_H_
@@ -36,12 +36,12 @@
 
 namespace electron {
 
-// This class is responsible for following tasks when NetworkService is enabled:
-// 1. handling intercepted protocols;
-// 2. implementing webRequest module;
-//
-// For the task #2, the code is referenced from the
-// extensions::WebRequestProxyingURLLoaderFactory class.
+// 启用NetworkService后，此类负责执行以下任务：
+// 1.处理截获的协议；
+// 2.实现WebRequest模块；
+// 
+// 对于任务#2，代码引用自。
+// Extensions：：WebRequestProxyingURLLoaderFactory类。
 class ProxyingURLLoaderFactory
     : public network::mojom::URLLoaderFactory,
       public network::mojom::TrustedURLLoaderHeaderClient {
@@ -50,7 +50,7 @@ class ProxyingURLLoaderFactory
                             public network::mojom::URLLoaderClient,
                             public network::mojom::TrustedHeaderClient {
    public:
-    // For usual requests
+    // 对于通常的请求。
     InProgressRequest(
         ProxyingURLLoaderFactory* factory,
         uint64_t web_request_id,
@@ -62,7 +62,7 @@ class ProxyingURLLoaderFactory
         const net::MutableNetworkTrafficAnnotationTag& traffic_annotation,
         mojo::PendingReceiver<network::mojom::URLLoader> loader_receiver,
         mojo::PendingRemote<network::mojom::URLLoaderClient> client);
-    // For CORS preflights
+    // 用于CORS飞行前检查。
     InProgressRequest(ProxyingURLLoaderFactory* factory,
                       uint64_t request_id,
                       int32_t frame_routing_id,
@@ -71,7 +71,7 @@ class ProxyingURLLoaderFactory
 
     void Restart();
 
-    // network::mojom::URLLoader:
+    // Network：：mojom：：URLLoader：
     void FollowRedirect(
         const std::vector<std::string>& removed_headers,
         const net::HttpRequestHeaders& modified_headers,
@@ -82,7 +82,7 @@ class ProxyingURLLoaderFactory
     void PauseReadingBodyFromNet() override;
     void ResumeReadingBodyFromNet() override;
 
-    // network::mojom::URLLoaderClient:
+    // Network：：mojom：：URLLoaderClient：
     void OnReceiveEarlyHints(
         network::mojom::EarlyHintsPtr early_hints) override;
     void OnReceiveResponse(network::mojom::URLResponseHeadPtr head) override;
@@ -100,7 +100,7 @@ class ProxyingURLLoaderFactory
     void OnLoaderCreated(
         mojo::PendingReceiver<network::mojom::TrustedHeaderClient> receiver);
 
-    // network::mojom::TrustedHeaderClient:
+    // Network：：mojom：：trudHeaderClient：
     void OnBeforeSendHeaders(const net::HttpRequestHeaders& headers,
                              OnBeforeSendHeadersCallback callback) override;
     void OnHeadersReceived(const std::string& headers,
@@ -108,7 +108,7 @@ class ProxyingURLLoaderFactory
                            OnHeadersReceivedCallback callback) override;
 
    private:
-    // These two methods combined form the implementation of Restart().
+    // 这两种方法结合在一起形成了Restart()的实现。
     void UpdateRequestInfo();
     void RestartInternal();
 
@@ -150,12 +150,12 @@ class ProxyingURLLoaderFactory
 
     const bool for_cors_preflight_ = false;
 
-    // If |has_any_extra_headers_listeners_| is set to true, the request will be
-    // sent with the network::mojom::kURLLoadOptionUseHeaderClient option, and
-    // we expect events to come through the
-    // network::mojom::TrustedURLLoaderHeaderClient binding on the factory. This
-    // is only set to true if there is a listener that needs to view or modify
-    // headers set in the network process.
+    // 如果|HAS_ANY_EXTRA_HEADERS_LISTENERS_|设置为TRUE，则请求将为。
+    // 使用network：：mojom：：kURLLoadOptionUseHeaderClient选项发送，并且。
+    // 我们预计事件将通过。
+    // 工厂上的Network：：mojom：：trudURLLoaderHeaderClient绑定。这。
+    // 仅当存在需要查看或修改的监听器时才设置为true。
+    // 在网络进程中设置的标头。
     bool has_any_extra_headers_listeners_ = false;
     bool current_request_uses_header_client_ = false;
     OnBeforeSendHeadersCallback on_before_send_headers_callback_;
@@ -163,10 +163,10 @@ class ProxyingURLLoaderFactory
     mojo::Receiver<network::mojom::TrustedHeaderClient> header_client_receiver_{
         this};
 
-    // If |has_any_extra_headers_listeners_| is set to false and a redirect is
-    // in progress, this stores the parameters to FollowRedirect that came from
-    // the client. That way we can combine it with any other changes that
-    // extensions made to headers in their callbacks.
+    // 如果|HAS_ANY_EXTRA_HEADERS_LISTENERS_|设置为FALSE且重定向为。
+    // 在执行过程中，这会将参数存储到FollowRedirect，这些参数来自。
+    // 客户。这样，我们就可以将其与任何其他更改结合在一起。
+    // 在其回调中对标头进行了扩展。
     struct FollowRedirectParams {
       FollowRedirectParams();
       ~FollowRedirectParams();
@@ -202,7 +202,7 @@ class ProxyingURLLoaderFactory
 
   ~ProxyingURLLoaderFactory() override;
 
-  // network::mojom::URLLoaderFactory:
+  // Network：：mojom：：URLLoaderFactory：
   void CreateLoaderAndStart(
       mojo::PendingReceiver<network::mojom::URLLoader> loader,
       int32_t request_id,
@@ -214,7 +214,7 @@ class ProxyingURLLoaderFactory
   void Clone(mojo::PendingReceiver<network::mojom::URLLoaderFactory>
                  loader_receiver) override;
 
-  // network::mojom::TrustedURLLoaderHeaderClient:
+  // Network：：mojom：：trudURLLoaderHeaderClient：
   void OnLoaderCreated(
       int32_t request_id,
       mojo::PendingReceiver<network::mojom::TrustedHeaderClient> receiver)
@@ -236,22 +236,22 @@ class ProxyingURLLoaderFactory
 
   bool ShouldIgnoreConnectionsLimit(const network::ResourceRequest& request);
 
-  // Passed from api::WebRequest.
+  // 从API：：WebRequest传入。
   WebRequestAPI* web_request_api_;
 
-  // This is passed from api::Protocol.
-  //
-  // The Protocol instance lives through the lifetime of BrowserContext,
-  // which is guaranteed to cover the lifetime of URLLoaderFactory, so the
-  // reference is guaranteed to be valid.
-  //
-  // In this way we can avoid using code from api namespace in this file.
+  // 这是从API：：Protocol传入的。
+  // 
+  // 协议实例存在于BrowserContext的整个生命周期中，
+  // 它保证覆盖URLLoaderFactory的整个生命周期，因此。
+  // 保证引用是有效的。
+  // 
+  // 这样，我们就可以避免在该文件中使用API命名空间中的代码。
   const HandlersMap& intercepted_handlers_;
 
   const int render_process_id_;
   const int frame_routing_id_;
   const int view_routing_id_;
-  uint64_t* request_id_generator_;  // managed by ElectronBrowserClient
+  uint64_t* request_id_generator_;  // 由ElectronBrowserClient管理。
   std::unique_ptr<extensions::ExtensionNavigationUIData> navigation_ui_data_;
   absl::optional<int64_t> navigation_id_;
   mojo::ReceiverSet<network::mojom::URLLoaderFactory> proxy_receivers_;
@@ -261,12 +261,12 @@ class ProxyingURLLoaderFactory
   const content::ContentBrowserClient::URLLoaderFactoryType
       loader_factory_type_;
 
-  // Mapping from our own internally generated request ID to an
-  // InProgressRequest instance.
+  // 从我们内部生成的请求ID映射到。
+  // InProgressRequest实例。
   std::map<uint64_t, std::unique_ptr<InProgressRequest>> requests_;
 
-  // A mapping from the network stack's notion of request ID to our own
-  // internally generated request ID for the same request.
+  // 从网络堆栈的请求ID概念到我们自己的映射。
+  // 内部为同一请求生成的请求ID。
   std::map<int32_t, uint64_t> network_request_id_to_web_request_id_;
 
   std::vector<std::string> ignore_connections_limit_domains_;
@@ -274,6 +274,6 @@ class ProxyingURLLoaderFactory
   DISALLOW_COPY_AND_ASSIGN(ProxyingURLLoaderFactory);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_NET_PROXYING_URL_LOADER_FACTORY_H_

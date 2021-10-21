@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_POWER_MONITOR_H_
 #define SHELL_BROWSER_API_ELECTRON_API_POWER_MONITOR_H_
@@ -27,7 +27,7 @@ class PowerMonitor : public gin::Wrappable<PowerMonitor>,
  public:
   static v8::Local<v8::Value> Create(v8::Isolate* isolate);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -41,22 +41,22 @@ class PowerMonitor : public gin::Wrappable<PowerMonitor>,
   void SetListeningForShutdown(bool);
 #endif
 
-  // Called by native calles.
+  // 由本地调用调用。
   bool ShouldShutdown();
 
 #if defined(OS_MAC) || defined(OS_WIN)
   void InitPlatformSpecificMonitors();
 #endif
 
-  // base::PowerStateObserver implementations:
+  // Base：：PowerStateViewer实现：
   void OnPowerStateChange(bool on_battery_power) override;
 
-  // base::PowerSuspendObserver implementations:
+  // Base：：PowerSuspendWatch实现：
   void OnSuspend() override;
   void OnResume() override;
 
 #if defined(OS_WIN)
-  // Static callback invoked when a message comes in to our messaging window.
+  // 当消息进入我们的消息传递窗口时调用静态回调。
   static LRESULT CALLBACK WndProcStatic(HWND hwnd,
                                         UINT message,
                                         WPARAM wparam,
@@ -67,13 +67,13 @@ class PowerMonitor : public gin::Wrappable<PowerMonitor>,
                            WPARAM wparam,
                            LPARAM lparam);
 
-  // The window class of |window_|.
+  // |Window_|的窗口类。
   ATOM atom_;
 
-  // The handle of the module that contains the window procedure of |window_|.
+  // 包含|Window_|的窗口过程的模块的句柄。
   HMODULE instance_;
 
-  // The window used for processing events.
+  // 用于处理事件的窗口。
   HWND window_;
 #endif
 
@@ -84,8 +84,8 @@ class PowerMonitor : public gin::Wrappable<PowerMonitor>,
   DISALLOW_COPY_AND_ASSIGN(PowerMonitor);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_POWER_MONITOR_H_

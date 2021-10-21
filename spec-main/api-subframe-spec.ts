@@ -212,7 +212,7 @@ describe('renderer nodeIntegrationInSubFrames', () => {
   });
 });
 
-// app.getAppMetrics() does not return sandbox information on Linux.
+// App.getAppMetrics()不返回Linux上的沙箱信息。
 ifdescribe(process.platform !== 'linux')('cross-site frame sandboxing', () => {
   let server: http.Server;
   let crossSiteUrl: string;
@@ -223,8 +223,8 @@ ifdescribe(process.platform !== 'linux')('cross-site frame sandboxing', () => {
       res.end(`<iframe name="frame" src="${crossSiteUrl}" />`);
     });
     server.listen(0, '127.0.0.1', () => {
-      serverUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}/`;
-      crossSiteUrl = `http://localhost:${(server.address() as AddressInfo).port}/`;
+      serverUrl = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}/`；
+      crossSiteUrl = `http:// 本地主机：${(server.address()as AddressInfo).port}/`；
       done();
     });
   });

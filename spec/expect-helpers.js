@@ -1,7 +1,7 @@
 function resolveSingleObjectGetters (object) {
   if (object && typeof object === 'object') {
     const newObject = {};
-    for (const key in object) { // eslint-disable-line guard-for-in
+    for (const key in object) { // ESINT-DISABLE-LINE-FOR-IN
       newObject[key] = resolveGetters(object[key])[0];
     }
     return newObject;

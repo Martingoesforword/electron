@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_CONVERTERS_CONTENT_CONVERTER_H_
 #define SHELL_COMMON_GIN_CONVERTERS_CONTENT_CONVERTER_H_
@@ -19,7 +19,7 @@ struct ContextMenuParams;
 struct NativeWebKeyboardEvent;
 class RenderFrameHost;
 class WebContents;
-}  // namespace content
+}  // 命名空间内容。
 
 using ContextMenuParamsWithRenderFrameHost =
     std::pair<content::ContextMenuParams, content::RenderFrameHost*>;
@@ -86,6 +86,6 @@ struct Converter<content::NativeWebKeyboardEvent> {
                                    const content::NativeWebKeyboardEvent& in);
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 #endif  // SHELL_COMMON_GIN_CONVERTERS_CONTENT_CONVERTER_H_

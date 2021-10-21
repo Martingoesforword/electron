@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NET_URL_PIPE_LOADER_H_
 #define SHELL_BROWSER_NET_URL_PIPE_LOADER_H_
@@ -24,13 +24,13 @@ class SharedURLLoaderFactory;
 
 namespace electron {
 
-// Read data from URL and pipe it to NetworkService.
-//
-// Different from creating a new loader for the URL directly, protocol handlers
-// using this loader can work around CORS restrictions.
-//
-// This class manages its own lifetime and should delete itself when the
-// connection is lost or finished.
+// 从URL读取数据并通过管道将其传输到NetworkService。
+// 
+// 与直接为URL创建新的加载器不同，协议处理程序。
+// 使用此加载器可以绕过CORS限制。
+// 
+// 此类管理其自身的生存期，并应在。
+// 连接丢失或完成。
 class URLPipeLoader : public network::mojom::URLLoader,
                       public network::SimpleURLLoaderStreamConsumer {
  public:
@@ -53,13 +53,13 @@ class URLPipeLoader : public network::mojom::URLLoader,
                          const network::mojom::URLResponseHead& response_head);
   void OnWrite(base::OnceClosure resume, MojoResult result);
 
-  // SimpleURLLoaderStreamConsumer:
+  // SimpleURLLoaderStreamConsumer：
   void OnDataReceived(base::StringPiece string_piece,
                       base::OnceClosure resume) override;
   void OnComplete(bool success) override;
   void OnRetry(base::OnceClosure start_retry) override;
 
-  // URLLoader:
+  // URLLoader：
   void FollowRedirect(
       const std::vector<std::string>& removed_headers,
       const net::HttpRequestHeaders& modified_headers,
@@ -81,6 +81,6 @@ class URLPipeLoader : public network::mojom::URLLoader,
   DISALLOW_COPY_AND_ASSIGN(URLPipeLoader);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_NET_URL_PIPE_LOADER_H_
+#endif  // Shell_Browser_Net_URL_PIPE_LOADER_H_

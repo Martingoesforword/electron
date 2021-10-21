@@ -15,7 +15,7 @@ describe('webRequest module', () => {
   const server = http.createServer((req, res) => {
     if (req.url === '/serverRedirect') {
       res.statusCode = 301;
-      res.setHeader('Location', 'http://' + req.rawHeaders[1]);
+      res.setHeader('Location', 'http:// ‘+req.rawHeaders[1])；
       res.end();
     } else if (req.url === '/contentDisposition') {
       res.setHeader('content-disposition', [' attachment; filename=aa%E4%B8%ADaa.txt']);
@@ -24,157 +24,7 @@ describe('webRequest module', () => {
     } else {
       res.setHeader('Custom', ['Header']);
       let content = req.url;
-      if (req.headers.accept === '*/*;test/header') {
-        content += 'header/received';
-      }
-      if (req.headers.origin === 'http://new-origin') {
-        content += 'new/origin';
-      }
-      res.end(content);
-    }
-  });
-  let defaultURL: string;
-
-  before((done) => {
-    protocol.registerStringProtocol('neworigin', (req, cb) => cb(''));
-    server.listen(0, '127.0.0.1', () => {
-      const port = (server.address() as AddressInfo).port;
-      defaultURL = `http://127.0.0.1:${port}/`;
-      done();
-    });
-  });
-
-  after(() => {
-    server.close();
-    protocol.unregisterProtocol('neworigin');
-  });
-
-  let contents: WebContents = null as unknown as WebContents;
-  // NB. sandbox: true is used because it makes navigations much (~8x) faster.
-  before(async () => {
-    contents = (webContents as any).create({ sandbox: true });
-    await contents.loadFile(path.join(fixturesPath, 'pages', 'jquery.html'));
-  });
-  after(() => (contents as any).destroy());
-
-  async function ajax (url: string, options = {}) {
-    return contents.executeJavaScript(`ajax("${url}", ${JSON.stringify(options)})`);
-  }
-
-  describe('webRequest.onBeforeRequest', () => {
-    afterEach(() => {
-      ses.webRequest.onBeforeRequest(null);
-    });
-
-    it('can cancel the request', async () => {
-      ses.webRequest.onBeforeRequest((details, callback) => {
-        callback({
-          cancel: true
-        });
-      });
-      await expect(ajax(defaultURL)).to.eventually.be.rejectedWith('404');
-    });
-
-    it('can filter URLs', async () => {
-      const filter = { urls: [defaultURL + 'filter/*'] };
-      ses.webRequest.onBeforeRequest(filter, (details, callback) => {
-        callback({ cancel: true });
-      });
-      const { data } = await ajax(`${defaultURL}nofilter/test`);
-      expect(data).to.equal('/nofilter/test');
-      await expect(ajax(`${defaultURL}filter/test`)).to.eventually.be.rejectedWith('404');
-    });
-
-    it('receives details object', async () => {
-      ses.webRequest.onBeforeRequest((details, callback) => {
-        expect(details.id).to.be.a('number');
-        expect(details.timestamp).to.be.a('number');
-        expect(details.webContentsId).to.be.a('number');
-        expect(details.webContents).to.be.an('object');
-        expect(details.webContents!.id).to.equal(details.webContentsId);
-        expect(details.frame).to.be.an('object');
-        expect(details.url).to.be.a('string').that.is.equal(defaultURL);
-        expect(details.method).to.be.a('string').that.is.equal('GET');
-        expect(details.resourceType).to.be.a('string').that.is.equal('xhr');
-        expect(details.uploadData).to.be.undefined();
-        callback({});
-      });
-      const { data } = await ajax(defaultURL);
-      expect(data).to.equal('/');
-    });
-
-    it('receives post data in details object', async () => {
-      const postData = {
-        name: 'post test',
-        type: 'string'
-      };
-      ses.webRequest.onBeforeRequest((details, callback) => {
-        expect(details.url).to.equal(defaultURL);
-        expect(details.method).to.equal('POST');
-        expect(details.uploadData).to.have.lengthOf(1);
-        const data = qs.parse(details.uploadData[0].bytes.toString());
-        expect(data).to.deep.equal(postData);
-        callback({ cancel: true });
-      });
-      await expect(ajax(defaultURL, {
-        type: 'POST',
-        data: postData
-      })).to.eventually.be.rejectedWith('404');
-    });
-
-    it('can redirect the request', async () => {
-      ses.webRequest.onBeforeRequest((details, callback) => {
-        if (details.url === defaultURL) {
-          callback({ redirectURL: `${defaultURL}redirect` });
-        } else {
-          callback({});
-        }
-      });
-      const { data } = await ajax(defaultURL);
-      expect(data).to.equal('/redirect');
-    });
-
-    it('does not crash for redirects', async () => {
-      ses.webRequest.onBeforeRequest((details, callback) => {
-        callback({ cancel: false });
-      });
-      await ajax(defaultURL + 'serverRedirect');
-      await ajax(defaultURL + 'serverRedirect');
-    });
-
-    it('works with file:// protocol', async () => {
-      ses.webRequest.onBeforeRequest((details, callback) => {
-        callback({ cancel: true });
-      });
-      const fileURL = url.format({
-        pathname: path.join(fixturesPath, 'blank.html').replace(/\\/g, '/'),
-        protocol: 'file',
-        slashes: true
-      });
-      await expect(ajax(fileURL)).to.eventually.be.rejectedWith('404');
-    });
-  });
-
-  describe('webRequest.onBeforeSendHeaders', () => {
-    afterEach(() => {
-      ses.webRequest.onBeforeSendHeaders(null);
-      ses.webRequest.onSendHeaders(null);
-    });
-
-    it('receives details object', async () => {
-      ses.webRequest.onBeforeSendHeaders((details, callback) => {
-        expect(details.requestHeaders).to.be.an('object');
-        expect(details.requestHeaders['Foo.Bar']).to.equal('baz');
-        callback({});
-      });
-      const { data } = await ajax(defaultURL, { headers: { 'Foo.Bar': 'baz' } });
-      expect(data).to.equal('/');
-    });
-
-    it('can change the request headers', async () => {
-      ses.webRequest.onBeforeSendHeaders((details, callback) => {
-        const requestHeaders = details.requestHeaders;
-        requestHeaders.Accept = '*/*;test/header';
+      if (req.headers.accept === '*/* ；测试/头‘){Content+=’头/接收‘；}if(req.headers.Origin=’http://new-origin‘){Content+=’新/源‘；}res.end(Content)；}})；let defaultURL：String；之前((Done)=&gt;{Protocol.registerStringProtocol(’neworigin‘，(req，cb)=&gt;cb(’‘)；Server.listen(0，‘127.0.0.1’，()=&gt;{const port=(server.address()as AddressInfo).port；defaultURL=`http://127.0.0.1：${port}/`；Done()；})；After(()=&gt;{server.close()；protocol.unregisterProtocol(‘neworigin’)；})；let Contents：WebContents=NULL as WebContents；//nb。沙盒：使用True是因为它使导航速度快了很多(~8倍)。之前(async()=&gt;{Contents=(WebContents As Any).create({sandbox：true})；等待contents.loadFile(path.Join(fixturesPath，‘Pages’，‘jquery.html’))；})；After(()=&gt;(Contents As Any).销毁())；异步函数Ajax(url：string，options={}){return contents.ecuteJavaScript(`ajax(“${url}”，$。}Describe(‘webRequest.onBeforeRequest’，()=&gt;{AfterEach(()=&gt;{ses.webRequest.onBeforeRequest(Null)；})；it(‘可以取消请求’，async()=&gt;{ses.webRequest.onBeforeRequest((Details，expect(ajax(defaultURL)).to.eventually.be.rejectedWith(‘404’)；)=&gt;{Callback({Cancel：True})；})；等待回调。})；it(‘can filter urls’，async()=&gt;{const filter={urls：[defaultURL+‘filter/*’]}；ses.webRequest.onBeforeRequest(filter，(Details，callback)=&gt;{callback({ancel：true})；})；const{data}=等待AJAX(`${defaultURL}nofilter/test`)；expect(Data).to.equ.(‘/nofilter/。等待expect(ajax(`${defaultURL}filter/test`)).to.eventually.be.rejectedWith(‘404’)；})；it(‘Receiving Details Object’，Async()=&gt;{ses.webRequest.onBeforeRequest((Details，Callback)=&gt;{Expect(Details，Callback)=&gt;{Expect(Details.id).to.be.a(‘Number’)；Expect(Details.Timestamp).to.be.a(‘Number’)；Expect(details.webContentsId).to.be.a(‘number’)；expect(details.webContents).to.be.an(‘object’)；expect(details.webContents！.id).to.equal(details.webContentsId)；Expect(Details.Frame).to.be.an(‘Object’)；expect(details.url).to.be.a(‘string’).that.is.equal(defaultURL)；Expect(details.method).to.be.a(‘string’).that.is.equal(‘GET’)；expect(details.resourceType).to.be.a(‘string’).that.is.equal(‘xhr’)；Expect(Details.ploadData).to.be.unfined()；Callback({})；})；const{Data}=等待ajax(DefaultURL)；Expect(Data).to.equal(‘/’)；})；it(‘接收Details对象中的POST数据’，async()=&gt;{const postData={name：‘post test’，type：‘string’}；ses.webRequest.onBeforeRequest((Details，callback)=&gt;{Expect(Details.url).to.etc(DefaultURL)；Expect(Details.method).to.equale(‘post’)；Expect(details.uploadData).to.have.lengthOf(1)；常量数据=qs.parse(details.uploadData[0].bytes.toString())；Expect(Data).to.Deep.equence(PostData)；Cancel({Cancel：True})；})；等待预期(ajax(defaultURL，{type：‘post’，data：postData})).to.eventually.be.rejectedWith(‘404’)；})；it(‘可以重定向请求’，async()=&gt;{ses.webRequest.onBeforeRequest((Details，callback)=&gt;{if(Details.url=defaultURL){callback({redirectURL：`${defatURL。}Else{callback({})；}})；const{data}=等待ajax(DefaultURL)；expect(Data).to.equ.equence(‘/redirect’)；})；it(‘重定向不崩溃’，async()=&gt;{ses.webRequest.onBeforeRequest((Details，callback)=&gt;{callback({ancel：false})；})；等待ajax(defaultURL+‘serverRedirect’)；等待ajax(defaultURL+‘serverRedirect’)；})；it(‘works with file：//protocol’，async()=&gt;{ses.webRequest.onBeforeRequest((Details，callback)=&gt;{callback({ancel：true})；})；Const fileURL=url.format({路径名：path.Join(fixturespath，‘blank.html’).place(/\\/g，‘/’)，协议：‘file’，斜杠：TRUE})；等待expect(ajax(fileURL)).to.eventually.be.rejectedWith(‘404’)；})；})；Describe(‘webRequest.onBeforeSendHeaders’，()=&gt;{AfterEach(()=&gt;{ses.webRequest.onBeforeSendHeaders(Null)；ses.webRequest.onSendHeaders(Null)；})；it(‘Receives Details Object’，Async()=&gt;{ses.webRequest.onBeforeSendHeaders((Details，Callback)=&gt;{expect(details.requestHeaders).to.be.an(‘object’)；Expect(details.requestHeaders[‘Foo.Bar’]).to.equal(‘baz’)；回调({})；})；const{Data}=等待AJAX(defaultURL，{Headers：{‘Foo.Bar’：‘baz’*/*;test/header';
         callback({ requestHeaders: requestHeaders });
       });
       const { data } = await ajax(defaultURL);
@@ -183,34 +33,19 @@ describe('webRequest module', () => {
 
     it('can change the request headers on a custom protocol redirect', async () => {
       protocol.registerStringProtocol('custom-scheme', (req, callback) => {
-        if (req.url === 'custom-scheme://fake-host/redirect') {
+        if (req.url === 'custom-scheme:// 
           callback({
             statusCode: 302,
             headers: {
-              Location: 'custom-scheme://fake-host'
+              Location: 'custom-scheme:// 
             }
           });
         } else {
           let content = '';
-          if (req.headers.Accept === '*/*;test/header') {
-            content = 'header-received';
-          }
-          callback(content);
-        }
-      });
-
-      // Note that we need to do navigation every time after a protocol is
-      // registered or unregistered, otherwise the new protocol won't be
-      // recognized by current page when NetworkService is used.
-      await contents.loadFile(path.join(__dirname, 'fixtures', 'pages', 'jquery.html'));
-
-      try {
-        ses.webRequest.onBeforeSendHeaders((details, callback) => {
-          const requestHeaders = details.requestHeaders;
-          requestHeaders.Accept = '*/*;test/header';
+          if (req.headers.Accept === '*/* */*;test/header';
           callback({ requestHeaders: requestHeaders });
         });
-        const { data } = await ajax('custom-scheme://fake-host/redirect');
+        const { data } = await ajax('custom-scheme:// 
         expect(data).to.equal('header-received');
       } finally {
         protocol.unregisterProtocol('custom-scheme');
@@ -220,7 +55,7 @@ describe('webRequest module', () => {
     it('can change request origin', async () => {
       ses.webRequest.onBeforeSendHeaders((details, callback) => {
         const requestHeaders = details.requestHeaders;
-        requestHeaders.Origin = 'http://new-origin';
+        requestHeaders.Origin = 'http:// 
         callback({ requestHeaders: requestHeaders });
       });
       const { data } = await ajax(defaultURL);
@@ -233,7 +68,7 @@ describe('webRequest module', () => {
         called = true;
         callback({ requestHeaders: details.requestHeaders });
       });
-      await ajax('neworigin://host');
+      await ajax('neworigin:// 
       expect(called).to.be.true();
     });
 
@@ -262,7 +97,7 @@ describe('webRequest module', () => {
       await ajax(defaultURL);
     });
 
-    it('works with file:// protocol', async () => {
+    it('works with file:// 
       const requestHeaders = {
         Test: 'header'
       };
@@ -326,7 +161,7 @@ describe('webRequest module', () => {
     it('can change response origin', async () => {
       ses.webRequest.onHeadersReceived((details, callback) => {
         const responseHeaders = details.responseHeaders!;
-        responseHeaders['access-control-allow-origin'] = ['http://new-origin'] as any;
+        responseHeaders['access-control-allow-origin'] = ['http:// 
         callback({ responseHeaders: responseHeaders });
       });
       const { headers } = await ajax(defaultURL);
@@ -339,7 +174,7 @@ describe('webRequest module', () => {
         responseHeaders.Custom = ['Changed'] as any;
         callback({ responseHeaders: responseHeaders });
       });
-      const { headers } = await ajax('neworigin://host');
+      const { headers } = await ajax('neworigin:// 
       expect(headers).to.match(/^custom: Changed$/m);
     });
 
@@ -474,7 +309,7 @@ describe('webRequest module', () => {
 
   describe('WebSocket connections', () => {
     it('can be proxyed', async () => {
-      // Setup server.
+      // 
       const reqHeaders : { [key: string] : any } = {};
       const server = http.createServer((req, res) => {
         reqHeaders[req.url!] = req.headers;
@@ -499,14 +334,14 @@ describe('webRequest module', () => {
         }
       });
 
-      // Start server.
+      // 
       await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
       const port = String((server.address() as AddressInfo).port);
 
-      // Use a separate session for testing.
+      // 
       const ses = session.fromPartition('WebRequestWebSocket');
 
-      // Setup listeners.
+      // 
       const receivedHeaders : { [key: string] : any } = {};
       ses.webRequest.onBeforeSendHeaders((details, callback) => {
         details.requestHeaders.foo = 'bar';
@@ -518,14 +353,14 @@ describe('webRequest module', () => {
         callback({ cancel: false });
       });
       ses.webRequest.onResponseStarted((details) => {
-        if (details.url.startsWith('ws://')) {
+        if (details.url.startsWith('ws:// 
           expect(details.responseHeaders!.Connection[0]).be.equal('Upgrade');
         } else if (details.url.startsWith('http')) {
           expect(details.responseHeaders!.foo1[0]).be.equal('bar1');
         }
       });
       ses.webRequest.onSendHeaders((details) => {
-        if (details.url.startsWith('ws://')) {
+        if (details.url.startsWith('ws:// 
           expect(details.requestHeaders.foo).be.equal('bar');
           expect(details.requestHeaders.Upgrade).be.equal('websocket');
         } else if (details.url.startsWith('http')) {
@@ -533,7 +368,7 @@ describe('webRequest module', () => {
         }
       });
       ses.webRequest.onCompleted((details) => {
-        if (details.url.startsWith('ws://')) {
+        if (details.url.startsWith('ws:// 
           expect(details.error).be.equal('net::ERR_WS_UPGRADE');
         } else if (details.url.startsWith('http')) {
           expect(details.error).be.equal('net::OK');
@@ -547,7 +382,7 @@ describe('webRequest module', () => {
         contextIsolation: false
       });
 
-      // Cleanup.
+      // 
       after(() => {
         contents.destroy();
         server.close();

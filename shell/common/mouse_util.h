@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_MOUSE_UTIL_H_
 #define SHELL_COMMON_MOUSE_UTIL_H_
@@ -9,9 +9,9 @@
 #include "content/common/cursors/webcursor.h"
 #include "ipc/ipc_message_macros.h"
 
-// IPC macros similar to the already existing ones in the chromium source.
-// We need these to listen to the cursor change IPC message while still
-// letting chromium handle the actual cursor change by setting handled = false.
+// 类似于铬源中已有的IPC宏。
+// 我们需要它们来监听光标更改IPC消息，同时仍然。
+// 让Chrome通过设置HANDLED=FALSE来处理实际的光标更改。
 #define IPC_MESSAGE_HANDLER_CODE(msg_class, member_func, code) \
   IPC_MESSAGE_FORWARD_CODE(msg_class, this,                    \
                            _IpcMessageHandlerClass::member_func, code)
@@ -26,9 +26,9 @@
 
 namespace electron {
 
-// Returns the cursor's type as a string.
+// 以字符串形式返回游标的类型。
 std::string CursorTypeToString(const ui::Cursor& cursor);
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_MOUSE_UTIL_H_
+#endif  // SHELL_COMMON_MOOSE_UTIL_H_

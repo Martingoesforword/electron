@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE.chromium file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在LICENSE.Cr文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_WRAPPABLE_H_
 #define SHELL_COMMON_GIN_HELPER_WRAPPABLE_H_
@@ -15,7 +15,7 @@ namespace internal {
 
 void* FromV8Impl(v8::Isolate* isolate, v8::Local<v8::Value> val);
 
-}  // namespace internal
+}  // 命名空间内部。
 
 template <typename T>
 class Wrappable : public WrappableBase {
@@ -34,7 +34,7 @@ class Wrappable : public WrappableBase {
   }
 
   static v8::Local<v8::FunctionTemplate> GetConstructor(v8::Isolate* isolate) {
-    // Fill the object template.
+    // 填充对象模板。
     auto* data = gin::PerIsolateData::From(isolate);
     auto templ = data->GetFunctionTemplate(&kWrapperInfo);
     if (templ.IsEmpty()) {
@@ -47,18 +47,18 @@ class Wrappable : public WrappableBase {
   }
 
  protected:
-  // Init the class with T::BuildPrototype.
+  // 使用T：：BuildPrototype初始化类。
   void Init(v8::Isolate* isolate) {
     v8::Local<v8::FunctionTemplate> templ = GetConstructor(isolate);
 
-    // |wrapper| may be empty in some extreme cases, e.g., when
-    // Object.prototype.constructor is overwritten.
+    // |Wrapper|在某些极端情况下可能为空，例如。
+    // Object.Prototype.structor被覆盖。
     v8::Local<v8::Object> wrapper;
     if (!templ->InstanceTemplate()
              ->NewInstance(isolate->GetCurrentContext())
              .ToLocal(&wrapper)) {
-      // The current wrappable object will be no longer managed by V8. Delete
-      // this now.
+      // 当前的可包装对象将不再由V8管理。删除。
+      // 这就是现在。
       delete this;
       return;
     }
@@ -71,11 +71,11 @@ class Wrappable : public WrappableBase {
   DISALLOW_COPY_AND_ASSIGN(Wrappable);
 };
 
-// static
+// 静电。
 template <typename T>
 gin::WrapperInfo Wrappable<T>::kWrapperInfo = {gin::kEmbedderNativeGin};
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 namespace gin {
 
@@ -98,6 +98,6 @@ struct Converter<
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 #endif  // SHELL_COMMON_GIN_HELPER_WRAPPABLE_H_

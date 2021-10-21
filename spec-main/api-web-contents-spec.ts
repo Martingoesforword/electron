@@ -136,8 +136,8 @@ describe('webContents module', () => {
     });
 
     it('does not block node async APIs when sent before document is ready', (done) => {
-      // Please reference https://github.com/electron/electron/issues/19368 if
-      // this test fails.
+      // 如果出现以下情况，请参考https://github.com/electron/electron/issues/19368。
+      // 此测试失败。
       ipcMain.once('async-node-api-done', () => {
         done();
       });
@@ -167,14 +167,14 @@ describe('webContents module', () => {
 
     it('throws when invalid settings are passed', () => {
       expect(() => {
-        // @ts-ignore this line is intentionally incorrect
+        // @ts-忽略此行是故意不正确的。
         w.webContents.print(true);
       }).to.throw('webContents.print(): Invalid print settings specified.');
     });
 
     it('throws when an invalid callback is passed', () => {
       expect(() => {
-        // @ts-ignore this line is intentionally incorrect
+        // @ts-忽略此行是故意不正确的。
         w.webContents.print({}, true);
       }).to.throw('webContents.print(): Invalid optional callback provided.');
     });
@@ -187,7 +187,7 @@ describe('webContents module', () => {
 
     it('throws when an invalid pageSize is passed', () => {
       expect(() => {
-        // @ts-ignore this line is intentionally incorrect
+        // @ts-忽略此行是故意不正确的。
         w.webContents.print({ pageSize: 'i-am-a-bad-pagesize' }, () => {});
       }).to.throw('Unsupported pageSize: i-am-a-bad-pagesize');
     });
@@ -276,7 +276,7 @@ describe('webContents module', () => {
         server = http.createServer((request, response) => {
           response.end();
         }).listen(0, '127.0.0.1', () => {
-          serverUrl = 'http://127.0.0.1:' + (server.address() as AddressInfo).port;
+          serverUrl = 'http:// 127.0.0.1：‘+(server.address()as AddressInfo).port；
           done();
         });
       });
@@ -287,12 +287,12 @@ describe('webContents module', () => {
 
       it('works after page load and during subframe load', async () => {
         await w.loadURL(serverUrl);
-        // initiate a sub-frame load, then try and execute script during it
+        // 启动子帧加载，然后在加载过程中尝试并执行脚本。
         await w.webContents.executeJavaScript(`
           var iframe = document.createElement('iframe')
           iframe.src = '${serverUrl}/slow'
           document.body.appendChild(iframe)
-          null // don't return the iframe
+          null // 不要退还iFrame。
         `);
         await w.webContents.executeJavaScript('console.log(\'hello\')');
       });
@@ -343,16 +343,16 @@ describe('webContents module', () => {
         .and.have.property('code', 'ERR_FILE_NOT_FOUND');
     });
 
-    // Temporarily disable on WOA until
-    // https://github.com/electron/electron/issues/20008 is resolved
+    // 暂时禁用WOA，直到。
+    // Https://github.com/electron/electron/issues/20008已解析。
     const testFn = (process.platform === 'win32' && process.arch === 'arm64' ? it.skip : it);
     testFn('rejects when loading fails due to DNS not resolved', async () => {
-      await expect(w.loadURL('https://err.name.not.resolved')).to.eventually.be.rejected()
+      await expect(w.loadURL('https:// Err.name.not.resolved‘)).to.eventually.be.rejected()。
         .and.have.property('code', 'ERR_NAME_NOT_RESOLVED');
     });
 
     it('rejects when navigation is cancelled due to a bad scheme', async () => {
-      await expect(w.loadURL('bad-scheme://foo')).to.eventually.be.rejected()
+      await expect(w.loadURL('bad-scheme:// Foo‘)).to.eventually.be.rejected()。
         .and.have.property('code', 'ERR_FAILED');
     });
 
@@ -366,16 +366,16 @@ describe('webContents module', () => {
       expect(err).not.to.be.null();
       expect(err.code).to.eql('ERR_FILE_NOT_FOUND');
       expect(err.errno).to.eql(-6);
-      expect(err.url).to.eql(process.platform === 'win32' ? 'file://non-existent/' : 'file:///non-existent');
+      expect(err.url).to.eql(process.platform === 'win32' ? 'file:// 不存在/‘：’file:///non-existent‘)；
     });
 
     it('rejects if the load is aborted', async () => {
-      const s = http.createServer(() => { /* never complete the request */ });
+      const s = http.createServer(() => { /* 永远不要完成请求。*/ });
       await new Promise<void>(resolve => s.listen(0, '127.0.0.1', resolve));
       const { port } = s.address() as AddressInfo;
-      const p = expect(w.loadURL(`http://127.0.0.1:${port}`)).to.eventually.be.rejectedWith(Error, /ERR_ABORTED/);
-      // load a different file before the first load completes, causing the
-      // first load to be aborted.
+      const p = expect(w.loadURL(`http:// 127.0.0.1：${port}`)).to.eventually.be.rejectedWith(Error，/ERR_ABORTED/)；
+      // 在第一次加载完成之前加载另一个文件，导致。
+      // 要中止的第一个加载。
       await w.loadFile(path.join(fixturesPath, 'pages', 'base-page.html'));
       await p;
       s.close();
@@ -385,9 +385,9 @@ describe('webContents module', () => {
       let resp = null as unknown as http.ServerResponse;
       const s = http.createServer((req, res) => {
         res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.write('<iframe src="http://err.name.not.resolved"></iframe>');
+        res.write('<iframe src="http:// Err.name.not.Resolution“&gt;&lt;/iframe&gt;‘)；
         resp = res;
-        // don't end the response yet
+        // 不要结束回复。
       });
       await new Promise<void>(resolve => s.listen(0, '127.0.0.1', resolve));
       const { port } = s.address() as AddressInfo;
@@ -398,7 +398,7 @@ describe('webContents module', () => {
           }
         });
       });
-      const main = w.loadURL(`http://127.0.0.1:${port}`);
+      const main = w.loadURL(`http:// 127.0.0.1：${port}`)；
       await p;
       resp.end();
       await main;
@@ -411,7 +411,7 @@ describe('webContents module', () => {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.write('<iframe src="about:blank"></iframe>');
         resp = res;
-        // don't end the response yet
+        // 不要结束回复。
       });
       await new Promise<void>(resolve => s.listen(0, '127.0.0.1', resolve));
       const { port } = s.address() as AddressInfo;
@@ -422,11 +422,11 @@ describe('webContents module', () => {
           }
         });
       });
-      const main = w.loadURL(`http://127.0.0.1:${port}`);
+      const main = w.loadURL(`http:// 127.0.0.1：${port}`)；
       await p;
-      resp.destroy(); // cause the main request to fail
+      resp.destroy(); // 导致主请求失败。
       await expect(main).to.eventually.be.rejected()
-        .and.have.property('errno', -355); // ERR_INCOMPLETE_CHUNKED_ENCODING
+        .and.have.property('errno', -355); // ERR_INTERNAL_CHUNKED_ENCODING。
       s.close();
     });
   });
@@ -456,12 +456,12 @@ describe('webContents module', () => {
       w.webContents.openDevTools({ mode: 'detach' });
       w.webContents.inspectElement(100, 100);
 
-      // For some reason we have to wait for two focused events...?
+      // 出于某种原因，我们必须等待两个集中的活动……？
       await emittedOnce(w.webContents, 'devtools-focused');
 
       expect(() => { webContents.getFocusedWebContents(); }).to.not.throw();
 
-      // Work around https://github.com/electron/electron/issues/19985
+      // 解决https://github.com/electron/electron/issues/19985问题。
       await delay();
 
       const devToolsClosed = emittedOnce(w.webContents, 'devtools-closed');
@@ -480,7 +480,7 @@ describe('webContents module', () => {
       w.webContents.setDevToolsWebContents(devtools.webContents);
       w.webContents.openDevTools();
       await promise;
-      expect(devtools.webContents.getURL().startsWith('devtools://devtools')).to.be.true();
+      expect(devtools.webContents.getURL().startsWith('devtools:// DevTools‘)).to.be.true()；
       const result = await devtools.webContents.executeJavaScript('InspectorFrontendHost.constructor.name');
       expect(result).to.equal('InspectorFrontendHostImpl');
       devtools.destroy();
@@ -503,8 +503,8 @@ describe('webContents module', () => {
       await w.loadURL('about:blank');
       await w.webContents.executeJavaScript(`
         window.context = new AudioContext
-        // Start in suspended state, because of the
-        // new web audio api policy.
+        // 在挂起状态下启动，因为。
+        // 新的Web音频API策略。
         context.suspend()
         window.oscillator = context.createOscillator()
         oscillator.connect(context.destination)
@@ -639,7 +639,7 @@ describe('webContents module', () => {
     });
   });
 
-  // On Mac, zooming isn't done with the mouse wheel.
+  // 在Mac上，缩放不是通过鼠标滚轮完成的。
   ifdescribe(process.platform !== 'darwin')('zoom-changed', () => {
     afterEach(closeAllWindows);
     it('is emitted with the correct zoom-in info', async () => {
@@ -1000,7 +1000,7 @@ describe('webContents module', () => {
           if (finalNavigation) {
             done();
           } else {
-            w.loadURL(`${scheme}://host2`);
+            w.loadURL(`${scheme}:// Host2`)；
           }
         } catch (e) {
           done(e);
@@ -1017,7 +1017,7 @@ describe('webContents module', () => {
           done(e);
         }
       });
-      w.loadURL(`${scheme}://host1`);
+      w.loadURL(`${scheme}:// Host1`)；
     });
 
     it('can propagate zoom level across same session', async () => {
@@ -1029,10 +1029,10 @@ describe('webContents module', () => {
         w2.close();
       });
 
-      await w.loadURL(`${scheme}://host3`);
+      await w.loadURL(`${scheme}:// Host3`)；
       w.webContents.zoomLevel = hostZoomMap.host3;
 
-      await w2.loadURL(`${scheme}://host3`);
+      await w2.loadURL(`${scheme}:// Host3`)；
       const zoomLevel1 = w.webContents.zoomLevel;
       expect(zoomLevel1).to.equal(hostZoomMap.host3);
 
@@ -1060,10 +1060,10 @@ describe('webContents module', () => {
         protocol.unregisterProtocol(scheme);
       });
 
-      await w.loadURL(`${scheme}://host3`);
+      await w.loadURL(`${scheme}:// Host3`)；
       w.webContents.zoomLevel = hostZoomMap.host3;
 
-      await w2.loadURL(`${scheme}://host3`);
+      await w2.loadURL(`${scheme}:// Host3`)；
       const zoomLevel1 = w.webContents.zoomLevel;
       expect(zoomLevel1).to.equal(hostZoomMap.host3);
 
@@ -1080,7 +1080,7 @@ describe('webContents module', () => {
         }, 200);
       });
       server.listen(0, '127.0.0.1', () => {
-        const url = 'http://127.0.0.1:' + (server.address() as AddressInfo).port;
+        const url = 'http:// 127.0.0.1：‘+(server.address()as AddressInfo).port；
         const content = `<iframe src=${url}></iframe>`;
         w.webContents.on('did-frame-finish-load', (e, isMainFrame) => {
           if (!isMainFrame) {
@@ -1135,8 +1135,8 @@ describe('webContents module', () => {
           setTimeout(() => res.end('hey'), 0);
         });
         server.listen(0, '127.0.0.1', () => {
-          serverUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
-          crossSiteUrl = `http://localhost:${(server.address() as AddressInfo).port}`;
+          serverUrl = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
+          crossSiteUrl = `http:// 本地主机：${(server.address()as AddressInfo).port}`；
           done();
         });
       });
@@ -1200,7 +1200,7 @@ describe('webContents module', () => {
           } else if (req.url === '/first-window-open') {
             res.end(`<html><script>window.open('${serverUrl}/second-window-open', 'first child');</script></html>`);
           } else if (req.url === '/second-window-open') {
-            res.end('<html><script>window.open(\'wrong://url\', \'second child\');</script></html>');
+            res.end('<html><script>window.open(\'wrong:// Url\‘，\’第二个孩子\‘)；&lt;/script&gt;&lt;/html&gt;’)；
           } else {
             res.end();
           }
@@ -1208,8 +1208,8 @@ describe('webContents module', () => {
         setTimeout(respond, 0);
       });
       server.listen(0, '127.0.0.1', () => {
-        serverUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
-        crossSiteUrl = `http://localhost:${(server.address() as AddressInfo).port}`;
+        serverUrl = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
+        crossSiteUrl = `http:// 本地主机：${(server.address()as AddressInfo).port}`；
         done();
       });
     });
@@ -1351,8 +1351,8 @@ describe('webContents module', () => {
     });
   }
 
-  // Destroying webContents in its event listener is going to crash when
-  // Electron is built in Debug mode.
+  // 在以下情况下，销毁事件侦听器中的webContents将崩溃。
+  // 电子是在调试模式下构建的。
   describe('destroy()', () => {
     let server: http.Server;
     let serverUrl: string;
@@ -1370,7 +1370,7 @@ describe('webContents module', () => {
             done('unsupported endpoint');
         }
       }).listen(0, '127.0.0.1', () => {
-        serverUrl = 'http://127.0.0.1:' + (server.address() as AddressInfo).port;
+        serverUrl = 'http:// 127.0.0.1：‘+(server.address()as AddressInfo).port；
         done();
       });
     });
@@ -1384,17 +1384,17 @@ describe('webContents module', () => {
       { name: 'dom-ready', url: '/200' },
       { name: 'did-stop-loading', url: '/200' },
       { name: 'did-finish-load', url: '/200' },
-      // FIXME: Multiple Emit calls inside an observer assume that object
-      // will be alive till end of the observer. Synchronous `destroy` api
-      // violates this contract and crashes.
+      // FIXME：观察器内部的多个Emit调用假定该对象。
+      // 会一直活到观察者结束。同步`销毁`接口。
+      // 违反了这份合同，崩溃了。
       { name: 'did-frame-finish-load', url: '/200' },
       { name: 'did-fail-load', url: '/net-error' }
     ];
     for (const e of events) {
       it(`should not crash when invoked synchronously inside ${e.name} handler`, async function () {
-        // This test is flaky on Windows CI and we don't know why, but the
-        // purpose of this test is to make sure Electron does not crash so it
-        // is fine to retry this test for a few times.
+        // 此测试在Windows CI上不稳定，我们不知道原因，但。
+        // 此测试的目的是确保电子不会崩溃，因此它。
+        // 可以重试此测试几次。
         this.retries(3);
 
         const contents = (webContents as any).create() as WebContents;
@@ -1436,7 +1436,7 @@ describe('webContents module', () => {
     it('is triggered with correct log message', (done) => {
       const w = new BrowserWindow({ show: true });
       w.webContents.on('console-message', (e, level, message) => {
-        // Don't just assert as Chromium might emit other logs that we should ignore.
+        // 不要只是断言，因为Chromium可能会发出其他我们应该忽略的日志。
         if (message === 'a') {
           done();
         }
@@ -1489,7 +1489,7 @@ describe('webContents module', () => {
       const server = http.createServer((req, res) => {
         if (req.url === '/should_have_referrer') {
           try {
-            expect(req.headers.referer).to.equal(`http://127.0.0.1:${(server.address() as AddressInfo).port}/`);
+            expect(req.headers.referer).to.equal(`http:// 127.0.0.1：${(server.address()as AddressInfo).port}/`)；
             return done();
           } catch (e) {
             return done(e);
@@ -1500,7 +1500,7 @@ describe('webContents module', () => {
         res.end('<a id="a" href="/should_have_referrer" target="_blank">link</a>');
       });
       server.listen(0, '127.0.0.1', () => {
-        const url = 'http://127.0.0.1:' + (server.address() as AddressInfo).port + '/';
+        const url = 'http:// 127.0.0.1：‘+(server.address()as AddressInfo).port+’/‘；
         w.webContents.once('did-finish-load', () => {
           w.webContents.once('new-window', (event, newUrl, frameName, disposition, options, features, referrer) => {
             expect(referrer.url).to.equal(url);
@@ -1512,14 +1512,14 @@ describe('webContents module', () => {
       });
     });
 
-    // TODO(jeremy): window.open() in a real browser passes the referrer, but
-    // our hacked-up window.open() shim doesn't. It should.
+    // TODO(Jeremy)：实际浏览器中的window.open()传递引用，但是。
+    // 我们被破解的window.open()填充程序不会。它应该会。
     xit('propagates referrer information to windows opened with window.open', (done) => {
       const w = new BrowserWindow({ show: false });
       const server = http.createServer((req, res) => {
         if (req.url === '/should_have_referrer') {
           try {
-            expect(req.headers.referer).to.equal(`http://127.0.0.1:${(server.address() as AddressInfo).port}/`);
+            expect(req.headers.referer).to.equal(`http:// 127.0.0.1：${(server.address()as AddressInfo).port}/`)；
             return done();
           } catch (e) {
             return done(e);
@@ -1528,7 +1528,7 @@ describe('webContents module', () => {
         res.end('');
       });
       server.listen(0, '127.0.0.1', () => {
-        const url = 'http://127.0.0.1:' + (server.address() as AddressInfo).port + '/';
+        const url = 'http:// 127.0.0.1：‘+(server.address()as AddressInfo).port+’/‘；
         w.webContents.once('did-finish-load', () => {
           w.webContents.once('new-window', (event, newUrl, frameName, disposition, options, features, referrer) => {
             expect(referrer.url).to.equal(url);
@@ -1637,7 +1637,7 @@ describe('webContents module', () => {
         try {
           fs.unlinkSync(filePath);
         } catch (e) {
-          // ignore error
+          // 忽略错误。
         }
       };
 
@@ -1750,7 +1750,7 @@ describe('webContents module', () => {
         pageSize: 'IAmAPageSize'
       };
 
-      // These will hard crash in Chromium unless we type-check
+      // 除非我们输入检查，否则这些将在Chromium中硬崩溃。
       for (const [key, value] of Object.entries(badTypes)) {
         const param = { [key]: value };
         await expect(w.webContents.printToPDF(param)).to.eventually.be.rejected();
@@ -1805,10 +1805,10 @@ describe('webContents module', () => {
 
         const doc = await pdfjs.getDocument(data).promise;
 
-        // Check that correct # of pages are rendered.
+        // 检查是否呈现了正确的页数。
         expect(doc.numPages).to.equal(3);
 
-        // Check that PDF is generated in landscape mode.
+        // 检查PDF是否以横向模式生成。
         const firstPage = await doc.getPage(1);
         const { width, height } = firstPage.getViewport({ scale: 100 });
         expect(width).to.be.greaterThan(height);
@@ -1835,23 +1835,23 @@ describe('webContents module', () => {
   describe('devtools window', () => {
     let hasRobotJS = false;
     try {
-      // We have other tests that check if native modules work, if we fail to require
-      // robotjs let's skip this test to avoid false negatives
+      // 我们还有其他测试来检查本机模块是否工作，如果我们不需要。
+      // Robotjs让我们跳过这项测试以避免假阴性。
       require('robotjs');
       hasRobotJS = true;
-    } catch (err) { /* no-op */ }
+    } catch (err) { /* 无操作*/ }
 
     afterEach(closeAllWindows);
 
-    // NB. on macOS, this requires that you grant your terminal the ability to
-    // control your computer. Open System Preferences > Security & Privacy >
-    // Privacy > Accessibility and grant your terminal the permission to control
-    // your computer.
+    // 注意：在MacOS上，这需要您授予终端以下能力。
+    // 控制您的计算机。打开系统首选项&gt;安全与隐私&gt;。
+    // 隐私&gt;可访问性，并授予您的终端控制。
+    // 你的电脑。
     ifit(hasRobotJS)('can receive and handle menu events', async () => {
       const w = new BrowserWindow({ show: true, webPreferences: { nodeIntegration: true } });
       w.loadFile(path.join(fixturesPath, 'pages', 'key-events.html'));
 
-      // Ensure the devtools are loaded
+      // 确保已加载DevTools。
       w.webContents.closeDevTools();
       const opened = emittedOnce(w.webContents, 'devtools-opened');
       w.webContents.openDevTools();
@@ -1859,7 +1859,7 @@ describe('webContents module', () => {
       await emittedOnce(w.webContents.devToolsWebContents!, 'did-finish-load');
       w.webContents.devToolsWebContents!.focus();
 
-      // Focus an input field
+      // 使输入字段成为焦点。
       await w.webContents.devToolsWebContents!.executeJavaScript(`
         const input = document.createElement('input')
         document.body.innerHTML = ''
@@ -1867,7 +1867,7 @@ describe('webContents module', () => {
         input.focus()
       `);
 
-      // Write something to the clipboard
+      // 在剪贴板上写点东西。
       clipboard.writeText('test value');
 
       const pasted = w.webContents.devToolsWebContents!.executeJavaScript(`new Promise(resolve => {
@@ -1876,12 +1876,12 @@ describe('webContents module', () => {
         })
       })`);
 
-      // Fake a paste request using robotjs to emulate a REAL keyboard paste event
+      // 使用robotjs模拟真实的键盘粘贴事件来伪造粘贴请求。
       require('robotjs').keyTap('v', process.platform === 'darwin' ? ['command'] : ['control']);
 
       const val = await pasted;
 
-      // Once we're done expect the paste to have been successful
+      // 一旦我们完成了，希望粘贴成功。
       expect(val).to.equal('test value', 'value should eventually become the pasted value');
     });
   });
@@ -1945,7 +1945,7 @@ describe('webContents module', () => {
           .end('401');
       }).listen(0, '127.0.0.1', () => {
         serverPort = (server.address() as AddressInfo).port;
-        serverUrl = `http://127.0.0.1:${serverPort}`;
+        serverUrl = `http:// 127.0.0.1：${serverPort}`；
         done();
       });
     });
@@ -2064,7 +2064,7 @@ describe('webContents module', () => {
 
       const promise = emittedOnce(w.webContents, 'context-menu');
 
-      // Simulate right-click to create context-menu event.
+      // 模拟右键单击以创建上下文菜单事件。
       const opts = { x: 0, y: 0, button: 'right' as any };
       w.webContents.sendInputEvent({ ...opts, type: 'mouseDown' });
       w.webContents.sendInputEvent({ ...opts, type: 'mouseUp' });

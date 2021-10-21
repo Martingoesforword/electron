@@ -16,13 +16,13 @@ import { closeWindow, closeAllWindows } from './window-helpers';
 const features = process._linkedBinding('electron_common_features');
 const fixtures = path.resolve(__dirname, '..', 'spec', 'fixtures');
 
-// Is the display's scale factor possibly causing rounding of pixel coordinate
-// values?
+// 显示器的比例系数是否可能导致像素坐标舍入。
+// 价值观？
 const isScaleFactorRounding = () => {
   const { scaleFactor } = screen.getPrimaryDisplay();
-  // Return true if scale factor is non-integer value
+  // 如果比例因子为非整数值，则返回TRUE。
   if (Math.round(scaleFactor) !== scaleFactor) return true;
-  // Return true if scale factor is odd number above 2
+  // 如果比例因子是大于2的奇数，则返回TRUE。
   return scaleFactor > 2 && scaleFactor % 2 === 1;
 };
 
@@ -50,9 +50,9 @@ describe('BrowserWindow module', () => {
       expect(() => {
         const w = new BrowserWindow({
           show: false,
-          // apparently void 0 had different behaviour from undefined in the
-          // issue that this test is supposed to catch.
-          webContents: void 0 // eslint-disable-line no-void
+          // 显然，void 0的行为与。
+          // 这个测试应该能捕捉到的问题。
+          webContents: void 0 // Eslint-Disable-line no-void。
         } as any);
         w.destroy();
       }).not.to.throw();
@@ -80,12 +80,12 @@ describe('BrowserWindow module', () => {
 
     it('window does not get garbage collected when opened', async () => {
       const w = new BrowserWindow({ show: false });
-      // Keep a weak reference to the window.
-      // eslint-disable-next-line no-undef
+      // 保持对窗口的弱引用。
+      // Eslint-able-next-line no-undef。
       const wr = new WeakRef(w);
       await delay();
-      // Do garbage collection, since |w| is not referenced in this closure
-      // it would be gone after next call if there is no other reference.
+      // 执行垃圾回收，因为|w|未在此闭包中引用。
+      // 如果没有其他参考，它将在下一次调用后消失。
       v8Util.requestGarbageCollectionForTesting();
 
       await delay();
@@ -162,7 +162,7 @@ describe('BrowserWindow module', () => {
               throw new Error(`unsupported endpoint: ${request.url}`);
           }
         }).listen(0, '127.0.0.1', () => {
-          url = 'http://127.0.0.1:' + (server.address() as AddressInfo).port;
+          url = 'http:// 127.0.0.1：‘+(server.address()as AddressInfo).port；
           done();
         });
       });
@@ -327,7 +327,7 @@ describe('BrowserWindow module', () => {
         setTimeout(respond, req.url && req.url.includes('slow') ? 200 : 0);
       });
       server.listen(0, '127.0.0.1', () => {
-        url = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+        url = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
         done();
       });
     });
@@ -346,11 +346,11 @@ describe('BrowserWindow module', () => {
       w.loadURL('about:blank');
       await readyToShow;
     });
-    // TODO(deepak1556): The error code now seems to be `ERR_FAILED`, verify what
-    // changed and adjust the test.
+    // TODO(Deepak1556)：错误代码现在似乎是`ERR_FAILED`，请验证是什么。
+    // 更改并调整测试。
     it.skip('should emit did-fail-load event for files that do not exist', async () => {
       const didFailLoad = emittedOnce(w.webContents, 'did-fail-load');
-      w.loadURL('file://a.txt');
+      w.loadURL('file:// A.txt‘)；
       const [, code, desc,, isMainFrame] = await didFailLoad;
       expect(code).to.equal(-6);
       expect(desc).to.equal('ERR_FILE_NOT_FOUND');
@@ -358,7 +358,7 @@ describe('BrowserWindow module', () => {
     });
     it('should emit did-fail-load event for invalid URL', async () => {
       const didFailLoad = emittedOnce(w.webContents, 'did-fail-load');
-      w.loadURL('http://example:port');
+      w.loadURL('http:// 示例：port‘)；
       const [, code, desc,, isMainFrame] = await didFailLoad;
       expect(desc).to.equal('ERR_INVALID_URL');
       expect(code).to.equal(-300);
@@ -372,10 +372,10 @@ describe('BrowserWindow module', () => {
     });
     it('does not crash in did-fail-provisional-load handler', (done) => {
       w.webContents.once('did-fail-provisional-load', () => {
-        w.loadURL('http://127.0.0.1:11111');
+        w.loadURL('http:// 127.0.0.1：11111‘)；
         done();
       });
-      w.loadURL('http://127.0.0.1:11111');
+      w.loadURL('http:// 127.0.0.1：11111‘)；
     });
     it('should emit did-fail-load event for URL exceeding character limit', async () => {
       const data = Buffer.alloc(2 * 1024 * 1024).toString('base64');
@@ -453,7 +453,7 @@ describe('BrowserWindow module', () => {
     });
 
     it('should support base url for data urls', async () => {
-      await w.loadURL('data:text/html,<script src="loaded-from-dataurl.js"></script>', { baseURLForDataURL: `other://${path.join(fixtures, 'api')}${path.sep}` });
+      await w.loadURL('data:text/html,<script src="loaded-from-dataurl.js"></script>', { baseURLForDataURL: `other:// ${path.Join(fixtures，‘api’)}${path.sep}`})；
       expect(await w.webContents.executeJavaScript('window.ping')).to.equal('pong');
     });
   });
@@ -481,7 +481,7 @@ describe('BrowserWindow module', () => {
             }
           });
           server.listen(0, '127.0.0.1', () => {
-            url = `http://127.0.0.1:${(server.address() as AddressInfo).port}/`;
+            url = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}/`；
             done();
           });
         });
@@ -506,7 +506,7 @@ describe('BrowserWindow module', () => {
           });
           w.webContents.on('did-stop-loading', () => {
             if (willNavigate) {
-              // i.e. it shouldn't have had '?navigated' appended to it.
+              // 也就是说，它不应该在其后面附加“已导航”。
               try {
                 expect(w.webContents.getURL().endsWith('will-navigate.html')).to.be.true();
                 done();
@@ -545,7 +545,7 @@ describe('BrowserWindow module', () => {
         });
 
         it('is triggered when a cross-origin iframe navigates _top', async () => {
-          await w.loadURL(`data:text/html,<iframe src="http://127.0.0.1:${(server.address() as AddressInfo).port}/navigate-top"></iframe>`);
+          await w.loadURL(`data:text/html,<iframe src="http:// 127.0.0.1：${(server.address()as AddressInfo).port}/Navigestop“&gt;&lt;/iframe&gt;`)；
           await delay(1000);
           w.webContents.debugger.attach('1.1');
           const targets = await w.webContents.debugger.sendCommand('Target.getTargets');
@@ -593,7 +593,7 @@ describe('BrowserWindow module', () => {
             }
           });
           server.listen(0, '127.0.0.1', () => {
-            url = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+            url = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
             done();
           });
         });
@@ -813,7 +813,7 @@ describe('BrowserWindow module', () => {
       });
 
       it('should throw an exception if invalid window', async () => {
-        // It is very unlikely that these window id exist.
+        // 这些窗口ID不太可能存在。
         const fakeSourceIds = ['window:99999999:0', 'window:123456:1',
           'window:123456:9'];
         fakeSourceIds.forEach((sourceId) => {
@@ -961,9 +961,9 @@ describe('BrowserWindow module', () => {
 
     describe('BrowserWindow.setContentSize(width, height)', () => {
       it('sets the content size', async () => {
-        // NB. The CI server has a very small screen. Attempting to size the window
-        // larger than the screen will limit the window's size to the screen and
-        // cause the test to fail.
+        // 注意：CI服务器的屏幕非常小。正在尝试调整窗口大小。
+        // 大于屏幕会将窗口的大小限制在屏幕上，并且。
+        // 导致测试失败。
         const size = [456, 567];
         w.setContentSize(size[0], size[1]);
         await new Promise(setImmediate);
@@ -1311,10 +1311,10 @@ describe('BrowserWindow module', () => {
           w.addTabbedWindow(tabbedWindow);
         }).to.not.throw();
 
-        expect(BrowserWindow.getAllWindows()).to.have.lengthOf(2); // w + tabbedWindow
+        expect(BrowserWindow.getAllWindows()).to.have.lengthOf(2); // W+选项卡式窗口。
 
         await closeWindow(tabbedWindow, { assertNotWindows: false });
-        expect(BrowserWindow.getAllWindows()).to.have.lengthOf(1); // w
+        expect(BrowserWindow.getAllWindows()).to.have.lengthOf(1); // W。
       });
 
       it('throws when called on itself', () => {
@@ -1401,8 +1401,8 @@ describe('BrowserWindow module', () => {
       const image = await w.capturePage();
       const imgBuffer = image.toPNG();
 
-      // Check the 25th byte in the PNG.
-      // Values can be 0,2,3,4, or 6. We want 6, which is RGB + Alpha
+      // 检查PNG中的第25个字节。
+      // 值可以是0、2、3、4或6。我们需要6，即RGB+Alpha。
       expect(imgBuffer[25]).to.equal(6);
     });
   });
@@ -1506,7 +1506,7 @@ describe('BrowserWindow module', () => {
       server = http.createServer((req, res) => {
         if (req.url === '/link') {
           res.setHeader('Content-type', 'text/html');
-          res.end('<head><link rel="preconnect" href="//example.com" /></head><body>foo</body>');
+          res.end('<head><link rel="preconnect" href="// Example.com“/&gt;&lt;/head&gt;&lt;body&gt;foo&lt;/body&gt;‘)；
           return;
         }
         res.end();
@@ -1514,7 +1514,7 @@ describe('BrowserWindow module', () => {
       server.on('connection', () => { connections++; });
 
       await new Promise<void>(resolve => server.listen(0, '127.0.0.1', () => resolve()));
-      url = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+      url = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
     });
     afterEach(async () => {
       server.close();
@@ -1543,7 +1543,7 @@ describe('BrowserWindow module', () => {
       const p = emittedOnce(w.webContents.session, 'preconnect');
       w.loadURL(url + '/link');
       const [, preconnectUrl, allowCredentials] = await p;
-      expect(preconnectUrl).to.equal('http://example.com/');
+      expect(preconnectUrl).to.equal('http:// Example.com/‘)；
       expect(allowCredentials).to.be.true('allowCredentials');
     });
   });
@@ -1612,7 +1612,7 @@ describe('BrowserWindow module', () => {
       expect(w._getWindowButtonVisibility()).to.equal(true);
     });
 
-    // Buttons of customButtonsOnHover are always hidden unless hovered.
+    // 除非悬停在上方，否则customButtonsOnHover的按钮始终处于隐藏状态。
     it('does not change window button visibility for customButtonsOnHover window', () => {
       const w = new BrowserWindow({ show: false, frame: false, titleBarStyle: 'customButtonsOnHover' });
       expect(w._getWindowButtonVisibility()).to.equal(false);
@@ -1749,9 +1749,9 @@ describe('BrowserWindow module', () => {
     it('returns the correct window for a WebView webcontents', async () => {
       const w = new BrowserWindow({ show: false, webPreferences: { webviewTag: true } });
       w.loadURL('data:text/html,<webview src="data:text/html,hi"></webview>');
-      // NOTE(nornagon): Waiting for 'did-attach-webview' is a workaround for
-      // https://github.com/electron/electron/issues/25413, and is not integral
-      // to the test.
+      // 注(Nornagon)：等待‘DID-ATTACH-WebView’是一种解决办法，适用于。
+      // Https://github.com/electron/electron/issues/25413，，并且不是整数。
+      // 去接受考验。
       const p = emittedOnce(w.webContents, 'did-attach-webview');
       const [, webviewContents] = await emittedOnce(app, 'web-contents-created');
       expect(BrowserWindow.fromWebContents(webviewContents)!.id).to.equal(w.id);
@@ -2027,7 +2027,7 @@ describe('BrowserWindow module', () => {
     afterEach(closeAllWindows);
     it('can be set on a window', () => {
       expect(() => {
-        /* eslint-disable no-new */
+        /* Eslint-禁用非新建*/
         new BrowserWindow({
           tabbingIdentifier: 'group1'
         });
@@ -2035,7 +2035,7 @@ describe('BrowserWindow module', () => {
           tabbingIdentifier: 'group2',
           frame: false
         });
-        /* eslint-enable no-new */
+        /* Eslint-启用无新功能。*/
       }).not.to.throw();
     });
   });
@@ -2257,7 +2257,7 @@ describe('BrowserWindow module', () => {
               throw new Error(`unsupported endpoint: ${request.url}`);
           }
         }).listen(0, '127.0.0.1', () => {
-          serverUrl = 'http://127.0.0.1:' + (server.address() as AddressInfo).port;
+          serverUrl = 'http:// 127.0.0.1：‘+(server.address()as AddressInfo).port；
           done();
         });
       });
@@ -2317,11 +2317,11 @@ describe('BrowserWindow module', () => {
           }
         });
         const htmlPath = path.join(__dirname, 'fixtures', 'api', 'sandbox.html?exit-event');
-        const pageUrl = 'file://' + htmlPath;
+        const pageUrl = 'file:// ‘+htmlPath；
         w.loadURL(pageUrl);
         const [, url] = await emittedOnce(ipcMain, 'answer');
         const expectedUrl = process.platform === 'win32'
-          ? 'file:///' + htmlPath.replace(/\\/g, '/')
+          ? 'file:// /‘+htmlPath.place(/\\/g，’/‘)。
           : pageUrl;
         expect(url).to.equal(expectedUrl);
       });
@@ -2346,12 +2346,12 @@ describe('BrowserWindow module', () => {
         }));
 
         const htmlPath = path.join(__dirname, 'fixtures', 'api', 'sandbox.html?window-open');
-        const pageUrl = 'file://' + htmlPath;
+        const pageUrl = 'file:// ‘+htmlPath；
         const answer = emittedOnce(ipcMain, 'answer');
         w.loadURL(pageUrl);
         const [, { url, frameName, options }] = await emittedOnce(w.webContents, 'did-create-window');
         const expectedUrl = process.platform === 'win32'
-          ? 'file:///' + htmlPath.replace(/\\/g, '/')
+          ? 'file:// /‘+htmlPath.place(/\\/g，’/‘)。
           : pageUrl;
         expect(url).to.equal(expectedUrl);
         expect(frameName).to.equal('popup!');
@@ -2385,37 +2385,37 @@ describe('BrowserWindow module', () => {
           { search: 'window-open-external' }
         );
 
-        // Wait for a message from the main window saying that it's ready.
+        // 等待来自主窗口的消息，告诉您它已经准备好了。
         await emittedOnce(ipcMain, 'opener-loaded');
 
-        // Ask the opener to open a popup with window.opener.
-        const expectedPopupUrl = `${serverUrl}/cross-site`; // Set in "sandbox.html".
+        // 要求打开程序使用window.opener打开弹出窗口。
+        const expectedPopupUrl = `${serverUrl}/cross-site`; // 设置在“sandbox.html”中。
 
         w.webContents.send('open-the-popup', expectedPopupUrl);
 
-        // The page is going to open a popup that it won't be able to close.
-        // We have to close it from here later.
+        // 该页面将打开一个无法关闭的弹出窗口。
+        // 我们晚些时候得从这里把它关起来。
         const [, popupWindow] = await emittedOnce(app, 'browser-window-created');
 
-        // Ask the popup window for details.
+        // 有关详细信息，请询问弹出窗口。
         const detailsAnswer = emittedOnce(ipcMain, 'child-loaded');
         popupWindow.webContents.send('provide-details');
         const [, openerIsNull, , locationHref] = await detailsAnswer;
         expect(openerIsNull).to.be.false('window.opener is null');
         expect(locationHref).to.equal(expectedPopupUrl);
 
-        // Ask the page to access the popup.
+        // 请求页面访问弹出窗口。
         const touchPopupResult = emittedOnce(ipcMain, 'answer');
         w.webContents.send('touch-the-popup');
         const [, popupAccessMessage] = await touchPopupResult;
 
-        // Ask the popup to access the opener.
+        // 要求弹出窗口访问打开程序。
         const touchOpenerResult = emittedOnce(ipcMain, 'answer');
         popupWindow.webContents.send('touch-the-opener');
         const [, openerAccessMessage] = await touchOpenerResult;
 
-        // We don't need the popup anymore, and its parent page can't close it,
-        // so let's close it from here before we run any checks.
+        // 我们不再需要弹出窗口，而且它的父页面无法关闭它，
+        // 所以在我们进行任何检查之前，让我们从这里把它关闭。
         await closeWindow(popupWindow, { assertNotWindows: false });
 
         expect(popupAccessMessage).to.be.a('string',
@@ -2542,7 +2542,7 @@ describe('BrowserWindow module', () => {
         const initialWebContents = webContents.getAllWebContents().map((i) => i.id);
         w.webContents.once('new-window', (e) => {
           e.preventDefault();
-          // We need to give it some time so the windows get properly disposed (at least on OSX).
+          // 我们需要给它一些时间，这样窗口才能得到正确的布置(至少在OSX上是这样)。
           setTimeout(() => {
             const currentWebContents = webContents.getAllWebContents().map((i) => i.id);
             try {
@@ -2629,7 +2629,7 @@ describe('BrowserWindow module', () => {
           webPreferences: {
             nodeIntegration: true,
             nativeWindowOpen: true,
-            // tests relies on preloads in opened windows
+            // 测试依赖于打开窗口中的预加载。
             nodeIntegrationInSubFrames: true,
             contextIsolation: false
           }
@@ -2652,7 +2652,7 @@ describe('BrowserWindow module', () => {
         const answer = emittedOnce(ipcMain, 'answer');
         w.loadFile(path.join(fixtures, 'api', 'native-window-open-cross-origin.html'));
         const [, content] = await answer;
-        expect(content).to.equal('Blocked a frame with origin "file://" from accessing a cross-origin frame.');
+        expect(content).to.equal('Blocked a frame with origin "file:// “访问跨源帧。‘)；
       });
       it('opens window from <iframe> tags', async () => {
         const answer = emittedOnce(ipcMain, 'answer');
@@ -2757,7 +2757,7 @@ describe('BrowserWindow module', () => {
             show: false,
             webPreferences: {
               nativeWindowOpen: true,
-              // test relies on preloads in opened window
+              // 测试依赖于打开窗口中的预加载。
               nodeIntegrationInSubFrames: true,
               contextIsolation: false
             }
@@ -2786,7 +2786,7 @@ describe('BrowserWindow module', () => {
             show: false,
             webPreferences: {
               nativeWindowOpen: true,
-              // test relies on preloads in opened window
+              // 测试依赖于打开窗口中的预加载。
               nodeIntegrationInSubFrames: true
             }
           });
@@ -2876,9 +2876,9 @@ describe('BrowserWindow module', () => {
       w.webContents.once('destroyed', destroyListener);
 
       w.webContents.executeJavaScript('installBeforeUnload(2)', true);
-      // The renderer needs to report the status of beforeunload handler
-      // back to main process, so wait for next console message, which means
-      // the SuddenTerminationStatus message have been flushed.
+      // 呈现器需要报告bepreunload处理程序的状态。
+      // 返回主进程，因此等待下一条控制台消息，这意味着。
+      // 已刷新SuddenTerminationStatus消息。
       await emittedOnce(w.webContents, 'console-message');
       w.close();
       await emittedOnce(w.webContents, 'before-unload-fired');
@@ -2898,14 +2898,14 @@ describe('BrowserWindow module', () => {
       w.webContents.once('did-start-navigation', navigationListener);
 
       w.webContents.executeJavaScript('installBeforeUnload(2)', true);
-      // The renderer needs to report the status of beforeunload handler
-      // back to main process, so wait for next console message, which means
-      // the SuddenTerminationStatus message have been flushed.
+      // 呈现器需要报告bepreunload处理程序的状态。
+      // 返回主进程，因此等待下一条控制台消息，这意味着。
+      // 已刷新SuddenTerminationStatus消息。
       await emittedOnce(w.webContents, 'console-message');
       w.reload();
-      // Chromium does not emit 'before-unload-fired' on WebContents for
-      // navigations, so we have to use other ways to know if beforeunload
-      // is fired.
+      // 铬在以下对象的WebContents上不会发出“之前-卸载-激发”
+      // 导航，所以我们必须用其他方法来知道是否在卸货前。
+      // 被解雇了。
       await emittedUntil(w.webContents, 'console-message', isBeforeUnload);
       w.reload();
       await emittedUntil(w.webContents, 'console-message', isBeforeUnload);
@@ -2922,14 +2922,14 @@ describe('BrowserWindow module', () => {
       w.webContents.once('did-start-navigation', navigationListener);
 
       w.webContents.executeJavaScript('installBeforeUnload(2)', true);
-      // The renderer needs to report the status of beforeunload handler
-      // back to main process, so wait for next console message, which means
-      // the SuddenTerminationStatus message have been flushed.
+      // 呈现器需要报告bepreunload处理程序的状态。
+      // 返回主进程，因此等待下一条控制台消息，这意味着。
+      // 已刷新SuddenTerminationStatus消息。
       await emittedOnce(w.webContents, 'console-message');
       w.loadURL('about:blank');
-      // Chromium does not emit 'before-unload-fired' on WebContents for
-      // navigations, so we have to use other ways to know if beforeunload
-      // is fired.
+      // 铬在以下对象的WebContents上不会发出“之前-卸载-激发”
+      // 导航，所以我们必须用其他方法来知道是否在卸货前。
+      // 被解雇了。
       await emittedUntil(w.webContents, 'console-message', isBeforeUnload);
       w.loadURL('about:blank');
       await emittedUntil(w.webContents, 'console-message', isBeforeUnload);
@@ -2967,7 +2967,7 @@ describe('BrowserWindow module', () => {
       expect(hidden).to.be.false('hidden');
     });
 
-    // TODO(nornagon): figure out why this is failing on windows
+    // TODO(Nornagon)：找出在Windows上失败的原因。
     ifit(process.platform !== 'win32')('visibilityState changes when window is hidden', async () => {
       const w = new BrowserWindow({
         width: 100,
@@ -2995,7 +2995,7 @@ describe('BrowserWindow module', () => {
       }
     });
 
-    // TODO(nornagon): figure out why this is failing on windows
+    // TODO(Nornagon)：找出在Windows上失败的原因。
     ifit(process.platform !== 'win32')('visibilityState changes when window is shown', async () => {
       const w = new BrowserWindow({
         width: 100,
@@ -3008,7 +3008,7 @@ describe('BrowserWindow module', () => {
 
       w.loadFile(path.join(fixtures, 'pages', 'visibilitychange.html'));
       if (process.platform === 'darwin') {
-        // See https://github.com/electron/electron/issues/8664
+        // 请参阅https://github.com/electron/electron/issues/8664。
         await emittedOnce(w, 'show');
       }
       w.hide();
@@ -3028,7 +3028,7 @@ describe('BrowserWindow module', () => {
       });
       w.loadFile(path.join(fixtures, 'pages', 'visibilitychange.html'));
       if (process.platform === 'darwin') {
-        // See https://github.com/electron/electron/issues/8664
+        // 请参阅https://github.com/electron/electron/issues/8664。
         await emittedOnce(w, 'show');
       }
       w.hide();
@@ -3037,7 +3037,7 @@ describe('BrowserWindow module', () => {
       expect(visibilityState).to.equal('visible');
     });
 
-    // TODO(nornagon): figure out why this is failing on windows
+    // TODO(Nornagon)：找出在Windows上失败的原因
     ifit(process.platform === 'darwin')('visibilityState changes when window is minimized', async () => {
       const w = new BrowserWindow({
         width: 100,
@@ -3064,8 +3064,8 @@ describe('BrowserWindow module', () => {
       }
     });
 
-    // FIXME(MarshallOfSound): This test fails locally 100% of the time, on CI it started failing
-    // when we introduced the compositor recycling patch.  Should figure out how to fix this
+    // Fixme(MarshallOfSound)：此测试100%在本地失败，在CI上开始失败。
+    // 当我们推出排序器回收补丁的时候。应该想办法解决这个问题。
     it.skip('visibilityState remains visible if backgroundThrottling is disabled', async () => {
       const w = new BrowserWindow({
         show: false,
@@ -3110,7 +3110,7 @@ describe('BrowserWindow module', () => {
       w.webContents.once('new-window', (e, url, frameName, disposition, options) => {
         e.preventDefault();
         try {
-          expect(url).to.equal('http://host/');
+          expect(url).to.equal('http:// Host/‘)；
           expect(frameName).to.equal('host');
           expect((options as any)['this-is-not-a-standard-feature']).to.equal(true);
           done();
@@ -3126,7 +3126,7 @@ describe('BrowserWindow module', () => {
       w.webContents.once('new-window', function (e, url, frameName, disposition, options) {
         e.preventDefault();
         try {
-          expect(url).to.equal('http://host/');
+          expect(url).to.equal('http:// Host/‘)；
           expect(frameName).to.equal('host');
           expect((options as any)['this-is-not-a-standard-feature']).to.equal(true);
           done();
@@ -3142,7 +3142,7 @@ describe('BrowserWindow module', () => {
       w.webContents.once('new-window', (e, url, frameName) => {
         e.preventDefault();
         try {
-          expect(url).to.equal('http://host/');
+          expect(url).to.equal('http:// Host/‘)；
           expect(frameName).to.equal('target');
           done();
         } catch (e) {
@@ -3170,13 +3170,13 @@ describe('BrowserWindow module', () => {
         });
       });
       w.loadURL(`data:text/html,${encodeURIComponent(`
-        <form target="_blank" method="POST" id="form" action="http://example.com/test">
+        <form target="_blank" method="POST" id="form" action="http:// Example.com/test“&gt;。
           <input type="text" name="post-test-key" value="post-test-value"></input>
         </form>
         <script>form.submit()</script>
       `)}`);
       const { url, frameName, disposition, options, additionalFeatures, referrer, postBody } = await p;
-      expect(url).to.equal('http://example.com/test');
+      expect(url).to.equal('http:// Example.com/test‘)；
       expect(frameName).to.equal('');
       expect(disposition).to.equal('foreground-tab');
       expect(options).to.be.an('object').not.null();
@@ -3233,8 +3233,8 @@ describe('BrowserWindow module', () => {
       w.loadFile(path.join(fixtures, 'api', 'frame-subscriber.html'));
       w.webContents.on('dom-ready', () => {
         w.webContents.beginFrameSubscription(function () {
-          // Pending endFrameSubscription to next tick can reliably reproduce
-          // a crash which happens when nothing is returned in the callback.
+          // 挂起的endFrameSubscription to Next Tick可以可靠地复制。
+          // 当回调中没有返回任何内容时发生的崩溃。
           setTimeout(() => {
             w.webContents.endFrameSubscription();
             done();
@@ -3249,7 +3249,7 @@ describe('BrowserWindow module', () => {
       w.loadFile(path.join(fixtures, 'api', 'frame-subscriber.html'));
       w.webContents.on('dom-ready', () => {
         w.webContents.beginFrameSubscription(function (data) {
-          // This callback might be called twice.
+          // 此回调可能会被调用两次。
           if (called) return;
           called = true;
 
@@ -3274,24 +3274,24 @@ describe('BrowserWindow module', () => {
       w.webContents.on('did-finish-load', () => {
         w.webContents.beginFrameSubscription(true, (image, rect) => {
           if (image.isEmpty()) {
-            // Chromium sometimes sends a 0x0 frame at the beginning of the
-            // page load.
+            // 铬有时会在开始时发送0x0帧。
+            // 页面加载。
             return;
           }
           if (rect.height === contentHeight && rect.width === contentWidth &&
             !gotInitialFullSizeFrame) {
-            // The initial frame is full-size, but we're looking for a call
-            // with just the dirty-rect. The next frame should be a smaller
-            // rect.
+            // 最初的画面是全尺寸的，但我们要找的是。
+            // 只和那个肮脏的人在一起。下一帧应该是较小的。
+            // 直立。
             gotInitialFullSizeFrame = true;
             return;
           }
-          // This callback might be called twice.
+          // 此回调可能会被调用两次。
           if (called) return;
-          // We asked for just the dirty rectangle, so we expect to receive a
-          // rect smaller than the full size.
-          // TODO(jeremy): this is failing on windows currently; investigate.
-          // assert(rect.width < contentWidth || rect.height < contentHeight)
+          // 我们只需要脏的矩形，所以我们预计会收到一个。
+          // 比完整尺寸小的矩形。
+          // TODO(Jeremy)：这在Windows上当前失败；请调查。
+          // Assert(rect.width&lt;contentWidth||rect.high&lt;contentHeight)。
           called = true;
 
           try {
@@ -3312,8 +3312,8 @@ describe('BrowserWindow module', () => {
       const w = new BrowserWindow({ show: false });
       expect(() => {
         w.webContents.beginFrameSubscription(true, true as any);
-        // TODO(zcbenz): gin is weak at guessing parameter types, we should
-        // upstream native_mate's implementation to gin.
+        // TODO(Zcbenz)：GIN在猜测参数类型方面很弱，我们应该。
+        // 上游NATIVE_Mate对gin的实现。
       }).to.throw('Error processing argument at index 1, conversion failure from ');
     });
   });
@@ -3332,7 +3332,7 @@ describe('BrowserWindow module', () => {
         fs.rmdirSync(path.join(savePageDir, 'save_page_files'));
         fs.rmdirSync(savePageDir);
       } catch (e) {
-        // Ignore error
+        // 忽略错误。
       }
     });
     afterEach(closeAllWindows);
@@ -3393,13 +3393,13 @@ describe('BrowserWindow module', () => {
   describe('setFullScreen(false)', () => {
     afterEach(closeAllWindows);
 
-    // only applicable to windows: https://github.com/electron/electron/issues/6036
+    // 仅适用于Windows：https://github.com/electron/electron/issues/6036。
     ifdescribe(process.platform === 'win32')('on windows', () => {
       it('should restore a normal visible window from a fullscreen startup state', async () => {
         const w = new BrowserWindow({ show: false });
         await w.loadURL('about:blank');
         const shown = emittedOnce(w, 'show');
-        // start fullscreen and hidden
+        // 开始全屏并隐藏。
         w.setFullScreen(true);
         w.show();
         await shown;
@@ -3426,7 +3426,7 @@ describe('BrowserWindow module', () => {
         await w.loadURL('about:blank');
         await w.webContents.executeJavaScript('document.body.webkitRequestFullscreen()', true);
         await emittedOnce(w, 'enter-full-screen');
-        // Wait a tick for the full-screen state to 'stick'
+        // 请稍等片刻，等待全屏状态“卡住”
         await delay();
         w.setFullScreen(false);
         await emittedOnce(w, 'leave-html-full-screen');
@@ -3440,7 +3440,7 @@ describe('BrowserWindow module', () => {
     ifit(process.platform === 'darwin')('sheet-begin event emits when window opens a sheet', async () => {
       const w = new BrowserWindow();
       const sheetBegin = emittedOnce(w, 'sheet-begin');
-      // eslint-disable-next-line no-new
+      // Eslint-Disable-Next-Next-new。
       new BrowserWindow({
         modal: true,
         parent: w
@@ -3476,7 +3476,7 @@ describe('BrowserWindow module', () => {
         const closed = emittedOnce(c, 'closed');
         c.close();
         await closed;
-        // The child window list is not immediately cleared, so wait a tick until it's ready.
+        // 子窗口列表不会立即清除，因此请稍等片刻，直到它准备就绪。
         await delay();
         expect(w.getChildWindows().length).to.equal(0);
       });
@@ -3516,7 +3516,7 @@ describe('BrowserWindow module', () => {
         c.setParentWindow(w);
         c.close();
         await closed;
-        // The child window list is not immediately cleared, so wait a tick until it's ready.
+        // 子窗口列表不会立即清除，因此请稍等片刻，直到它准备就绪。
         await delay();
         expect(w.getChildWindows().length).to.equal(0);
       });
@@ -3687,7 +3687,7 @@ describe('BrowserWindow module', () => {
         }
       });
 
-      // On Linux there is no "resizable" property of a window.
+      // 在Linux上，窗口没有“可调整大小”属性。
       ifit(process.platform !== 'linux')('does affect maximizability when disabled and enabled', () => {
         const w = new BrowserWindow({ show: false });
         expect(w.resizable).to.be.true('resizable');
@@ -3723,7 +3723,7 @@ describe('BrowserWindow module', () => {
         server = http.createServer((request, response) => {
           response.end();
         }).listen(0, '127.0.0.1', () => {
-          serverUrl = 'http://127.0.0.1:' + (server.address() as AddressInfo).port;
+          serverUrl = 'http:// 127.0.0.1：‘+(server.address()as AddressInfo).port；
           done();
         });
       });
@@ -3781,7 +3781,7 @@ describe('BrowserWindow module', () => {
   });
 
   ifdescribe(process.platform !== 'linux')('window states (excluding Linux)', () => {
-    // Not implemented on Linux.
+    // 未在Linux上实现。
     afterEach(closeAllWindows);
 
     describe('movable state', () => {
@@ -4082,7 +4082,7 @@ describe('BrowserWindow module', () => {
       });
     });
 
-    // fullscreen events are dispatched eagerly and twiddling things too fast can confuse poor Electron
+    // FullScreen事件被急切地调度，摆弄东西太快会让可怜的电子感到困惑。
 
     ifdescribe(process.platform === 'darwin')('kiosk state', () => {
       it('with properties', () => {
@@ -4246,7 +4246,7 @@ describe('BrowserWindow module', () => {
         expect(w.isFullScreen()).to.be.false('isFullScreen');
       });
 
-      // FIXME: https://github.com/electron/electron/issues/30140
+      // 修复：https://github.com/electron/electron/issues/30140。
       xit('multiple windows inherit correct fullscreen state', async () => {
         const w = new BrowserWindow();
         const enterFullScreen = emittedOnce(w, 'enter-full-screen');
@@ -4303,7 +4303,7 @@ describe('BrowserWindow module', () => {
           expect(w.shadow).to.be.a('boolean');
         });
 
-        // On Windows there's no shadow by default & it can't be changed dynamically.
+        // 在Windows上，默认情况下没有影子&它不能动态更改。
         it('can be changed with hasShadow option', () => {
           const hasShadow = process.platform !== 'darwin';
           const w = new BrowserWindow({ show: false, hasShadow });
@@ -4328,7 +4328,7 @@ describe('BrowserWindow module', () => {
           expect(hasShadow).to.be.a('boolean');
         });
 
-        // On Windows there's no shadow by default & it can't be changed dynamically.
+        // 在Windows上，默认情况下没有影子&它不能动态更改。
         it('can be changed with hasShadow option', () => {
           const hasShadow = process.platform !== 'darwin';
           const w = new BrowserWindow({ show: false, hasShadow });
@@ -4356,7 +4356,7 @@ describe('BrowserWindow module', () => {
       w.show();
       await shown;
 
-      // Check format 'window:1234:0'.
+      // 检查格式‘窗口：1234：0’。
       const sourceId = w.getMediaSourceId();
       expect(sourceId).to.match(/^window:\d+:\d+$/);
     });
@@ -4366,8 +4366,8 @@ describe('BrowserWindow module', () => {
     afterEach(closeAllWindows);
     it('returns valid handle', () => {
       const w = new BrowserWindow({ show: false });
-      // The module's source code is hosted at
-      // https://github.com/electron/node-is-valid-window
+      // 该模块的源代码驻留在。
+      // Https://github.com/electron/node-is-valid-window。
       const isValidWindow = require('is-valid-window');
       expect(isValidWindow(w.getNativeWindowHandle())).to.be.true('is valid window');
     });
@@ -4556,7 +4556,7 @@ describe('BrowserWindow module', () => {
       const w2 = new BrowserWindow({ x: 300, y: 300, width: 300, height: 200 });
       w2.loadURL('about:blank');
       w1.webContents.focus();
-      // Give focus some time to switch to w1
+      // 给焦点一些时间切换到W1。
       await delay();
       expect(w1.webContents.isFocused()).to.be.true('focuses window');
     });
@@ -4681,7 +4681,7 @@ describe('BrowserWindow module', () => {
   describe('"transparent" option', () => {
     afterEach(closeAllWindows);
 
-    // Only applicable on Windows where transparent windows can't be maximized.
+    // 仅适用于透明窗口无法最大化的Windows。
     ifit(process.platform === 'win32')('can show maximized frameless window', async () => {
       const display = screen.getPrimaryDisplay();
 
@@ -4697,7 +4697,7 @@ describe('BrowserWindow module', () => {
 
       expect(w.isMaximized()).to.be.true();
 
-      // Fails when the transparent HWND is in an invalid maximized state.
+      // 当透明HWND处于无效的最大化状态时失败。
       expect(w.getBounds()).to.deep.equal(display.workArea);
 
       const newBounds = { width: 256, height: 256, x: 0, y: 0 };

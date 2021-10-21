@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NET_ASAR_ASAR_FILE_VALIDATOR_H_
 #define SHELL_BROWSER_NET_ASAR_ASAR_FILE_VALIDATOR_H_
@@ -36,15 +36,15 @@ class AsarFileValidator : public mojo::FilteredDataSource::Filter {
   base::File file_;
   IntegrityPayload integrity_;
 
-  // The offset in the file_ that the underlying file reader is starting at
+  // 基础文件读取器开始的file_中的偏移量。
   uint64_t read_start_ = 0;
-  // The number of bytes this DataSourceFilter will have seen that aren't used
-  // by the DataProducer.  These extra bytes are exclusively for hash validation
-  // but we need to know how many we've used so we know when we're done.
+  // 此DataSourceFilter将看到的未使用的字节数。
+  // 由DataProducer创建。这些额外的字节专门用于散列验证。
+  // 但我们需要知道我们已经用了多少，这样我们才能知道我们什么时候用完了。
   uint64_t extra_read_ = 0;
-  // The maximum offset in the file_ that we should read to, used to determine
-  // which bytes we're missing or if we need to read up to a block boundary in
-  // OnDone
+  // 文件中我们应该读取的最大偏移量，用于确定。
+  // 我们遗漏了哪些字节，或者我们是否需要读取到中的块边界。
+  // 完成。
   uint64_t read_max_ = 0;
   bool done_reading_ = false;
   int current_block_;
@@ -56,6 +56,6 @@ class AsarFileValidator : public mojo::FilteredDataSource::Filter {
   DISALLOW_COPY_AND_ASSIGN(AsarFileValidator);
 };
 
-}  // namespace asar
+}  // 命名空间asar。
 
-#endif  // SHELL_BROWSER_NET_ASAR_ASAR_FILE_VALIDATOR_H_
+#endif  // Shell_Browser_Net_ASAR_ASAR_FILE_VALIDATOR_H_

@@ -1,10 +1,10 @@
-// Copyright (c) 2015 Felix Rieseberg <feriese@microsoft.com> and Jason Poon
-// <jason.poon@microsoft.com>. All rights reserved.
-// Copyright (c) 2015 Ryan McShane <rmcshane@bandwidth.com> and Brandon Smith
-// <bsmith@bandwidth.com>
-// Thanks to both of those folks mentioned above who first thought up a bunch of
-// this code
-// and released it as MIT to the world.
+// 版权所有(C)2015年Felix Rieseberg&lt;feriese@microsoft.com&gt;和Jason Poon。
+// &lt;jason.poon@microsoft.com&gt;。版权所有。
+// 版权所有(C)2015 Ryan McShane&lt;rmcshane@Bandwidth.com&gt;和Brandon Smith。
+// &lt;bsmith@Bandwidth.com&gt;。
+// 感谢上面提到的两个人，他们最先想出了一堆。
+// 此代码。
+// 并以麻省理工学院的名义向全世界发布。
 
 #ifndef SHELL_BROWSER_NOTIFICATIONS_WIN_WINDOWS_TOAST_NOTIFICATION_H_
 #define SHELL_BROWSER_NOTIFICATIONS_WIN_WINDOWS_TOAST_NOTIFICATION_H_
@@ -42,7 +42,7 @@ using DesktopToastFailedEventHandler =
 
 class WindowsToastNotification : public Notification {
  public:
-  // Should only be called by NotificationPresenterWin.
+  // 只能由NotificationPresenterWin调用。
   static bool Initialize();
 
   WindowsToastNotification(NotificationDelegate* delegate,
@@ -50,7 +50,7 @@ class WindowsToastNotification : public Notification {
   ~WindowsToastNotification() override;
 
  protected:
-  // Notification:
+  // 通知：
   void Show(const NotificationOptions& options) override;
   void Dismiss() override;
 
@@ -129,11 +129,11 @@ class ToastEventHandler : public RuntimeClass<RuntimeClassFlags<ClassicCom>,
       ABI::Windows::UI::Notifications::IToastFailedEventArgs* e) override;
 
  private:
-  base::WeakPtr<Notification> notification_;  // weak ref.
+  base::WeakPtr<Notification> notification_;  // 弱小的裁判。
 
   DISALLOW_COPY_AND_ASSIGN(ToastEventHandler);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_NOTIFICATIONS_WIN_WINDOWS_TOAST_NOTIFICATION_H_

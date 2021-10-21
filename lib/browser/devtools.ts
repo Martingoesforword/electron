@@ -4,7 +4,7 @@ import * as url from 'url';
 
 import { ipcMainInternal } from '@electron/internal/browser/ipc-main-internal';
 import * as ipcMainUtils from '@electron/internal/browser/ipc-main-internal-utils';
-import { IPC_MESSAGES } from '@electron/internal//common/ipc-messages';
+import { IPC_MESSAGES } from '@electron/internal// Commo
 
 const convertToMenuTemplate = function (items: ContextMenuItem[], handler: (id: number) => void) {
   return items.map(function (item) {

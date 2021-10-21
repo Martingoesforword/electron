@@ -31,17 +31,17 @@ function spawnAndCheckExitCode (cmd, args, opts) {
   opts = Object.assign({ stdio: 'inherit' }, opts);
   const { error, status, signal } = childProcess.spawnSync(cmd, args, opts);
   if (error) {
-    // the subsprocess failed or timed out
+    // 子进程失败或超时。
     console.error(error);
     process.exit(1);
   }
   if (status === null) {
-    // the subprocess terminated due to a signal
+    // 子进程因信号而终止。
     console.error(signal);
     process.exit(1);
   }
   if (status !== 0) {
-    // `status` is an exit code
+    // `status`是退出代码。
     process.exit(status);
   }
 }
@@ -49,7 +49,7 @@ function spawnAndCheckExitCode (cmd, args, opts) {
 function cpplint (args) {
   args.unshift(`--project_root=${SOURCE_ROOT}`);
   const result = childProcess.spawnSync(IS_WINDOWS ? 'cpplint.bat' : 'cpplint.py', args, { encoding: 'utf8', shell: true });
-  // cpplint.py writes EVERYTHING to stderr, including status messages
+  // Ppplint.py将所有内容写入stderr，包括状态消息。
   if (result.stderr) {
     for (const line of result.stderr.split(/[\r\n]+/)) {
       if (line.length && !line.startsWith('Done processing ') && line !== 'Total errors found: 0') {
@@ -64,7 +64,7 @@ function cpplint (args) {
 }
 
 function isObjCHeader (filename) {
-  return /\/(mac|cocoa)\//.test(filename);
+  return /\/(mac|cocoa)\// .test(文件名)；
 }
 
 const LINTERS = [{
@@ -114,7 +114,7 @@ const LINTERS = [{
   test: filename => filename.endsWith('.js') || filename.endsWith('.ts'),
   run: async (opts, filenames) => {
     const eslint = new ESLint({
-      // Do not use the lint cache on CI builds
+      // 不要在配置项构建上使用LINT缓存。
       cache: !process.env.CI,
       cacheLocation: `node_modules/.eslintcache.${crypto.createHash('md5').update(fs.readFileSync(__filename)).digest('hex')}`,
       extensions: ['.js', '.ts'],
@@ -148,7 +148,7 @@ const LINTERS = [{
         CHROMIUM_BUILDTOOLS_PATH: path.resolve(SOURCE_ROOT, '..', 'buildtools'),
         DEPOT_TOOLS_WIN_TOOLCHAIN: '0'
       }, process.env);
-      // Users may not have depot_tools in PATH.
+      // 用户在PATH中可能没有DEPOT_TOOLS。
       env.PATH = `${env.PATH}${path.delimiter}${DEPOT_TOOLS}`;
       const args = ['format', filename];
       if (!opts.fix) args.push('--dry-run');
@@ -174,21 +174,21 @@ const LINTERS = [{
   run: (opts, filenames) => {
     const patchesDir = path.resolve(__dirname, '../patches');
     const patchesConfig = path.resolve(patchesDir, 'config.json');
-    // If the config does not exist, that's a proiblem
+    // 如果配置不存在，那就是个问题。
     if (!fs.existsSync(patchesConfig)) {
       process.exit(1);
     }
 
     const config = JSON.parse(fs.readFileSync(patchesConfig, 'utf8'));
     for (const key of Object.keys(config)) {
-      // The directory the config points to should exist
+      // 配置指向的目录应该存在。
       const targetPatchesDir = path.resolve(__dirname, '../../..', key);
       if (!fs.existsSync(targetPatchesDir)) throw new Error(`target patch directory: "${targetPatchesDir}" does not exist`);
-      // We need a .patches file
+      // 我们需要一个.patches文件。
       const dotPatchesPath = path.resolve(targetPatchesDir, '.patches');
       if (!fs.existsSync(dotPatchesPath)) throw new Error(`.patches file: "${dotPatchesPath}" does not exist`);
 
-      // Read the patch list
+      // 阅读补丁列表。
       const patchFileList = fs.readFileSync(dotPatchesPath, 'utf8').trim().split('\n');
       const patchFileSet = new Set(patchFileList);
       patchFileList.reduce((seen, file) => {
@@ -199,7 +199,7 @@ const LINTERS = [{
       }, new Set());
       if (patchFileList.length !== patchFileSet.size) throw new Error('each patch file should only be in the .patches file once');
       for (const file of fs.readdirSync(targetPatchesDir)) {
-        // Ignore the .patches file and READMEs
+        // 忽略.patches文件和自述文件。
         if (file === '.patches' || file === 'README.md') continue;
 
         if (!patchFileSet.has(file)) {
@@ -208,7 +208,7 @@ const LINTERS = [{
         patchFileSet.delete(file);
       }
 
-      // If anything is left in this set, it means it did not exist on disk
+      // 如果此集中还剩下任何内容，则表示磁盘上不存在该内容。
       if (patchFileSet.size > 0) {
         throw new Error(`Expected all the patch files listed in the .patches file at "${dotPatchesPath}" to exist but some did not:\n${JSON.stringify([...patchFileSet.values()], null, 2)}`);
       }
@@ -278,7 +278,7 @@ async function findFiles (args, linter) {
   let filenames = [];
   let includelist = null;
 
-  // build the includelist
+  // 构建包含列表。
   if (args.changed) {
     includelist = await findChangedFiles(SOURCE_ROOT);
     if (!includelist.size) {
@@ -288,7 +288,7 @@ async function findFiles (args, linter) {
     includelist = new Set(args._.map(p => path.resolve(p)));
   }
 
-  // accumulate the raw list of files
+  // 累积原始文件列表。
   for (const root of linter.roots) {
     const files = await findMatchingFiles(path.join(SOURCE_ROOT, root), linter.test);
     filenames.push(...files);
@@ -302,24 +302,24 @@ async function findFiles (args, linter) {
     filenames = filenames.filter(fileName => !ignoreFiles.has(fileName));
   }
 
-  // remove ignored files
+  // 删除忽略的文件。
   filenames = filenames.filter(x => !IGNORELIST.has(x));
 
-  // if a includelist exists, remove anything not in it
+  // 如果存在包含列表，请删除不在其中的所有内容。
   if (includelist) {
     filenames = filenames.filter(x => includelist.has(x));
   }
 
-  // it's important that filenames be relative otherwise clang-format will
-  // produce patches with absolute paths in them, which `git apply` will refuse
-  // to apply.
+  // 文件名必须是相对的，否则clang格式将。
+  // 生成包含绝对路径的补丁程序，‘git应用程序’将拒绝这些补丁程序。
+  // 申请。
   return filenames.map(x => path.relative(SOURCE_ROOT, x));
 }
 
 async function main () {
   const opts = parseCommandLine();
 
-  // no mode specified? run 'em all
+  // 是否未指定模式？把它们都查一遍
   if (!opts['c++'] && !opts.javascript && !opts.objc && !opts.python && !opts.gn && !opts.patches) {
     opts['c++'] = opts.javascript = opts.objc = opts.python = opts.gn = opts.patches = true;
   }

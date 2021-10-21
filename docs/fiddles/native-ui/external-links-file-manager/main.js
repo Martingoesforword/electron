@@ -1,12 +1,12 @@
-// Modules to control application life and create native browser window
+// 用于控制应用程序生命周期和创建本机浏览器窗口的模块。
 const { app, BrowserWindow } = require('electron')
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+// 保留窗口对象的全局引用，如果不这样做，窗口将。
+// 在对JavaScript对象进行垃圾回收时自动关闭。
 let mainWindow
 
 function createWindow () {
-  // Create the browser window.
+  // 创建浏览器窗口。
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -15,42 +15,42 @@ function createWindow () {
     }
   })
 
-  // and load the index.html of the app.
+  // 并加载应用程序的index.html。
   mainWindow.loadFile('index.html')
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  // 打开DevTools。
+  // MainWindow.webContents.openDevTools()。
 
-  // Emitted when the window is closed.
+  // 在窗口关闭时发出。
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
+    // 取消对窗口对象的引用，通常会存储窗口。
+    // 如果您的应用程序支持多窗口，则此时。
+    // 应在何时删除相应的元素。
     mainWindow = null
   })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+// 当Electron完成时，将调用此方法。
+// 初始化，并准备好创建浏览器窗口。
+// 有些接口只有在该事件发生后才能使用。
 app.whenReady().then(createWindow)
 
-// Quit when all windows are closed.
+// 关闭所有窗口后退出。
 app.on('window-all-closed', function () {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
+  // 在MacOS上，应用程序及其菜单栏很常见。
+  // 保持活动状态，直到用户使用Cmd+Q显式退出。
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', function () {
-  // On macOS it is common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
+  // 在MacOS上，在以下情况下在应用程序中重新创建窗口是很常见的。
+  // 单击停靠图标，没有其他窗口打开。
   if (mainWindow === null) {
     createWindow()
   }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+// 在此文件中，您可以包括应用程序特定主进程的其余部分。
+// 密码。您也可以将它们放在单独的文件中，并在此处需要它们。

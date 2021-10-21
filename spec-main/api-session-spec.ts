@@ -12,12 +12,12 @@ import { emittedOnce } from './events-helpers';
 import { defer, delay } from './spec-helpers';
 import { AddressInfo } from 'net';
 
-/* The whole session API doesn't use standard callbacks */
-/* eslint-disable standard/no-callback-literal */
+/* 整个会话API不使用标准回调。*/
+/* Eslint-禁用标准/无回调-文字。*/
 
 describe('session module', () => {
   const fixtures = path.resolve(__dirname, '..', 'spec', 'fixtures');
-  const url = 'http://127.0.0.1';
+  const url = 'http:// 127.0.0.1‘；
 
   describe('session.defaultSession', () => {
     it('returns the default session', () => {
@@ -36,7 +36,7 @@ describe('session module', () => {
     const value = '0';
     afterEach(closeAllWindows);
 
-    // Clear cookie of defaultSession after each test.
+    // 每次测试后清除defaultSession的cookie。
     afterEach(async () => {
       const { cookies } = session.defaultSession;
       const cs = await cookies.get({ url });
@@ -168,7 +168,7 @@ describe('session module', () => {
     it.skip('should set cookie for standard scheme', async () => {
       const { cookies } = session.defaultSession;
       const domain = 'fake-host';
-      const url = `${standardScheme}://${domain}`;
+      const url = `${standardScheme}:// ${domain}`；
       const name = 'custom';
       const value = '1';
 
@@ -247,14 +247,14 @@ describe('session module', () => {
       const w = new BrowserWindow({ show: false, webPreferences: { nodeIntegration: true } });
       await w.loadFile(path.join(fixtures, 'api', 'localstorage.html'));
       const options = {
-        origin: 'file://',
+        origin: 'file:// ‘，
         storages: ['localstorage'],
         quotas: ['persistent']
       };
       await w.webContents.session.clearStorageData(options);
       while (await w.webContents.executeJavaScript('localStorage.length') !== 0) {
-        // The storage clear isn't instantly visible to the renderer, so keep
-        // trying until it is.
+        // 渲染器不会立即看到存储清除，因此请保持。
+        // 一直在努力，直到它成为现实。
       }
     });
   });
@@ -277,7 +277,7 @@ describe('session module', () => {
       await new Promise<void>(resolve => downloadServer.listen(0, '127.0.0.1', resolve));
 
       const port = (downloadServer.address() as AddressInfo).port;
-      const url = `http://127.0.0.1:${port}/`;
+      const url = `http:// 127.0.0.1：${port}/`；
 
       const downloadPrevented: Promise<{itemUrl: string, itemFilename: string, item: Electron.DownloadItem}> = new Promise(resolve => {
         w.webContents.session.once('will-download', function (e, item) {
@@ -289,7 +289,7 @@ describe('session module', () => {
       const { item, itemUrl, itemFilename } = await downloadPrevented;
       expect(itemUrl).to.equal(url);
       expect(itemFilename).to.equal('mockFile.txt');
-      // Delay till the next tick.
+      // 推迟到下一个滴答声。
       await new Promise<void>(resolve => setImmediate(() => resolve()));
       expect(() => item.getURL()).to.throw('DownloadItem used after being destroyed');
     });
@@ -334,7 +334,7 @@ describe('session module', () => {
       });
       customSession = session.fromPartition(partitionName);
       await customSession.protocol.registerStringProtocol(protocolName, handler);
-      w.loadURL(`${protocolName}://fake-host`);
+      w.loadURL(`${protocolName}:// 假主机`)；
       await emittedOnce(ipcMain, 'hello');
     });
   });
@@ -347,8 +347,8 @@ describe('session module', () => {
     beforeEach(async () => {
       customSession = session.fromPartition('proxyconfig');
       if (!created) {
-        // Work around for https://github.com/electron/electron/issues/26166 to
-        // reduce flake
+        // 解决方法使https://github.com/electron/electron/issues/26166可以执行以下操作。
+        // 减少薄片。
         await delay(100);
         created = true;
       }
@@ -364,7 +364,7 @@ describe('session module', () => {
     it('allows configuring proxy settings', async () => {
       const config = { proxyRules: 'http=myproxy:80' };
       await customSession.setProxy(config);
-      const proxy = await customSession.resolveProxy('http://example.com/');
+      const proxy = await customSession.resolveProxy('http:// Example.com/‘)；
       expect(proxy).to.equal('PROXY myproxy:80');
     });
 
@@ -375,7 +375,7 @@ describe('session module', () => {
       };
 
       await customSession.setProxy(config);
-      const proxy = await customSession.resolveProxy('http://localhost');
+      const proxy = await customSession.resolveProxy('http:// Localhost‘)；
       expect(proxy).to.equal('PROXY myproxy:80');
     });
 
@@ -393,15 +393,15 @@ describe('session module', () => {
       });
       await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
       {
-        const config = { pacScript: `http://127.0.0.1:${(server.address() as AddressInfo).port}` };
+        const config = { pacScript: `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`}；
         await customSession.setProxy(config);
-        const proxy = await customSession.resolveProxy('https://google.com');
+        const proxy = await customSession.resolveProxy('https:// Google.com‘)；
         expect(proxy).to.equal('PROXY myproxy:8132');
       }
       {
-        const config = { mode: 'pac_script' as any, pacScript: `http://127.0.0.1:${(server.address() as AddressInfo).port}` };
+        const config = { mode: 'pac_script' as any, pacScript: `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`}；
         await customSession.setProxy(config);
-        const proxy = await customSession.resolveProxy('https://google.com');
+        const proxy = await customSession.resolveProxy('https:// Google.com‘)；
         expect(proxy).to.equal('PROXY myproxy:8132');
       }
     });
@@ -412,14 +412,14 @@ describe('session module', () => {
         proxyBypassRules: '<local>'
       };
       await customSession.setProxy(config);
-      const proxy = await customSession.resolveProxy('http://example/');
+      const proxy = await customSession.resolveProxy('http:// 例如/‘)；
       expect(proxy).to.equal('DIRECT');
     });
 
     it('allows configuring proxy settings with mode `direct`', async () => {
       const config = { mode: 'direct' as any, proxyRules: 'http=myproxy:80' };
       await customSession.setProxy(config);
-      const proxy = await customSession.resolveProxy('http://example.com/');
+      const proxy = await customSession.resolveProxy('http:// Example.com/‘)；
       expect(proxy).to.equal('DIRECT');
     });
 
@@ -431,14 +431,14 @@ describe('session module', () => {
     it('allows configuring proxy settings with mode `pac_script`', async () => {
       const config = { mode: 'pac_script' as any };
       await customSession.setProxy(config);
-      const proxy = await customSession.resolveProxy('http://example.com/');
+      const proxy = await customSession.resolveProxy('http:// Example.com/‘)；
       expect(proxy).to.equal('DIRECT');
     });
 
     it('allows configuring proxy settings with mode `fixed_servers`', async () => {
       const config = { mode: 'fixed_servers' as any, proxyRules: 'http=myproxy:80' };
       await customSession.setProxy(config);
-      const proxy = await customSession.resolveProxy('http://example.com/');
+      const proxy = await customSession.resolveProxy('http:// Example.com/‘)；
       expect(proxy).to.equal('PROXY myproxy:80');
     });
 
@@ -466,16 +466,16 @@ describe('session module', () => {
         res.end(pac);
       });
       await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
-      const config = { mode: 'pac_script' as any, pacScript: `http://127.0.0.1:${(server.address() as AddressInfo).port}` };
+      const config = { mode: 'pac_script' as any, pacScript: `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`}；
       await customSession.setProxy(config);
       {
-        const proxy = await customSession.resolveProxy('https://google.com');
+        const proxy = await customSession.resolveProxy('https:// Google.com‘)；
         expect(proxy).to.equal(`PROXY myproxy:${proxyPort}`);
       }
       {
         proxyPort = 8133;
         await customSession.forceReloadProxyConfig();
-        const proxy = await customSession.resolveProxy('https://google.com');
+        const proxy = await customSession.resolveProxy('https:// Google.com‘)；
         expect(proxy).to.equal(`PROXY myproxy:${proxyPort}`);
       }
     });
@@ -484,7 +484,7 @@ describe('session module', () => {
   describe('ses.getBlobData()', () => {
     const scheme = 'cors-blob';
     const protocol = session.defaultSession.protocol;
-    const url = `${scheme}://host`;
+    const url = `${scheme}:// Host`；
     after(async () => {
       await protocol.unregisterProtocol(scheme);
     });
@@ -568,7 +568,7 @@ describe('session module', () => {
       });
 
       const w = new BrowserWindow({ show: false, webPreferences: { session: ses } });
-      await w.loadURL(`https://127.0.0.1:${(server.address() as AddressInfo).port}`);
+      await w.loadURL(`https:// 127.0.0.1：${(server.address()as AddressInfo).port}`)；
       expect(w.webContents.getTitle()).to.equal('hello');
       expect(validate!).not.to.be.undefined();
       validate!();
@@ -595,7 +595,7 @@ describe('session module', () => {
         callback(-2);
       });
 
-      const url = `https://127.0.0.1:${(server.address() as AddressInfo).port}`;
+      const url = `https:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
       const w = new BrowserWindow({ show: false, webPreferences: { session: ses } });
       await expect(w.loadURL(url)).to.eventually.be.rejectedWith(/ERR_FAILED/);
       expect(w.webContents.getTitle()).to.equal(url);
@@ -612,7 +612,7 @@ describe('session module', () => {
         callback(-2);
       });
 
-      const url = `https://127.0.0.1:${(server.address() as AddressInfo).port}`;
+      const url = `https:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
       const w = new BrowserWindow({ show: false, webPreferences: { session: ses } });
       await expect(w.loadURL(url), 'first load').to.eventually.be.rejectedWith(/ERR_FAILED/);
       await emittedOnce(w.webContents, 'did-stop-loading');
@@ -626,7 +626,7 @@ describe('session module', () => {
       ses1.setCertificateVerifyProc((opts, cb) => cb(0));
       const ses2 = session.fromPartition(`${Math.random()}`);
 
-      const url = `https://127.0.0.1:${(server.address() as AddressInfo).port}`;
+      const url = `https:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
       const req = net.request({ url, session: ses1, credentials: 'include' });
       req.end();
       setTimeout(() => {
@@ -680,15 +680,15 @@ describe('session module', () => {
         request.on('error', (error: any) => { reject(new Error(error)); });
         request.end();
       });
-      // the first time should throw due to unauthenticated
-      await expect(fetch(`http://127.0.0.1:${port}`)).to.eventually.be.rejected();
-      // passing the password should let us in
-      expect(await fetch(`http://test:test@127.0.0.1:${port}`)).to.equal('authenticated');
-      // subsequently, the credentials are cached
-      expect(await fetch(`http://127.0.0.1:${port}`)).to.equal('authenticated');
+      // 第一次应因未经身份验证而引发。
+      await expect(fetch(`http:// 127.0.0.1：${port}`)).to.eventually.be.rejected()；
+      // 传递密码应该可以让我们进入。
+      expect(await fetch(`http:// Test:test@127.0.0.1：${port}`)).to.equal(‘authenticated’)；
+      // 随后，将缓存凭据。
+      expect(await fetch(`http:// 127.0.0.1：${port}`)).to.equal(‘authenticated’)；
       await ses.clearAuthCache();
-      // once the cache is cleared, we should get an error again
-      await expect(fetch(`http://127.0.0.1:${port}`)).to.eventually.be.rejected();
+      // 清除缓存后，我们应该再次收到错误。
+      await expect(fetch(`http:// 127.0.0.1：${port}`)).to.eventually.be.rejected()；
     });
   });
 
@@ -725,7 +725,7 @@ describe('session module', () => {
       expect(path.isAbsolute(item.savePath)).to.equal(true);
       expect(isPathEqual(item.savePath, downloadFilePath)).to.equal(true);
       if (isCustom) {
-        expect(item.getURL()).to.equal(`${protocolName}://item`);
+        expect(item.getURL()).to.equal(`${protocolName}:// 项目`)；
       } else {
         expect(item.getURL()).to.be.equal(`${url}:${address.port}/`);
       }
@@ -789,7 +789,7 @@ describe('session module', () => {
           }
         });
       });
-      w.webContents.downloadURL(`${protocolName}://item`);
+      w.webContents.downloadURL(`${protocolName}:// 项目`)；
     });
 
     it('can download using WebView.downloadURL', async () => {
@@ -801,7 +801,7 @@ describe('session module', () => {
         webview.addEventListener('did-finish-load', () => {
           webview.downloadURL(`${url}:${port}/`);
         });
-        webview.src = `file://${fixtures}/api/blank.html`;
+        webview.src = `file:// ${fixtures}/api/blank.html`；
         document.body.appendChild(webview);
       }
       const done: Promise<[string, Electron.DownloadItem]> = new Promise(resolve => {
@@ -842,8 +842,8 @@ describe('session module', () => {
 
     it('can generate a default filename', function (done) {
       if (process.env.APPVEYOR === 'True') {
-        // FIXME(alexeykuzmin): Skip the test.
-        // this.skip()
+        // FIXME(Alexeykuzmin)：跳过测试。
+        // 这个。跳过()。
         return done();
       }
 
@@ -917,7 +917,7 @@ describe('session module', () => {
             }
           });
         });
-        w.webContents.downloadURL(`file://${path.join(__dirname, 'does-not-exist.txt')}`);
+        w.webContents.downloadURL(`file:// ${path.Join(__dirname，‘do-not-exist.txt’)}`)；
       });
     });
   });
@@ -928,7 +928,7 @@ describe('session module', () => {
       const downloadFilePath = path.join(__dirname, '..', 'fixtures', 'mock.pdf');
       const options = {
         path: downloadFilePath,
-        urlChain: ['http://127.0.0.1/'],
+        urlChain: ['http:// 127.0.0.1/‘]，
         mimeType: 'application/pdf',
         offset: 0,
         length: 5242880
@@ -966,7 +966,7 @@ describe('session module', () => {
             item.cancel();
           });
         });
-        const downloadUrl = `http://127.0.0.1:${port}/assets/logo.png`;
+        const downloadUrl = `http:// 127.0.0.1：${port}/sets/logo.png`；
         w.webContents.downloadURL(downloadUrl);
         const item = await downloadCancelled;
         expect(item.getState()).to.equal('cancelled');
@@ -1035,7 +1035,7 @@ describe('session module', () => {
         });
       }
 
-      await w.loadURL('https://myfakesite');
+      await w.loadURL('https:// Myfakeite‘)；
 
       const [, name] = await result;
       expect(name).to.deep.equal('SecurityError');
@@ -1088,7 +1088,7 @@ describe('session module', () => {
         server.close();
       });
       await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
-      await w.loadURL(`http://127.0.0.1:${(server.address() as AddressInfo).port}`);
+      await w.loadURL(`http:// 127.0.0.1：${(server.address()as AddressInfo).port}`)；
       expect(headers!['user-agent']).to.equal(userAgent);
       expect(headers!['accept-language']).to.equal('en-US,fr;q=0.9,de;q=0.8');
     });
@@ -1146,7 +1146,7 @@ describe('session module', () => {
       function request () {
         return new Promise((resolve, reject) => {
           const r = net.request({
-            url: `https://127.0.0.1:${port}`,
+            url: `https:// 127.0.0.1：${port}`，
             session: ses
           });
           r.on('response', (res) => {

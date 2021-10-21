@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSIONS_API_CLIENT_H_
 #define SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSIONS_API_CLIENT_H_
@@ -18,7 +18,7 @@ class ElectronExtensionsAPIClient : public ExtensionsAPIClient {
   ElectronExtensionsAPIClient();
   ~ElectronExtensionsAPIClient() override;
 
-  // ExtensionsAPIClient
+  // 扩展APIClient。
   MessagingDelegate* GetMessagingDelegate() override;
   void AttachWebContentsHelpers(
       content::WebContents* web_contents) const override;
@@ -34,6 +34,6 @@ class ElectronExtensionsAPIClient : public ExtensionsAPIClient {
   std::unique_ptr<ElectronMessagingDelegate> messaging_delegate_;
 };
 
-}  // namespace extensions
+}  // 命名空间扩展。
 
 #endif  // SHELL_BROWSER_EXTENSIONS_ELECTRON_EXTENSIONS_API_CLIENT_H_

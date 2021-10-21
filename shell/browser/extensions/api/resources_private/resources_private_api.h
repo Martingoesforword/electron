@@ -1,6 +1,6 @@
-// Copyright 2015 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2015年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_EXTENSIONS_API_RESOURCES_PRIVATE_RESOURCES_PRIVATE_API_H_
 #define SHELL_BROWSER_EXTENSIONS_API_RESOURCES_PRIVATE_RESOURCES_PRIVATE_API_H_
@@ -19,13 +19,13 @@ class ResourcesPrivateGetStringsFunction : public ExtensionFunction {
  protected:
   ~ResourcesPrivateGetStringsFunction() override;
 
-  // Override from ExtensionFunction:
+  // 从ExtensionFunction覆盖：
   ExtensionFunction::ResponseAction Run() override;
 
  private:
   DISALLOW_COPY_AND_ASSIGN(ResourcesPrivateGetStringsFunction);
 };
 
-}  // namespace extensions
+}  // 命名空间扩展。
 
 #endif  // SHELL_BROWSER_EXTENSIONS_API_RESOURCES_PRIVATE_RESOURCES_PRIVATE_API_H_

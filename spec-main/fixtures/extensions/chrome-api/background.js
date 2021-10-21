@@ -1,4 +1,4 @@
-/* global chrome */
+/* 全局铬。*/
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const { method, args = [] } = message;
@@ -29,6 +29,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       chrome.tabs.update(tabId, props, sendResponse);
     }
   }
-  // Respond asynchronously
+  // 异步响应
   return true;
 });

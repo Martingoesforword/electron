@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_API_ELECTRON_BINDINGS_H_
 #define SHELL_COMMON_API_ELECTRON_BINDINGS_H_
@@ -14,12 +14,12 @@
 #include "base/process/process_metrics.h"
 #include "shell/common/gin_helper/promise.h"
 #include "shell/common/node_bindings.h"
-#include "uv.h"  // NOLINT(build/include_directory)
+#include "uv.h"  // NOLINT(BUILD/INCLUDE_DIRECTORY)。
 
 namespace gin_helper {
 class Arguments;
 class Dictionary;
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 namespace memory_instrumentation {
 class GlobalMemoryDump;
@@ -36,11 +36,11 @@ class ElectronBindings {
   explicit ElectronBindings(uv_loop_t* loop);
   virtual ~ElectronBindings();
 
-  // Add process._linkedBinding function, which behaves like process.binding
-  // but load native code from Electron instead.
+  // 添加Process._linkedBinding函数，其行为类似于process.binding。
+  // 而是从Electron加载本地代码。
   void BindTo(v8::Isolate* isolate, v8::Local<v8::Object> process);
 
-  // Should be called when a node::Environment has been destroyed.
+  // 当节点：：环境已销毁时应调用。
   void EnvironmentDestroyed(node::Environment* env);
 
   static void BindProcess(v8::Isolate* isolate,
@@ -81,6 +81,6 @@ class ElectronBindings {
   DISALLOW_COPY_AND_ASSIGN(ElectronBindings);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_API_ELECTRON_BINDINGS_H_
+#endif  // Shell_COMMON_API_ELECT_BINDINGS_H_

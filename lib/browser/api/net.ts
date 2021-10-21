@@ -12,8 +12,8 @@ const {
 
 const kSupportedProtocols = new Set(['http:', 'https:']);
 
-// set of headers that Node.js discards duplicates for
-// see https://nodejs.org/api/http.html#http_message_headers
+// Node.js为其丢弃重复项的标头集。
+// 请参阅https://nodejs.org/api/http.html#http_message_headers。
 const discardableDuplicateHeaders = new Set([
   'content-type',
   'content-length',
@@ -63,18 +63,18 @@ class IncomingMessage extends Readable {
     rawHeaders.forEach(header => {
       if (Object.prototype.hasOwnProperty.call(filteredHeaders, header.key) &&
           discardableDuplicateHeaders.has(header.key)) {
-        // do nothing with discardable duplicate headers
+        // 不对可丢弃的重复标题执行任何操作。
       } else {
         if (header.key === 'set-cookie') {
-          // keep set-cookie as an array per Node.js rules
-          // see https://nodejs.org/api/http.html#http_message_headers
+          // 根据Node.js规则将set-cookie保留为数组。
+          // 请参阅https://nodejs.org/api/http.html#http_message_headers。
           if (Object.prototype.hasOwnProperty.call(filteredHeaders, header.key)) {
             (filteredHeaders[header.key] as string[]).push(header.value);
           } else {
             filteredHeaders[header.key] = [header.value];
           }
         } else {
-          // for non-cookie headers, the values are joined together with ', '
+          // 对于非Cookie标头，这些值用‘，’连接在一起。
           if (Object.prototype.hasOwnProperty.call(filteredHeaders, header.key)) {
             filteredHeaders[header.key] += `, ${header.value}`;
           } else {
@@ -107,7 +107,7 @@ class IncomingMessage extends Readable {
   }
 
   _storeInternalData (chunk: Buffer | null, resume: (() => void) | null) {
-    // save the network callback for use in _pushInternalData
+    // 保存网络回调以供in_ush InternalData使用。
     this._resume = resume;
     this._data.push(chunk);
     this._pushInternalData();
@@ -119,9 +119,9 @@ class IncomingMessage extends Readable {
       this._shouldPush = this.push(chunk);
     }
     if (this._shouldPush && this._resume) {
-      // Reset the callback, so that a new one is used for each
-      // batch of throttled data. Do this before calling resume to avoid a
-      // potential race-condition
+      // 重置回调，以便每个回调都使用一个新的回调。
+      // 一批节流数据。在调用Resume之前执行此操作，以避免出现。
+      // 潜在的竞争条件。
       const resume = this._resume;
       this._resume = null;
 
@@ -135,7 +135,7 @@ class IncomingMessage extends Readable {
   }
 }
 
-/** Writable stream that buffers up everything written to it. */
+/* *缓冲写入其中的所有内容的可写流。*/
 class SlurpStream extends Writable {
   _data: Buffer;
   constructor () {
@@ -166,12 +166,12 @@ class ChunkedBodyStream extends Writable {
     if (this._downstream) {
       this._downstream.write(chunk).then(callback, callback);
     } else {
-      // the contract of _write is that we won't be called again until we call
-      // the callback, so we're good to just save a single chunk.
+      // _WRITE的约定是，我们不会再被调用，直到我们调用。
+      // 回调，所以我们只保存一块就行了。
       this._pendingChunk = chunk;
       this._pendingCallback = callback;
 
-      // The first write to a chunked body stream begins the request.
+      // 对分块的正文流的第一次写入将开始请求。
       this._clientRequest._startRequest();
     }
   }
@@ -188,9 +188,9 @@ class ChunkedBodyStream extends Writable {
     this._downstream = pipe;
     if (this._pendingChunk) {
       const doneWriting = (maybeError: Error | void) => {
-        // If the underlying request has been aborted, we honeslty don't care about the error
-        // all work should cease as soon as we abort anyway, this error is probably a
-        // "mojo pipe disconnected" error (code=9)
+        // 如果底层请求已中止，我们不关心错误。
+        // 无论如何，一旦我们中止，所有工作都应该立即停止，此错误可能是。
+        // “MOJO PIPE DIRECTED”错误(代码=9)。
         if (this._clientRequest._aborted) return;
 
         const cb = this._pendingCallback!;
@@ -233,12 +233,12 @@ function parseOptions (optionsIn: ClientRequestConstructorOptions | string): Nod
     }
 
     if (options.path && / /.test(options.path)) {
-      // The actual regex is more like /[^A-Za-z0-9\-._~!$&'()*+,;=/:@]/
-      // with an additional rule for ignoring percentage-escaped characters
-      // but that's a) hard to capture in a regular expression that performs
-      // well, and b) possibly too restrictive for real-world usage. That's
-      // why it only scans for spaces because those are guaranteed to create
-      // an invalid request.
+      // 实际的正则表达式更像/[^A-ZA-Z0-9\-._~！$&‘()*+，；=/：@]/。
+      // 带有用于忽略百分比转义字符的附加规则。
+      // 但这是a)很难在执行的正则表达式中捕获。
+      // 嗯，和b)可能对现实世界的使用限制太多。那是。
+      // 为什么它只扫描空间，因为这些空间保证会创建。
+      // 无效的请求。
       throw new TypeError('Request path contains unescaped characters');
     }
     const pathObj = url.parse(options.path || '/');
@@ -279,7 +279,7 @@ function parseOptions (optionsIn: ClientRequestConstructorOptions | string): Nod
     urlLoaderOptions.headers[key] = { name, value };
   }
   if (options.session) {
-    // Weak check, but it should be enough to catch 99% of accidental misuses.
+    // 检查不力，但应该足以捕捉到99%的意外误用。
     if (options.session.constructor && options.session.constructor.name === 'Session') {
       urlLoaderOptions.session = options.session;
     } else {
@@ -397,16 +397,16 @@ export class ClientRequest extends Writable implements Electron.ClientRequest {
         this._startRequest();
       });
     }
-    // TODO: is this the right way to forward to another stream?
+    // TODO：这是转发到另一个流的正确方式吗？
     this._body.write(chunk, encoding, callback);
   }
 
   _final (callback: () => void) {
     if (this._body) {
-      // TODO: is this the right way to forward to another stream?
+      // TODO：这是转发到另一个流的正确方式吗？
       this._body.end(callback);
     } else {
-      // end() called without a body, go ahead and start the request
+      // 在没有正文的情况下调用end()，请继续并启动请求。
       this._startRequest();
       callback();
     }
@@ -448,7 +448,7 @@ export class ClientRequest extends Writable implements Electron.ClientRequest {
     this._urlLoader.on('login', (event, authInfo, callback) => {
       const handled = this.emit('login', authInfo, callback);
       if (!handled) {
-        // If there were no listeners, cancel the authentication request.
+        // 如果没有监听程序，则取消身份验证请求。
         callback();
       }
     });
@@ -469,9 +469,9 @@ export class ClientRequest extends Writable implements Electron.ClientRequest {
           }
         }
       } else if (this._redirectPolicy === 'follow') {
-        // Calling followRedirect() when the redirect policy is 'follow' is
-        // allowed but does nothing. (Perhaps it should throw an error
-        // though...? Since the redirect will happen regardless.)
+        // 当重定向策略为‘Follow’时调用postRedirect()是。
+        // 允许，但不执行任何操作。(也许它应该抛出一个错误。
+        // 不过...？因为不管怎样，重定向都会发生。)。
         try {
           this._followRedirectCb = () => {};
           this.emit('redirect', statusCode, newMethod, newUrl, headers);
@@ -485,12 +485,12 @@ export class ClientRequest extends Writable implements Electron.ClientRequest {
 
     this._urlLoader.on('upload-progress', (event, position, total) => {
       this._uploadProgress = { active: true, started: true, current: position, total };
-      this.emit('upload-progress', position, total); // Undocumented, for now
+      this.emit('upload-progress', position, total); // 目前，无证可查。
     });
 
     this._urlLoader.on('download-progress', (event, current) => {
       if (this._response) {
-        this._response.emit('download-progress', current); // Undocumented, for now
+        this._response.emit('download-progress', current); // 目前，无证可查。
       }
     });
   }
@@ -512,10 +512,10 @@ export class ClientRequest extends Writable implements Electron.ClientRequest {
   }
 
   _die (err?: Error) {
-    // Node.js assumes that any stream which is ended is no longer capable of emitted events
-    // which is a faulty assumption for the case of an object that is acting like a stream
-    // (our urlRequest). If we don't emit here, this causes errors since we *do* expect
-    // that error events can be emitted after urlRequest.end().
+    // Js假定结束的任何流不再能够发出事件。
+    // 对于行为类似于流的对象的情况，这是一个错误的假设。
+    // (我们的urlRequest)。如果我们不在这里发出，这会导致错误，因为我们“确实”期望。
+    // 该错误事件可以在urlRequest.end()之后发出。
     if ((this as any)._writableState.destroyed && err) {
       this.emit('error', err);
     }

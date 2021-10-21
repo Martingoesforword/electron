@@ -16,10 +16,10 @@ function isTestingBindingAvailable () {
   }
 }
 
-// This test depends on functions that are only available when DCHECK_IS_ON.
+// 此测试取决于仅在DCHECK_IS_ON时可用的函数。
 ifdescribe(isTestingBindingAvailable())('logging', () => {
   it('does not log by default', async () => {
-    // ELECTRON_ENABLE_LOGGING is turned on in the appveyor config.
+    // 在Appveyor配置中打开了ELECTIVE_ENABLE_LOGGING。
     const { ELECTRON_ENABLE_LOGGING: _, ...envWithoutEnableLogging } = process.env;
     const rc = await startRemoteControlApp([], { env: envWithoutEnableLogging });
     const stderrComplete = new Promise<string>(resolve => {
@@ -30,8 +30,8 @@ ifdescribe(isTestingBindingAvailable())('logging', () => {
       rc.process.on('close', () => { resolve(stderr); });
     });
     const [hasLoggingSwitch, hasLoggingVar] = await rc.remotely(() => {
-      // Make sure we're actually capturing stderr by logging a known value to
-      // stderr.
+      // 确保我们通过将已知值记录到。
+      // 标准。
       console.error('SENTINEL');
       process._linkedBinding('electron_common_testing').log(0, 'TEST_LOG');
       setTimeout(() => { process.exit(0); });
@@ -40,7 +40,7 @@ ifdescribe(isTestingBindingAvailable())('logging', () => {
     expect(hasLoggingSwitch).to.be.false();
     expect(hasLoggingVar).to.be.false();
     const stderr = await stderrComplete;
-    // stderr should include the sentinel but not the LOG() message.
+    // Stderr应该包括前哨，而不是log()消息。
     expect(stderr).to.match(/SENTINEL/);
     expect(stderr).not.to.match(/TEST_LOG/);
   });

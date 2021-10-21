@@ -1,6 +1,6 @@
-// Copyright (c) 2020 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_LANGUAGE_UTIL_H_
 #define SHELL_COMMON_LANGUAGE_UTIL_H_
@@ -10,10 +10,10 @@
 
 namespace electron {
 
-// Return a list of user preferred languages from OS. The list doesn't include
-// overrides from command line arguments.
+// 从操作系统返回用户首选语言列表。这份名单不包括。
+// 从命令行参数重写。
 std::vector<std::string> GetPreferredLanguages();
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_LANGUAGE_UTIL_H_
+#endif  // Shell_COMMON_LANGUAGE_UTIL_H_

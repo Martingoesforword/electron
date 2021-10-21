@@ -1,4 +1,4 @@
-// A small pipe transport for talking to Electron over CDP.
+// 一种用于通过CDP与电子交谈的小管道传输器。
 export class PipeTransport {
   private _pipeWrite: NodeJS.WritableStream | null;
   private _pendingMessage = '';

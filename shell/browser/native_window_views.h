@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NATIVE_WINDOW_VIEWS_H_
 #define SHELL_BROWSER_NATIVE_WINDOW_VIEWS_H_
@@ -47,7 +47,7 @@ class NativeWindowViews : public NativeWindow,
                     NativeWindow* parent);
   ~NativeWindowViews() override;
 
-  // NativeWindow:
+  // NativeWindow：
   void SetContentView(views::View* view) override;
   void Close() override;
   void CloseImmediately() override;
@@ -154,12 +154,12 @@ class NativeWindowViews : public NativeWindow,
   void DecrementChildModals();
 
 #if defined(OS_WIN)
-  // Catch-all message handling and filtering. Called before
-  // HWNDMessageHandler's built-in handling, which may pre-empt some
-  // expectations in Views/Aura if messages are consumed. Returns true if the
-  // message was consumed by the delegate and should not be processed further
-  // by the HWNDMessageHandler. In this case, |result| is returned. |result| is
-  // not modified otherwise.
+  // 包罗万象的消息处理和过滤。之前调用过。
+  // HWNDMessageHandler的内置处理，这可能会先发制人。
+  // 如果邮件被消费，视图/光环中的期望值。如果设置为True，则返回True。
+  // 消息已由委托使用，不应进一步处理。
+  // 由HWNDMessageHandler执行。在本例中，返回|Result|。|Result|为。
+  // 未以其他方式修改。
   bool PreHandleMSG(UINT message,
                     WPARAM w_param,
                     LPARAM l_param,
@@ -185,14 +185,14 @@ class NativeWindowViews : public NativeWindow,
 #endif
 
  private:
-  // views::WidgetObserver:
+  // 视图：：WidgetViewer：
   void OnWidgetActivationChanged(views::Widget* widget, bool active) override;
   void OnWidgetBoundsChanged(views::Widget* widget,
                              const gfx::Rect& bounds) override;
   void OnWidgetDestroying(views::Widget* widget) override;
   void OnWidgetDestroyed(views::Widget* widget) override;
 
-  // views::WidgetDelegate:
+  // 视图：：WidgetDelegate：
   views::View* GetInitiallyFocusedView() override;
   bool CanMaximize() const override;
   bool CanMinimize() const override;
@@ -223,42 +223,42 @@ class NativeWindowViews : public NativeWindow,
                                         LPARAM l_param);
 #endif
 
-  // Enable/disable:
+  // 启用/禁用：
   bool ShouldBeEnabled();
   void SetEnabledInternal(bool enabled);
 
-  // NativeWindow:
+  // NativeWindow：
   void HandleKeyboardEvent(
       content::WebContents*,
       const content::NativeWebKeyboardEvent& event) override;
 
-  // ui::EventHandler:
+  // UI：：EventHandler：
   void OnMouseEvent(ui::MouseEvent* event) override;
 
-  // Returns the restore state for the window.
+  // 返回窗口的还原状态。
   ui::WindowShowState GetRestoredState();
 
-  // Maintain window placement.
+  // 保持窗的位置。
   void MoveBehindTaskBarIfNeeded();
 
   std::unique_ptr<RootView> root_view_;
 
-  // The view should be focused by default.
+  // 默认情况下，视图应该是聚焦的。
   views::View* focused_view_ = nullptr;
 
-  // The "resizable" flag on Linux is implemented by setting size constraints,
-  // we need to make sure size constraints are restored when window becomes
-  // resizable again. This is also used on Windows, to keep taskbar resize
-  // events from resizing the window.
+  // Linux上的“可调整大小”标志是通过设置大小约束来实现的，
+  // 我们需要确保在窗口变为。
+  // 再次调整大小。这也可以在Windows上使用，以保持任务栏的大小调整。
+  // 调整窗口大小引发的事件。
   extensions::SizeConstraints old_size_constraints_;
 
 #if defined(USE_X11)
   std::unique_ptr<GlobalMenuBarX11> global_menu_bar_;
 
-  // Handles window state events.
+  // 处理窗口状态事件。
   std::unique_ptr<WindowStateWatcher> window_state_watcher_;
 
-  // To disable the mouse events.
+  // 要禁用鼠标事件，请执行以下操作。
   std::unique_ptr<EventDisabler> event_disabler_;
 #endif
 
@@ -268,58 +268,58 @@ class NativeWindowViews : public NativeWindow,
 
   gfx::Rect last_normal_placement_bounds_;
 
-  // In charge of running taskbar related APIs.
+  // 负责任务栏相关API的运行。
   TaskbarHost taskbar_host_;
 
-  // Memoized version of a11y check
+  // A11y支票的记忆版本。
   bool checked_for_a11y_support_ = false;
 
-  // Whether to show the WS_THICKFRAME style.
+  // 是否显示WS_THICKFRAME样式。
   bool thick_frame_ = true;
 
-  // The bounds of window before maximize/fullscreen.
+  // 最大化/全屏之前的窗口边界。
   gfx::Rect restore_bounds_;
 
-  // The icons of window and taskbar.
+  // 窗口和任务栏的图标。
   base::win::ScopedHICON window_icon_;
   base::win::ScopedHICON app_icon_;
 
-  // The set of windows currently forwarding mouse messages.
+  // 当前转发鼠标消息的窗口集。
   static std::set<NativeWindowViews*> forwarding_windows_;
   static HHOOK mouse_hook_;
   bool forwarding_mouse_messages_ = false;
   HWND legacy_window_ = NULL;
   bool layered_ = false;
 
-  // Set to true if the window is always on top and behind the task bar.
+  // 如果窗口始终位于任务栏的顶部和后面，则设置为true。
   bool behind_task_bar_ = false;
 
-  // Whether we want to set window placement without side effect.
+  // 是否要设置没有副作用的窗口位置。
   bool is_setting_window_placement_ = false;
 
-  // Whether the window is currently being resized.
+  // 窗口当前是否正在调整大小。
   bool is_resizing_ = false;
 
-  // Whether the window is currently being moved.
+  // 窗口当前是否正在移动。
   bool is_moving_ = false;
 
-  // The color to use as the theme and symbol colors respectively for Window
-  // Controls Overlay if enabled on Windows.
+  // 分别用作窗口的主题颜色和符号颜色的颜色。
+  // 控件覆盖(如果在Windows上启用)。
   SkColor overlay_button_color_;
   SkColor overlay_symbol_color_;
 #endif
 
-  // Handles unhandled keyboard messages coming back from the renderer process.
+  // 处理从呈现器进程返回的未处理键盘消息。
   std::unique_ptr<views::UnhandledKeyboardEventHandler> keyboard_event_handler_;
 
-  // For custom drag, the whole window is non-draggable and the draggable region
-  // has to been explicitly provided.
-  std::unique_ptr<SkRegion> draggable_region_;  // used in custom drag.
+  // 对于自定义拖动，整个窗口是不可拖动的，并且可拖动区域。
+  // 必须明确规定。
+  std::unique_ptr<SkRegion> draggable_region_;  // 在自定义阻力中使用。
 
-  // Whether the window should be enabled based on user calls to SetEnabled()
+  // 是否应根据用户对SetEnabled()的调用启用窗口。
   bool is_enabled_ = true;
-  // How many modal children this window has;
-  // used to determine enabled state
+  // 此窗口有多少模式子窗口；
+  // 用于确定启用状态。
   unsigned int num_modal_children_ = 0;
 
   bool use_content_size_ = false;
@@ -336,6 +336,6 @@ class NativeWindowViews : public NativeWindow,
   DISALLOW_COPY_AND_ASSIGN(NativeWindowViews);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_NATIVE_WINDOW_VIEWS_H_
+#endif  // Shell_Browser_Native_Window_Views_H_

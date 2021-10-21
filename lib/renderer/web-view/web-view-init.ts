@@ -8,8 +8,8 @@ const v8Util = process._linkedBinding('electron_common_v8_util');
 const { mainFrame: webFrame } = process._linkedBinding('electron_renderer_web_frame');
 
 function handleFocusBlur () {
-  // Note that while Chromium content APIs have observer for focus/blur, they
-  // unfortunately do not work for webview.
+  // 请注意，虽然Chromium Content API具有焦点/模糊观察器，但它们。
+  // 不幸的是，它不适用于Webview。
 
   window.addEventListener('focus', () => {
     ipcRendererInternal.send(IPC_MESSAGES.GUEST_VIEW_MANAGER_FOCUS_CHANGE, true);
@@ -21,7 +21,7 @@ function handleFocusBlur () {
 }
 
 export function webViewInit (contextIsolation: boolean, webviewTag: boolean, isWebView: boolean) {
-  // Don't allow recursive `<webview>`.
+  // 不允许递归`&lt;webview&gt;`。
   if (webviewTag && !isWebView) {
     const guestViewInternal = require('@electron/internal/renderer/web-view/guest-view-internal') as typeof guestViewInternalModule;
     if (contextIsolation) {
@@ -37,7 +37,7 @@ export function webViewInit (contextIsolation: boolean, webviewTag: boolean, isW
   }
 
   if (isWebView) {
-    // Report focus/blur events of webview to browser.
+    // 向浏览器报告Webview的聚焦/模糊事件。
     handleFocusBlur();
   }
 }

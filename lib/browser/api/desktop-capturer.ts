@@ -7,7 +7,7 @@ let currentlyRunning: {
   getSources: Promise<ElectronInternal.GetSourcesResult[]>;
 }[] = [];
 
-// |options.types| can't be empty and must be an array
+// |options.type|不能为空，必须为数组。
 function isValid (options: Electron.SourcesOptions) {
   const types = options ? options.types : undefined;
   return Array.isArray(types);
@@ -31,8 +31,8 @@ export async function getSources (args: Electron.SourcesOptions) {
 
   for (const running of currentlyRunning) {
     if (deepEqual(running.options, options)) {
-      // If a request is currently running for the same options
-      // return that promise
+      // 如果请求当前正在运行相同的选项。
+      // 兑现诺言。
       return running.getSources;
     }
   }
@@ -46,7 +46,7 @@ export async function getSources (args: Electron.SourcesOptions) {
         delete capturer._onfinished;
         capturer = null;
       }
-      // Remove from currentlyRunning once we resolve or reject
+      // 从当前删除解决或拒绝后运行
       currentlyRunning = currentlyRunning.filter(running => running.options !== options);
     };
 

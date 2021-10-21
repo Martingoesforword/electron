@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Samuel Maddock <sam@samuelmaddock.com>.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Samuel Maddock&lt;Sam@samuelmaddock.com&gt;。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_CONVERTERS_FRAME_CONVERTER_H_
 #define SHELL_COMMON_GIN_CONVERTERS_FRAME_CONVERTER_H_
@@ -30,6 +30,6 @@ struct Converter<gin_helper::AccessorValue<content::RenderFrameHost*>> {
                      gin_helper::AccessorValue<content::RenderFrameHost*>* out);
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 #endif  // SHELL_COMMON_GIN_CONVERTERS_FRAME_CONVERTER_H_

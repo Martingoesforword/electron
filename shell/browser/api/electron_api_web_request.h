@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_WEB_REQUEST_H_
 #define SHELL_BROWSER_API_ELECTRON_API_WEB_REQUEST_H_
@@ -27,29 +27,29 @@ class WebRequest : public gin::Wrappable<WebRequest>, public WebRequestAPI {
  public:
   static gin::WrapperInfo kWrapperInfo;
 
-  // Return the WebRequest object attached to |browser_context|, create if there
-  // is no one.
-  // Note that the lifetime of WebRequest object is managed by Session, instead
-  // of the caller.
+  // 返回附加到|BROWSER_CONTEXT|的WebRequest对象，如果存在。
+  // 没有人。
+  // 请注意，WebRequest对象的生存期由会话管理，而不是由会话管理。
+  // 呼叫者的名字。
   static gin::Handle<WebRequest> FromOrCreate(
       v8::Isolate* isolate,
       content::BrowserContext* browser_context);
 
-  // Return a new WebRequest object, this should only be called by Session.
+  // 返回一个新的WebRequest对象，它应该只由Session调用。
   static gin::Handle<WebRequest> Create(
       v8::Isolate* isolate,
       content::BrowserContext* browser_context);
 
-  // Find the WebRequest object attached to |browser_context|.
+  // 查找附加到|BROWSER_CONTEXT|的WebRequest对象。
   static gin::Handle<WebRequest> From(v8::Isolate* isolate,
                                       content::BrowserContext* browser_context);
 
-  // gin::Wrappable:
+  // 杜松子酒：：可包装的：
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
   const char* GetTypeName() override;
 
-  // WebRequestAPI:
+  // WebRequestAPI：
   bool HasListener() const override;
   int OnBeforeRequest(extensions::WebRequestInfo* info,
                       const network::ResourceRequest& request,
@@ -147,12 +147,12 @@ class WebRequest : public gin::Wrappable<WebRequest>, public WebRequestAPI {
   std::map<ResponseEvent, ResponseListenerInfo> response_listeners_;
   std::map<uint64_t, net::CompletionOnceCallback> callbacks_;
 
-  // Weak-ref, it manages us.
+  // 弱裁判，它管理着我们。
   content::BrowserContext* browser_context_;
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_WEB_REQUEST_H_
+#endif  // Shell_Browser_API_Electronics_API_Web_Request_H_

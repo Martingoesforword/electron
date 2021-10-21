@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_MENU_H_
 #define SHELL_BROWSER_API_ELECTRON_API_MENU_H_
@@ -27,20 +27,20 @@ class Menu : public gin::Wrappable<Menu>,
              public ElectronMenuModel::Delegate,
              public ElectronMenuModel::Observer {
  public:
-  // gin_helper::Constructible
+  // Gin_helper：：可构造的。
   static gin::Handle<Menu> New(gin::Arguments* args);
   static v8::Local<v8::ObjectTemplate> FillObjectTemplate(
       v8::Isolate*,
       v8::Local<v8::ObjectTemplate>);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
 
 #if defined(OS_MAC)
-  // Set the global menubar.
+  // 设置全局菜单栏。
   static void SetApplicationMenu(Menu* menu);
 
-  // Fake sending an action from the application menu.
+  // 从应用程序菜单假发送操作。
   static void SendActionToFirstResponder(const std::string& action);
 #endif
 
@@ -50,11 +50,11 @@ class Menu : public gin::Wrappable<Menu>,
   explicit Menu(gin::Arguments* args);
   ~Menu() override;
 
-  // Returns a new callback which keeps references of the JS wrapper until the
-  // passed |callback| is called.
+  // 返回一个新的回调，该回调保留JS包装的引用，直到。
+  // 传入的|回调|被调用。
   base::OnceClosure BindSelfToClosure(base::OnceClosure callback);
 
-  // ui::SimpleMenuModel::Delegate:
+  // UI：：SimpleMenuModel：：Delegate：
   bool IsCommandIdChecked(int command_id) const override;
   bool IsCommandIdEnabled(int command_id) const override;
   bool IsCommandIdVisible(int command_id) const override;
@@ -84,7 +84,7 @@ class Menu : public gin::Wrappable<Menu>,
   std::unique_ptr<ElectronMenuModel> model_;
   Menu* parent_ = nullptr;
 
-  // Observable:
+  // 可观察到的：
   void OnMenuWillClose() override;
   void OnMenuWillShow() override;
 
@@ -121,9 +121,9 @@ class Menu : public gin::Wrappable<Menu>,
   DISALLOW_COPY_AND_ASSIGN(Menu);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace gin {
 
@@ -132,7 +132,7 @@ struct Converter<electron::ElectronMenuModel*> {
   static bool FromV8(v8::Isolate* isolate,
                      v8::Local<v8::Value> val,
                      electron::ElectronMenuModel** out) {
-    // null would be transferred to NULL.
+    // NULL将被转移到NULL。
     if (val->IsNull()) {
       *out = nullptr;
       return true;
@@ -146,6 +146,6 @@ struct Converter<electron::ElectronMenuModel*> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_MENU_H_
+#endif  // Shell_Browser_API_Electronics_API_Menu_H_

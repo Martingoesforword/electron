@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_EVENT_EMITTER_MIXIN_H_
 #define SHELL_BROWSER_EVENT_EMITTER_MIXIN_H_
@@ -15,13 +15,13 @@ namespace gin_helper {
 
 namespace internal {
 v8::Local<v8::FunctionTemplate> GetEventEmitterTemplate(v8::Isolate* isolate);
-}  // namespace internal
+}  // 命名空间内部。
 
 template <typename T>
 class EventEmitterMixin {
  public:
-  // this.emit(name, new Event(), args...);
-  // Returns true if event.preventDefault() was called during processing.
+  // This.emit(name，new event()，args...)；
+  // 如果在处理过程中调用event.prevenentDefault()，则返回TRUE。
   template <typename... Args>
   bool Emit(base::StringPiece name, Args&&... args) {
     v8::Isolate* isolate = electron::JavascriptEnvironment::GetIsolate();
@@ -35,7 +35,7 @@ class EventEmitterMixin {
                          std::forward<Args>(args)...);
   }
 
-  // this.emit(name, event, args...);
+  // This.emit(名称，事件，参数...)；
   template <typename... Args>
   bool EmitCustomEvent(base::StringPiece name,
                        v8::Local<v8::Object> custom_event,
@@ -70,7 +70,7 @@ class EventEmitterMixin {
   }
 
  private:
-  // this.emit(name, event, args...);
+  // This.emit(名称，事件，参数...)；
   template <typename... Args>
   static bool EmitWithEvent(v8::Isolate* isolate,
                             v8::Local<v8::Object> wrapper,
@@ -91,6 +91,6 @@ class EventEmitterMixin {
   DISALLOW_COPY_AND_ASSIGN(EventEmitterMixin);
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
-#endif  // SHELL_BROWSER_EVENT_EMITTER_MIXIN_H_
+#endif  // Shell_Browser_Event_Emitter_Mixin_H_

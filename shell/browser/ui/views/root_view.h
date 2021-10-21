@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_VIEWS_ROOT_VIEW_H_
 #define SHELL_BROWSER_UI_VIEWS_ROOT_VIEW_H_
@@ -37,27 +37,27 @@ class RootView : public views::View {
   void HandleKeyEvent(const content::NativeWebKeyboardEvent& event);
   void ResetAltState();
   void RestoreFocus();
-  // Register/Unregister accelerators supported by the menu model.
+  // 注册/取消注册菜单型号支持的快捷键。
   void RegisterAcceleratorsWithFocusManager(ElectronMenuModel* menu_model);
   void UnregisterAcceleratorsWithFocusManager();
 
-  // views::View:
+  // 视图：：视图：
   void Layout() override;
   gfx::Size GetMinimumSize() const override;
   gfx::Size GetMaximumSize() const override;
   bool AcceleratorPressed(const ui::Accelerator& accelerator) override;
 
  private:
-  // Parent window, weak ref.
+  // 父窗口，弱引用。
   NativeWindow* window_;
 
-  // Menu bar.
+  // 菜单栏。
   std::unique_ptr<MenuBar> menu_bar_;
   bool menu_bar_autohide_ = false;
   bool menu_bar_visible_ = false;
   bool menu_bar_alt_pressed_ = false;
 
-  // Map from accelerator to menu item's command id.
+  // 从快捷键映射到菜单项的命令ID。
   accelerator_util::AcceleratorTable accelerator_table_;
 
   std::unique_ptr<views::ViewTracker> last_focused_view_tracker_;
@@ -65,6 +65,6 @@ class RootView : public views::View {
   DISALLOW_COPY_AND_ASSIGN(RootView);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_VIEWS_ROOT_VIEW_H_
+#endif  // Shell_Browser_UI_Views_ROOT_VIEW_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_COCOA_VIEWS_DELEGATE_MAC_H_
 #define SHELL_BROWSER_UI_COCOA_VIEWS_DELEGATE_MAC_H_
@@ -14,7 +14,7 @@ class ViewsDelegateMac : public views::ViewsDelegate {
   ViewsDelegateMac();
   ~ViewsDelegateMac() override;
 
-  // ViewsDelegate:
+  // 视图委派：
   void OnBeforeWidgetInit(
       views::Widget::InitParams* params,
       views::internal::NativeWidgetDelegate* delegate) override;
@@ -24,6 +24,6 @@ class ViewsDelegateMac : public views::ViewsDelegate {
   DISALLOW_COPY_AND_ASSIGN(ViewsDelegateMac);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_COCOA_VIEWS_DELEGATE_MAC_H_
+#endif  // Shell_Browser_UI_CoCoA_Views_Delegate_MAC_H_

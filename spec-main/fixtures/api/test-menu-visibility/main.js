@@ -1,9 +1,9 @@
 const { app, BrowserWindow } = require('electron');
 
 let win;
-// This test uses "app.once('ready')" while the |test-menu-null| test uses
-// "app.whenReady()", the 2 APIs have slight difference on timing to cover
-// more cases.
+// 此测试使用“app.once(‘Ready’)”，而|test-menu-null|test使用。
+// App.When Ready()，这两个接口在覆盖的时序上略有不同。
+// 更多的案子。
 app.once('ready', function () {
   win = new BrowserWindow({});
   win.setMenuBarVisibility(false);

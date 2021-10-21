@@ -6,7 +6,7 @@ const YARN_VERSION = /'yarn_version': '(.+?)'/.exec(fs.readFileSync(path.resolve
 
 exports.YARN_VERSION = YARN_VERSION;
 
-// If we are running "node script/yarn" run as the yarn CLI
+// 如果我们正在运行“节点脚本/纱线”，则作为纱线CLI运行
 if (process.mainModule === module) {
   const NPX_CMD = process.platform === 'win32' ? 'npx.cmd' : 'npx';
 

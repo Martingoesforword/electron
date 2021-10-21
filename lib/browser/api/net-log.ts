@@ -1,5 +1,5 @@
-// TODO(deepak1556): Deprecate and remove standalone netLog module,
-// it is now a property of session module.
+// TODO(Deepak1556)：不推荐使用并删除独立的Netlog模块，
+// 它现在是会话模块的属性。
 import { app, session } from 'electron/main';
 
 const startLogging: typeof session.defaultSession.netLog.startLogging = async (path, options) => {

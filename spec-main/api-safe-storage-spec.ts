@@ -6,13 +6,7 @@ import { emittedOnce } from './events-helpers';
 import { ifdescribe } from './spec-helpers';
 import * as fs from 'fs';
 
-/* isEncryptionAvailable returns false in Linux when running CI due to a mocked dbus. This stops
-* Chrome from reaching the system's keyring or libsecret. When running the tests with config.store
-* set to basic-text, a nullptr is returned from chromium,  defaulting the available encryption to false.
-*
-* Because all encryption methods are gated by isEncryptionAvailable, the methods will never return the correct values
-* when run on CI and linux.
-*/
+/* 在Linux中，由于模拟dbus而运行CI时，isEncryptionAvailable返回False。这会阻止*Chrome访问系统的密钥环或库机密。当在config.store*设置为Basic-Text的情况下运行测试时，会从Chrome返回一个nullptr，将可用的加密默认为false。**由于所有加密方法都由isEncryptionAvailable门控，所以在CI和Linux上运行时，这些方法永远不会返回正确值*。*/
 
 ifdescribe(process.platform !== 'linux')('safeStorage module', () => {
   after(async () => {

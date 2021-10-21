@@ -4,7 +4,7 @@ import { Menu, Event, BrowserWindow, WebContents } from 'electron/main';
 let nextCommandId = 0;
 
 const MenuItem = function (this: any, options: any) {
-  // Preserve extra fields specified by user
+  // 保留用户指定的额外字段。
   for (const key in options) {
     if (!(key in this)) this[key] = options[key];
   }
@@ -54,7 +54,7 @@ const MenuItem = function (this: any, options: any) {
 
   const click = options.click;
   this.click = (event: Event, focusedWindow: BrowserWindow, focusedWebContents: WebContents) => {
-    // Manually flip the checked flags when clicked.
+    // 单击时手动翻转选中的标志。
     if (!roles.shouldOverrideCheckStatus(this.role) &&
         (this.type === 'checkbox' || this.type === 'radio')) {
       this.checked = !this.checked;

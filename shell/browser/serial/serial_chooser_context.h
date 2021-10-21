@@ -1,6 +1,6 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2019年Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_SERIAL_SERIAL_CHOOSER_CONTEXT_H_
 #define SHELL_BROWSER_SERIAL_SERIAL_CHOOSER_CONTEXT_H_
@@ -40,8 +40,8 @@ extern const char kProductIdKey[];
 extern const char kSerialNumberKey[];
 #if defined(OS_MAC)
 extern const char kUsbDriverKey[];
-#endif  // defined(OS_MAC)
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_MAC)。
+#endif  // 已定义(OS_WIN)。
 
 class SerialChooserContext : public KeyedService,
                              public device::mojom::SerialPortManagerClient {
@@ -51,7 +51,7 @@ class SerialChooserContext : public KeyedService,
   SerialChooserContext();
   ~SerialChooserContext() override;
 
-  // Serial-specific interface for granting and checking permissions.
+  // 用于授予和检查权限的串行特定接口。
   void GrantPortPermission(const url::Origin& origin,
                            const device::mojom::SerialPortInfo& port,
                            content::RenderFrameHost* render_frame_host);
@@ -68,7 +68,7 @@ class SerialChooserContext : public KeyedService,
 
   base::WeakPtr<SerialChooserContext> AsWeakPtr();
 
-  // SerialPortManagerClient implementation.
+  // SerialPortManagerClient实现。
   void OnPortAdded(device::mojom::SerialPortInfoPtr port) override;
   void OnPortRemoved(device::mojom::SerialPortInfoPtr port) override;
 
@@ -78,10 +78,10 @@ class SerialChooserContext : public KeyedService,
       mojo::PendingRemote<device::mojom::SerialPortManager> manager);
   void OnPortManagerConnectionError();
 
-  // Tracks the set of ports to which an origin has access to.
+  // 跟踪原点有权访问的一组端口。
   std::map<url::Origin, std::set<base::UnguessableToken>> ephemeral_ports_;
 
-  // Holds information about ports in |ephemeral_ports_|.
+  // 保存有关|EMEMPERAL_PORTS_|中的端口的信息。
   std::map<base::UnguessableToken, base::Value> port_info_;
 
   mojo::Remote<device::mojom::SerialPortManager> port_manager_;
@@ -93,6 +93,6 @@ class SerialChooserContext : public KeyedService,
   DISALLOW_COPY_AND_ASSIGN(SerialChooserContext);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_SERIAL_SERIAL_CHOOSER_CONTEXT_H_

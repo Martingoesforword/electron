@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_EXTENSIONS_ELECTRON_COMPONENT_EXTENSION_RESOURCE_MANAGER_H_
 #define SHELL_BROWSER_EXTENSIONS_ELECTRON_COMPONENT_EXTENSION_RESOURCE_MANAGER_H_
@@ -25,7 +25,7 @@ class ElectronComponentExtensionResourceManager
   ElectronComponentExtensionResourceManager();
   ~ElectronComponentExtensionResourceManager() override;
 
-  // Overridden from ComponentExtensionResourceManager:
+  // 从ComponentExtensionResourceManager覆盖：
   bool IsComponentExtensionResource(const base::FilePath& extension_path,
                                     const base::FilePath& resource_path,
                                     int* resource_id) const override;
@@ -36,17 +36,17 @@ class ElectronComponentExtensionResourceManager
   void AddComponentResourceEntries(const webui::ResourcePath* entries,
                                    size_t size);
 
-  // A map from a resource path to the resource ID.  Used by
-  // IsComponentExtensionResource.
+  // 从资源路径到资源ID的映射。由。
+  // IsComponentExtensionResource。
   std::map<base::FilePath, int> path_to_resource_id_;
 
-  // A map from an extension ID to its i18n template replacements.
+  // 从扩展ID到其I18N模板替代项的映射。
   std::map<std::string, ui::TemplateReplacements>
       extension_template_replacements_;
 
   DISALLOW_COPY_AND_ASSIGN(ElectronComponentExtensionResourceManager);
 };
 
-}  // namespace extensions
+}  // 命名空间扩展。
 
 #endif  // SHELL_BROWSER_EXTENSIONS_ELECTRON_COMPONENT_EXTENSION_RESOURCE_MANAGER_H_

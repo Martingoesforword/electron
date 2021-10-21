@@ -1,4 +1,4 @@
-/* global chrome */
+/* 全局铬*/
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   sendResponse(message);

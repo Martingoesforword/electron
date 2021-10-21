@@ -1,10 +1,10 @@
-// For these tests we use a fake DBus daemon to verify libnotify interaction
-// with the session bus. This requires python-dbusmock to be installed and
-// running at $DBUS_SESSION_BUS_ADDRESS.
-//
-// script/spec-runner.js spawns dbusmock, which sets DBUS_SESSION_BUS_ADDRESS.
-//
-// See https://pypi.python.org/pypi/python-dbusmock to read about dbusmock.
+// 对于这些测试，我们使用假的DBus守护进程来验证libtify交互。
+// 使用会话总线。这需要安装python-dbusmock和。
+// 在$DBUS_SESSION_BUS_ADDRESS上运行。
+// 
+// Script/spec-runner.js生成dbusmock，它设置DBUS_SESSION_BUS_ADDRESS。
+// 
+// 请参见https://pypi.python.org/pypi/python-dbusmock阅读有关dbusmock的信息。
 
 import { expect } from 'chai';
 import * as dbus from 'dbus-native';
@@ -25,11 +25,11 @@ ifdescribe(!skip)('Notification module (dbus)', () => {
   const serviceName = 'org.freedesktop.Notifications';
 
   before(async () => {
-    // init app
+    // 初始化应用程序。
     app.name = appName;
     app.setDesktopName(`${appName}.desktop`);
 
-    // init DBus
+    // 初始化数据库。
     const path = '/org/freedesktop/Notifications';
     const iface = 'org.freedesktop.DBus.Mock';
     console.log(`session bus: ${process.env.DBUS_SESSION_BUS_ADDRESS}`);
@@ -42,9 +42,9 @@ ifdescribe(!skip)('Notification module (dbus)', () => {
   });
 
   after(async () => {
-    // cleanup dbus
+    // 清理数据总线。
     if (reset) await reset();
-    // cleanup app
+    // 清理应用程序。
     app.setName(realAppName);
     app.setVersion(realAppVersion);
   });
@@ -86,7 +86,7 @@ ifdescribe(!skip)('Notification module (dbus)', () => {
 
     before(done => {
       mock.on('MethodCalled', onMethodCalled(done));
-      // lazy load Notification after we listen to MethodCalled mock signal
+      // 监听MethodCall模拟信号后的延迟加载通知
       Notification = require('electron').Notification;
       const n = new Notification({
         title: 'title',

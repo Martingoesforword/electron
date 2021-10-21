@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_GLOBAL_SHORTCUT_H_
 #define SHELL_BROWSER_API_ELECTRON_API_GLOBAL_SHORTCUT_H_
@@ -23,7 +23,7 @@ class GlobalShortcut : public extensions::GlobalShortcutListener::Observer,
  public:
   static gin::Handle<GlobalShortcut> Create(v8::Isolate* isolate);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -46,7 +46,7 @@ class GlobalShortcut : public extensions::GlobalShortcutListener::Observer,
   void UnregisterSome(const std::vector<ui::Accelerator>& accelerators);
   void UnregisterAll();
 
-  // GlobalShortcutListener::Observer implementation.
+  // GlobalShortcutListener：：观察者实现。
   void OnKeyPressed(const ui::Accelerator& accelerator) override;
 
   AcceleratorCallbackMap accelerator_callback_map_;
@@ -54,8 +54,8 @@ class GlobalShortcut : public extensions::GlobalShortcutListener::Observer,
   DISALLOW_COPY_AND_ASSIGN(GlobalShortcut);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_GLOBAL_SHORTCUT_H_

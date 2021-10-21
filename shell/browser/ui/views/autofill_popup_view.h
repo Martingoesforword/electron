@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_VIEWS_AUTOFILL_POPUP_VIEW_H_
 #define SHELL_BROWSER_UI_VIEWS_AUTOFILL_POPUP_VIEW_H_
@@ -33,8 +33,8 @@ const int kRowHeight = 24;
 
 class AutofillPopup;
 
-// Child view only for triggering accessibility events. Rendering is handled
-// by |AutofillPopupViewViews|.
+// 仅用于触发辅助功能事件的子视图。处理渲染。
+// By|AutofulPopupViews|。
 class AutofillPopupChildView : public views::View {
  public:
   explicit AutofillPopupChildView(const std::u16string& suggestion)
@@ -45,7 +45,7 @@ class AutofillPopupChildView : public views::View {
  private:
   ~AutofillPopupChildView() override {}
 
-  // views::Views implementation
+  // 视图：：视图实现。
   void GetAccessibleNodeData(ui::AXNodeData* node_data) override;
 
   std::u16string suggestion_;
@@ -83,19 +83,19 @@ class AutofillPopupView : public views::WidgetDelegateView,
   void OnSelectedRowChanged(absl::optional<int> previous_row_selection,
                             absl::optional<int> current_row_selection);
 
-  // Draw the given autofill entry in |entry_rect|.
+  // 在|entry_rect|中绘制给定的自动填充条目。
   void DrawAutofillEntry(gfx::Canvas* canvas,
                          int index,
                          const gfx::Rect& entry_rect);
 
-  // Creates child views based on the suggestions given by |controller_|. These
-  // child views are used for accessibility events only. We need child views to
-  // populate the correct |AXNodeData| when user selects a suggestion.
+  // 根据|CONTROLLER_|给出的建议创建子视图。这些。
+  // 子视图仅用于辅助功能事件。我们需要儿童视角来。
+  // 当用户选择建议时，填写正确的|AXNodeData|。
   void CreateChildViews();
 
   void DoUpdateBoundsAndRedrawPopup();
 
-  // views::Views implementation.
+  // 视图：：视图实现。
   void OnPaint(gfx::Canvas* canvas) override;
   void GetAccessibleNodeData(ui::AXNodeData* node_data) override;
   void OnMouseCaptureLost() override;
@@ -108,10 +108,10 @@ class AutofillPopupView : public views::WidgetDelegateView,
   bool AcceleratorPressed(const ui::Accelerator& accelerator) override;
   bool HandleKeyPressEvent(const content::NativeWebKeyboardEvent& event);
 
-  // views::WidgetFocusChangeListener implementation.
+  // 视图：：WidgetFocusChangeListener实现。
   void OnNativeFocusChanged(gfx::NativeView focused_now) override;
 
-  // views::WidgetObserver implementation.
+  // 视图：：WidgetWatch实现。
   void OnWidgetBoundsChanged(views::Widget* widget,
                              const gfx::Rect& new_bounds) override;
 
@@ -124,32 +124,32 @@ class AutofillPopupView : public views::WidgetDelegateView,
   void SelectPreviousLine();
   void ClearSelection();
 
-  // Stop observing the widget.
+  // 停止观察小部件。
   void RemoveObserver();
 
-  // Controller for this popup. Weak reference.
+  // 此弹出窗口的控制器。弱引用。
   AutofillPopup* popup_;
 
-  // The widget of the window that triggered this popup. Weak reference.
+  // 触发此弹出窗口的窗口小部件。弱引用。
   views::Widget* parent_widget_;
 
-  // The time when the popup was shown.
+  // 弹出窗口显示的时间。
   base::Time show_time_;
 
-  // The index of the currently selected line
+  // 当前选定行的索引。
   absl::optional<int> selected_line_;
 
 #if BUILDFLAG(ENABLE_OSR)
   std::unique_ptr<OffscreenViewProxy> view_proxy_;
 #endif
 
-  // The registered keypress callback, responsible for switching lines on
-  // key presses
+  // 注册的按键回调，负责接通线路。
+  // 按键。
   content::RenderWidgetHost::KeyPressEventCallback keypress_callback_;
 
   base::WeakPtrFactory<AutofillPopupView> weak_ptr_factory_{this};
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_VIEWS_AUTOFILL_POPUP_VIEW_H_
+#endif  // Shell_Browser_UI_Views_AutoFill_Popup_VIEW_H_

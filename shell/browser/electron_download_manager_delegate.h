@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_ELECTRON_DOWNLOAD_MANAGER_DELEGATE_H_
 #define SHELL_BROWSER_ELECTRON_DOWNLOAD_MANAGER_DELEGATE_H_
@@ -25,7 +25,7 @@ class ElectronDownloadManagerDelegate
   explicit ElectronDownloadManagerDelegate(content::DownloadManager* manager);
   ~ElectronDownloadManagerDelegate() override;
 
-  // content::DownloadManagerDelegate:
+  // 内容：：DownloadManagerDelegate：
   void Shutdown() override;
   bool DetermineDownloadTarget(
       download::DownloadItem* download,
@@ -36,7 +36,7 @@ class ElectronDownloadManagerDelegate
   void GetNextId(content::DownloadIdCallback callback) override;
 
  private:
-  // Get the save path set on the associated api::DownloadItem object
+  // 获取在关联的API：：DownloadItem对象上设置的保存路径。
   void GetItemSavePath(download::DownloadItem* item, base::FilePath* path);
   void GetItemSaveDialogOptions(download::DownloadItem* item,
                                 file_dialog::DialogSettings* options);
@@ -58,6 +58,6 @@ class ElectronDownloadManagerDelegate
   DISALLOW_COPY_AND_ASSIGN(ElectronDownloadManagerDelegate);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_ELECTRON_DOWNLOAD_MANAGER_DELEGATE_H_

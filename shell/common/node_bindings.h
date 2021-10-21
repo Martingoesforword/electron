@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_NODE_BINDINGS_H_
 #define SHELL_COMMON_NODE_BINDINGS_H_
@@ -10,7 +10,7 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "base/memory/weak_ptr.h"
-#include "uv.h"  // NOLINT(build/include_directory)
+#include "uv.h"  // NOLINT(BUILD/INCLUDE_DIRECTORY)。
 #include "v8/include/v8.h"
 
 namespace base {
@@ -21,19 +21,19 @@ namespace node {
 class Environment;
 class MultiIsolatePlatform;
 class IsolateData;
-}  // namespace node
+}  // 命名空间节点。
 
 namespace electron {
 
-// A helper class to manage uv_handle_t types, e.g. uv_async_t.
-//
-// As per the uv docs: "uv_close() MUST be called on each handle before
-// memory is released. Moreover, the memory can only be released in
-// close_cb or after it has returned." This class encapsulates the work
-// needed to follow those requirements.
+// 管理uv_Handle_t类型的帮助器类，例如uv_async_t。
+// 
+// 根据UV文档：“必须在每个句柄上调用UV_Close()，然后才能。
+// 释放内存。此外，内存只能在。
+// CLOSE_CB或在其返回之后。“此类封装工作。
+// 需要遵循这些要求。
 template <typename T,
           typename std::enable_if<
-              // these are the C-style 'subclasses' of uv_handle_t
+              // 这些是uv_Handle_t的C样式“子类”
               std::is_same<T, uv_async_t>::value ||
               std::is_same<T, uv_check_t>::value ||
               std::is_same<T, uv_fs_event_t>::value ||
@@ -83,25 +83,25 @@ class NodeBindings {
 
   virtual ~NodeBindings();
 
-  // Setup V8, libuv.
+  // 设置V8，libuv。
   void Initialize();
 
-  // Create the environment and load node.js.
+  // 创建环境并加载node.js。
   node::Environment* CreateEnvironment(v8::Handle<v8::Context> context,
                                        node::MultiIsolatePlatform* platform);
 
-  // Load node.js in the environment.
+  // 在环境中加载node.js。
   void LoadEnvironment(node::Environment* env);
 
-  // Prepare for message loop integration.
+  // 为消息循环集成做好准备。
   void PrepareMessageLoop();
 
-  // Do message loop integration.
+  // 进行消息循环集成。
   virtual void RunMessageLoop();
 
   node::IsolateData* isolate_data() const { return isolate_data_; }
 
-  // Gets/sets the environment to wrap uv loop.
+  // 获取/设置要包裹UV循环的环境。
   void set_uv_env(node::Environment* env) { uv_env_ = env; }
   node::Environment* uv_env() const { return uv_env_; }
 
@@ -112,50 +112,50 @@ class NodeBindings {
  protected:
   explicit NodeBindings(BrowserEnvironment browser_env);
 
-  // Called to poll events in new thread.
+  // 调用以轮询新线程中的事件。
   virtual void PollEvents() = 0;
 
-  // Run the libuv loop for once.
+  // 运行一次libuv循环。
   void UvRunOnce();
 
-  // Make the main thread run libuv loop.
+  // 让主线程运行libuv循环。
   void WakeupMainThread();
 
-  // Interrupt the PollEvents.
+  // 中断PollEvents。
   void WakeupEmbedThread();
 
-  // Which environment we are running.
+  // 我们正在运行的环境。
   const BrowserEnvironment browser_env_;
 
-  // Current thread's MessageLoop.
+  // 当前线程的MessageLoop。
   scoped_refptr<base::SingleThreadTaskRunner> task_runner_;
 
-  // Current thread's libuv loop.
+  // 当前线程的libuv循环。
   uv_loop_t* uv_loop_;
 
  private:
-  // Thread to poll uv events.
+  // 用于轮询UV事件的线程。
   static void EmbedThreadRunner(void* arg);
 
-  // Whether the libuv loop has ended.
+  // Libuv循环是否已经结束。
   bool embed_closed_ = false;
 
-  // Loop used when constructed in WORKER mode
+  // 在工作模式下构建时使用的循环。
   uv_loop_t worker_loop_;
 
-  // Dummy handle to make uv's loop not quit.
+  // 虚拟手柄，使UV的循环不退出。
   UvHandle<uv_async_t> dummy_uv_handle_;
 
-  // Thread for polling events.
+  // 轮询事件的线程。
   uv_thread_t embed_thread_;
 
-  // Semaphore to wait for main loop in the embed thread.
+  // 等待嵌入线程中的主循环的信号量。
   uv_sem_t embed_sem_;
 
-  // Environment that to wrap the uv loop.
+  // 包裹UV循环的环境。
   node::Environment* uv_env_ = nullptr;
 
-  // Isolate data used in creating the environment
+  // 隔离在创建环境中使用的数据。
   node::IsolateData* isolate_data_ = nullptr;
 
 #if !defined(OS_WIN)
@@ -167,6 +167,6 @@ class NodeBindings {
   DISALLOW_COPY_AND_ASSIGN(NodeBindings);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_NODE_BINDINGS_H_
+#endif  // Shell_COMMON_NODE_BINDINGS_H_

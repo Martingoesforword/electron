@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NETWORK_HINTS_HANDLER_IMPL_H_
 #define SHELL_BROWSER_NETWORK_HINTS_HANDLER_IMPL_H_
@@ -10,7 +10,7 @@
 namespace content {
 class RenderFrameHost;
 class BrowserContext;
-}  // namespace content
+}  // 命名空间内容。
 
 class NetworkHintsHandlerImpl
     : public network_hints::SimpleNetworkHintsHandlerImpl {
@@ -22,7 +22,7 @@ class NetworkHintsHandlerImpl
       mojo::PendingReceiver<network_hints::mojom::NetworkHintsHandler>
           receiver);
 
-  // network_hints::mojom::NetworkHintsHandler:
+  // Network_Hints：：mojom：：NetworkHintsHandler：
   void Preconnect(const GURL& url, bool allow_credentials) override;
 
  private:
@@ -31,4 +31,4 @@ class NetworkHintsHandlerImpl
   content::BrowserContext* browser_context_ = nullptr;
 };
 
-#endif  // SHELL_BROWSER_NETWORK_HINTS_HANDLER_IMPL_H_
+#endif  // Shell_Browser_NETWORK_HINTS_HANDLER_IMPLL_H_

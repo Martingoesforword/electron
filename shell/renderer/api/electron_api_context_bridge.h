@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_RENDERER_API_ELECTRON_API_CONTEXT_BRIDGE_H_
 #define SHELL_RENDERER_API_ELECTRON_API_CONTEXT_BRIDGE_H_
@@ -18,19 +18,19 @@ namespace api {
 
 void ProxyFunctionWrapper(const v8::FunctionCallbackInfo<v8::Value>& info);
 
-// Where the context bridge should create the exception it is about to throw
+// 上下文桥应该在其中创建它即将抛出的异常。
 enum class BridgeErrorTarget {
-  // The source / calling context.  This is default and correct 99% of the time,
-  // the caller / context asking for the conversion will receive the error and
-  // therefore the error should be made in that context
+  // 源/调用上下文。这是默认设置，99%的情况下都是正确的，
+  // 请求转换的调用者/上下文将收到错误。
+  // 因此，应在该上下文中犯下错误。
   kSource,
-  // The destination / target context.  This should only be used when the source
-  // won't catch the error that results from the value it is passing over the
-  // bridge.  This can **only** occur when returning a value from a function as
-  // we convert the return value after the method has terminated and execution
-  // has been returned to the caller.  In this scenario the error will the be
-  // catchable in the "destination" context and therefore we create the error
-  // there.
+  // 目标/目标上下文。此选项仅在以下情况下使用：源。
+  // 将不会捕获它正在传递的值所导致的错误。
+  // 桥。这**仅**在从函数返回值时**才会发生。
+  // 我们在方法终止和执行后转换返回值。
+  // 已返回给调用方。在这种情况下，错误将是。
+  // 可在“Destination”上下文中捕获，因此我们创建了错误。
+  // 那里。
   kDestination
 };
 
@@ -51,8 +51,8 @@ v8::MaybeLocal<v8::Object> CreateProxyForAPI(
     bool support_dynamic_properties,
     int recursion_depth);
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_RENDERER_API_ELECTRON_API_CONTEXT_BRIDGE_H_

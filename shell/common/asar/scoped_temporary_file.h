@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_ASAR_SCOPED_TEMPORARY_FILE_H_
 #define SHELL_COMMON_ASAR_SCOPED_TEMPORARY_FILE_H_
@@ -15,10 +15,10 @@ class File;
 
 namespace asar {
 
-// An object representing a temporary file that should be cleaned up when this
-// object goes out of scope.  Note that since deletion occurs during the
-// destructor, no further error handling is possible if the directory fails to
-// be deleted.  As a result, deletion is not guaranteed by this class.
+// 一个对象，该对象表示在执行此操作时应清除的临时文件。
+// 对象超出范围。请注意，由于删除发生在。
+// 析构函数，则如果目录无法执行以下操作，则不可能进行进一步的错误处理。
+// 被删除。因此，此类不能保证删除。
 class ScopedTemporaryFile {
  public:
   ScopedTemporaryFile();
@@ -26,10 +26,10 @@ class ScopedTemporaryFile {
   ScopedTemporaryFile& operator=(const ScopedTemporaryFile&) = delete;
   virtual ~ScopedTemporaryFile();
 
-  // Init an empty temporary file with a certain extension.
+  // 初始化具有特定扩展名的空临时文件。
   bool Init(const base::FilePath::StringType& ext);
 
-  // Init an temporary file and fill it with content of |path|.
+  // 初始化一个临时文件，并使用|Path|的内容填充该文件。
   bool InitFromFile(base::File* src,
                     const base::FilePath::StringType& ext,
                     uint64_t offset,
@@ -42,6 +42,6 @@ class ScopedTemporaryFile {
   base::FilePath path_;
 };
 
-}  // namespace asar
+}  // 命名空间asar。
 
 #endif  // SHELL_COMMON_ASAR_SCOPED_TEMPORARY_FILE_H_

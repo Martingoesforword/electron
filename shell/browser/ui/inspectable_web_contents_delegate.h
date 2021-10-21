@@ -1,7 +1,7 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Copyright (c) 2013 Adam Roben <adam@roben.org>. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 版权所有(C)2013 Adam Roben&lt;adam@roben.org&gt;。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #ifndef SHELL_BROWSER_UI_INSPECTABLE_WEB_CONTENTS_DELEGATE_H_
 #define SHELL_BROWSER_UI_INSPECTABLE_WEB_CONTENTS_DELEGATE_H_
@@ -16,7 +16,7 @@ class InspectableWebContentsDelegate {
  public:
   virtual ~InspectableWebContentsDelegate() {}
 
-  // Requested by WebContents of devtools.
+  // 由DevTools的WebContents请求。
   virtual void DevToolsReloadPage() {}
   virtual void DevToolsSaveToFile(const std::string& url,
                                   const std::string& content,
@@ -38,6 +38,6 @@ class InspectableWebContentsDelegate {
   virtual void DevToolsSetEyeDropperActive(bool active) {}
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_UI_INSPECTABLE_WEB_CONTENTS_DELEGATE_H_

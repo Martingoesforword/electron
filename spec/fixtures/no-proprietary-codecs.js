@@ -1,8 +1,8 @@
-// Verifies that Electron cannot play a video that uses proprietary codecs
-//
-// This application should be run with the ffmpeg that does not include
-// proprietary codecs to ensure Electron uses it instead of the version
-// that does include proprietary codecs.
+// 验证Electron是否无法播放使用专有编解码器的视频。
+// 
+// 此应用程序应与不包含以下内容的ffmpeg一起运行。
+// 专有编解码器，确保Electron使用它而不是版本。
+// 这包括专有的编解码器。
 
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');

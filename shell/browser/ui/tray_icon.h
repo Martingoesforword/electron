@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_TRAY_ICON_H_
 #define SHELL_BROWSER_UI_TRAY_ICON_H_
@@ -28,20 +28,20 @@ class TrayIcon {
 
   virtual ~TrayIcon();
 
-  // Sets the image associated with this status icon.
+  // 设置与此状态图标关联的图像。
   virtual void SetImage(ImageType image) = 0;
 
-  // Sets the image associated with this status icon when pressed.
+  // 设置按下时与此状态图标关联的图像。
   virtual void SetPressedImage(ImageType image);
 
-  // Sets the hover text for this status icon. This is also used as the label
-  // for the menu item which is created as a replacement for the status icon
-  // click action on platforms that do not support custom click actions for the
-  // status icon (e.g. Ubuntu Unity).
+  // 设置此状态图标的悬停文本。这也用作标签。
+  // 对于作为状态图标的替换项创建的菜单项。
+  // 在不支持自定义单击操作的平台上执行单击操作。
+  // 状态图标(例如Ubuntu Unity)。
   virtual void SetToolTip(const std::string& tool_tip) = 0;
 
 #if defined(OS_MAC)
-  // Set/Get flag determining whether to ignore double click events.
+  // 设置/获取标志，确定是否忽略双击事件。
   virtual void SetIgnoreDoubleClickEvents(bool ignore) = 0;
   virtual bool GetIgnoreDoubleClickEvents() = 0;
 
@@ -49,7 +49,7 @@ class TrayIcon {
     std::string font_type;
   };
 
-  // Set/Get title displayed next to status icon in the status bar.
+  // 设置/获取标题显示在状态栏中状态图标旁边。
   virtual void SetTitle(const std::string& title,
                         const TitleOptions& options) = 0;
   virtual std::string GetTitle() = 0;
@@ -73,26 +73,26 @@ class TrayIcon {
     BalloonOptions();
   };
 
-  // Displays a notification balloon with the specified contents.
-  // Depending on the platform it might not appear by the icon tray.
+  // 显示具有指定内容的通知气球。
+  // 根据平台的不同，它可能不会出现在图标托盘上。
   virtual void DisplayBalloon(const BalloonOptions& options);
 
-  // Removes the notification balloon.
+  // 删除通知气球。
   virtual void RemoveBalloon();
 
-  // Returns focus to the taskbar notification area.
+  // 将焦点返回到任务栏通知区域。
   virtual void Focus();
 
-  // Popups the menu.
+  // 弹出菜单。
   virtual void PopUpContextMenu(const gfx::Point& pos,
                                 ElectronMenuModel* menu_model);
 
   virtual void CloseContextMenu();
 
-  // Set the context menu for this icon.
+  // 设置此图标的上下文菜单。
   virtual void SetContextMenu(ElectronMenuModel* menu_model) = 0;
 
-  // Returns the bounds of tray icon.
+  // 返回托盘图标的边界。
   virtual gfx::Rect GetBounds();
 
   void AddObserver(TrayIconObserver* obs) { observers_.AddObserver(obs); }
@@ -133,6 +133,6 @@ class TrayIcon {
   DISALLOW_COPY_AND_ASSIGN(TrayIcon);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_TRAY_ICON_H_
+#endif  // 外壳浏览器UI托盘图标H_

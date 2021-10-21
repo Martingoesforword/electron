@@ -53,14 +53,14 @@ function respondNTimes (fn: http.RequestListener, n: number): Promise<string> {
   return new Promise((resolve) => {
     const server = http.createServer((request, response) => {
       fn(request, response);
-      // don't close if a redirect was returned
+      // 如果返回重定向，则不要关闭。
       if ((response.statusCode < 300 || response.statusCode >= 399) && n <= 0) {
         n--;
         server.close();
       }
     });
     server.listen(0, '127.0.0.1', () => {
-      resolve(`http://127.0.0.1:${(server.address() as AddressInfo).port}`);
+      resolve(`http:// 127.0.0.1：${(server.address()as AddressInfo).port}`)；
     });
     const sockets: Socket[] = [];
     server.on('connection', s => sockets.push(s));
@@ -290,15 +290,15 @@ describe('net module', () => {
             return response.writeHead(200).end('ok');
           }, 2);
           const customSession = session.fromPartition(`net-proxy-test-${Math.random()}`);
-          await customSession.setProxy({ proxyRules: proxyUrl.replace('http://', ''), proxyBypassRules: '<-loopback>' });
+          await customSession.setProxy({ proxyRules: proxyUrl.replace('http:// ‘，’)，proxyBypassRules：‘&lt;-loopback&gt;’})；
           const bw = new BrowserWindow({ show: false, webPreferences: { session: customSession } });
           bw.webContents.on('login', (event, details, authInfo, cb) => {
             event.preventDefault();
             cb(user, pass);
           });
-          await bw.loadURL('http://127.0.0.1:9999');
+          await bw.loadURL('http:// 127.0.0.1：9999‘)；
           bw.close();
-          const request = net.request({ method: 'GET', url: 'http://127.0.0.1:9999', session: customSession, ...extraOptions });
+          const request = net.request({ method: 'GET', url: 'http:// 127.0.0.1：9999‘，会话：customSession，...ExtraOptions})；
           let logInCount = 0;
           request.on('login', () => {
             logInCount++;
@@ -383,15 +383,15 @@ describe('net module', () => {
           return response.writeHead(200).end('ok');
         }, 2);
         const customSession = session.fromPartition(`net-proxy-test-${Math.random()}`);
-        await customSession.setProxy({ proxyRules: proxyUrl.replace('http://', ''), proxyBypassRules: '<-loopback>' });
+        await customSession.setProxy({ proxyRules: proxyUrl.replace('http:// ‘，’)，proxyBypassRules：‘&lt;-loopback&gt;’})；
         const bw = new BrowserWindow({ show: false, webPreferences: { session: customSession } });
         bw.webContents.on('login', (event, details, authInfo, cb) => {
           event.preventDefault();
           cb(user, pass);
         });
-        await bw.loadURL('http://127.0.0.1:9999');
+        await bw.loadURL('http:// 127.0.0.1：9999‘)；
         bw.close();
-        const request = net.request({ method: 'GET', url: 'http://127.0.0.1:9999', session: customSession, credentials: 'omit' });
+        const request = net.request({ method: 'GET', url: 'http:// 127.0.0.1：9999‘，Session：customSession，Credentials：’omit‘})；
         request.on('login', () => {
           expect.fail();
         });
@@ -411,19 +411,19 @@ describe('net module', () => {
       });
 
       const urlRequest = net.request(serverUrl);
-      // request close event
+      // 请求关闭事件。
       const closePromise = emittedOnce(urlRequest, 'close');
-      // request finish event
+      // 请求完成事件。
       const finishPromise = emittedOnce(urlRequest, 'close');
-      // request "response" event
+      // 请求“响应”事件。
       const response = await getResponse(urlRequest);
       response.on('error', (error: Error) => {
         expect(error).to.be.an('Error');
       });
       const statusCode = response.statusCode;
       expect(statusCode).to.equal(200);
-      // response data event
-      // respond end event
+      // 响应数据事件。
+      // 响应结束事件。
       const body = await collectStreamBody(response);
       expect(body).to.equal(bodyData);
       urlRequest.on('error', (error) => {
@@ -776,17 +776,17 @@ describe('net module', () => {
             ...extraOptions
           });
           urlRequest.on('redirect', (status, method, url, headers) => {
-            // The initial redirect response should have received the 127 value here
+            // 初始重定向响应应该在这里接收到127值。
             expect(headers['x-cookie'][0]).to.equal(`wild_cookie=${cookie127Val}`);
             urlRequest.followRedirect();
           });
           const response = await getResponse(urlRequest);
-          // We expect the server to have received the localhost value here
-          // The original request was to a 127.0.0.1 URL
-          // That request would have the cookie127Val cookie attached
-          // The request is then redirect to a localhost URL (different site)
-          // Because we are using the session cookie store it should do the safe / secure thing
-          // and attach the cookies for the new target domain
+          // 我们希望服务器在这里接收到localhost值。
+          // 最初的请求指向127.0.0.1 URL。
+          // 该请求将附加cookie127Val cookie。
+          // 然后将请求重定向到本地主机URL(不同站点)。
+          // 因为我们使用的是会话Cookie存储，所以它应该做安全/安全的事情。
+          // 并附加新目标域的Cookie。
           expect(response.headers['x-cookie']).to.equal(`wild_cookie=${cookieLocalVal}`);
         });
       });
@@ -834,7 +834,7 @@ describe('net module', () => {
       });
       const urlRequest = net.request({
         url: serverUrl,
-        origin: 'https://not-exists.com'
+        origin: 'https:// Not-Exists.com‘。
       });
       await collectStreamBody(await getResponse(urlRequest));
     });
@@ -1115,23 +1115,23 @@ describe('net module', () => {
       it('Should throw when invalid filters are passed', () => {
         expect(() => {
           session.defaultSession.webRequest.onBeforeRequest(
-            { urls: ['*://www.googleapis.com'] },
+            { urls: ['*:// Www.googleapis.com‘]}，
             (details, callback) => { callback({ cancel: false }); }
           );
-        }).to.throw('Invalid url pattern *://www.googleapis.com: Empty path.');
+        }).to.throw('Invalid url pattern *:// Www.googleapis.com：空路径。‘)；
 
         expect(() => {
           session.defaultSession.webRequest.onBeforeRequest(
-            { urls: ['*://www.googleapis.com/', '*://blahblah.dev'] },
+            { urls: ['*:// Www.googleapis.com/‘，’*：//blahblah.dev‘]}，
             (details, callback) => { callback({ cancel: false }); }
           );
-        }).to.throw('Invalid url pattern *://blahblah.dev: Empty path.');
+        }).to.throw('Invalid url pattern *:// Blahblah.dev：空路径。‘)；
       });
 
       it('Should not throw when valid filters are passed', () => {
         expect(() => {
           session.defaultSession.webRequest.onBeforeRequest(
-            { urls: ['*://www.googleapis.com/'] },
+            { urls: ['*:// Www.googleapis.com/‘]}，
             (details, callback) => { callback({ cancel: false }); }
           );
         }).to.not.throw();
@@ -1150,8 +1150,8 @@ describe('net module', () => {
           (details, callback) => {
             if (details.url === `${serverUrl}${requestUrl}`) {
               requestIsIntercepted = true;
-              // Disabled due to false positive in StandardJS
-              // eslint-disable-next-line standard/no-callback-literal
+              // 由于StandardJS中的误报而被禁用。
+              // Eslint-停用-下一行标准/无回调-文字。
               callback({
                 redirectURL: `${serverUrl}${redirectUrl}`
               });
@@ -1189,8 +1189,8 @@ describe('net module', () => {
         customSession.webRequest.onBeforeRequest((details, callback) => {
           if (details.url === `${serverUrl}${requestUrl}`) {
             requestIsIntercepted = true;
-            // Disabled due to false positive in StandardJS
-            // eslint-disable-next-line standard/no-callback-literal
+            // 由于StandardJS中的误报而被禁用。
+            // Eslint-停用-下一行标准/无回调-文字。
             callback({
               redirectURL: `${serverUrl}${redirectUrl}`
             });
@@ -1230,8 +1230,8 @@ describe('net module', () => {
         customSession.webRequest.onBeforeRequest((details, callback) => {
           if (details.url === `${serverUrl}${requestUrl}`) {
             requestIsIntercepted = true;
-            // Disabled due to false positive in StandardJS
-            // eslint-disable-next-line standard/no-callback-literal
+            // 由于StandardJS中的误报而被禁用。
+            // Eslint-停用-下一行标准/无回调-文字。
             callback({
               redirectURL: `${serverUrl}${redirectUrl}`
             });
@@ -1256,21 +1256,21 @@ describe('net module', () => {
 
     it('should throw when calling getHeader without a name', () => {
       expect(() => {
-        (net.request({ url: 'https://test' }).getHeader as any)();
+        (net.request({ url: 'https:// Test‘}).getHeader as any)()；
       }).to.throw(/`name` is required for getHeader\(name\)/);
 
       expect(() => {
-        net.request({ url: 'https://test' }).getHeader(null as any);
+        net.request({ url: 'https:// Test‘}).getHeader(Null As Any)；
       }).to.throw(/`name` is required for getHeader\(name\)/);
     });
 
     it('should throw when calling removeHeader without a name', () => {
       expect(() => {
-        (net.request({ url: 'https://test' }).removeHeader as any)();
+        (net.request({ url: 'https:// Test‘}).removeHeader as any)()；
       }).to.throw(/`name` is required for removeHeader\(name\)/);
 
       expect(() => {
-        net.request({ url: 'https://test' }).removeHeader(null as any);
+        net.request({ url: 'https:// Test‘}).removeHeader(任何情况下为空)；
       }).to.throw(/`name` is required for removeHeader\(name\)/);
     });
 
@@ -1381,7 +1381,7 @@ describe('net module', () => {
     it('should throw if given an invalid session option', () => {
       expect(() => {
         net.request({
-          url: 'https://foo',
+          url: 'https:// Foo‘，
           session: 1 as any
         });
       }).to.throw('`session` should be an instance of the Session class');
@@ -1390,7 +1390,7 @@ describe('net module', () => {
     it('should throw if given an invalid partition option', () => {
       expect(() => {
         net.request({
-          url: 'https://foo',
+          url: 'https:// Foo‘，
           partition: 1 as any
         });
       }).to.throw('`partition` should be a string');
@@ -1445,7 +1445,7 @@ describe('net module', () => {
       const nodeResponse = await getResponse(nodeRequest as any) as any as http.ServerResponse;
       const netRequest = net.request(netServerUrl);
       const responsePromise = emittedOnce(netRequest, 'response');
-      // TODO(@MarshallOfSound) - FIXME with #22730
+      // TODO(@marshallOfSound)-用#22730修复我。
       nodeResponse.pipe(netRequest as any);
       const [netResponse] = await responsePromise;
       expect(netResponse.statusCode).to.equal(200);
@@ -1521,7 +1521,7 @@ describe('net module', () => {
     });
 
     it('should set the referer header when a referrer url specified', async () => {
-      const referrerURL = 'https://www.electronjs.org/';
+      const referrerURL = 'https:// Www.Electronjs.org/‘；
       const serverUrl = await respondOnce.toSingleURL((request, response) => {
         expect(request.headers.referer).to.equal(referrerURL);
         response.statusCode = 200;
@@ -1644,7 +1644,7 @@ describe('net module', () => {
       };
       const nodeRequest = http.request(nodeOptions);
       const nodeResponsePromise = emittedOnce(nodeRequest, 'response');
-      // TODO(@MarshallOfSound) - FIXME with #22730
+      // TODO(@marshallOfSound)-用#22730修复我。
       (netResponse as any).pipe(nodeRequest);
       const [nodeResponse] = await nodeResponsePromise;
       netRequest.end();
@@ -1687,7 +1687,7 @@ describe('net module', () => {
 
   describe('Stability and performance', () => {
     it('should free unreferenced, never-started request objects without crash', (done) => {
-      net.request('https://test');
+      net.request('https:// 测试‘)；
       process.nextTick(() => {
         const v8Util = process._linkedBinding('electron_common_v8_util');
         v8Util.requestGarbageCollectionForTesting();
@@ -1707,7 +1707,7 @@ describe('net module', () => {
       const urlRequest = net.request(serverUrl);
       const response = await getResponse(urlRequest);
       process.nextTick(() => {
-        // Trigger a garbage collection.
+        // 触发垃圾收集。
         const v8Util = process._linkedBinding('electron_common_v8_util');
         v8Util.requestGarbageCollectionForTesting();
         finishResponse!();

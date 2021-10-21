@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_SPECIAL_STORAGE_POLICY_H_
 #define SHELL_BROWSER_SPECIAL_STORAGE_POLICY_H_
@@ -13,7 +13,7 @@ class SpecialStoragePolicy : public storage::SpecialStoragePolicy {
  public:
   SpecialStoragePolicy();
 
-  // storage::SpecialStoragePolicy implementation.
+  // 存储：：SpecialStoragePolicy实现。
   bool IsStorageProtected(const GURL& origin) override;
   bool IsStorageUnlimited(const GURL& origin) override;
   bool IsStorageDurable(const GURL& origin) override;
@@ -26,6 +26,6 @@ class SpecialStoragePolicy : public storage::SpecialStoragePolicy {
   ~SpecialStoragePolicy() override;
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_SPECIAL_STORAGE_POLICY_H_
+#endif  // Shell_Browser_Special_STORAGE_POLICY_H_

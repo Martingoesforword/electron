@@ -1,11 +1,11 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_WIN_NOTIFY_ICON_H_
 #define SHELL_BROWSER_UI_WIN_NOTIFY_ICON_H_
 
-#include <windows.h>  // windows.h must be included first
+#include <windows.h>  // 必须先包含windows.h。
 
 #include <shellapi.h>
 
@@ -32,7 +32,7 @@ class NotifyIconHost;
 
 class NotifyIcon : public TrayIcon {
  public:
-  // Constructor which provides this icon's unique ID and messaging window.
+  // 构造函数，该构造函数提供该图标的唯一ID和消息窗口。
   NotifyIcon(NotifyIconHost* host,
              UINT id,
              HWND window,
@@ -40,17 +40,17 @@ class NotifyIcon : public TrayIcon {
              GUID guid);
   ~NotifyIcon() override;
 
-  // Handles a click event from the user - if |left_button_click| is true and
-  // there is a registered observer, passes the click event to the observer,
-  // otherwise displays the context menu if there is one.
+  // 处理来自用户的单击事件-如果|LEFT_BUTTON_CLICK|为TRUE且。
+  // 存在注册的观察者，将点击事件传递给观察者，
+  // 否则将显示上下文菜单(如果有)。
   void HandleClickEvent(int modifiers,
                         bool left_button_click,
                         bool double_button_click);
 
-  // Handles a mouse move event from the user.
+  // 处理来自用户的鼠标移动事件。
   void HandleMouseMoveEvent(int modifiers);
 
-  // Re-creates the status tray icon now after the taskbar has been created.
+  // 任务栏创建后，立即重新创建状态托盘图标。
   void ResetIcon();
 
   UINT icon_id() const { return icon_id_; }
@@ -58,7 +58,7 @@ class NotifyIcon : public TrayIcon {
   UINT message_id() const { return message_id_; }
   GUID guid() const { return guid_; }
 
-  // Overridden from TrayIcon:
+  // 从TrayIcon覆盖：
   void SetImage(HICON image) override;
   void SetPressedImage(HICON image) override;
   void SetToolTip(const std::string& tool_tip) override;
@@ -76,31 +76,31 @@ class NotifyIcon : public TrayIcon {
  private:
   void InitIconData(NOTIFYICONDATA* icon_data);
 
-  // The tray that owns us.  Weak.
+  // 拥有我们的托盘。瘦弱。
   NotifyIconHost* host_;
 
-  // The unique ID corresponding to this icon.
+  // 与此图标对应的唯一ID。
   UINT icon_id_;
 
-  // Window used for processing messages from this icon.
+  // 用于处理来自此图标的消息的窗口。
   HWND window_;
 
-  // The message identifier used for status icon messages.
+  // 用于状态图标消息的消息标识符。
   UINT message_id_;
 
-  // The currently-displayed icon for the window.
+  // 窗口的当前显示图标。
   base::win::ScopedHICON icon_;
 
-  // The context menu.
+  // 上下文菜单。
   ElectronMenuModel* menu_model_ = nullptr;
 
-  // An optional GUID used for identifying tray entries on Windows
+  // 用于在Windows上标识任务栏条目的可选GUID。
   GUID guid_ = GUID_DEFAULT;
 
-  // indicates whether the tray entry is associated with a guid
+  // 指示托盘条目是否与GUID关联。
   bool is_using_guid_ = false;
 
-  // Context menu associated with this icon (if any).
+  // 与此图标关联的上下文菜单(如果有)。
   std::unique_ptr<views::MenuRunner> menu_runner_;
 
   base::WeakPtrFactory<NotifyIcon> weak_factory_{this};
@@ -108,6 +108,6 @@ class NotifyIcon : public TrayIcon {
   DISALLOW_COPY_AND_ASSIGN(NotifyIcon);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_WIN_NOTIFY_ICON_H_
+#endif  // Shell_Browser_UI_Win_Notify_ICON_H_

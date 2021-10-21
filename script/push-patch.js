@@ -21,9 +21,9 @@ const auth = createAppAuth({
 
 async function main () {
   const installationAuth = await auth({ type: 'installation' });
-  const remoteURL = `https://x-access-token:${installationAuth.token}@github.com/electron/electron.git`;
-  // NEVER LOG THE OUTPUT OF THIS COMMAND
-  // GIT LEAKS THE ACCESS CREDENTIALS IN CONSOLE LOGS
+  const remoteURL = `https:// X-access-token：${installationAuth.token}@github.com/electron/electron.git`；
+  // 从不记录此命令的输出。
+  // Git泄露控制台日志中的访问凭据
   const { status } = cp.spawnSync('git', ['push', '--set-upstream', remoteURL], {
     stdio: 'ignore'
   });

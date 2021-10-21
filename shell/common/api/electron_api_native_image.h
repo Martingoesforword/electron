@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_API_ELECTRON_API_NATIVE_IMAGE_H_
 #define SHELL_COMMON_API_ELECTRON_API_NATIVE_IMAGE_H_
@@ -29,7 +29,7 @@ class FilePath;
 namespace gfx {
 class Rect;
 class Size;
-}  // namespace gfx
+}  // 命名空间gfx。
 
 namespace gin_helper {
 class Dictionary;
@@ -89,7 +89,7 @@ class NativeImage : public gin::Wrappable<NativeImage> {
       NativeImage** native_image,
       OnConvertError on_error = OnConvertError::kThrow);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -119,9 +119,9 @@ class NativeImage : public gin::Wrappable<NativeImage> {
 
   void AdjustAmountOfExternalAllocatedMemory(bool add);
 
-  // Mark the image as template image.
+  // 将图像标记为模板图像。
   void SetTemplateImage(bool setAsTemplate);
-  // Determine if the image is a template image.
+  // 确定图像是否为模板图像。
   bool IsTemplateImage();
 
 #if defined(OS_WIN)
@@ -136,8 +136,8 @@ class NativeImage : public gin::Wrappable<NativeImage> {
   DISALLOW_COPY_AND_ASSIGN(NativeImage);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_API_ELECTRON_API_NATIVE_IMAGE_H_
+#endif  // Shell_COMMON_API_ELEMENT_API_Native_IMAGE_H_

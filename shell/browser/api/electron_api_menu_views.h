@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_MENU_VIEWS_H_
 #define SHELL_BROWSER_API_ELECTRON_API_MENU_VIEWS_H_
@@ -33,7 +33,7 @@ class MenuViews : public Menu {
  private:
   void OnClosed(int32_t window_id, base::OnceClosure callback);
 
-  // window ID -> open context menu
+  // 窗口ID-&gt;打开上下文菜单。
   std::map<int32_t, std::unique_ptr<views::MenuRunner>> menu_runners_;
 
   base::WeakPtrFactory<MenuViews> weak_factory_{this};
@@ -41,8 +41,8 @@ class MenuViews : public Menu {
   DISALLOW_COPY_AND_ASSIGN(MenuViews);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_MENU_VIEWS_H_
+#endif  // Shell_Browser_API_Electronics_API_Menu_Views_H_

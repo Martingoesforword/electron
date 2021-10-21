@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_KEY_WEAK_MAP_H_
 #define SHELL_COMMON_KEY_WEAK_MAP_H_
@@ -14,11 +14,11 @@
 
 namespace electron {
 
-// Like ES6's WeakMap, but the key is Integer and the value is Weak Pointer.
+// 与ES6的WeakMap类似，但键是整数，值是弱指针。
 template <typename K>
 class KeyWeakMap {
  public:
-  // Records the key and self, used by SetWeak.
+  // 记录SetWeak使用的密钥和自身。
   struct KeyObject {
     K key;
     KeyWeakMap* self;
@@ -30,7 +30,7 @@ class KeyWeakMap {
       p.second.second.ClearWeak();
   }
 
-  // Sets the object to WeakMap with the given |key|.
+  // 使用给定的|key|将对象设置为WeakMap。
   void Set(v8::Isolate* isolate, const K& key, v8::Local<v8::Object> object) {
     KeyObject key_object = {key, this};
     auto& p = map_[key] =
@@ -38,7 +38,7 @@ class KeyWeakMap {
     p.second.SetWeak(&(p.first), OnObjectGC, v8::WeakCallbackType::kParameter);
   }
 
-  // Gets the object from WeakMap by its |key|.
+  // 通过WeakMap的|key|从WeakMap获取对象。
   v8::MaybeLocal<v8::Object> Get(v8::Isolate* isolate, const K& key) {
     auto iter = map_.find(key);
     if (iter == map_.end())
@@ -47,10 +47,10 @@ class KeyWeakMap {
       return v8::Local<v8::Object>::New(isolate, iter->second.second);
   }
 
-  // Whethere there is an object with |key| in this WeakMap.
+  // 此WeakMap中是否存在带有|key|的对象。
   bool Has(const K& key) const { return map_.find(key) != map_.end(); }
 
-  // Returns all objects.
+  // 返回所有对象。
   std::vector<v8::Local<v8::Object>> Values(v8::Isolate* isolate) const {
     std::vector<v8::Local<v8::Object>> keys;
     keys.reserve(map_.size());
@@ -59,7 +59,7 @@ class KeyWeakMap {
     return keys;
   }
 
-  // Remove object with |key| in the WeakMap.
+  // 在WeakMap中使用|Key|删除对象。
   void Remove(const K& key) {
     auto iter = map_.find(key);
     if (iter == map_.end())
@@ -76,12 +76,12 @@ class KeyWeakMap {
     key_object->self->Remove(key_object->key);
   }
 
-  // Map of stored objects.
+  // 存储对象的地图。
   std::unordered_map<K, std::pair<KeyObject, v8::Global<v8::Object>>> map_;
 
   DISALLOW_COPY_AND_ASSIGN(KeyWeakMap);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_KEY_WEAK_MAP_H_
+#endif  // Shell_COMMON_KEY_弱_MAP_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #ifndef SHELL_BROWSER_MEDIA_MEDIA_STREAM_DEVICES_CONTROLLER_H_
 #define SHELL_BROWSER_MEDIA_MEDIA_STREAM_DEVICES_CONTROLLER_H_
@@ -17,22 +17,22 @@ class MediaStreamDevicesController {
 
   virtual ~MediaStreamDevicesController();
 
-  // Accept or deny the request based on the default policy.
+  // 根据默认策略接受或拒绝请求。
   bool TakeAction();
 
-  // Explicitly accept or deny the request.
+  // 明确接受或拒绝该请求。
   void Accept();
   void Deny(blink::mojom::MediaStreamRequestResult result);
 
  private:
-  // Handle the request of desktop or tab screen cast.
+  // 处理桌面或选项卡式投屏请求。
   void HandleUserMediaRequest();
 
-  // The original request for access to devices.
+  // 访问设备的原始请求。
   const content::MediaStreamRequest request_;
 
-  // The callback that needs to be Run to notify WebRTC of whether access to
-  // audio/video devices was granted or not.
+  // 需要运行以通知WebRTC是否访问。
+  // 是否授予音频/视频设备。
   content::MediaResponseCallback callback_;
 
   bool microphone_requested_;
@@ -41,6 +41,6 @@ class MediaStreamDevicesController {
   DISALLOW_COPY_AND_ASSIGN(MediaStreamDevicesController);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_MEDIA_MEDIA_STREAM_DEVICES_CONTROLLER_H_

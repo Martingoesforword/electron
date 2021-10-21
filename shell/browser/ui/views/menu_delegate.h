@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_VIEWS_MENU_DELEGATE_H_
 #define SHELL_BROWSER_UI_VIEWS_MENU_DELEGATE_H_
@@ -14,7 +14,7 @@
 namespace views {
 class MenuRunner;
 class Button;
-}  // namespace views
+}  // 命名空间视图。
 
 namespace electron {
 
@@ -40,7 +40,7 @@ class MenuDelegate : public views::MenuDelegate {
   void RemoveObserver(const Observer* obs) { observers_.RemoveObserver(obs); }
 
  protected:
-  // views::MenuDelegate:
+  // 视图：：MenuDelegate：
   void ExecuteCommand(int id) override;
   void ExecuteCommand(int id, int mouse_event_flags) override;
   bool IsTriggerableEvent(views::MenuItemView* source,
@@ -67,7 +67,7 @@ class MenuDelegate : public views::MenuDelegate {
   std::unique_ptr<views::MenuDelegate> adapter_;
   std::unique_ptr<views::MenuRunner> menu_runner_;
 
-  // The menu button to switch to.
+  // 要切换到的菜单按钮。
   views::MenuButton* button_to_open_ = nullptr;
   bool hold_first_switch_ = false;
 
@@ -76,6 +76,6 @@ class MenuDelegate : public views::MenuDelegate {
   DISALLOW_COPY_AND_ASSIGN(MenuDelegate);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_VIEWS_MENU_DELEGATE_H_
+#endif  // Shell_Browser_UI_Views_Menu_Delegate_H_

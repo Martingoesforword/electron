@@ -30,7 +30,7 @@ describe('nativeImage module', () => {
       width: 1
     },
     {
-      dataUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVQYlWP8//8/AwMDEwMDAwMDAwAkBgMBBMzldwAAAABJRU5ErkJggg==',
+      dataUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVQYlWP8// 8/AwMDEwMDAwMDAwAkBgMBBMzldwAAAABJRU5ErkJggg==‘，
       filename: '2x2.jpg',
       format: ImageFormat.JPEG,
       hasAlphaChannel: false,
@@ -49,20 +49,13 @@ describe('nativeImage module', () => {
     }
   ];
 
-  /**
-   * @param {?string} filename
-   * @returns {?string} Full path.
-   */
+  /* **@param{？string}filename*@返回{？string}完整路径。*/
   const getImagePathFromFilename = (filename) => {
     return (filename === null) ? null
       : path.join(__dirname, 'fixtures', 'assets', filename);
   };
 
-  /**
-   * @param {!Object} image
-   * @param {Object} filters
-   * @returns {boolean}
-   */
+  /* **@param{！object}image*@param{object}滤镜*@return{boolean}。*/
   const imageMatchesTheFilters = (image, filters = null) => {
     if (filters === null) {
       return true;
@@ -72,25 +65,19 @@ describe('nativeImage module', () => {
       .every(([key, value]) => image[key] === value);
   };
 
-  /**
-   * @param {!Object} filters
-   * @returns {!Array} A matching images list.
-   */
+  /* **@param{！object}筛选器*@返回{！array}匹配的图像列表。*/
   const getImages = (filters) => {
     const matchingImages = images
       .filter(i => imageMatchesTheFilters(i, filters));
 
-    // Add `.path` property to every image.
+    // 为每个镜像添加`.path`属性。
     matchingImages
       .forEach(i => { i.path = getImagePathFromFilename(i.filename); });
 
     return matchingImages;
   };
 
-  /**
-   * @param {!Object} filters
-   * @returns {Object} A matching image if any.
-   */
+  /* **@param{！object}过滤器*@返回{object}匹配的图像(如果有)。*/
   const getImage = (filters) => {
     const matchingImages = getImages(filters);
 
@@ -376,7 +363,7 @@ describe('nativeImage module', () => {
 
       expect(nsimage).to.have.lengthOf(8);
 
-      // If all bytes are null, that's Bad
+      // 如果所有字节都为空，那就不好了。
       const allBytesAreNotNull = nsimage.reduce((acc, x) => acc || (x !== 0), false);
       expect(allBytesAreNotNull);
     });
@@ -483,7 +470,7 @@ describe('nativeImage module', () => {
 
     it('returns an aspect ratio of an image', () => {
       const imageData = getImage({ filename: 'logo.png' });
-      // imageData.width / imageData.height = 2.831578947368421
+      // ImageData.width/ImageData.Height=2.831578947368421。
       const expectedAspectRatio = 2.8315789699554443;
 
       const image = nativeImage.createFromPath(imageData.path);
@@ -562,7 +549,7 @@ describe('nativeImage module', () => {
         buffer: 'invalid'
       });
 
-      // this one failed, so it shouldn't show up in the scale factors
+      // 这一次失败了，所以它不应该出现在比例因子中
       expect(image.getScaleFactors()).to.deep.equal([1, 2, 3]);
 
       expect(image.isEmpty()).to.be.false();

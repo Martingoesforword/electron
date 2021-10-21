@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_TRACKABLE_OBJECT_H_
 #define SHELL_COMMON_GIN_HELPER_TRACKABLE_OBJECT_H_
@@ -19,24 +19,24 @@ class SupportsUserData;
 
 namespace gin_helper {
 
-// Users should use TrackableObject instead.
+// 用户应该改用TrackableObject。
 class TrackableObjectBase : public CleanedUpAtExit {
  public:
   TrackableObjectBase();
 
-  // The ID in weak map.
+  // 弱映射中的ID。
   int32_t weak_map_id() const { return weak_map_id_; }
 
-  // Wrap TrackableObject into a class that SupportsUserData.
+  // 将TrackableObject包装到SupportsUserData类中。
   void AttachAsUserData(base::SupportsUserData* wrapped);
 
-  // Get the weak_map_id from SupportsUserData.
+  // 从SupportsUserData获取弱映射id。
   static int32_t GetIDFromWrappedClass(base::SupportsUserData* wrapped);
 
  protected:
   ~TrackableObjectBase() override;
 
-  // Returns a closure that can destroy the native class.
+  // 返回可以销毁本机类的闭包。
   base::OnceClosure GetDestroyClosure();
 
   int32_t weak_map_id_ = 0;
@@ -49,12 +49,12 @@ class TrackableObjectBase : public CleanedUpAtExit {
   DISALLOW_COPY_AND_ASSIGN(TrackableObjectBase);
 };
 
-// All instances of TrackableObject will be kept in a weak map and can be got
-// from its ID.
+// TrackableObject的所有实例都将保存在弱映射中，并且可以。
+// 从它的身份证上看。
 template <typename T>
 class TrackableObject : public TrackableObjectBase, public EventEmitter<T> {
  public:
-  // Mark the JS object as destroyed.
+  // 将JS对象标记为已销毁。
   void MarkDestroyed() {
     v8::HandleScope scope(gin_helper::Wrappable<T>::isolate());
     v8::Local<v8::Object> wrapper = gin_helper::Wrappable<T>::GetWrapper();
@@ -71,7 +71,7 @@ class TrackableObject : public TrackableObjectBase, public EventEmitter<T> {
            wrapper->GetAlignedPointerFromInternalField(0) == nullptr;
   }
 
-  // Finds out the TrackableObject from its ID in weak map.
+  // 在弱映射中从其ID中查找TrackableObject。
   static T* FromWeakMapID(v8::Isolate* isolate, int32_t id) {
     if (!weak_map_)
       return nullptr;
@@ -86,7 +86,7 @@ class TrackableObject : public TrackableObjectBase, public EventEmitter<T> {
     return self;
   }
 
-  // Finds out the TrackableObject from the class it wraps.
+  // 从TrackableObject包装的类中查找它。
   static T* FromWrappedClass(v8::Isolate* isolate,
                              base::SupportsUserData* wrapped) {
     int32_t id = GetIDFromWrappedClass(wrapped);
@@ -95,7 +95,7 @@ class TrackableObject : public TrackableObjectBase, public EventEmitter<T> {
     return FromWeakMapID(isolate, id);
   }
 
-  // Returns all objects in this class's weak map.
+  // 返回该类的弱映射中的所有对象。
   static std::vector<v8::Local<v8::Object>> GetAll(v8::Isolate* isolate) {
     if (weak_map_)
       return weak_map_->Values(isolate);
@@ -103,7 +103,7 @@ class TrackableObject : public TrackableObjectBase, public EventEmitter<T> {
       return std::vector<v8::Local<v8::Object>>();
   }
 
-  // Removes this instance from the weak map.
+  // 从弱贴图中删除此实例。
   void RemoveFromWeakMap() {
     if (weak_map_ && weak_map_->Has(weak_map_id()))
       weak_map_->Remove(weak_map_id());
@@ -124,7 +124,7 @@ class TrackableObject : public TrackableObjectBase, public EventEmitter<T> {
 
  private:
   static int32_t next_id_;
-  static electron::KeyWeakMap<int32_t>* weak_map_;  // leaked on purpose
+  static electron::KeyWeakMap<int32_t>* weak_map_;  // 故意泄露的。
 
   DISALLOW_COPY_AND_ASSIGN(TrackableObject);
 };
@@ -135,6 +135,6 @@ int32_t TrackableObject<T>::next_id_ = 0;
 template <typename T>
 electron::KeyWeakMap<int32_t>* TrackableObject<T>::weak_map_ = nullptr;
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
-#endif  // SHELL_COMMON_GIN_HELPER_TRACKABLE_OBJECT_H_
+#endif  // Shell_COMMON_GIN_HELPER_TRACKABLE_OBJECT_H_

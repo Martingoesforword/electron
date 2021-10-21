@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_CHILD_WEB_CONTENTS_TRACKER_H_
 #define SHELL_BROWSER_CHILD_WEB_CONTENTS_TRACKER_H_
@@ -11,8 +11,8 @@
 
 namespace electron {
 
-// ChildWebContentsTracker tracks child WebContents
-// created by native `window.open()`
+// ChildWebContentsTracker跟踪子WebContents。
+// 由本机`window.open()`创建。
 struct ChildWebContentsTracker
     : public content::WebContentsUserData<ChildWebContentsTracker> {
   ~ChildWebContentsTracker() override;
@@ -32,6 +32,6 @@ struct ChildWebContentsTracker
   DISALLOW_COPY_AND_ASSIGN(ChildWebContentsTracker);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_CHILD_WEB_CONTENTS_TRACKER_H_
+#endif  // Shell_Browser_Child_Web_Contents_Tracker_H_

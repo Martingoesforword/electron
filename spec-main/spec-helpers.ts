@@ -93,7 +93,7 @@ export function waitUntil (
 ) {
   const { rate = 10, timeout = 10000 } = opts;
   return new Promise<void>((resolve, reject) => {
-    let intervalId: NodeJS.Timeout | undefined; // eslint-disable-line prefer-const
+    let intervalId: NodeJS.Timeout | undefined; // Eslint-禁用-线路首选-常量
     let timeoutId: NodeJS.Timeout | undefined;
 
     const cleanup = () => {

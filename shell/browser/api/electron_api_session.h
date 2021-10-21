@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_SESSION_H_
 #define SHELL_BROWSER_API_ELECTRON_API_SESSION_H_
@@ -23,7 +23,7 @@
 #include "shell/common/gin_helper/promise.h"
 
 #if BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
-#include "chrome/browser/spellchecker/spellcheck_hunspell_dictionary.h"  // nogncheck
+#include "chrome/browser/spellchecker/spellcheck_hunspell_dictionary.h"  // 点名检查。
 #endif
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
@@ -67,14 +67,14 @@ class Session : public gin::Wrappable<Session>,
 #endif
                 public content::DownloadManager::Observer {
  public:
-  // Gets or creates Session from the |browser_context|.
+  // 从|BROWSER_CONTEXT|获取或创建会话。
   static gin::Handle<Session> CreateFrom(
       v8::Isolate* isolate,
       ElectronBrowserContext* browser_context);
 
   static Session* FromBrowserContext(content::BrowserContext* context);
 
-  // Gets the Session of |partition|.
+  // 获取|Partition|的会话。
   static gin::Handle<Session> FromPartition(
       v8::Isolate* isolate,
       const std::string& partition,
@@ -82,13 +82,13 @@ class Session : public gin::Wrappable<Session>,
 
   ElectronBrowserContext* browser_context() const { return browser_context_; }
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
   const char* GetTypeName() override;
 
-  // Methods.
+  // 方法：研究方法。
   v8::Local<v8::Promise> ResolveProxy(gin::Arguments* args);
   v8::Local<v8::Promise> GetCacheSize();
   v8::Local<v8::Promise> ClearCache();
@@ -145,7 +145,7 @@ class Session : public gin::Wrappable<Session>,
   v8::Local<v8::Value> GetExtension(const std::string& extension_id);
   v8::Local<v8::Value> GetAllExtensions();
 
-  // extensions::ExtensionRegistryObserver:
+  // Extensions：：ExtensionRegistryWatch：
   void OnExtensionLoaded(content::BrowserContext* browser_context,
                          const extensions::Extension* extension) override;
   void OnExtensionReady(content::BrowserContext* browser_context,
@@ -159,12 +159,12 @@ class Session : public gin::Wrappable<Session>,
   Session(v8::Isolate* isolate, ElectronBrowserContext* browser_context);
   ~Session() override;
 
-  // content::DownloadManager::Observer:
+  // 内容：：下载管理器：：观察者：
   void OnDownloadCreated(content::DownloadManager* manager,
                          download::DownloadItem* item) override;
 
 #if BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
-  // SpellcheckHunspellDictionary::Observer
+  // Spellcheck HunspellDictionary：：观察者。
   void OnHunspellDictionaryInitialized(const std::string& language) override;
   void OnHunspellDictionaryDownloadBegin(const std::string& language) override;
   void OnHunspellDictionaryDownloadSuccess(
@@ -174,7 +174,7 @@ class Session : public gin::Wrappable<Session>,
 #endif
 
  private:
-  // Cached gin_helper::Wrappable objects.
+  // 缓存的gin_helper：：Wrappable对象。
   v8::Global<v8::Value> cookies_;
   v8::Global<v8::Value> protocol_;
   v8::Global<v8::Value> net_log_;
@@ -183,7 +183,7 @@ class Session : public gin::Wrappable<Session>,
 
   v8::Isolate* isolate_;
 
-  // The client id to enable the network throttler.
+  // 启用网络限制器的客户端ID。
   base::UnguessableToken network_emulation_token_;
 
   ElectronBrowserContext* browser_context_;
@@ -191,8 +191,8 @@ class Session : public gin::Wrappable<Session>,
   DISALLOW_COPY_AND_ASSIGN(Session);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_SESSION_H_
+#endif  // Shell_Browser_API_Electronics_API_Session_H_

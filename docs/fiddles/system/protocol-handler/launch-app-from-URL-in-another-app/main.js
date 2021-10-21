@@ -1,4 +1,4 @@
-// Modules to control application life and create native browser window
+// 用于控制应用程序生命周期和创建本机浏览器窗口的模块。
 const { app, BrowserWindow, ipcMain, shell, dialog } = require('electron')
 const path = require('path')
 
@@ -18,14 +18,14 @@ if (!gotTheLock) {
   app.quit()
 } else {
   app.on('second-instance', (event, commandLine, workingDirectory) => {
-    // Someone tried to run a second instance, we should focus our window.
+    // 有人试图运行第二个实例，我们应该聚焦窗口。
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
     }
   })
 
-  // Create mainWindow, load the rest of the app, etc...
+  // 创建mainWindow，加载应用程序的其余部分，等等。
   app.whenReady().then(() => {
     createWindow()
   })
@@ -36,7 +36,7 @@ if (!gotTheLock) {
 }
 
 function createWindow () {
-  // Create the browser window.
+  // 创建浏览器窗口。
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -48,16 +48,16 @@ function createWindow () {
   mainWindow.loadFile('index.html')
 }
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+// 关闭所有窗口(MacOS除外)后退出。在那里，这是很常见的。
+// 使应用程序及其菜单栏保持活动状态，直到用户退出。
+// 显式使用Cmd+Q。
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
-// Handle window controls via IPC
+// 通过IPC处理窗口控件。
 ipcMain.on('shell:open', () => {
   const pageDirectory = __dirname.replace('app.asar', 'app.asar.unpacked')
-  const pagePath = path.join('file://', pageDirectory, 'index.html')
+  const pagePath = path.join('file:// ‘，pageDirectory，’index.html‘)
   shell.openExternal(pagePath)
 })

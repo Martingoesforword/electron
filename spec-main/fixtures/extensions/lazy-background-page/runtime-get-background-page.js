@@ -1,4 +1,4 @@
-/* global chrome */
+/* 全局铬*/
 window.completionPromise = new Promise((resolve) => {
   window.completionPromiseResolve = resolve;
 });

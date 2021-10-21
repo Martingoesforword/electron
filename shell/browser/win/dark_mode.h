@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Microsoft Inc. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2020 Microsoft Inc.保留所有权利。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #ifndef SHELL_BROWSER_WIN_DARK_MODE_H_
 #define SHELL_BROWSER_WIN_DARK_MODE_H_
@@ -21,8 +21,8 @@ namespace win {
 
 void SetDarkModeForWindow(HWND hWnd, ui::NativeTheme::ThemeSource theme_source);
 
-}  // namespace win
+}  // 命名空间制胜。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_WIN_DARK_MODE_H_
+#endif  // Shell_Browser_Win_Dark_MODE_H_

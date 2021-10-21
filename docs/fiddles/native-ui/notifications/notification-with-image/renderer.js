@@ -1,7 +1,7 @@
 const notification = {
   title: 'Notification with image',
   body: 'Short message plus a custom image',
-  icon: 'https://raw.githubusercontent.com/electron/electron-api-demos/v2.0.2/assets/img/programming.png'
+  icon: 'https:// Raw.githubusercontent.co
 }
 const notificationButton = document.getElementById('advanced-noti')
 

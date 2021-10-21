@@ -7,7 +7,7 @@ try {
   contextBridge.exposeInMainWorld('test', {});
   bound = true;
 } catch {
-  // Ignore
+  // 忽略
 }
 
 ipcRenderer.send('context-bridge-bound', bound);

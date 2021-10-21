@@ -1,6 +1,6 @@
-// Copyright 2019 Slack Technologies, Inc. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2019 Slake Technologies，Inc.保留所有权利。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_EXTENSIONS_ELECTRON_PROCESS_MANAGER_DELEGATE_H_
 #define SHELL_BROWSER_EXTENSIONS_ELECTRON_PROCESS_MANAGER_DELEGATE_H_
@@ -16,14 +16,14 @@ class Profile;
 
 namespace extensions {
 
-// Support for ProcessManager. Controls cases where Electron wishes to disallow
-// extension background pages or defer their creation.
+// 支持ProcessManager。控制电子希望禁止的情况。
+// 扩展背景页或推迟其创建。
 class ElectronProcessManagerDelegate : public ProcessManagerDelegate {
  public:
   ElectronProcessManagerDelegate();
   ~ElectronProcessManagerDelegate() override;
 
-  // ProcessManagerDelegate implementation:
+  // ProcessManagerDelegate实现：
   bool AreBackgroundPagesAllowedForContext(
       content::BrowserContext* context) const override;
   bool IsExtensionBackgroundPageAllowed(
@@ -36,6 +36,6 @@ class ElectronProcessManagerDelegate : public ProcessManagerDelegate {
   DISALLOW_COPY_AND_ASSIGN(ElectronProcessManagerDelegate);
 };
 
-}  // namespace extensions
+}  // 命名空间扩展。
 
 #endif  // SHELL_BROWSER_EXTENSIONS_ELECTRON_PROCESS_MANAGER_DELEGATE_H_

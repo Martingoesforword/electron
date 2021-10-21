@@ -12,9 +12,9 @@ for (let i = 0; i < numIterations; i++) {
   });
 }
 
-// https://github.com/electron/electron/issues/21515 was about electron
-// exiting before promises finished. This test sets the pending exitCode
-// to failure, then resets it to success only if all promises finish.
+// Https://github.com/electron/electron/issues/21515是关于电子的。
+// 承诺还没完成就退出了。此测试设置挂起的退出代码。
+// 失败，然后只有当所有的承诺都完成时，才会将它重置为成功。
 process.exitCode = 1;
 promise.then(() => {
   if (curIteration === numIterations) {

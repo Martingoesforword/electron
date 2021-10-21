@@ -6,7 +6,7 @@ const ELECTRON_DIR = path.resolve(__dirname, '..', '..');
 const SRC_DIR = path.resolve(ELECTRON_DIR, '..');
 
 const RELEASE_BRANCH_PATTERN = /(\d)+-(?:(?:[0-9]+-x$)|(?:x+-y$))/;
-// TODO(main-migration): Simplify once main branch is renamed
+// TODO(主迁移)：重命名主分支后即可简化。
 const MAIN_BRANCH_PATTERN = /^(main|master)$/;
 const ORIGIN_MAIN_BRANCH_PATTERN = /^origin\/(main|master)$/;
 
@@ -36,13 +36,13 @@ function getOutDir (options = {}) {
     const outDir = options.outDir || process.env.ELECTRON_OUT_DIR;
     const outPath = path.resolve(SRC_DIR, 'out', outDir);
 
-    // Check that user-set variable is a valid/existing directory
+    // 检查用户设置的变量是否为有效/现有目录。
     if (fs.existsSync(outPath)) {
       if (shouldLog) console.log(`OUT_DIR is: ${outDir}`);
       return outDir;
     }
 
-    // Throw error if user passed/set nonexistent directory.
+    // 如果用户传递/设置不存在的目录，则抛出错误。
     throw new Error(`${outDir} directory not configured on your machine.`);
   } else {
     for (const buildType of presetDirs) {
@@ -54,8 +54,8 @@ function getOutDir (options = {}) {
     }
   }
 
-  // If we got here, it means process.env.ELECTRON_OUT_DIR was not
-  // set and none of the preset options could be found in /out, so throw
+  // 如果我们到达这里，这意味着Process.env.ELECTRON_OUT_DIR不是。
+  // Set，并且在In/Out中找不到任何预设选项，因此抛出
   throw new Error(`No valid out directory found; use one of ${presetDirs.join(',')} or set process.env.ELECTRON_OUT_DIR`);
 }
 

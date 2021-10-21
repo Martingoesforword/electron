@@ -3,10 +3,10 @@ if (!process.env.CI) require('dotenv-safe').load();
 const assert = require('assert');
 const got = require('got');
 
-const BUILD_APPVEYOR_URL = 'https://ci.appveyor.com/api/builds';
-const CIRCLECI_PIPELINE_URL = 'https://circleci.com/api/v2/project/gh/electron/electron/pipeline';
-const VSTS_URL = 'https://github.visualstudio.com/electron/_apis/build';
-const DEVOPS_URL = 'https://dev.azure.com/electron-ci/electron/_apis/build';
+const BUILD_APPVEYOR_URL = 'https:// Ci.appveyor.com/api/builds‘；
+const CIRCLECI_PIPELINE_URL = 'https:// Circleci.com/api/v2/project/gh/electron/electron/pipeline‘；
+const VSTS_URL = 'https:// Github.visualstudio.com/electron/_apis/build‘；
+const DEVOPS_URL = 'https:// Dev.azure.com/electron-ci/electron/_apis/build‘；
 const CIRCLECI_WAIT_TIME = process.env.CIRCLECI_WAIT_TIME || 30000;
 
 const appVeyorJobs = {
@@ -78,10 +78,10 @@ async function circleCIcall (targetBranch, workflowName, options) {
   }
 
   jobRequestedCount++;
-  // The logic below expects that the CircleCI workflows for releases each
-  // contain only one job in order to maintain compatibility with sudowoodo.
-  // If the workflows are changed in the CircleCI config.yml, this logic will
-  // also need to be changed as well as possibly changing sudowoodo.
+  // 下面的逻辑预期每个版本的CircleCI工作流。
+  // 只包含一个作业，以保持与sudowoodo的兼容性。
+  // 如果在CircleCI config.yml中更改了工作流，则此逻辑将。
+  // 也需要改变，也可能需要改变sudowoodo。
   try {
     const circleResponse = await circleCIRequest(CIRCLECI_PIPELINE_URL, 'POST', buildRequest);
     console.log(`CircleCI release build pipeline ${circleResponse.id} for ${workflowName} triggered.`);
@@ -89,16 +89,16 @@ async function circleCIcall (targetBranch, workflowName, options) {
     if (workflowId === -1) {
       return;
     }
-    const workFlowUrl = `https://circleci.com/workflow-run/${workflowId}`;
+    const workFlowUrl = `https:// Cireci.com/WORKLOW-RUN/${workflowId}`；
     if (options.runningPublishWorkflows) {
       console.log(`CircleCI release workflow request for ${workflowName} successful.  Check ${workFlowUrl} for status.`);
     } else {
-      console.log(`CircleCI release build workflow running at https://circleci.com/workflow-run/${workflowId} for ${workflowName}.`);
+      console.log(`CircleCI release build workflow running at https:// ${workflowName}.`的Cireci.com/Workflow-Run/${workflowId})；
       const jobNumber = await getCircleCIJobNumber(workflowId);
       if (jobNumber === -1) {
         return;
       }
-      const jobUrl = `https://circleci.com/gh/electron/electron/${jobNumber}`;
+      const jobUrl = `https:// Circleci.com/gh/electron/electron/${jobNumber}`；
       console.log(`CircleCI release build request for ${workflowName} successful.  Check ${jobUrl} for status.`);
     }
   } catch (err) {
@@ -107,7 +107,7 @@ async function circleCIcall (targetBranch, workflowName, options) {
 }
 
 async function getCircleCIWorkflowId (pipelineId) {
-  const pipelineInfoUrl = `https://circleci.com/api/v2/pipeline/${pipelineId}`;
+  const pipelineInfoUrl = `https:// Circle eci.com/api/v2/Pipeline/${PipelineId}`；
   let workflowId = 0;
   while (workflowId === 0) {
     const pipelineInfo = await circleCIRequest(pipelineInfoUrl, 'GET');
@@ -134,7 +134,7 @@ async function getCircleCIWorkflowId (pipelineId) {
 }
 
 async function getCircleCIJobNumber (workflowId) {
-  const jobInfoUrl = `https://circleci.com/api/v2/workflow/${workflowId}/job`;
+  const jobInfoUrl = `https:// Circleci.com/api/v2/workflow/${workflowId}/job`；
   let jobNumber = 0;
   while (jobNumber === 0) {
     const jobInfo = await circleCIRequest(jobInfoUrl, 'GET');
@@ -232,7 +232,7 @@ async function callAppVeyor (targetBranch, job, options) {
 
   try {
     const { version } = await makeRequest(requestOpts, true);
-    const buildUrl = `https://ci.appveyor.com/project/electron-bot/${appVeyorJobs[job]}/build/${version}`;
+    const buildUrl = `https:// Ci.appveyor.com/project/electron-bot/${appVeyorJobs[job]}/build/${version}`；
     console.log(`AppVeyor release build request for ${job} successful.  Check build status at ${buildUrl}`);
   } catch (err) {
     console.log('Could not call AppVeyor: ', err);

@@ -109,8 +109,8 @@ describe('debugger module', () => {
 
     it('fires message event', async () => {
       const url = process.platform !== 'win32'
-        ? `file://${path.join(fixtures, 'pages', 'a.html')}`
-        : `file:///${path.join(fixtures, 'pages', 'a.html').replace(/\\/g, '/')}`;
+        ? `file:// ${path.Join(装置，‘Pages’，‘a.html’)}`。
+        : `file:// /${path.Join(Fixtures，‘Pages’，‘a.html’).place(/\\/g，‘/’)}`；
       w.webContents.loadURL(url);
       w.webContents.debugger.attach();
       const message = emittedUntil(w.webContents.debugger, 'message',
@@ -133,7 +133,7 @@ describe('debugger module', () => {
       w.webContents.debugger.detach();
     });
 
-    // TODO(deepak1556): Fix and enable with upgrade
+    // TODO(Deepak1556)：通过升级修复并启用。
     it.skip('handles valid unicode characters in message', (done) => {
       try {
         w.webContents.debugger.attach();
@@ -144,7 +144,7 @@ describe('debugger module', () => {
       let requestId : number;
       w.webContents.debugger.on('message', (event, method, params) => {
         if (method === 'Network.responseReceived' &&
-            params.response.url.startsWith('http://127.0.0.1')) {
+            params.response.url.startsWith('http:// 127.0.0.1‘)){。
           requestId = params.requestId;
         } else if (method === 'Network.loadingFinished' &&
                    params.requestId === requestId) {
@@ -164,7 +164,7 @@ describe('debugger module', () => {
 
       server.listen(0, '127.0.0.1', () => {
         w.webContents.debugger.sendCommand('Network.enable');
-        w.loadURL(`http://127.0.0.1:${(server.address() as AddressInfo).port}`);
+        w.loadURL(`http:// 127.0.0.1：${(server.address()as AddressInfo).port}`)；
       });
     });
 
@@ -176,8 +176,8 @@ describe('debugger module', () => {
       }
 
       w.webContents.debugger.on('message', (event, method) => {
-        // loadingFinished indicates that page has been loaded and it did not
-        // crash because of invalid UTF-8 data
+        // LoadingFineted表示该页面已加载，但尚未加载。
+        // 由于UTF-8数据无效而崩溃。
         if (method === 'Network.loadingFinished') {
           done();
         }
@@ -190,7 +190,7 @@ describe('debugger module', () => {
 
       server.listen(0, '127.0.0.1', () => {
         w.webContents.debugger.sendCommand('Network.enable');
-        w.loadURL(`http://127.0.0.1:${(server.address() as AddressInfo).port}`);
+        w.loadURL(`http:// 127.0.0.1：${(server.address()as AddressInfo).port}`)；
       });
     });
 

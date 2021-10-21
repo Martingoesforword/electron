@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_DESKTOP_CAPTURER_H_
 #define SHELL_BROWSER_API_ELECTRON_API_DESKTOP_CAPTURER_H_
@@ -25,10 +25,10 @@ class DesktopCapturer : public gin::Wrappable<DesktopCapturer>,
  public:
   struct Source {
     DesktopMediaList::Source media_list_source;
-    // Will be an empty string if not available.
+    // 如果不可用，将为空字符串。
     std::string display_id;
 
-    // Whether or not this source should provide an icon.
+    // 此源是否应提供图标。
     bool fetch_icon = false;
   };
 
@@ -39,7 +39,7 @@ class DesktopCapturer : public gin::Wrappable<DesktopCapturer>,
                      const gfx::Size& thumbnail_size,
                      bool fetch_window_icons);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -49,7 +49,7 @@ class DesktopCapturer : public gin::Wrappable<DesktopCapturer>,
   explicit DesktopCapturer(v8::Isolate* isolate);
   ~DesktopCapturer() override;
 
-  // DesktopMediaListObserver:
+  // DesktopMediaListViewer：
   void OnSourceAdded(DesktopMediaList* list, int index) override {}
   void OnSourceRemoved(DesktopMediaList* list, int index) override {}
   void OnSourceMoved(DesktopMediaList* list,
@@ -69,15 +69,15 @@ class DesktopCapturer : public gin::Wrappable<DesktopCapturer>,
   bool fetch_window_icons_ = false;
 #if defined(OS_WIN)
   bool using_directx_capturer_ = false;
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 
   base::WeakPtrFactory<DesktopCapturer> weak_ptr_factory_{this};
 
   DISALLOW_COPY_AND_ASSIGN(DesktopCapturer);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_DESKTOP_CAPTURER_H_

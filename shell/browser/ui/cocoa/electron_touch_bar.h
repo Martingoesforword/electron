@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_COCOA_ELECTRON_TOUCH_BAR_H_
 #define SHELL_BROWSER_UI_COCOA_ELECTRON_TOUCH_BAR_H_
@@ -50,12 +50,12 @@
 - (bool)hasItemWithID:(const std::string&)item_id;
 - (NSColor*)colorFromHexColorString:(const std::string&)colorString;
 
-// Selector actions
+// 选择器操作。
 - (void)buttonAction:(id)sender;
 - (void)colorPickerAction:(id)sender API_AVAILABLE(macosx(10.12.2));
 - (void)sliderAction:(id)sender API_AVAILABLE(macosx(10.12.2));
 
-// Helpers to create touch bar items
+// 用于创建触摸栏项目的帮助器。
 - (NSTouchBarItem*)makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
     API_AVAILABLE(macosx(10.12.2));
 - (NSTouchBarItem*)makeButtonForID:(NSString*)id
@@ -77,7 +77,7 @@
                    withIdentifier:(NSString*)identifier
     API_AVAILABLE(macosx(10.12.2));
 
-// Helpers to update touch bar items
+// 用于更新触摸栏项目的帮助器。
 - (void)updateButton:(NSCustomTouchBarItem*)item
         withSettings:(const gin_helper::PersistentDictionary&)settings
     API_AVAILABLE(macosx(10.12.2));
@@ -96,4 +96,4 @@
 
 @end
 
-#endif  // SHELL_BROWSER_UI_COCOA_ELECTRON_TOUCH_BAR_H_
+#endif  // Shell_Browser_UI_Cocoa_Electronics_Touch_Bar_H_

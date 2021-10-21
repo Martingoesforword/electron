@@ -29,11 +29,9 @@ const knownTypes = new Set([...docTypes.keys(), ...featTypes.keys(), ...fixTypes
 
 const getCacheDir = () => process.env.NOTES_CACHE_PATH || path.resolve(__dirname, '.cache');
 
-/**
-***
-**/
+/* *。*/
 
-// link to a GitHub item, e.g. an issue or pull request
+// 指向GitHub项目的链接，例如问题或拉入请求。
 class GHKey {
   constructor (owner, repo, number) {
     this.owner = owner;
@@ -51,35 +49,33 @@ class GHKey {
 
 class Commit {
   constructor (hash, owner, repo) {
-    this.hash = hash; // string
-    this.owner = owner; // string
-    this.repo = repo; // string
+    this.hash = hash; // 细绳。
+    this.owner = owner; // 细绳。
+    this.repo = repo; // 细绳。
 
     this.isBreakingChange = false;
-    this.note = null; // string
+    this.note = null; // 细绳。
 
-    // A set of branches to which this change has been merged.
-    // '8-x-y' => GHKey { owner: 'electron', repo: 'electron', number: 23714 }
-    this.trops = new Map(); // Map<string,GHKey>
+    // 此更改已合并到的一组分支。
+    // ‘8-x-y’=&gt;GHKey{所有者：‘电子’，回购：‘电子’，编号：23714}。
+    this.trops = new Map(); // MAP&lt;字符串，GHKey&gt;。
 
-    this.prKeys = new Set(); // GHKey
-    this.revertHash = null; // string
-    this.semanticType = null; // string
-    this.subject = null; // string
+    this.prKeys = new Set(); // GHKey。
+    this.revertHash = null; // 细绳。
+    this.semanticType = null; // 细绳。
+    this.subject = null; // 细绳。
   }
 }
 
 class Pool {
   constructor () {
-    this.commits = []; // Array<Commit>
+    this.commits = []; // 数组&lt;Commit&gt;。
     this.processedHashes = new Set();
-    this.pulls = {}; // GHKey.number => octokit pull object
+    this.pulls = {}; // GHKey.number=&gt;octokit拉取对象。
   }
 }
 
-/**
-***
-**/
+/* *。*/
 
 const runGit = async (dir, args) => {
   const response = await GitProcess.exec(args, dir);
@@ -111,39 +107,30 @@ const getNoteFromClerk = async (ghKey) => {
     }
     if (comment.body.startsWith(PERSIST_LEAD)) {
       let lines = comment.body
-        .slice(PERSIST_LEAD.length).trim() // remove PERSIST_LEAD
-        .split(/\r?\n/) // split into lines
+        .slice(PERSIST_LEAD.length).trim() // 删除Persistent_Lead。
+        .split(/\r?\n/) // 拆分成行。
         .map(line => line.trim())
-        .filter(line => line.startsWith(QUOTE_LEAD)) // notes are quoted
-        .map(line => line.slice(QUOTE_LEAD.length)); // unquote the lines
+        .filter(line => line.startsWith(QUOTE_LEAD)) // 注释被引用。
+        .map(line => line.slice(QUOTE_LEAD.length)); // 对这些行加引号。
 
       const firstLine = lines.shift();
-      // indent anything after the first line to ensure that
-      // multiline notes with their own sub-lists don't get
-      // parsed in the markdown as part of the top-level list
-      // (example: https://github.com/electron/electron/pull/25216)
+      // 缩进第一行之后的任何内容以确保。
+      // 具有自己的子列表的多行注释不会。
+      // 在标记中解析为顶级列表的一部分。
+      // (示例：https://github.com/electron/electron/pull/25216)。
       lines = lines.map(line => '  ' + line);
       return [firstLine, ...lines]
-        .join('\n') // join the lines
+        .join('\n') // 加入队伍。
         .trim();
     }
   }
 };
 
-/**
- * Looks for our project's conventions in the commit message:
- *
- * 'semantic: some description' -- sets semanticType, subject
- * 'some description (#99999)' -- sets subject, pr
- * 'Merge pull request #99999 from ${branchname}' -- sets pr
- * 'This reverts commit ${sha}' -- sets revertHash
- * line starting with 'BREAKING CHANGE' in body -- sets isBreakingChange
- * 'Backport of #99999' -- sets pr
- */
+/* **在提交消息中查找我们项目的约定：**‘语义：一些描述’--设置语义类型，主题*‘一些描述(#99999)’--设置主题，Pr*‘从${BranchName}合并拉取请求#99999’--设置pr*‘This Reverts Commit${sha}’--设置revertHash*Body中以‘Breaking Change’开头的行--sets isBreakingChange*‘Backport of#99999’--设置pr。*/
 const parseCommitMessage = (commitMessage, commit) => {
   const { owner, repo } = commit;
 
-  // split commitMessage into subject & body
+  // 将提交消息拆分为主题和正文。
   let subject = commitMessage;
   let body = '';
   const pos = subject.indexOf('\n');
@@ -152,14 +139,14 @@ const parseCommitMessage = (commitMessage, commit) => {
     subject = subject.slice(0, pos).trim();
   }
 
-  // if the subject ends in ' (#dddd)', treat it as a pull request id
+  // 如果主题以‘(#dddd)’结尾，则将其视为拉取请求id。
   let match;
   if ((match = subject.match(/^(.*)\s\(#(\d+)\)$/))) {
     commit.prKeys.add(new GHKey(owner, repo, parseInt(match[2])));
     subject = match[1];
   }
 
-  // if the subject begins with 'word:', treat it as a semantic commit
+  // 如果主语以‘word：’开头，则将其视为语义提交。
   if ((match = subject.match(/^(\w+):\s(.*)$/))) {
     const semanticType = match[1].toLocaleLowerCase();
     if (knownTypes.has(semanticType)) {
@@ -168,33 +155,33 @@ const parseCommitMessage = (commitMessage, commit) => {
     }
   }
 
-  // Check for GitHub commit message that indicates a PR
+  // 检查指示PR的GitHub提交消息。
   if ((match = subject.match(/^Merge pull request #(\d+) from (.*)$/))) {
     commit.prKeys.add(new GHKey(owner, repo, parseInt(match[1])));
   }
 
-  // Check for a comment that indicates a PR
+  // 检查是否有指示PR的注释。
   const backportPattern = /(?:^|\n)(?:manual |manually )?backport.*(?:#(\d+)|\/pull\/(\d+))/im;
   if ((match = commitMessage.match(backportPattern))) {
-    // This might be the first or second capture group depending on if it's a link or not.
+    // 这可能是第一个或第二个捕获组，具体取决于它是否是链接。
     const backportNumber = match[1] ? parseInt(match[1], 10) : parseInt(match[2], 10);
     commit.prKeys.add(new GHKey(owner, repo, backportNumber));
   }
 
-  // https://help.github.com/articles/closing-issues-using-keywords/
+  // Https://help.github.com/articles/closing-issues-using-keywords/。
   if (body.match(/\b(?:close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved|for)\s#(\d+)\b/i)) {
     commit.semanticType = commit.semanticType || 'fix';
   }
 
-  // https://www.conventionalcommits.org/en
+  // Https://www.conventionalcommits.org/en。
   if (commitMessage
-    .split(/\r?\n/) // split into lines
+    .split(/\r?\n/) // 拆分成行。
     .map(line => line.trim())
     .some(line => line.startsWith('BREAKING CHANGE'))) {
     commit.isBreakingChange = true;
   }
 
-  // Check for a reversion commit
+  // 检查是否有返回提交。
   if ((match = body.match(/This reverts commit ([a-f0-9]{40})\./))) {
     commit.revertHash = match[1];
   }
@@ -208,11 +195,11 @@ const parsePullText = (pull, commit) => parseCommitMessage(`${pull.data.title}\n
 const getLocalCommitHashes = async (dir, ref) => {
   const args = ['log', '--format=%H', ref];
   return (await runGit(dir, args))
-    .split(/\r?\n/) // split into lines
+    .split(/\r?\n/) // 拆分成行。
     .map(hash => hash.trim());
 };
 
-// return an array of Commits
+// 返回提交数组。
 const getLocalCommits = async (module, point1, point2) => {
   const { owner, repo, dir } = module;
 
@@ -220,7 +207,7 @@ const getLocalCommits = async (module, point1, point2) => {
   const format = ['%H', '%s'].join(fieldSep);
   const args = ['log', '--cherry-pick', '--right-only', '--first-parent', `--format=${format}`, `${point1}..${point2}`];
   const logs = (await runGit(dir, args))
-    .split(/\r?\n/) // split into lines
+    .split(/\r?\n/) // 拆分成行。
     .map(field => field.trim());
 
   const commits = [];
@@ -247,7 +234,7 @@ const checkCache = async (name, operation) => {
   return response;
 };
 
-// helper function to add some resiliency to volatile GH api endpoints
+// Helper函数，可为易失性GH API端点增加一定的弹性。
 async function runRetryable (fn, maxRetries) {
   let lastError;
   for (let i = 0; i < maxRetries; i++) {
@@ -258,8 +245,8 @@ async function runRetryable (fn, maxRetries) {
       lastError = error;
     }
   }
-  // Silently eat 404s.
-  // Silently eat 422s, which come from "No commit found for SHA"
+  // 默默地吃404。
+  // 默默地吃着422，它们来自“没有找到SHA的提交”(No Commit Found For SHA)。
   if (lastError.status !== 404 && lastError.status !== 422) throw lastError;
 }
 
@@ -270,12 +257,12 @@ const getCommitPulls = async (owner, repo, hash) => {
   const retryableFunc = () => octokit.repos.listPullRequestsAssociatedWithCommit({ owner, repo, commit_sha: hash });
   let ret = await checkCache(name, () => runRetryable(retryableFunc, MAX_FAIL_COUNT));
 
-  // only merged pulls belong in release notes
+  // 只有合并的拉动才属于发行说明。
   if (ret && ret.data) {
     ret.data = ret.data.filter(pull => pull.merged_at);
   }
 
-  // cache the pulls
+  // 缓存拉入。
   if (ret && ret.data) {
     for (const pull of ret.data) {
       const cachefile = getPullCacheFilename(GHKey.NewFromPull(pull));
@@ -284,7 +271,7 @@ const getCommitPulls = async (owner, repo, hash) => {
     }
   }
 
-  // ensure the return value has the expected structure, even on failure
+  // 确保返回值具有预期的结构，即使在失败的情况下也是如此。
   if (!ret || !ret.data) {
     ret = { data: [] };
   }
@@ -309,12 +296,12 @@ const getComments = async (ghKey) => {
 const addRepoToPool = async (pool, repo, from, to) => {
   const commonAncestor = await getCommonAncestor(repo.dir, from, to);
 
-  // mark the old branch's commits as old news
+  // 把老分行的承诺标记为旧新闻。
   for (const oldHash of await getLocalCommitHashes(repo.dir, from)) {
     pool.processedHashes.add(oldHash);
   }
 
-  // get the new branch's commits and the pulls associated with them
+  // 获取新分支的提交和与其相关联的拉取。
   const commits = await getLocalCommits(repo, commonAncestor, to);
   for (const commit of commits) {
     const { owner, repo, hash } = commit;
@@ -325,21 +312,21 @@ const addRepoToPool = async (pool, repo, from, to) => {
 
   pool.commits.push(...commits);
 
-  // add the pulls
+  // 加上拉力。
   for (const commit of commits) {
     let prKey;
     for (prKey of commit.prKeys.values()) {
       const pull = await getPullRequest(prKey);
-      if (!pull || !pull.data) continue; // couldn't get it
+      if (!pull || !pull.data) continue; // 我拿不到。
       pool.pulls[prKey.number] = pull;
       parsePullText(pull, commit);
     }
   }
 };
 
-// @return Map<string,GHKey>
-//   where the key is a branch name (e.g. '7-1-x' or '8-x-y')
-//   and the value is a GHKey to the PR
+// @Return Map&lt;String，GHKey&gt;。
+// 其中键是分支名称(例如‘7-1-x’或‘8-x-y’)。
+// 它的价值就是公关的GHKey。
 async function getMergedTrops (commit, pool) {
   const branches = new Map();
 
@@ -375,20 +362,18 @@ async function getMergedTrops (commit, pool) {
   return branches;
 }
 
-// @return the shorthand name of the branch that `ref` is on,
-//   e.g. a ref of '10.0.0-beta.1' will return '10-x-y'
+// @返回`ref`所在分支的速记名称。
+// 例如，‘10.0.0-beta.1’的ref将返回‘10-x-y’
 async function getBranchNameOfRef (ref, dir) {
   return (await runGit(dir, ['branch', '--all', '--contains', ref, '--sort', 'version:refname']))
-    .split(/\r?\n/) // split into lines
-    .shift() // we sorted by refname and want the first result
-    .match(/(?:\s?\*\s){0,1}(.*)/)[1] // if present, remove leading '* ' in case we're currently in that branch
-    .match(/(?:.*\/)?(.*)/)[1] // 'remote/origins/10-x-y' -> '10-x-y'
+    .split(/\r?\n/) // 拆分成行。
+    .shift() // 我们按重命名排序，并想要第一个结果。
+    .match(/(?:\s?\*\s){0,1}(.*)/)[1] // 如果存在，请删除前导‘*’，以防我们当前在该分支中。
+    .match(/(?:.*\/)?(.*)/)[1] // ‘Remote/Origins/10-x-y’-&gt;‘10-x-y’
     .trim();
 }
 
-/***
-****  Main
-***/
+/* *Main**。*/
 
 const getNotes = async (fromRef, toRef, newVersion) => {
   const cacheDir = getCacheDir();
@@ -401,14 +386,14 @@ const getNotes = async (fromRef, toRef, newVersion) => {
 
   console.log(`Generating release notes between '${fromRef}' and '${toRef}' for version '${newVersion}' in branch '${toBranch}'`);
 
-  // get the electron/electron commits
+  // 获得电子/电子承诺
   const electron = { owner: 'electron', repo: 'electron', dir: ELECTRON_DIR };
   await addRepoToPool(pool, electron, fromRef, toRef);
 
-  // remove any old commits
+  // 删除所有旧提交。
   pool.commits = pool.commits.filter(commit => !pool.processedHashes.has(commit.hash));
 
-  // if a commmit _and_ revert occurred in the unprocessed set, skip them both
+  // 如果未处理的集合中出现COMMIT_AND_REVERT，请跳过它们。
   for (const commit of pool.commits) {
     const revertHash = commit.revertHash;
     if (!revertHash) {
@@ -426,7 +411,7 @@ const getNotes = async (fromRef, toRef, newVersion) => {
     pool.processedHashes.add(revertHash);
   }
 
-  // ensure the commit has a note
+  // 确保提交有注释。
   for (const commit of pool.commits) {
     for (const prKey of commit.prKeys.values()) {
       if (commit.note) {
@@ -436,7 +421,7 @@ const getNotes = async (fromRef, toRef, newVersion) => {
     }
   }
 
-  // remove non-user-facing commits
+  // 删除非面向用户的提交。
   pool.commits = pool.commits
     .filter(commit => commit && commit.note)
     .filter(commit => commit.note !== NO_NOTES)
@@ -501,52 +486,50 @@ const removeSupercededStackUpdates = (commits) => {
   return [...notupdates, ...Object.values(newest).map(o => o.commit)];
 };
 
-/***
-****  Render
-***/
+/* *渲染**。*/
 
-// @return the pull request's GitHub URL
-const buildPullURL = ghKey => `https://github.com/${ghKey.owner}/${ghKey.repo}/pull/${ghKey.number}`;
+// @返回拉流请求的GitHub地址。
+const buildPullURL = ghKey => `https:// Github.com/${ghKey.owner}/${ghKey.repo}/pull/${ghKey.number}`；
 
 const renderPull = ghKey => `[#${ghKey.number}](${buildPullURL(ghKey)})`;
 
-// @return the commit's GitHub URL
-const buildCommitURL = commit => `https://github.com/${commit.owner}/${commit.repo}/commit/${commit.hash}`;
+// @返回提交的GitHub URL。
+const buildCommitURL = commit => `https:// Github.com/${commit.owner}/${commit.repo}/commit/${commit.hash}`；
 
 const renderCommit = commit => `[${commit.hash.slice(0, 8)}](${buildCommitURL(commit)})`;
 
-// @return a markdown link to the PR if available; otherwise, the git commit
+// @返回PR的降价链接(如果可用)；否则，GIT提交。
 function renderLink (commit) {
   const maybePull = commit.prKeys.values().next();
   return maybePull.value ? renderPull(maybePull.value) : renderCommit(commit);
 }
 
-// @return a terser branch name,
-//   e.g. '7-2-x' -> '7.2' and '8-x-y' -> '8'
+// @返回更简短的分支机构名称，
+// 例如‘7-2-x’-&gt;‘7.2’和‘8-x-y’-&gt;‘8’
 const renderBranchName = name => name.replace(/-[a-zA-Z]/g, '').replace('-', '.');
 
 const renderTrop = (branch, ghKey) => `[${renderBranchName(branch)}](${buildPullURL(ghKey)})`;
 
-// @return markdown-formatted links to other branches' trops,
-//   e.g. "(Also in 7.2, 8, 9)"
+// @Return Markdown格式的链接指向其他分支机构的TROP，
+// 例如“(也在7.2、8、9中)”
 function renderTrops (commit, excludeBranch) {
   const body = [...commit.trops.entries()]
     .filter(([branch]) => branch !== excludeBranch)
-    .sort(([branchA], [branchB]) => parseInt(branchA) - parseInt(branchB)) // sort by semver major
+    .sort(([branchA], [branchB]) => parseInt(branchA) - parseInt(branchB)) // 按半专业排序。
     .map(([branch, key]) => renderTrop(branch, key))
     .join(', ');
   return body ? `<span style="font-size:small;">(Also in ${body})</span>` : body;
 }
 
-// @return a slightly cleaned-up human-readable change description
+// @返回稍加整理的人类可读的更改描述。
 function renderDescription (commit) {
   let note = commit.note || commit.subject || '';
   note = note.trim();
 
-  // release notes bullet point every change, so if the note author
-  // manually started the content with a bullet point, that will confuse
-  // the markdown renderer -- remove the redundant bullet point
-  // (example: https://github.com/electron/electron/pull/25216)
+  // 版本注释强调每个更改，因此如果注释作者。
+  // 手动使用项目符号开始内容，这会让人感到困惑。
+  // 标记下渲染器--去掉多余的项目符号。
+  // (示例：https://github.com/electron/electron/pull/25216)。
   if (note.startsWith('*')) {
     note = note.slice(1).trim();
   }
@@ -589,8 +572,8 @@ function renderDescription (commit) {
   return note;
 }
 
-// @return markdown-formatted release note line item,
-//   e.g. '* Fixed a foo. #12345 (Also in 7.2, 8, 9)'
+// @Return降价格式的发行说明行项目，
+// 例如‘*修复了foo。#12345(也在7.2、8、9中)‘。
 const renderNote = (commit, excludeBranch) =>
   `* ${renderDescription(commit)} ${renderLink(commit)} ${renderTrops(commit, excludeBranch)}\n`;
 
@@ -621,9 +604,7 @@ const renderNotes = (notes) => {
   return rendered.join('');
 };
 
-/***
-****  Module
-***/
+/* *模块***/
 
 module.exports = {
   get: getNotes,

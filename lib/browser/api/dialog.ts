@@ -14,12 +14,12 @@ enum OpenFileDialogProperties {
   openFile = 1 << 0,
   openDirectory = 1 << 1,
   multiSelections = 1 << 2,
-  createDirectory = 1 << 3, // macOS
+  createDirectory = 1 << 3, // MacOS。
   showHiddenFiles = 1 << 4,
-  promptToCreate = 1 << 5, // Windows
-  noResolveAliases = 1 << 6, // macOS
-  treatPackageAsDirectory = 1 << 7, // macOS
-  dontAddToRecent = 1 << 8 // Windows
+  promptToCreate = 1 << 5, // 窗口。
+  noResolveAliases = 1 << 6, // MacOS。
+  treatPackageAsDirectory = 1 << 7, // MacOS。
+  dontAddToRecent = 1 << 8 // 窗口。
 }
 
 let nextId = 0;
@@ -30,16 +30,16 @@ const getNextId = function () {
 const normalizeAccessKey = (text: string) => {
   if (typeof text !== 'string') return text;
 
-  // macOS does not have access keys so remove single ampersands
-  // and replace double ampersands with a single ampersand
+  // MacOS没有访问密钥，因此请删除单个和号。
+  // 并将双和号替换为单和号。
   if (process.platform === 'darwin') {
     return text.replace(/&(&?)/g, '$1');
   }
 
-  // Linux uses a single underscore as an access key prefix so escape
-  // existing single underscores with a second underscore, replace double
-  // ampersands with a single ampersand, and replace a single ampersand with
-  // a single underscore
+  // Linux使用单个下划线作为访问键前缀，因此转义。
+  // 将现有的单下划线替换为第二下划线，然后替换双下划线。
+  // 将与号替换为单与号，并将单与号替换为。
+  // 单下划线。
   if (process.platform === 'linux') {
     return text.replace(/_/g, '__').replace(/&(.?)/g, (match, after) => {
       if (after === '&') return after;
@@ -190,9 +190,9 @@ const messageBox = (sync: boolean, window: BrowserWindow | null, options?: Messa
     throw new Error('checkboxChecked requires that checkboxLabel also be passed');
   }
 
-  // Choose a default button to get selected when dialog is cancelled.
+  // 选择一个默认按钮，以便在取消对话时选择该按钮。
   if (cancelId == null) {
-    // If the defaultId is set to 0, ensure the cancel button is a different index (1)
+    // 如果defaultId设置为0，请确保Cancel按钮是不同的索引(1)。
     cancelId = (defaultId === 0 && buttons.length > 1) ? 1 : 0;
     for (let i = 0; i < buttons.length; i++) {
       const text = buttons[i].toLowerCase();
@@ -203,12 +203,12 @@ const messageBox = (sync: boolean, window: BrowserWindow | null, options?: Messa
     }
   }
 
-  // AbortSignal processing.
+  // 中止信号处理。
   let id: number | undefined;
   if (signal) {
-    // Generate an ID used for closing the message box.
+    // 生成用于关闭消息框的ID。
     id = getNextId();
-    // Close the message box when signal is aborted.
+    // 信号中止时关闭消息框。
     if (signal.aborted) { return Promise.resolve({ cancelId, checkboxChecked }); }
     signal.addEventListener('abort', () => dialogBinding._closeMessageBox(id));
   }
@@ -237,8 +237,8 @@ const messageBox = (sync: boolean, window: BrowserWindow | null, options?: Messa
   }
 };
 
-// eat dirt, eslint
-/* eslint-disable import/export */
+// 吃土，偷偷摸摸。
+/* Eslint-禁用导入/导出*/
 export function showOpenDialog(window: BrowserWindow, options: OpenDialogOptions): OpenDialogReturnValue;
 export function showOpenDialog(options: OpenDialogOptions): OpenDialogReturnValue;
 export function showOpenDialog (windowOrOptions: BrowserWindow | OpenDialogOptions, maybeOptions?: OpenDialogOptions): OpenDialogReturnValue {

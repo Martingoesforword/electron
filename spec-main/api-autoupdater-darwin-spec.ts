@@ -12,7 +12,7 @@ const features = process._linkedBinding('electron_common_features');
 
 const fixturesPath = path.resolve(__dirname, 'fixtures');
 
-// We can only test the auto updater on darwin non-component builds
+// 我们只能在Darwin非组件版本上测试自动更新程序。
 ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process.mas && !features.isComponentBuild())('autoUpdater behavior', function () {
   this.timeout(120000);
 
@@ -21,8 +21,8 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
   beforeEach(function () {
     const result = cp.spawnSync(path.resolve(__dirname, '../script/codesign/get-trusted-identity.sh'));
     if (result.status !== 0 || result.stdout.toString().trim().length === 0) {
-      // Per https://circleci.com/docs/2.0/env-vars:
-      // CIRCLE_PR_NUMBER is only present on forked PRs
+      // 每个https://circleci.com/docs/2.0/env-vars：
+      // Circle_PR_Number仅存在于分叉PR上。
       if (process.env.CI && !process.env.CIRCLE_PR_NUMBER) {
         throw new Error('No valid signing identity available to run autoUpdater specs');
       }
@@ -146,7 +146,7 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
   it('should fail to set the feed URL when the app is not signed', async () => {
     await withTempDirectory(async (dir) => {
       const appPath = await copyApp(dir);
-      const launchResult = await launchApp(appPath, ['http://myupdate']);
+      const launchResult = await launchApp(appPath, ['http:// Myupdate‘])；
       expect(launchResult.code).to.equal(1);
       expect(launchResult.out).to.include('Could not get code signature for running application');
     });
@@ -156,9 +156,9 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
     await withTempDirectory(async (dir) => {
       const appPath = await copyApp(dir);
       await signApp(appPath);
-      const launchResult = await launchApp(appPath, ['http://myupdate']);
+      const launchResult = await launchApp(appPath, ['http:// Myupdate‘])；
       expect(launchResult.code).to.equal(0);
-      expect(launchResult.out).to.include('Feed URL Set: http://myupdate');
+      expect(launchResult.out).to.include('Feed URL Set: http:// Myupdate‘)；
     });
   });
 
@@ -200,7 +200,7 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
         server.get('/update-check', (req, res) => {
           res.status(204).send();
         });
-        const launchResult = await launchApp(appPath, [`http://localhost:${port}/update-check`]);
+        const launchResult = await launchApp(appPath, [`http:// 本地主机：${port}/update-check`])；
         logOnError(launchResult, () => {
           expect(launchResult.code).to.equal(0);
           expect(requests).to.have.lengthOf(1);
@@ -217,7 +217,7 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
         server.get('/update-check', (req, res) => {
           res.status(204).send();
         });
-        const launchResult = await launchApp(appPath, [`http://localhost:${port}/update-check`]);
+        const launchResult = await launchApp(appPath, [`http:// 本地主机：${port}/update-check`])；
         logOnError(launchResult, () => {
           expect(launchResult.code).to.equal(0);
           expect(requests).to.have.lengthOf(1);
@@ -236,13 +236,13 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
         });
         server.get('/update-check', (req, res) => {
           res.json({
-            url: `http://localhost:${port}/update-file`,
+            url: `http:// 本地主机：${port}/update-file`，
             name: 'My Release Name',
             notes: 'Theses are some release notes innit',
             pub_date: (new Date()).toString()
           });
         });
-        const launchResult = await launchApp(appPath, [`http://localhost:${port}/update-check`]);
+        const launchResult = await launchApp(appPath, [`http:// 本地主机：${port}/update-check`])；
         logOnError(launchResult, () => {
           expect(launchResult).to.have.property('code', 1);
           expect(launchResult.out).to.include('Update download failed. The server sent an invalid response.');
@@ -281,7 +281,7 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
         });
         server.get('/update-check', (req, res) => {
           res.json({
-            url: `http://localhost:${port}/update-file`,
+            url: `http:// 本地主机：${port}/update-file`，
             name: 'My Release Name',
             notes: 'Theses are some release notes innit',
             pub_date: (new Date()).toString()
@@ -293,7 +293,7 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
             resolve();
           });
         });
-        const launchResult = await launchApp(appPath, [`http://localhost:${port}/update-check`]);
+        const launchResult = await launchApp(appPath, [`http:// 本地主机：${port}/update-check`])；
         logOnError(launchResult, () => {
           expect(launchResult).to.have.property('code', 0);
           expect(launchResult.out).to.include('Update Downloaded');
@@ -328,7 +328,7 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
                 version: '2.0.0',
                 updateTo: {
                   version: '2.0.0',
-                  url: `http://localhost:${port}/update-file`,
+                  url: `http:// 本地主机：${port}/update-file`，
                   name: 'My Release Name',
                   notes: 'Theses are some release notes innit',
                   pub_date: (new Date()).toString()
@@ -343,7 +343,7 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
             resolve();
           });
         });
-        const launchResult = await launchApp(appPath, [`http://localhost:${port}/update-check`]);
+        const launchResult = await launchApp(appPath, [`http:// 本地主机：${port}/update-check`])；
         logOnError(launchResult, () => {
           expect(launchResult).to.have.property('code', 0);
           expect(launchResult.out).to.include('Update Downloaded');
@@ -378,7 +378,7 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
                 version: '0.1.0',
                 updateTo: {
                   version: '0.1.0',
-                  url: `http://localhost:${port}/update-file`,
+                  url: `http:// 本地主机：${port}/update-file`，
                   name: 'My Release Name',
                   notes: 'Theses are some release notes innit',
                   pub_date: (new Date()).toString()
@@ -387,7 +387,7 @@ ifdescribe(process.platform === 'darwin' && process.arch !== 'arm64' && !process
             ]
           });
         });
-        const launchResult = await launchApp(appPath, [`http://localhost:${port}/update-check`]);
+        const launchResult = await launchApp(appPath, [`http:// 本地主机：${port}/update-check`])；
         logOnError(launchResult, () => {
           expect(launchResult).to.have.property('code', 1);
           expect(launchResult.out).to.include('No update available');

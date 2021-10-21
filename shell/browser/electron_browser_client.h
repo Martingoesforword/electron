@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_ELECTRON_BROWSER_CLIENT_H_
 #define SHELL_BROWSER_ELECTRON_BROWSER_CLIENT_H_
@@ -28,7 +28,7 @@
 namespace content {
 class ClientCertificateDelegate;
 class QuotaPermissionContext;
-}  // namespace content
+}  // 命名空间内容。
 
 namespace net {
 class SSLCertRequestInfo;
@@ -52,7 +52,7 @@ class ElectronBrowserClient : public content::ContentBrowserClient,
   using Delegate = content::ContentBrowserClient;
   void set_delegate(Delegate* delegate) { delegate_ = delegate; }
 
-  // Returns the WebContents for pending render processes.
+  // 返回挂起的呈现进程的WebContents。
   content::WebContents* GetWebContentsFromProcessID(int process_id);
 
   NotificationPresenter* GetNotificationPresenter();
@@ -60,11 +60,11 @@ class ElectronBrowserClient : public content::ContentBrowserClient,
   void WebNotificationAllowed(content::RenderFrameHost* rfh,
                               base::OnceCallback<void(bool, bool)> callback);
 
-  // content::NavigatorDelegate
+  // 内容：：NavigatorDelegate。
   std::vector<std::unique_ptr<content::NavigationThrottle>>
   CreateThrottlesForNavigation(content::NavigationHandle* handle) override;
 
-  // content::ContentBrowserClient:
+  // 内容：：ContentBrowserClient：
   std::string GetApplicationLocale() override;
   base::FilePath GetFontLookupTableCacheDir() override;
   bool ShouldEnableStrictSiteIsolation() override;
@@ -278,7 +278,7 @@ class ElectronBrowserClient : public content::ContentBrowserClient,
       const absl::optional<url::Origin>& top_frame_origin) override;
   base::FilePath GetLoggingFileName(const base::CommandLine& cmd_line) override;
 
-  // content::RenderProcessHostObserver:
+  // 内容：：RenderProcessHostViewer：
   void RenderProcessHostDestroyed(content::RenderProcessHost* host) override;
   void RenderProcessReady(content::RenderProcessHost* host) override;
   void RenderProcessExited(
@@ -293,7 +293,7 @@ class ElectronBrowserClient : public content::ContentBrowserClient,
 
   bool IsRendererSubFrame(int process_id) const;
 
-  // pending_render_process => web contents.
+  // Pending_Render_Process=&gt;Web内容。
   std::map<int, content::WebContents*> pending_processes_;
 
   std::set<int> renderer_is_subframe_;
@@ -305,8 +305,8 @@ class ElectronBrowserClient : public content::ContentBrowserClient,
 
   std::string user_agent_override_ = "";
 
-  // Simple shared ID generator, used by ProxyingURLLoaderFactory and
-  // ProxyingWebSocket classes.
+  // 简单的共享ID生成器，由ProxyingURLLoaderFactory和。
+  // ProxyingWebSocket类。
   uint64_t next_id_ = 0;
 
   std::unique_ptr<ElectronSerialDelegate> serial_delegate_;
@@ -321,6 +321,6 @@ class ElectronBrowserClient : public content::ContentBrowserClient,
   DISALLOW_COPY_AND_ASSIGN(ElectronBrowserClient);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_ELECTRON_BROWSER_CLIENT_H_
+#endif  // Shell_Browser_Electronics_Browser_Client_H_

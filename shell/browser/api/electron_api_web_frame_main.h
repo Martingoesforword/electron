@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Samuel Maddock <sam@samuelmaddock.com>.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Samuel Maddock&lt;Sam@samuelmaddock.com&gt;。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_WEB_FRAME_MAIN_H_
 #define SHELL_BROWSER_API_ELECTRON_API_WEB_FRAME_MAIN_H_
@@ -34,13 +34,13 @@ namespace api {
 
 class WebContents;
 
-// Bindings for accessing frames from the main process.
+// 用于从主进程访问帧的绑定。
 class WebFrameMain : public gin::Wrappable<WebFrameMain>,
                      public gin_helper::EventEmitterMixin<WebFrameMain>,
                      public gin_helper::Pinnable<WebFrameMain>,
                      public gin_helper::Constructible<WebFrameMain> {
  public:
-  // Create a new WebFrameMain and return the V8 wrapper of it.
+  // 创建一个新的WebFrameMain，并返回它的V8包装器。
   static gin::Handle<WebFrameMain> New(v8::Isolate* isolate);
 
   static gin::Handle<WebFrameMain> From(
@@ -50,7 +50,7 @@ class WebFrameMain : public gin::Wrappable<WebFrameMain>,
   static WebFrameMain* FromRenderFrameHost(
       content::RenderFrameHost* render_frame_host);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   static v8::Local<v8::ObjectTemplate> FillObjectTemplate(
       v8::Isolate*,
@@ -66,21 +66,21 @@ class WebFrameMain : public gin::Wrappable<WebFrameMain>,
  private:
   friend class WebContents;
 
-  // Called when FrameTreeNode is deleted.
+  // 在删除FrameTreeNode时调用。
   void Destroyed();
 
-  // Mark RenderFrameHost as disposed and to no longer access it. This can
-  // happen when the WebFrameMain v8 handle is GC'd or when a FrameTreeNode
-  // is removed.
+  // 将RenderFrameHost标记为已释放并不再访问它。这可以。
+  // 在WebFrameMain V8句柄被GC或FrameTreeNode时发生。
+  // 被移除。
   void MarkRenderFrameDisposed();
 
-  // Swap out the internal RFH when cross-origin navigation occurs.
+  // 跨域导航时换出内部RFH。
   void UpdateRenderFrameHost(content::RenderFrameHost* rfh);
 
   const mojo::Remote<mojom::ElectronRenderer>& GetRendererApi();
 
-  // WebFrameMain can outlive its RenderFrameHost pointer so we need to check
-  // whether its been disposed of prior to accessing it.
+  // WebFrameMain的生存期可能超过其RenderFrameHost指针，因此我们需要检查。
+  // 在访问它之前是否已被处理。
   bool CheckRenderFrame() const;
 
   v8::Local<v8::Promise> ExecuteJavaScript(gin::Arguments* args,
@@ -119,8 +119,8 @@ class WebFrameMain : public gin::Wrappable<WebFrameMain>,
 
   content::RenderFrameHost* render_frame_ = nullptr;
 
-  // Whether the RenderFrameHost has been removed and that it should no longer
-  // be accessed.
+  // RenderFrameHost是否已删除以及不应再。
+  // 被访问。
   bool render_frame_disposed_ = false;
 
   base::WeakPtrFactory<WebFrameMain> weak_factory_{this};
@@ -128,8 +128,8 @@ class WebFrameMain : public gin::Wrappable<WebFrameMain>,
   DISALLOW_COPY_AND_ASSIGN(WebFrameMain);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_WEB_FRAME_MAIN_H_

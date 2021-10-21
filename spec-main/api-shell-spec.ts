@@ -22,7 +22,7 @@ describe('shell module', () => {
     });
 
     afterEach(async () => {
-      // reset env vars to prevent side effects
+      // 重置环境变量以防止副作用。
       if (process.platform === 'linux') {
         process.env.DE = envVars.de;
         process.env.BROWSER = envVars.browser;
@@ -32,7 +32,7 @@ describe('shell module', () => {
     afterEach(closeAllWindows);
 
     it('opens an external link', async () => {
-      let url = 'http://127.0.0.1';
+      let url = 'http:// 127.0.0.1‘；
       let requestReceived: Promise<any>;
       if (process.platform === 'linux') {
         process.env.BROWSER = '/bin/true';
@@ -40,10 +40,10 @@ describe('shell module', () => {
         process.env.DISPLAY = '';
         requestReceived = Promise.resolve();
       } else if (process.platform === 'darwin') {
-        // On the Mac CI machines, Safari tries to ask for a password to the
-        // code signing keychain we set up to test code signing (see
-        // https://github.com/electron/electron/pull/19969#issuecomment-526278890),
-        // so use a blur event as a crude proxy.
+        // 在Mac CI机器上，Safari尝试要求输入密码。
+        // 我们为测试代码签名而设置的代码签名密钥链(请参见。
+        // Https://github.com/electron/electron/pull/19969#issuecomment-526278890)，
+        // 因此，请使用模糊事件作为粗略的代理。
         const w = new BrowserWindow({ show: true });
         requestReceived = emittedOnce(w, 'blur');
       } else {
@@ -52,7 +52,7 @@ describe('shell module', () => {
         });
         await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
         requestReceived = new Promise<void>(resolve => server.on('connection', () => resolve()));
-        url = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+        url = `http:// 127.0.0.1：${(server.address()as AddressInfo).port}`；
       }
 
       await Promise.all<void>([

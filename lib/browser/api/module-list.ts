@@ -1,6 +1,6 @@
-// TODO: Updating this file also required updating the module-keys file
+// TODO：更新此文件还需要更新模块密钥文件。
 
-// Browser side modules, please sort alphabetically.
+// 浏览器端模块，请按字母顺序排序。
 export const browserModuleList: ElectronInternal.ModuleEntry[] = [
   { name: 'app', loader: () => require('./app') },
   { name: 'autoUpdater', loader: () => require('./auto-updater') },

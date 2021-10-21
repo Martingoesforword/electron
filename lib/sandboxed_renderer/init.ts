@@ -1,4 +1,4 @@
-/* global binding */
+/* 全局绑定。*/
 import * as events from 'events';
 import { IPC_MESSAGES } from '@electron/internal/common/ipc-messages';
 
@@ -14,11 +14,11 @@ const { EventEmitter } = events;
 process._linkedBinding = binding.get;
 
 const v8Util = process._linkedBinding('electron_common_v8_util');
-// Expose Buffer shim as a hidden value. This is used by C++ code to
-// deserialize Buffer instances sent from browser process.
+// 将缓冲区填充程序公开为隐藏值。C++代码使用它来。
+// 反序列化从浏览器进程发送的缓冲区实例。
 v8Util.setHiddenValue(global, 'Buffer', Buffer);
-// The process object created by webpack is not an event emitter, fix it so
-// the API is more compatible with non-sandboxed renderers.
+// Webpack创建的进程对象不是事件发射器，请对其进行修复。
+// API与非沙盒渲染器更兼容。
 for (const prop of Object.keys(EventEmitter.prototype) as (keyof typeof process)[]) {
   if (Object.prototype.hasOwnProperty.call(process, prop)) {
     delete process[prop];
@@ -45,8 +45,8 @@ const loadableModules = new Map<string, Function>([
   ['url', () => require('url')]
 ]);
 
-// ElectronApiServiceImpl will look for the "ipcNative" hidden object when
-// invoking the 'onMessage' callback.
+// 在执行以下操作时，ElectronApiServiceImpl将查找“ipcNative”隐藏对象。
+// 正在调用“onMessage”回调。
 v8Util.setHiddenValue(global, 'ipcNative', {
   onMessage (internal: boolean, channel: string, ports: MessagePort[], args: any[], senderId: number) {
     if (internal && senderId !== 0) {
@@ -58,7 +58,7 @@ v8Util.setHiddenValue(global, 'ipcNative', {
   }
 });
 
-// ElectronSandboxedRendererClient will look for the "lifecycle" hidden object when
+// 在以下情况下，ElectronSandboxedRendererClient将查找“Lifeccle”隐藏对象。
 v8Util.setHiddenValue(global, 'lifecycle', {
   onLoaded () {
     (process as events.EventEmitter).emit('loaded');
@@ -77,7 +77,7 @@ v8Util.setHiddenValue(global, 'lifecycle', {
 const { webFrameInit } = require('@electron/internal/renderer/web-frame-init') as typeof webFrameInitModule;
 webFrameInit();
 
-// Pass different process object to the preload script.
+// 将不同的进程对象传递给预加载脚本。
 const preloadProcess: NodeJS.Process = new EventEmitter() as any;
 
 Object.assign(preloadProcess, binding.process);
@@ -104,7 +104,7 @@ process.on('exit', () => (preloadProcess as events.EventEmitter).emit('exit'));
 (process as events.EventEmitter).on('document-start', () => (preloadProcess as events.EventEmitter).emit('document-start'));
 (process as events.EventEmitter).on('document-end', () => (preloadProcess as events.EventEmitter).emit('document-end'));
 
-// This is the `require` function that will be visible to the preload script
+// 这是对预加载脚本可见的`require`函数。
 function preloadRequire (module: string) {
   if (loadedModules.has(module)) {
     return loadedModules.get(module);
@@ -117,12 +117,12 @@ function preloadRequire (module: string) {
   throw new Error(`module not found: ${module}`);
 }
 
-// Process command line arguments.
+// 处理命令行参数。
 const { hasSwitch } = process._linkedBinding('electron_common_command_line');
 const { mainFrame } = process._linkedBinding('electron_renderer_web_frame');
 
-// Similar to nodes --expose-internals flag, this exposes _linkedBinding so
-// that tests can call it to get access to some test only bindings
+// 类似于Nodes--expose-interals标志，这会将_linkedBinding。
+// 测试可以调用它来访问某些仅限测试的绑定。
 if (hasSwitch('unsafely-expose-electron-internals-for-testing')) {
   preloadProcess._linkedBinding = process._linkedBinding;
 }
@@ -136,7 +136,7 @@ const openerId = mainFrame.getWebPreference('openerId');
 
 switch (window.location.protocol) {
   case 'devtools:': {
-    // Override some inspector APIs.
+    // 覆盖一些检查器API。
     require('@electron/internal/renderer/inspector');
     break;
   }
@@ -147,31 +147,31 @@ switch (window.location.protocol) {
     break;
   }
   default: {
-    // Override default web functions.
+    // 覆盖默认Web函数。
     const { windowSetup } = require('@electron/internal/renderer/window-setup') as typeof windowSetupModule;
     windowSetup(isWebView, openerId, isHiddenPage, usesNativeWindowOpen);
   }
 }
 
-// Load webview tag implementation.
+// 加载WebView标记实现。
 if (process.isMainFrame) {
   const { webViewInit } = require('@electron/internal/renderer/web-view/web-view-init') as typeof webViewInitModule;
   webViewInit(contextIsolation, webviewTag, isWebView);
 }
 
-// Wrap the script into a function executed in global scope. It won't have
-// access to the current scope, so we'll expose a few objects as arguments:
-//
-// - `require`: The `preloadRequire` function
-// - `process`: The `preloadProcess` object
-// - `Buffer`: Shim of `Buffer` implementation
-// - `global`: The window object, which is aliased to `global` by webpack.
+// 将脚本包装到在全局范围内执行的函数中。它不会有。
+// 访问当前作用域，因此我们将公开几个对象作为参数：
+// 
+// -`要求`：`preloadRequire`函数。
+// -`process`：`preloadProcess`对象。
+// -`Buffer`：`Buffer`实现的填充。
+// -`global`：窗口对象，webpack将其别名为`global`。
 function runPreloadScript (preloadSrc: string) {
   const preloadWrapperSrc = `(function(require, process, Buffer, global, setImmediate, clearImmediate, exports) {
   ${preloadSrc}
   })`;
 
-  // eval in window scope
+  // 窗口范围内的评估。
   const preloadFn = binding.createPreloadScript(preloadWrapperSrc);
   const { setImmediate, clearImmediate } = require('timers');
 
@@ -193,7 +193,7 @@ for (const { preloadPath, preloadSrc, preloadError } of preloadScripts) {
   }
 }
 
-// Warn about security issues
+// 警告安全问题
 if (process.isMainFrame) {
   const { securityWarnings } = require('@electron/internal/renderer/security-warnings') as typeof securityWarningsModule;
   securityWarnings();

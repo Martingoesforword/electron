@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_ELECTRON_PERMISSION_MANAGER_H_
 #define SHELL_BROWSER_ELECTRON_PERMISSION_MANAGER_H_
@@ -16,7 +16,7 @@
 namespace base {
 class DictionaryValue;
 class Value;
-}  // namespace base
+}  // 命名空间库。
 
 namespace content {
 class WebContents;
@@ -46,12 +46,12 @@ class ElectronPermissionManager : public content::PermissionControllerDelegate {
   using DeviceCheckHandler =
       base::RepeatingCallback<bool(const v8::Local<v8::Object>&)>;
 
-  // Handler to dispatch permission requests in JS.
+  // 在JS中分派权限请求的处理程序。
   void SetPermissionRequestHandler(const RequestHandler& handler);
   void SetPermissionCheckHandler(const CheckHandler& handler);
   void SetDevicePermissionHandler(const DeviceCheckHandler& handler);
 
-  // content::PermissionControllerDelegate:
+  // 内容：：PermissionControllerDelegate：
   void RequestPermission(content::PermissionType permission,
                          content::RenderFrameHost* render_frame_host,
                          const GURL& requesting_origin,
@@ -101,7 +101,7 @@ class ElectronPermissionManager : public content::PermissionControllerDelegate {
                             int permission_id,
                             blink::mojom::PermissionStatus status);
 
-  // content::PermissionControllerDelegate:
+  // 内容：：PermissionControllerDelegate：
   void ResetPermission(content::PermissionType permission,
                        const GURL& requesting_origin,
                        const GURL& embedding_origin) override;
@@ -130,6 +130,6 @@ class ElectronPermissionManager : public content::PermissionControllerDelegate {
   DISALLOW_COPY_AND_ASSIGN(ElectronPermissionManager);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_ELECTRON_PERMISSION_MANAGER_H_
+#endif  // Shell_Browser_Email_Permission_Manager_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2017 Amaplex Software, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 Amaplex Software，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_IN_APP_PURCHASE_H_
 #define SHELL_BROWSER_API_ELECTRON_API_IN_APP_PURCHASE_H_
@@ -26,7 +26,7 @@ class InAppPurchase : public gin::Wrappable<InAppPurchase>,
  public:
   static gin::Handle<InAppPurchase> Create(v8::Isolate* isolate);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -42,7 +42,7 @@ class InAppPurchase : public gin::Wrappable<InAppPurchase>,
   v8::Local<v8::Promise> GetProducts(const std::vector<std::string>& productIDs,
                                      gin::Arguments* args);
 
-  // TransactionObserver:
+  // 事务观察者：
   void OnTransactionsUpdated(
       const std::vector<in_app_purchase::Transaction>& transactions) override;
 
@@ -50,8 +50,8 @@ class InAppPurchase : public gin::Wrappable<InAppPurchase>,
   DISALLOW_COPY_AND_ASSIGN(InAppPurchase);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_IN_APP_PURCHASE_H_

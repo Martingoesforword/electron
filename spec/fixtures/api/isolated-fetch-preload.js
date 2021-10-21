@@ -1,6 +1,6 @@
 const { ipcRenderer } = require('electron');
 
-// Ensure fetch works from isolated world origin
-fetch('https://localhost:1234').catch(err => {
+// 确保从与世隔绝的世界获取工作。
+fetch('https:// Localhost：1234‘).catch(err=&gt;{
   ipcRenderer.send('isolated-fetch-error', err.message);
 });

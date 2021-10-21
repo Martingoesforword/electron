@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_BROWSER_WINDOW_H_
 #define SHELL_BROWSER_API_ELECTRON_API_BROWSER_WINDOW_H_
@@ -29,7 +29,7 @@ class BrowserWindow : public BaseWindow,
   static void BuildPrototype(v8::Isolate* isolate,
                              v8::Local<v8::FunctionTemplate> prototype);
 
-  // Returns the BrowserWindow object from |native_window|.
+  // 从|NATIVE_WINDOW|返回BrowserWindow对象。
   static v8::Local<v8::Value> From(v8::Isolate* isolate,
                                    NativeWindow* native_window);
 
@@ -41,10 +41,10 @@ class BrowserWindow : public BaseWindow,
   BrowserWindow(gin::Arguments* args, const gin_helper::Dictionary& options);
   ~BrowserWindow() override;
 
-  // content::RenderWidgetHost::InputEventObserver:
+  // Content：：RenderWidgetHost：：InputEventObserver：
   void OnInputEvent(const blink::WebInputEvent& event) override;
 
-  // content::WebContentsObserver:
+  // 内容：：WebContentsViewer：
   void RenderViewHostChanged(content::RenderViewHost* old_host,
                              content::RenderViewHost* new_host) override;
   void RenderFrameCreated(content::RenderFrameHost* render_frame_host) override;
@@ -55,7 +55,7 @@ class BrowserWindow : public BaseWindow,
       content::RenderProcessHost* render_process_host) override;
   void WebContentsDestroyed() override;
 
-  // ExtendedWebContentsObserver:
+  // ExtendedWebContentsViewer：
   void OnCloseContents() override;
   void OnDraggableRegionsUpdated(
       const std::vector<mojom::DraggableRegionPtr>& regions) override;
@@ -65,13 +65,13 @@ class BrowserWindow : public BaseWindow,
                           bool explicit_set) override;
   void OnDevToolsResized() override;
 
-  // NativeWindowObserver:
+  // NativeWindowViewer：
   void RequestPreferredWidth(int* width) override;
   void OnCloseButtonClicked(bool* prevent_default) override;
   void OnWindowIsKeyChanged(bool is_key) override;
   void UpdateWindowControlsOverlay(const gfx::Rect& bounding_rect) override;
 
-  // BaseWindow:
+  // BaseWindow：
   void OnWindowBlur() override;
   void OnWindowFocus() override;
   void OnWindowResize() override;
@@ -90,7 +90,7 @@ class BrowserWindow : public BaseWindow,
   void OnWindowShow() override;
   void OnWindowHide() override;
 
-  // BrowserWindow APIs.
+  // BrowserWindow接口。
   void FocusOnWebView();
   void BlurWebView();
   bool IsWebViewFocused();
@@ -101,20 +101,20 @@ class BrowserWindow : public BaseWindow,
   void OverrideNSWindowContentView(InspectableWebContentsView* webView);
 #endif
 
-  // Helpers.
+  // 帮手。
 
-  // Called when the window needs to update its draggable region.
+  // 当窗口需要更新其可拖动区域时调用。
   void UpdateDraggableRegions(
       const std::vector<mojom::DraggableRegionPtr>& regions);
 
-  // Schedule a notification unresponsive event.
+  // 安排通知无响应事件。
   void ScheduleUnresponsiveEvent(int ms);
 
-  // Dispatch unresponsive event to observers.
+  // 向观察者发送无响应事件。
   void NotifyWindowUnresponsive();
 
-  // Closure that would be called when window is unresponsive when closing,
-  // it should be cancelled when we can prove that the window is responsive.
+  // 关闭时窗口无响应时将调用的关闭，
+  // 当我们可以证明窗口有响应时，它应该被取消。
   base::CancelableRepeatingClosure window_unresponsive_closure_;
 
   std::vector<mojom::DraggableRegionPtr> draggable_regions_;
@@ -127,8 +127,8 @@ class BrowserWindow : public BaseWindow,
   DISALLOW_COPY_AND_ASSIGN(BrowserWindow);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_BROWSER_WINDOW_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_CONSTRUCTOR_H_
 #define SHELL_COMMON_GIN_HELPER_CONSTRUCTOR_H_
@@ -12,9 +12,9 @@ namespace gin_helper {
 
 namespace internal {
 
-// This set of templates invokes a base::RepeatingCallback by converting the
-// Arguments into native types. It relies on the function_template.h to provide
-// helper templates.
+// 这组模板调用base：：RepeatingCallback，方法是将。
+// 参数转换为本机类型。它依赖函数_template.h来提供。
+// 辅助对象模板。
 inline WrappableBase* InvokeFactory(
     gin::Arguments* args,
     const base::RepeatingCallback<WrappableBase*()>& callback) {
@@ -129,7 +129,7 @@ void InvokeNew(const base::RepeatingCallback<Sig>& factory,
 
   WrappableBase* object;
   {
-    // Don't continue if the constructor throws an exception.
+    // 如果构造函数抛出异常，请不要继续。
     v8::TryCatch try_catch(isolate);
     object = internal::InvokeFactory(args, factory);
     if (try_catch.HasCaught()) {
@@ -144,12 +144,12 @@ void InvokeNew(const base::RepeatingCallback<Sig>& factory,
   return;
 }
 
-}  // namespace internal
+}  // 命名空间内部。
 
-// Create a FunctionTemplate that can be "new"ed in JavaScript.
-// It is user's responsibility to ensure this function is called for one type
-// only ONCE in the program's whole lifetime, otherwise we would have memory
-// leak.
+// 创建一个可以在JavaScript中“新建”的FunctionTemplate。
+// 用户有责任确保为一种类型调用此函数。
+// 在程序的整个生命周期中只有一次，否则我们就会有内存。
+// 漏水了。
 template <typename T, typename Sig>
 v8::Local<v8::Function> CreateConstructor(
     v8::Isolate* isolate,
@@ -166,6 +166,6 @@ v8::Local<v8::Function> CreateConstructor(
   return templ->GetFunction(isolate->GetCurrentContext()).ToLocalChecked();
 }
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
-#endif  // SHELL_COMMON_GIN_HELPER_CONSTRUCTOR_H_
+#endif  // Shell_common_gin_helper_structor_H_

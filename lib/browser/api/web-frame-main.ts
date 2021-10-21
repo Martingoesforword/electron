@@ -8,7 +8,7 @@ WebFrameMain.prototype.send = function (channel, ...args) {
   }
 
   try {
-    return this._send(false /* internal */, channel, args);
+    return this._send(false /* 内部。*/, channel, args);
   } catch (e) {
     console.error('Error sending from webFrameMain: ', e);
   }
@@ -20,7 +20,7 @@ WebFrameMain.prototype._sendInternal = function (channel, ...args) {
   }
 
   try {
-    return this._send(true /* internal */, channel, args);
+    return this._send(true /* 内部*/, channel, args);
   } catch (e) {
     console.error('Error sending from webFrameMain: ', e);
   }

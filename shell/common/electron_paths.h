@@ -1,6 +1,6 @@
-// Copyright 2015 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2015年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_ELECTRON_PATHS_H_
 #define SHELL_COMMON_ELECTRON_PATHS_H_
@@ -22,20 +22,20 @@ namespace electron {
 enum {
   PATH_START = 11000,
 
-  DIR_USER_CACHE = PATH_START,  // Directory where user cache can be written.
-  DIR_APP_LOGS,                 // Directory where app logs live
+  DIR_USER_CACHE = PATH_START,  // 可以写入用户缓存的目录。
+  DIR_APP_LOGS,                 // 应用程序日志所在的目录。
 
 #if defined(OS_WIN)
-  DIR_RECENT,  // Directory where recent files live
+  DIR_RECENT,  // 最近文件所在的目录。
 #endif
 
 #if defined(OS_LINUX)
-  DIR_APP_DATA,  // Application Data directory under the user profile.
+  DIR_APP_DATA,  // 用户配置文件下的应用程序数据目录。
 #endif
 
-  DIR_CRASH_DUMPS,  // c.f. chrome::DIR_CRASH_DUMPS
+  DIR_CRASH_DUMPS,  // C.F.。Chrome：：DIR_CRASH_DUMP。
 
-  PATH_END,  // End of new paths. Those that follow redirect to base::DIR_*
+  PATH_END,  // 新路径的终点。后面的内容重定向到base：：dir_*。
 
 #if !defined(OS_LINUX)
   DIR_APP_DATA = base::DIR_APP_DATA,
@@ -44,6 +44,6 @@ enum {
 
 static_assert(PATH_START < PATH_END, "invalid PATH boundaries");
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_ELECTRON_PATHS_H_
+#endif  // 壳层公共电子路径H_

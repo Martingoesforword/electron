@@ -283,7 +283,7 @@ class TouchBarOtherItemsProxy extends TouchBarItem<null> implements Electron.Tou
 const escapeItemSymbol = Symbol('escape item');
 
 class TouchBar extends EventEmitter implements Electron.TouchBar {
-  // Bind a touch bar to a window
+  // 将触摸栏绑定到窗口。
   static _setOnWindow (touchBar: TouchBar | Electron.TouchBarConstructorOptions['items'], window: Electron.BrowserWindow) {
     if (window._touchBar != null) {
       window._touchBar._removeFromWindow(window);
@@ -349,7 +349,7 @@ class TouchBar extends EventEmitter implements Electron.TouchBar {
       }
     });
 
-    // register in separate loop after all items are validated
+    // 在所有项目通过验证后，在单独的循环中注册。
     for (const item of (items as TouchBarItem<any>[])) {
       this.orderedItems.push(item);
       registerItem(item);
@@ -384,7 +384,7 @@ class TouchBar extends EventEmitter implements Electron.TouchBar {
   _addToWindow (window: Electron.BrowserWindow) {
     const { id } = window;
 
-    // Already added to window
+    // 已添加到窗口
     if (this.windowListeners.has(id)) return;
 
     window._touchBar = this;

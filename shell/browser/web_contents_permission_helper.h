@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_WEB_CONTENTS_PERMISSION_HELPER_H_
 #define SHELL_BROWSER_WEB_CONTENTS_PERMISSION_HELPER_H_
@@ -13,7 +13,7 @@
 
 namespace electron {
 
-// Applies the permission requested for WebContents.
+// 应用为WebContents请求的权限。
 class WebContentsPermissionHelper
     : public content::WebContentsUserData<WebContentsPermissionHelper> {
  public:
@@ -27,7 +27,7 @@ class WebContentsPermissionHelper
     HID
   };
 
-  // Asynchronous Requests
+  // 异步请求。
   void RequestFullscreenPermission(base::OnceCallback<void(bool)> callback);
   void RequestMediaAccessPermission(const content::MediaStreamRequest& request,
                                     content::MediaResponseCallback callback);
@@ -38,7 +38,7 @@ class WebContentsPermissionHelper
                                      bool user_gesture,
                                      const GURL& url);
 
-  // Synchronous Checks
+  // 同步检查。
   bool CheckMediaAccessPermission(const GURL& security_origin,
                                   blink::mojom::MediaStreamType type) const;
   bool CheckSerialAccessPermission(const url::Origin& embedding_origin) const;
@@ -89,6 +89,6 @@ class WebContentsPermissionHelper
   DISALLOW_COPY_AND_ASSIGN(WebContentsPermissionHelper);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_WEB_CONTENTS_PERMISSION_HELPER_H_

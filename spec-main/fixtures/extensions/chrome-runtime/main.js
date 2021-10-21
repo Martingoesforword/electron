@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* Eslint-禁用*/
 
 function evalInMainWorld(fn) {
   const script = document.createElement('script')

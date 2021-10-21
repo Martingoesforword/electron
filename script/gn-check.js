@@ -1,8 +1,4 @@
-/*
-Usage:
-
-$ node ./script/gn-check.js [--outDir=dirName]
-*/
+/* 用法：$node./script/gn-check.js[--outDir=dirName]。*/
 
 const cp = require('child_process');
 const path = require('path');
@@ -22,13 +18,13 @@ const env = Object.assign({
   CHROMIUM_BUILDTOOLS_PATH: path.resolve(SOURCE_ROOT, '..', 'buildtools'),
   DEPOT_TOOLS_WIN_TOOLCHAIN: '0'
 }, process.env);
-// Users may not have depot_tools in PATH.
+// 用户在PATH中可能没有DEPOT_TOOLS。
 env.PATH = `${env.PATH}${path.delimiter}${DEPOT_TOOLS}`;
 
 const gnCheckDirs = [
-  '//electron:electron_lib',
-  '//electron:electron_app',
-  '//electron/shell/common/api:mojo'
+  '// 电子：电子_lib‘，
+  '// 电子：Electronics_APP‘，
+  '// 电子/外壳/公共/API：mojo‘
 ];
 
 for (const dir of gnCheckDirs) {

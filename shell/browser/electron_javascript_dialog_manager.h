@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_ELECTRON_JAVASCRIPT_DIALOG_MANAGER_H_
 #define SHELL_BROWSER_ELECTRON_JAVASCRIPT_DIALOG_MANAGER_H_
@@ -22,7 +22,7 @@ class ElectronJavaScriptDialogManager
   ElectronJavaScriptDialogManager();
   ~ElectronJavaScriptDialogManager() override;
 
-  // content::JavaScriptDialogManager implementations.
+  // 内容：：JavaScriptDialogManager实现。
   void RunJavaScriptDialog(content::WebContents* web_contents,
                            content::RenderFrameHost* rfh,
                            content::JavaScriptDialogType dialog_type,
@@ -46,6 +46,6 @@ class ElectronJavaScriptDialogManager
   std::map<std::string, int> origin_counts_;
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_ELECTRON_JAVASCRIPT_DIALOG_MANAGER_H_

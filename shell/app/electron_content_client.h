@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_APP_ELECTRON_CONTENT_CLIENT_H_
 #define SHELL_APP_ELECTRON_CONTENT_CLIENT_H_
@@ -18,7 +18,7 @@ class ElectronContentClient : public content::ContentClient {
   ~ElectronContentClient() override;
 
  protected:
-  // content::ContentClient:
+  // 内容：：ContentClient：
   std::u16string GetLocalizedString(int message_id) override;
   base::StringPiece GetDataResource(int resource_id,
                                     ui::ResourceScaleFactor) override;
@@ -35,6 +35,6 @@ class ElectronContentClient : public content::ContentClient {
   DISALLOW_COPY_AND_ASSIGN(ElectronContentClient);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_APP_ELECTRON_CONTENT_CLIENT_H_
+#endif  // Shell_APP_ELEMENT_CONTENT_CLIENT_H_

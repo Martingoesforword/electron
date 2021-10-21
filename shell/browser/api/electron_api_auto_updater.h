@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_AUTO_UPDATER_H_
 #define SHELL_BROWSER_API_ELECTRON_API_AUTO_UPDATER_H_
@@ -24,7 +24,7 @@ class AutoUpdater : public gin::Wrappable<AutoUpdater>,
  public:
   static gin::Handle<AutoUpdater> Create(v8::Isolate* isolate);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -34,7 +34,7 @@ class AutoUpdater : public gin::Wrappable<AutoUpdater>,
   AutoUpdater();
   ~AutoUpdater() override;
 
-  // Delegate implementations.
+  // 委托实现。
   void OnError(const std::string& message) override;
   void OnError(const std::string& message,
                const int code,
@@ -47,7 +47,7 @@ class AutoUpdater : public gin::Wrappable<AutoUpdater>,
                           const base::Time& release_date,
                           const std::string& update_url) override;
 
-  // WindowListObserver:
+  // WindowListViewer：
   void OnWindowAllClosed() override;
 
  private:
@@ -58,8 +58,8 @@ class AutoUpdater : public gin::Wrappable<AutoUpdater>,
   DISALLOW_COPY_AND_ASSIGN(AutoUpdater);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_AUTO_UPDATER_H_

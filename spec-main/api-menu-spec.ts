@@ -816,7 +816,7 @@ describe('Menu module', function () {
     it('should emit menu-will-close event', (done) => {
       menu.on('menu-will-close', () => { done(); });
       menu.popup({ window: w });
-      // https://github.com/electron/electron/issues/19411
+      // Https://github.com/electron/electron/issues/19411。
       setTimeout(() => {
         menu.closePopup();
       });
@@ -848,7 +848,7 @@ describe('Menu module', function () {
 
       expect(x).to.equal(100);
       expect(y).to.equal(101);
-      // https://github.com/electron/electron/issues/19411
+      // Https://github.com/electron/electron/issues/19411。
       setTimeout(() => {
         menu.closePopup();
       });
@@ -856,7 +856,7 @@ describe('Menu module', function () {
 
     it('works with a given BrowserWindow, no options, and a callback', (done) => {
       menu.popup({ window: w, callback: () => done() });
-      // https://github.com/electron/electron/issues/19411
+      // Https://github.com/electron/electron/issues/19411。
       setTimeout(() => {
         menu.closePopup();
       });
@@ -866,20 +866,20 @@ describe('Menu module', function () {
       const menu = Menu.buildFromTemplate([{ role: 'paste' }]);
       menu.popup({ window: w });
 
-      // Keep a weak reference to the menu.
-      // eslint-disable-next-line no-undef
+      // 保持对菜单的弱引用。
+      // Eslint-able-next-line no-undef。
       const wr = new WeakRef(menu);
 
       await delay();
 
-      // Do garbage collection, since |menu| is not referenced in this closure
-      // it would be gone after next call.
+      // 执行垃圾回收，因为此闭包中未引用|MENU|。
+      // 下一通电话后它就会消失。
       const v8Util = process._linkedBinding('electron_common_v8_util');
       v8Util.requestGarbageCollectionForTesting();
 
       await delay();
 
-      // Try to receive menu from weak reference.
+      // 尝试接收来自弱引用的菜单。
       if (wr.deref()) {
         wr.deref()!.closePopup();
       } else {
@@ -899,7 +899,7 @@ describe('Menu module', function () {
       expect(Menu.getApplicationMenu()).to.not.be.null('application menu');
     });
 
-    // TODO(nornagon): this causes the focus handling tests to fail
+    // TODO(Nornagon)：这会导致焦点处理测试失败
     it.skip('unsets a menu with null', () => {
       Menu.setApplicationMenu(null);
       expect(Menu.getApplicationMenu()).to.be.null('application menu');

@@ -1,11 +1,11 @@
-// Verifies that objects contained in custom snapshot are accessible in Electron.
+// 验证自定义快照中包含的对象是否可以在Electron中访问。
 
 const { app } = require('electron');
 
 app.whenReady().then(() => {
   let returnCode = 0;
   try {
-    const testValue = f(); // eslint-disable-line no-undef
+    const testValue = f(); // Eslint-able-line no-undef
     if (testValue === 86) {
       console.log('ok test snapshot successfully loaded.');
     } else {

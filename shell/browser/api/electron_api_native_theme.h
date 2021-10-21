@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_NATIVE_THEME_H_
 #define SHELL_BROWSER_API_ELECTRON_API_NATIVE_THEME_H_
@@ -21,7 +21,7 @@ class NativeTheme : public gin::Wrappable<NativeTheme>,
  public:
   static gin::Handle<NativeTheme> Create(v8::Isolate* isolate);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -43,7 +43,7 @@ class NativeTheme : public gin::Wrappable<NativeTheme>,
   bool ShouldUseHighContrastColors();
   bool ShouldUseInvertedColorScheme();
 
-  // ui::NativeThemeObserver:
+  // UI：：NativeThemeViewer：
   void OnNativeThemeUpdated(ui::NativeTheme* theme) override;
   void OnNativeThemeUpdatedOnUI();
 
@@ -54,9 +54,9 @@ class NativeTheme : public gin::Wrappable<NativeTheme>,
   DISALLOW_COPY_AND_ASSIGN(NativeTheme);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace gin {
 
@@ -69,6 +69,6 @@ struct Converter<ui::NativeTheme::ThemeSource> {
                      ui::NativeTheme::ThemeSource* out);
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_NATIVE_THEME_H_

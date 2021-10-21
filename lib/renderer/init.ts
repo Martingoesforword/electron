@@ -9,40 +9,40 @@ import type * as securityWarningsModule from '@electron/internal/renderer/securi
 
 const Module = require('module');
 
-// Make sure globals like "process" and "global" are always available in preload
-// scripts even after they are deleted in "loaded" script.
-//
-// Note 1: We rely on a Node patch to actually pass "process" and "global" and
-// other arguments to the wrapper.
-//
-// Note 2: Node introduced a new code path to use native code to wrap module
-// code, which does not work with this hack. However by modifying the
-// "Module.wrapper" we can force Node to use the old code path to wrap module
-// code with JavaScript.
-//
-// Note 3: We provide the equivalent extra variables internally through the
-// webpack ProvidePlugin in webpack.config.base.js.  If you add any extra
-// variables to this wrapper please ensure to update that plugin as well.
+// 确保像“process”和“global”这样的全局变量在预加载中始终可用。
+// 脚本即使在“已加载”脚本中被删除后也是如此。
+// 
+// 注1：我们依赖节点补丁来实际传递“进程”和“全局”以及。
+// 包装器的其他参数。
+// 
+// 注2：Node引入了一个新的代码路径来使用本机代码包装模块。
+// 代码，它不能与这次黑客攻击一起工作。但是，通过修改。
+// “Module.wrapper”我们可以强制Node使用旧的代码路径来包装模块。
+// 使用JavaScript编写代码。
+// 
+// 注3：我们在内部通过。
+// Webpack在webpack.config.base.js中提供了视频插件。如果你加了任何额外的。
+// 变量添加到此包装器，请确保同时更新该插件。
 Module.wrapper = [
   '(function (exports, require, module, __filename, __dirname, process, global, Buffer) { ' +
-  // By running the code in a new closure, it would be possible for the module
-  // code to override "process" and "Buffer" with local variables.
+  // 通过在新的闭包中运行代码，模块可以。
+  // 用局部变量覆盖“process”和“buffer”的代码。
   'return function (exports, require, module, __filename, __dirname) { ',
   '\n}.call(this, exports, require, module, __filename, __dirname); });'
 ];
 
-// We modified the original process.argv to let node.js load the
-// init.js, we need to restore it here.
+// 我们修改了原始的process.argv，让node.js加载。
+// Init.js，我们需要在这里恢复它。
 process.argv.splice(1, 1);
 
-// Clear search paths.
+// 清除搜索路径。
 
 require('../common/reset-search-paths');
 
-// Import common settings.
+// 导入常用设置。
 require('@electron/internal/common/init');
 
-// The global variable will be used by ipc for event dispatching
+// IPC将使用全局变量进行事件调度。
 const v8Util = process._linkedBinding('electron_common_v8_util');
 
 const { ipcRendererInternal } = require('@electron/internal/renderer/ipc-renderer-internal') as typeof ipcRendererInternalModule;
@@ -63,11 +63,11 @@ process.getProcessMemoryInfo = () => {
   return ipcRendererInternal.invoke<Electron.ProcessMemoryInfo>(IPC_MESSAGES.BROWSER_GET_PROCESS_MEMORY_INFO);
 };
 
-// Use electron module after everything is ready.
+// 一切准备就绪后，使用电子模块。
 const { webFrameInit } = require('@electron/internal/renderer/web-frame-init') as typeof webFrameInitModule;
 webFrameInit();
 
-// Process command line arguments.
+// 处理命令行参数。
 const { hasSwitch, getSwitchValue } = process._linkedBinding('electron_common_command_line');
 const { mainFrame } = process._linkedBinding('electron_renderer_web_frame');
 
@@ -82,14 +82,14 @@ const isWebView = mainFrame.getWebPreference('isWebView');
 const openerId = mainFrame.getWebPreference('openerId');
 const appPath = hasSwitch('app-path') ? getSwitchValue('app-path') : null;
 
-// The webContents preload script is loaded after the session preload scripts.
+// WebContents预加载脚本在会话预加载脚本之后加载。
 if (preloadScript) {
   preloadScripts.push(preloadScript);
 }
 
 switch (window.location.protocol) {
   case 'devtools:': {
-    // Override some inspector APIs.
+    // 覆盖一些检查器API。
     require('@electron/internal/renderer/inspector');
     break;
   }
@@ -100,25 +100,25 @@ switch (window.location.protocol) {
     break;
   }
   default: {
-    // Override default web functions.
+    // 覆盖默认Web函数。
     const { windowSetup } = require('@electron/internal/renderer/window-setup') as typeof windowSetupModule;
     windowSetup(isWebView, openerId, isHiddenPage, usesNativeWindowOpen);
   }
 }
 
-// Load webview tag implementation.
+// 加载WebView标记实现。
 if (process.isMainFrame) {
   const { webViewInit } = require('@electron/internal/renderer/web-view/web-view-init') as typeof webViewInitModule;
   webViewInit(contextIsolation, webviewTag, isWebView);
 }
 
 if (nodeIntegration) {
-  // Export node bindings to global.
-  const { makeRequireFunction } = __non_webpack_require__('internal/modules/cjs/helpers') // eslint-disable-line
+  // 将节点绑定导出到全局。
+  const { makeRequireFunction } = __non_webpack_require__('internal/modules/cjs/helpers') // ESRINT-DISABLE-LINE。
   global.module = new Module('electron/js2c/renderer_init');
   global.require = makeRequireFunction(global.module);
 
-  // Set the __filename to the path of html file if it is file: protocol.
+  // 如果是file：protocol，则将__filename设置为html文件的路径。
   if (window.location.protocol === 'file:') {
     const location = window.location;
     let pathname = location.pathname;
@@ -128,35 +128,35 @@ if (nodeIntegration) {
 
       const isWindowsNetworkSharePath = location.hostname.length > 0 && process.resourcesPath.startsWith('\\');
       if (isWindowsNetworkSharePath) {
-        pathname = `//${location.host}/${pathname}`;
+        pathname = `// ${location.host}/${pathname}`；
       }
     }
 
     global.__filename = path.normalize(decodeURIComponent(pathname));
     global.__dirname = path.dirname(global.__filename);
 
-    // Set module's filename so relative require can work as expected.
+    // 设置模块的文件名，以便相对要求可以按预期工作。
     global.module.filename = global.__filename;
 
-    // Also search for module under the html file.
+    // 还可以在html文件下搜索模块。
     global.module.paths = Module._nodeModulePaths(global.__dirname);
   } else {
-    // For backwards compatibility we fake these two paths here
+    // 为了向后兼容，我们在这里伪造了这两条路径。
     global.__filename = path.join(process.resourcesPath, 'electron.asar', 'renderer', 'init.js');
     global.__dirname = path.join(process.resourcesPath, 'electron.asar', 'renderer');
 
     if (appPath) {
-      // Search for module under the app directory
+      // 在app目录下搜索模块。
       global.module.paths = Module._nodeModulePaths(appPath);
     }
   }
 
-  // Redirect window.onerror to uncaughtException.
+  // 将window.onerror重定向到uncaughtException。
   window.onerror = function (_message, _filename, _lineno, _colno, error) {
     if (global.process.listenerCount('uncaughtException') > 0) {
-      // We do not want to add `uncaughtException` to our definitions
-      // because we don't want anyone else (anywhere) to throw that kind
-      // of error.
+      // 我们不想将`uncaughtException`添加到我们的定义中。
+      // 因为我们不想让任何人(在任何地方)抛出这样的东西。
+      // 犯了错误。
       global.process.emit('uncaughtException', error as any);
       return true;
     } else {
@@ -164,8 +164,8 @@ if (nodeIntegration) {
     }
   };
 } else {
-  // Delete Node's symbols after the Environment has been loaded in a
-  // non context-isolated environment
+  // 将环境加载到。
+  // 非上下文隔离环境。
   if (!contextIsolation) {
     process.once('loaded', function () {
       delete (global as any).process;
@@ -179,7 +179,7 @@ if (nodeIntegration) {
   }
 }
 
-// Load the preload scripts.
+// 加载预加载脚本。
 for (const preloadScript of preloadScripts) {
   try {
     Module._load(preloadScript);
@@ -191,7 +191,7 @@ for (const preloadScript of preloadScripts) {
   }
 }
 
-// Warn about security issues
+// 警告安全问题
 if (process.isMainFrame) {
   const { securityWarnings } = require('@electron/internal/renderer/security-warnings') as typeof securityWarningsModule;
   securityWarnings(nodeIntegration);

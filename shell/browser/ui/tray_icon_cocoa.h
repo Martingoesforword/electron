@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_TRAY_ICON_COCOA_H_
 #define SHELL_BROWSER_UI_TRAY_ICON_COCOA_H_
@@ -37,10 +37,10 @@ class TrayIconCocoa : public TrayIcon {
   gfx::Rect GetBounds() override;
 
  private:
-  // Electron custom view for NSStatusItem.
+  // NSStatusItem的电子自定义视图。
   base::scoped_nsobject<StatusItemView> status_item_view_;
 
-  // Status menu shown when right-clicking the system icon.
+  // 右键单击系统图标时显示的状态菜单。
   base::scoped_nsobject<ElectronMenuController> menu_;
 
   base::WeakPtrFactory<TrayIconCocoa> weak_factory_{this};
@@ -48,6 +48,6 @@ class TrayIconCocoa : public TrayIcon {
   DISALLOW_COPY_AND_ASSIGN(TrayIconCocoa);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_TRAY_ICON_COCOA_H_
+#endif  // 外壳浏览器UI托盘图标可可H_

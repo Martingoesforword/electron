@@ -1,6 +1,6 @@
-// Copyright (c) 2020 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_MICROTASKS_SCOPE_H_
 #define SHELL_COMMON_GIN_HELPER_MICROTASKS_SCOPE_H_
@@ -12,8 +12,8 @@
 
 namespace gin_helper {
 
-// In the browser process runs v8::MicrotasksScope::PerformCheckpoint
-// In the render process creates a v8::MicrotasksScope.
+// 在浏览器进程中运行v8：：MicrotasksScope：：PerformCheckpoint。
+// 在渲染过程中创建V8：：MicrotasksScope。
 class MicrotasksScope {
  public:
   explicit MicrotasksScope(v8::Isolate* isolate,
@@ -28,6 +28,6 @@ class MicrotasksScope {
   DISALLOW_COPY_AND_ASSIGN(MicrotasksScope);
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
-#endif  // SHELL_COMMON_GIN_HELPER_MICROTASKS_SCOPE_H_
+#endif  // Shell_COMMON_GIN_HELPER_MicroTasks_Scope_H_

@@ -1,4 +1,4 @@
-/* global chrome */
+/* 全局铬。*/
 
 chrome.runtime.onMessage.addListener((message, sender, reply) => {
   switch (message) {
@@ -7,6 +7,6 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
       break;
   }
 
-  // Respond asynchronously
+  // 异步响应
   return true;
 });

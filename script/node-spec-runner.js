@@ -36,14 +36,14 @@ const defaultOptions = [
 const getCustomOptions = () => {
   let customOptions = ['tools/test.py'];
 
-  // Add all custom arguments.
+  // 添加所有自定义参数。
   const extra = process.argv.slice(2);
   if (extra) {
     customOptions = customOptions.concat(extra);
   }
 
-  // We need this unilaterally or Node.js will try
-  // to run from out/Release/node.
+  // 我们单方面需要这个，否则Node.js会尝试。
+  // 从Out/Release/Node运行。
   customOptions = customOptions.concat([
     '--shell',
     utils.getAbsoluteElectronExec()

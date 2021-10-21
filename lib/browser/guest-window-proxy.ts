@@ -1,9 +1,4 @@
-/**
- * Manage guest windows when using the default BrowserWindowProxy version of the
- * renderer's window.open (i.e. nativeWindowOpen off). This module mostly
- * consists of marshaling IPC requests from the BrowserWindowProxy to the
- * WebContents.
- */
+/* **使用*渲染器的window.open的默认BrowserWindowProxy版本时管理来宾窗口(即关闭nativeWindowOpen)。该模块主要*包括将IPC请求从BrowserWindowProxy编组到*WebContents。*/
 import { webContents, BrowserWindow } from 'electron/main';
 import type { WebContents } from 'electron/main';
 import { ipcMainInternal } from '@electron/internal/browser/ipc-main-internal';
@@ -46,7 +41,7 @@ const isNodeIntegrationEnabled = function (sender: WebContents) {
   return sender.getLastWebPreferences()!.nodeIntegration === true;
 };
 
-// Checks whether |sender| can access the |target|:
+// 检查|发件人|是否可以访问|目标|：
 const canAccessWindow = function (sender: WebContents, target: WebContents) {
   return (
     isChildWindow(sender, target) ||
@@ -55,7 +50,7 @@ const canAccessWindow = function (sender: WebContents, target: WebContents) {
   );
 };
 
-// Routed window.open messages with raw options
+// 路由窗口。使用原始选项打开邮件。
 ipcMainInternal.on(
   IPC_MESSAGES.GUEST_WINDOW_MANAGER_WINDOW_OPEN,
   (
@@ -64,7 +59,7 @@ ipcMainInternal.on(
     frameName: string,
     features: string
   ) => {
-    // This should only be allowed for senders that have nativeWindowOpen: false
+    // 应该只允许具有nativeWindowOpen：False的发件人执行此操作。
     const lastWebPreferences = event.sender.getLastWebPreferences()!;
     if (lastWebPreferences.nativeWindowOpen || lastWebPreferences.sandbox) {
       event.returnValue = null;
@@ -99,7 +94,7 @@ ipcMainInternal.on(
 type IpcHandler<T, Event> = (event: Event, guestContents: Electron.WebContents, ...args: any[]) => T;
 const makeSafeHandler = function<T, Event> (handler: IpcHandler<T, Event>) {
   return (event: Event, guestId: number, ...args: any[]) => {
-    // Access webContents via electron to prevent circular require.
+    // 通过电子方式访问网站内容，以防止循环要求。
     const guestContents = webContents.fromId(guestId);
     if (!guestContents) {
       throw new Error(`Invalid guestId: ${guestId}`);
@@ -152,9 +147,9 @@ handleMessage(
       targetOrigin = '*';
     }
 
-    // The W3C does not seem to have word on how postMessage should work when the
-    // origins do not match, so we do not do |canAccessWindow| check here since
-    // postMessage across origins is useful and not harmful.
+    // W3C似乎没有关于postMessage应该如何工作的说明。
+    // 来源不匹配，因此我们不在此处|canAccessWindow|选中，因为。
+    // 跨来源的POST Message是有用的，也是无害的。
     securityCheck(event.sender, guestContents, isRelatedWindow);
 
     if (

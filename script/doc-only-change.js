@@ -8,11 +8,11 @@ async function checkIfDocOnlyChange () {
       let pullRequestNumber = args.prNumber;
       if (!pullRequestNumber || isNaN(pullRequestNumber)) {
         if (args.prURL) {
-          // CircleCI doesn't provide the PR number for branch builds, but it does provide the PR URL
+          // CircleCI不提供分支构建的PR编号，但它提供PR URL。
           const pullRequestParts = args.prURL.split('/');
           pullRequestNumber = pullRequestParts[pullRequestParts.length - 1];
         } else if (args.prBranch) {
-          // AppVeyor doesn't provide a PR number for branch builds - figure it out from the branch
+          // AppVeyor不提供分支机构建设的PR号-从分支机构中找出。
           const prsForBranch = await octokit.pulls.list({
             owner: 'electron',
             repo: 'electron',
@@ -22,7 +22,7 @@ async function checkIfDocOnlyChange () {
           if (prsForBranch.data.length === 1) {
             pullRequestNumber = prsForBranch.data[0].number;
           } else {
-            // If there are 0 PRs or more than one PR on a branch, just assume that this is more than a doc change
+            // 如果分支机构上有0个请购单或多个请购单，只需假设这不仅仅是单据更改
             process.exit(1);
           }
         }

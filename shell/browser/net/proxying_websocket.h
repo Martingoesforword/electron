@@ -1,6 +1,6 @@
-// Copyright 2020 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2020年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NET_PROXYING_WEBSOCKET_H_
 #define SHELL_BROWSER_NET_PROXYING_WEBSOCKET_H_
@@ -24,29 +24,29 @@
 
 namespace electron {
 
-// A ProxyingWebSocket proxies a WebSocket connection and dispatches
-// WebRequest API events.
-//
-// The code is referenced from the
-// extensions::WebRequestProxyingWebSocket class.
+// ProxyingWebSocket代理WebSocket连接并分派。
+// WebRequest API事件。
+// 
+// 该代码是从。
+// Extensions：：WebRequestProxyingWebSocket类。
 class ProxyingWebSocket : public network::mojom::WebSocketHandshakeClient,
                           public network::mojom::WebSocketAuthenticationHandler,
                           public network::mojom::TrustedHeaderClient {
  public:
   using WebSocketFactory = content::ContentBrowserClient::WebSocketFactory;
 
-  // AuthRequiredResponse indicates how an OnAuthRequired call is handled.
+  // AuthRequiredResponse指示如何处理OnAuthRequired调用。
   enum class AuthRequiredResponse {
-    // No credentials were provided.
+    // 未提供凭据。
     kNoAction,
-    // AuthCredentials is filled in with a username and password, which should
-    // be used in a response to the provided auth challenge.
+    // AuthCredentials是用用户名和密码填写的，应该是。
+    // 用于响应提供的身份验证质询。
     kSetAuth,
-    // The request should be canceled.
+    // 该请求应被取消。
     kCancelAuth,
-    // The action will be decided asynchronously. |callback| will be invoked
-    // when the decision is made, and one of the other AuthRequiredResponse
-    // values will be passed in with the same semantics as described above.
+    // 行动将以异步方式决定。|回调|将被调用。
+    // 做出决定时，其他AuthRequiredResponse中的一个。
+    // 值将以与上述相同的语义传入。
     kIoPending,
   };
 
@@ -65,7 +65,7 @@ class ProxyingWebSocket : public network::mojom::WebSocketHandshakeClient,
 
   void Start();
 
-  // network::mojom::WebSocketHandshakeClient methods:
+  // Network：：mojom：：WebSocketHandshakeClient方法：
   void OnOpeningHandshakeStarted(
       network::mojom::WebSocketHandshakeRequestPtr request) override;
   void OnFailure(const std::string& message,
@@ -78,13 +78,13 @@ class ProxyingWebSocket : public network::mojom::WebSocketHandshakeClient,
       mojo::ScopedDataPipeConsumerHandle readable,
       mojo::ScopedDataPipeProducerHandle writable) override;
 
-  // network::mojom::WebSocketAuthenticationHandler method:
+  // Network：：mojom：：WebSocketAuthenticationHandler方法：
   void OnAuthRequired(const net::AuthChallengeInfo& auth_info,
                       const scoped_refptr<net::HttpResponseHeaders>& headers,
                       const net::IPEndPoint& remote_endpoint,
                       OnAuthRequiredCallback callback) override;
 
-  // network::mojom::TrustedHeaderClient methods:
+  // Network：：mojom：：trudHeaderClient方法：
   void OnBeforeSendHeaders(const net::HttpRequestHeaders& headers,
                            OnBeforeSendHeadersCallback callback) override;
   void OnHeadersReceived(const std::string& headers,
@@ -124,18 +124,18 @@ class ProxyingWebSocket : public network::mojom::WebSocketHandshakeClient,
   void PauseIncomingMethodCallProcessing();
   void ResumeIncomingMethodCallProcessing();
   void OnError(int error_code);
-  // This is used for detecting errors on mojo connection with the network
-  // service.
+  // 这用于检测MOJO与网络连接的错误。
+  // 服务。
   void OnMojoConnectionErrorWithCustomReason(uint32_t custom_reason,
                                              const std::string& description);
-  // This is used for detecting errors on mojo connection with original client
-  // (i.e., renderer).
+  // 用于检测与原始客户端的MOJO连接错误。
+  // (即渲染器)。
   void OnMojoConnectionError();
 
-  // Passed from api::WebRequest.
+  // 从API：：WebRequest传入。
   WebRequestAPI* web_request_api_;
 
-  // Saved to feed the api::WebRequest.
+  // 保存为馈送API：：WebRequest。
   network::ResourceRequest request_;
 
   WebSocketFactory factory_;
@@ -173,6 +173,6 @@ class ProxyingWebSocket : public network::mojom::WebSocketHandshakeClient,
   DISALLOW_COPY_AND_ASSIGN(ProxyingWebSocket);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_NET_PROXYING_WEBSOCKET_H_
+#endif  // Shell_Browser_Net_Proxying_WebSocket_H_

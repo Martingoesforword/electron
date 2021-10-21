@@ -21,7 +21,7 @@ if (!process.env.ELECTRON_NPM_OTP) {
 }
 
 let tempDir;
-temp.track(); // track and cleanup files at exit
+temp.track(); // 在退出时跟踪和清理文件。
 
 const files = [
   'cli.js',
@@ -55,7 +55,7 @@ new Promise((resolve, reject) => {
 })
   .then((dirPath) => {
     tempDir = dirPath;
-    // copy files from `/npm` to temp directory
+    // 将文件从`/npm`复制到临时目录。
     files.forEach((name) => {
       const noThirdSegment = name === 'README.md' || name === 'LICENSE';
       fs.writeFileSync(
@@ -63,7 +63,7 @@ new Promise((resolve, reject) => {
         fs.readFileSync(path.join(ELECTRON_DIR, noThirdSegment ? '' : 'npm', name))
       );
     });
-    // copy from root package.json to temp/package.json
+    // 从根Package.json复制到temp/Package.json。
     const packageJson = require(path.join(tempDir, 'package.json'));
     jsonFields.forEach((fieldName) => {
       packageJson[fieldName] = rootPackageJson[fieldName];
@@ -79,7 +79,7 @@ new Promise((resolve, reject) => {
     });
   })
   .then((releases) => {
-  // download electron.d.ts from release
+  // 从Release下载Electron.d.ts。
     const release = releases.data.find(
       (release) => release.tag_name === `v${rootPackageJson.version}`
     );
@@ -128,9 +128,9 @@ new Promise((resolve, reject) => {
     const currentBranch = await getCurrentBranch();
 
     if (release.tag_name.indexOf('nightly') > 0) {
-      // TODO(main-migration): Simplify once main branch is renamed.
+      // TODO(主迁移)：重命名主分支后进行简化。
       if (currentBranch === 'master' || currentBranch === 'main') {
-        // Nightlies get published to their own module, so they should be tagged as latest
+        // 夜行者被发布到他们自己的模块，所以他们应该被标记为最新的。
         npmTag = 'latest';
       } else {
         npmTag = `nightly-${currentBranch}`;
@@ -146,24 +146,24 @@ new Promise((resolve, reject) => {
       );
     } else {
       if (currentBranch === 'master' || currentBranch === 'main') {
-        // This should never happen, main releases should be nightly releases
-        // this is here just-in-case
+        // 这种情况永远不会发生，主要版本应该是每晚发布。
+        // 这是以防万一的。
         throw new Error('Unreachable release phase, can\'t tag a non-nightly release on the main branch');
       } else if (!release.prerelease) {
-        // Tag the release with a `2-0-x` style tag
+        // 使用`2-0-x`样式标记标记版本。
         npmTag = currentBranch;
       } else if (release.tag_name.indexOf('alpha') > 0) {
-        // Tag the release with an `alpha-3-0-x` style tag
+        // 使用`alpha-3-0-x`样式标记标记版本。
         npmTag = `alpha-${currentBranch}`;
       } else {
-        // Tag the release with a `beta-3-0-x` style tag
+        // 使用`beta-3-0-x`样式标记为发行版添加标签。
         npmTag = `beta-${currentBranch}`;
       }
     }
   })
   .then(() => childProcess.execSync('npm pack', { cwd: tempDir }))
   .then(() => {
-  // test that the package can install electron prebuilt from github release
+  // 测试该软件包可以安装从GitHub版本预置的电子。
     const tarballPath = path.join(tempDir, `${rootPackageJson.name}-${rootPackageJson.version}.tgz`);
     return new Promise((resolve, reject) => {
       const result = childProcess.spawnSync('npm', ['install', tarballPath, '--force', '--silent'], {
@@ -191,7 +191,7 @@ new Promise((resolve, reject) => {
   })
   .then((tarballPath) => {
     const existingVersionJSON = childProcess.execSync(`npm view electron@${rootPackageJson.version} --json`).toString('utf-8');
-    // It's possible this is a re-run and we already have published the package, if not we just publish like normal
+    // 有可能这是重新运行，我们已经发布了包，如果没有，我们只是像正常一样发布。
     if (!existingVersionJSON) {
       childProcess.execSync(`npm publish ${tarballPath} --tag ${npmTag} --otp=${process.env.ELECTRON_NPM_OTP}`);
     }
@@ -201,8 +201,8 @@ new Promise((resolve, reject) => {
     const localVersion = rootPackageJson.version;
     const parsedLocalVersion = semver.parse(localVersion);
     if (rootPackageJson.name === 'electron') {
-      // We should only customly add dist tags for non-nightly releases where the package name is still
-      // "electron"
+      // 我们应该只为包名称仍然存在的非夜间版本自定义添加dist标记。
+      // “电子”
       if (parsedLocalVersion.prerelease.length === 0 &&
             semver.gt(localVersion, currentTags.latest)) {
         childProcess.execSync(`npm dist-tag add electron@${localVersion} latest --otp=${process.env.ELECTRON_NPM_OTP}`);

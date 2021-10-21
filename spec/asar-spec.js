@@ -1149,7 +1149,7 @@ describe('asar package', function () {
     describe('fs.exists', function () {
       it('handles an existing file', function (done) {
         const p = path.join(asarDir, 'a.asar', 'file1');
-        // eslint-disable-next-line
+        // Eslint-禁用-下一行。
         fs.exists(p, function (exists) {
           try {
             expect(exists).to.be.true();
@@ -1162,7 +1162,7 @@ describe('asar package', function () {
 
       it('handles a non-existent file', function (done) {
         const p = path.join(asarDir, 'a.asar', 'not-exist');
-        // eslint-disable-next-line
+        // Eslint-禁用-下一行。
         fs.exists(p, function (exists) {
           try {
             expect(exists).to.be.false();
@@ -1175,7 +1175,7 @@ describe('asar package', function () {
 
       it('promisified version handles an existing file', (done) => {
         const p = path.join(asarDir, 'a.asar', 'file1');
-        // eslint-disable-next-line
+        // Eslint-禁用-下一行。
         util.promisify(fs.exists)(p).then(exists => {
           try {
             expect(exists).to.be.true();
@@ -1188,7 +1188,7 @@ describe('asar package', function () {
 
       it('promisified version handles a non-existent file', function (done) {
         const p = path.join(asarDir, 'a.asar', 'not-exist');
-        // eslint-disable-next-line
+        // Eslint-禁用-下一行。
         util.promisify(fs.exists)(p).then(exists => {
           try {
             expect(exists).to.be.false();
@@ -1459,10 +1459,10 @@ describe('asar package', function () {
         const { hasOwnProperty } = Object.prototype;
 
         for (const [propertyName, originalValue] of Object.entries(originalFs)) {
-          // Some properties exist but have a value of `undefined` on some platforms.
-          // E.g. `fs.lchmod`, which in only available on MacOS, see
-          // https://nodejs.org/docs/latest-v10.x/api/fs.html#fs_fs_lchmod_path_mode_callback
-          // Also check for `null`s, `hasOwnProperty()` can't handle them.
+          // 有些属性存在，但在某些平台上的值为`unfined`。
+          // 例如，仅在MacOS上可用的`fs.lchmod`，请参阅。
+          // Https://nodejs.org/docs/latest-v10.x/api/fs.html#fs_fs_lchmod_path_mode_callback。
+          // 还要检查`nulls，`hasOwnProperty()‘是否无法处理它们。
           if (typeof originalValue === 'undefined' || originalValue === null) continue;
 
           if (hasOwnProperty.call(originalValue, util.promisify.custom)) {
@@ -1601,7 +1601,7 @@ describe('asar package', function () {
   describe('asar protocol', function () {
     it('can request a file in package', function (done) {
       const p = path.resolve(asarDir, 'a.asar', 'file1');
-      $.get('file://' + p, function (data) {
+      $.get('file:// ‘+p，函数(数据){。
         try {
           expect(data.trim()).to.equal('file1');
           done();
@@ -1613,7 +1613,7 @@ describe('asar package', function () {
 
     it('can request a file in package with unpacked files', function (done) {
       const p = path.resolve(asarDir, 'unpack.asar', 'a.txt');
-      $.get('file://' + p, function (data) {
+      $.get('file:// ‘+p，函数(数据){。
         try {
           expect(data.trim()).to.equal('a');
           done();
@@ -1625,7 +1625,7 @@ describe('asar package', function () {
 
     it('can request a linked file in package', function (done) {
       const p = path.resolve(asarDir, 'a.asar', 'link2', 'link1');
-      $.get('file://' + p, function (data) {
+      $.get('file:// ‘+p，函数(数据){。
         try {
           expect(data.trim()).to.equal('file1');
           done();
@@ -1637,7 +1637,7 @@ describe('asar package', function () {
 
     it('can request a file in filesystem', function (done) {
       const p = path.resolve(asarDir, 'file');
-      $.get('file://' + p, function (data) {
+      $.get('file:// ‘+p，函数(数据){。
         try {
           expect(data.trim()).to.equal('file');
           done();
@@ -1650,7 +1650,7 @@ describe('asar package', function () {
     it('gets 404 when file is not found', function (done) {
       const p = path.resolve(asarDir, 'a.asar', 'no-exist');
       $.ajax({
-        url: 'file://' + p,
+        url: 'file:// ‘+p，
         error: function (err) {
           try {
             expect(err.status).to.equal(404);

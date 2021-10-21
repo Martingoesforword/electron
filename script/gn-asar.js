@@ -8,11 +8,11 @@ const getArgGroup = (name) => {
   const group = [];
   let inGroup = false;
   for (const arg of process.argv) {
-    // At the next flag we stop being in the current group
+    // 在下一面旗帜处，我们不再属于当前组。
     if (arg.startsWith('--')) inGroup = false;
-    // Push all args in the group
+    // 推送组中的所有参数。
     if (inGroup) group.push(arg);
-    // If we find the start flag, start pushing
+    // 如果我们找到开始标志，就开始推进。
     if (arg === `--${name}`) inGroup = true;
   }
 
@@ -27,7 +27,7 @@ assert(base.length === 1, 'should have a single base dir');
 assert(files.length >= 1, 'should have at least one input file');
 assert(out.length === 1, 'should have a single out path');
 
-// Ensure all files are inside the base dir
+// 确保所有文件都在基本目录中。
 for (const file of files) {
   if (!file.startsWith(base[0])) {
     console.error(`Expected all files to be inside the base dir but "${file}" was not in "${base[0]}"`);
@@ -38,7 +38,7 @@ for (const file of files) {
 const tmpPath = fs.mkdtempSync(path.resolve(os.tmpdir(), 'electron-gn-asar-'));
 
 try {
-  // Copy all files to a tmp dir to avoid including scrap files in the ASAR
+  // 将所有文件复制到临时目录，以避免在ASAR中包含废料文件。
   for (const file of files) {
     const newLocation = path.resolve(tmpPath, path.relative(base[0], file));
     fs.mkdirsSync(path.dirname(newLocation));
@@ -52,7 +52,7 @@ try {
   return;
 }
 
-// Create the ASAR archive
+// 创建ASAR档案
 asar.createPackageWithOptions(tmpPath, out[0], {})
   .catch(err => {
     const exit = () => {

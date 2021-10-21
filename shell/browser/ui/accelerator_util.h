@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_ACCELERATOR_UTIL_H_
 #define SHELL_BROWSER_UI_ACCELERATOR_UTIL_H_
@@ -19,18 +19,18 @@ typedef struct {
 } MenuItem;
 typedef std::map<ui::Accelerator, MenuItem> AcceleratorTable;
 
-// Parse a string as an accelerator.
+// 将字符串解析为加速器。
 bool StringToAccelerator(const std::string& shortcut,
                          ui::Accelerator* accelerator);
 
-// Generate a table that contains menu model's accelerators and command ids.
+// 生成包含菜单模型的加速器和命令ID的表。
 void GenerateAcceleratorTable(AcceleratorTable* table,
                               electron::ElectronMenuModel* model);
 
-// Trigger command from the accelerators table.
+// 来自加速度表的触发器命令。
 bool TriggerAcceleratorTableCommand(AcceleratorTable* table,
                                     const ui::Accelerator& accelerator);
 
-}  // namespace accelerator_util
+}  // 命名空间加速器_util。
 
-#endif  // SHELL_BROWSER_UI_ACCELERATOR_UTIL_H_
+#endif  // Shell_Browser_UI_Accelerator_Util_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_UTILITY_ELECTRON_CONTENT_UTILITY_CLIENT_H_
 #define SHELL_UTILITY_ELECTRON_CONTENT_UTILITY_CLIENT_H_
@@ -36,12 +36,12 @@ class ElectronContentUtilityClient : public content::ContentUtilityClient {
   std::unique_ptr<printing::PrintingHandler> printing_handler_;
 #endif
 
-  // True if the utility process runs with elevated privileges.
+  // 如果实用程序进程以提升的权限运行，则为True。
   bool utility_process_running_elevated_ = false;
 
   DISALLOW_COPY_AND_ASSIGN(ElectronContentUtilityClient);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_UTILITY_ELECTRON_CONTENT_UTILITY_CLIENT_H_

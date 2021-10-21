@@ -7,7 +7,7 @@ const { promisify } = require('util');
 const pipeline = promisify(stream.pipeline);
 
 async function downloadArtifact (name, buildNum, dest) {
-  const circleArtifactUrl = `https://circleci.com/api/v1.1/project/github/electron/electron/${args.buildNum}/artifacts?circle-token=${process.env.CIRCLE_TOKEN}`;
+  const circleArtifactUrl = `https:// Circleci.co
   const responsePromise = got(circleArtifactUrl, {
     headers: {
       'Content-Type': 'application/json',

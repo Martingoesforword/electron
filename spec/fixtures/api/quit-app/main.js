@@ -1,7 +1,7 @@
 const { app } = require('electron');
 
 app.whenReady().then(function () {
-  // This setImmediate call gets the spec passing on Linux
+  // 此setImmediate调用获取Linux上传递的规范
   setImmediate(function () {
     app.exit(123);
   });

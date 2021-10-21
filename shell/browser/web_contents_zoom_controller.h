@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_WEB_CONTENTS_ZOOM_CONTROLLER_H_
 #define SHELL_BROWSER_WEB_CONTENTS_ZOOM_CONTROLLER_H_
@@ -12,7 +12,7 @@
 
 namespace electron {
 
-// Manages the zoom changes of WebContents.
+// 管理WebContents的缩放更改。
 class WebContentsZoomController
     : public content::WebContentsObserver,
       public content::WebContentsUserData<WebContentsZoomController> {
@@ -28,23 +28,23 @@ class WebContentsZoomController
     ~Observer() override {}
   };
 
-  // Defines how zoom changes are handled.
+  // 定义如何处理缩放更改。
   enum class ZoomMode {
-    // Results in default zoom behavior, i.e. zoom changes are handled
-    // automatically and on a per-origin basis, meaning that other tabs
-    // navigated to the same origin will also zoom.
+    // 导致默认缩放行为，即处理缩放更改。
+    // 自动并基于每个原点，这意味着其他选项卡。
+    // 导航到同一原点也将进行缩放。
     kDefault,
-    // Results in zoom changes being handled automatically, but on a per-tab
-    // basis. Tabs in this zoom mode will not be affected by zoom changes in
-    // other tabs, and vice versa.
+    // 导致自动处理缩放更改，但按选项卡处理。
+    // 基础。中的缩放更改不会影响此缩放模式中的选项卡。
+    // 其他选项卡，反之亦然。
     kIsolated,
-    // Overrides the automatic handling of zoom changes. The |onZoomChange|
-    // event will still be dispatched, but the page will not actually be zoomed.
-    // These zoom changes can be handled manually by listening for the
-    // |onZoomChange| event. Zooming in this mode is also on a per-tab basis.
+    // 覆盖缩放更改的自动处理。OnZoomChange|onZoomChange。
+    // 事件，但不会实际缩放页面。
+    // 这些缩放更改可以通过侦听。
+    // |onZoomChange|事件。此模式中的缩放也是基于每个选项卡的。
     kManual,
-    // Disables all zooming in this tab. The tab will revert to the default
-    // zoom level, and all attempted zoom changes will be ignored.
+    // 禁用此选项卡中的所有缩放。该选项卡将恢复为默认值。
+    // 缩放级别，所有尝试的缩放更改都将被忽略。
     kDisabled,
   };
 
@@ -56,7 +56,7 @@ class WebContentsZoomController
 
   void SetEmbedderZoomController(WebContentsZoomController* controller);
 
-  // Methods for managing zoom levels.
+  // 管理缩放级别的方法。
   void SetZoomLevel(double level);
   double GetZoomLevel();
   void SetDefaultZoomFactor(double factor);
@@ -64,22 +64,22 @@ class WebContentsZoomController
   void SetTemporaryZoomLevel(double level);
   bool UsesTemporaryZoomLevel();
 
-  // Sets the zoom mode, which defines zoom behavior (see enum ZoomMode).
+  // 设置缩放模式，该模式定义缩放行为(请参见枚举缩放模式)。
   void SetZoomMode(ZoomMode zoom_mode);
 
   void ResetZoomModeOnNavigationIfNeeded(const GURL& url);
 
   ZoomMode zoom_mode() const { return zoom_mode_; }
 
-  // Convenience method to get default zoom level. Implemented here for
-  // inlining.
+  // 获取默认缩放级别的便捷方法。在此实施的目的是。
+  // 内衬。
   double GetDefaultZoomLevel() const {
     return content::HostZoomMap::GetForWebContents(web_contents())
         ->GetDefaultZoomLevel();
   }
 
  protected:
-  // content::WebContentsObserver:
+  // 内容：：WebContentsViewer：
   void DidFinishNavigation(content::NavigationHandle* handle) override;
   void WebContentsDestroyed() override;
   void RenderFrameHostChanged(content::RenderFrameHost* old_host,
@@ -88,16 +88,16 @@ class WebContentsZoomController
  private:
   friend class content::WebContentsUserData<WebContentsZoomController>;
 
-  // Called after a navigation has committed to set default zoom factor.
+  // 在导航已提交设置默认缩放因子后调用。
   void SetZoomFactorOnNavigationIfNeeded(const GURL& url);
 
-  // The current zoom mode.
+  // 当前的缩放模式。
   ZoomMode zoom_mode_ = ZoomMode::kDefault;
 
-  // Current zoom level.
+  // 当前缩放级别。
   double zoom_level_ = 1.0;
 
-  // kZoomFactor.
+  // KZoomfactor。
   double default_zoom_factor_ = 0;
 
   const double kPageZoomEpsilon = 0.001;
@@ -116,6 +116,6 @@ class WebContentsZoomController
   DISALLOW_COPY_AND_ASSIGN(WebContentsZoomController);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_WEB_CONTENTS_ZOOM_CONTROLLER_H_
+#endif  // Shell_Browser_Web_Contents_ZOOM_CONTROLLER_H_

@@ -4,19 +4,19 @@ import * as url from 'url';
 
 let mainWindow: BrowserWindow | null = null;
 
-// Quit when all windows are closed.
+// 关闭所有窗口后退出。
 app.on('window-all-closed', () => {
   app.quit();
 });
 
 function decorateURL (url: string) {
-  // safely add `?utm_source=default_app
+  // 安全添加`？utm_source=default_app。
   const parsedUrl = new URL(url);
   parsedUrl.searchParams.append('utm_source', 'default_app');
   return parsedUrl.toString();
 }
 
-// Find the shortest path to the electron binary
+// 找出到电子双星的最短路径
 const absoluteElectronPath = process.execPath;
 const relativeElectronPath = path.relative(process.cwd(), absoluteElectronPath);
 const electronPath = absoluteElectronPath.length < relativeElectronPath.length

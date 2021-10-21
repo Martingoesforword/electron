@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_GTK_GTK_STATUS_ICON_H_
 #define SHELL_BROWSER_UI_GTK_GTK_STATUS_ICON_H_
@@ -27,14 +27,14 @@ namespace electron {
 namespace gtkui {
 class AppIndicatorIconMenu;
 
-// Status icon implementation which uses the system tray X11 spec (via
-// GtkStatusIcon).
+// 使用系统托盘X11规范(通过)的状态图标实现。
+// GtkStatusIcon)。
 class GtkStatusIcon : public views::StatusIconLinux {
  public:
   GtkStatusIcon(const gfx::ImageSkia& image, const std::u16string& tool_tip);
   ~GtkStatusIcon() override;
 
-  // Overridden from views::StatusIconLinux:
+  // 从Views：：StatusIconLinux中重写：
   void SetIcon(const gfx::ImageSkia& image) override;
   void SetToolTip(const std::u16string& tool_tip) override;
   void UpdatePlatformContextMenu(ui::MenuModel* menu) override;
@@ -57,8 +57,8 @@ class GtkStatusIcon : public views::StatusIconLinux {
   DISALLOW_COPY_AND_ASSIGN(GtkStatusIcon);
 };
 
-}  // namespace gtkui
+}  // 命名空间gtkui。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_GTK_GTK_STATUS_ICON_H_
+#endif  // Shell_Browser_UI_GTK_GTK_STATUS_ICON_H_

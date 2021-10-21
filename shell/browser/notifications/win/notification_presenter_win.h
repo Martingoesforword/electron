@@ -1,24 +1,24 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Copyright (c) 2015 Felix Rieseberg <feriese@microsoft.com> and
-// Jason Poon <jason.poon@microsoft.com>. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 版权所有(C)2015 Felix Rieseberg&lt;feriese@microsoft.com&gt;和。
+// Jason Poon&lt;jason.poon@microsoft.com&gt;。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
-// Usage Example (JavaScript:
-// var windowsNotification = new Notification("Test Title", {
-//   body: "Hi, I'm an example body. How are you?",
-//   icon: "file:///C:/Path/To/Your/Image.png"
-// });
+// 用法示例(JavaScript：
+// Var windowsNotification=新通知(“测试标题”，{。
+// 身体：“嗨，我是个榜样。你好吗？”
+// 图标：“file:///C:/Path/To/Your/Image.png”
+// })；
 
-// windowsNotification.onshow  = function () {
-//   console.log("Notification shown")
-// };
-// windowsNotification.onclick = function () {
-//   console.log("Notification clicked")
-// };
-// windowsNotification.onclose = function () {
-//   console.log("Notification dismissed")
-// };
+// WindowsNotification.onshow=function(){。
+// Console.log(“显示的通知”)。
+// }；
+// WindowsNotification.onclick=函数(){。
+// Console.log(“通知已点击”)。
+// }；
+// WindowsNotification.onclose=函数(){。
+// Console.log(“通知撤销”)。
+// }；
 
 #ifndef SHELL_BROWSER_NOTIFICATIONS_WIN_NOTIFICATION_PRESENTER_WIN_H_
 #define SHELL_BROWSER_NOTIFICATIONS_WIN_NOTIFICATION_PRESENTER_WIN_H_
@@ -49,6 +49,6 @@ class NotificationPresenterWin : public NotificationPresenter {
   DISALLOW_COPY_AND_ASSIGN(NotificationPresenterWin);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_NOTIFICATIONS_WIN_NOTIFICATION_PRESENTER_WIN_H_

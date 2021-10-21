@@ -178,13 +178,13 @@ async function runNativeElectronTests () {
   let testTargets = require('./native-test-targets.json');
   const outDir = `out/${utils.getOutDir()}`;
 
-  // If native tests are being run, only one arg would be relevant
+  // 如果正在运行本机测试，则只有一个参数相关。
   if (args.target && !testTargets.includes(args.target)) {
     console.log(`${fail} ${args.target} must be a subset of [${[testTargets].join(', ')}]`);
     process.exit(1);
   }
 
-  // Optionally build all native test targets
+  // 可以选择构建所有本机测试目标。
   if (args.buildNativeTests) {
     for (const target of testTargets) {
       const build = childProcess.spawnSync('ninja', ['-C', outDir, target], {
@@ -192,7 +192,7 @@ async function runNativeElectronTests () {
         stdio: 'inherit'
       });
 
-      // Exit if test target failed to build
+      // 如果测试目标生成失败，则退出。
       if (build.status !== 0) {
         console.log(`${fail} ${target} failed to build.`);
         process.exit(1);
@@ -200,10 +200,10 @@ async function runNativeElectronTests () {
     }
   }
 
-  // If a specific target was passed, only build and run that target
+  // 如果通过了特定目标，则仅生成并运行该目标。
   if (args.target) testTargets = [args.target];
 
-  // Run test targets
+  // 运行测试目标。
   const failures = [];
   for (const target of testTargets) {
     console.info('\nRunning native test for target:', target);
@@ -212,11 +212,11 @@ async function runNativeElectronTests () {
       stdio: 'inherit'
     });
 
-    // Collect failures and log at end
+    // 收集故障并在结束时记录。
     if (testRun.status !== 0) failures.push({ target });
   }
 
-  // Exit if any failures
+  // 如果出现任何失败，请退出
   if (failures.length > 0) {
     console.log(`${fail} Electron native tests failed for the following targets: `, failures);
     process.exit(1);

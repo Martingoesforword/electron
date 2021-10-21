@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_ELECTRON_BROWSER_HANDLER_IMPL_H_
 #define SHELL_BROWSER_ELECTRON_BROWSER_HANDLER_IMPL_H_
@@ -29,7 +29,7 @@ class ElectronBrowserHandlerImpl : public mojom::ElectronBrowser,
   static void Create(content::RenderFrameHost* frame_host,
                      mojo::PendingReceiver<mojom::ElectronBrowser> receiver);
 
-  // mojom::ElectronBrowser:
+  // Mojom：：ElectronBrowser：
   void Message(bool internal,
                const std::string& channel,
                blink::CloneableMessage arguments) override;
@@ -61,7 +61,7 @@ class ElectronBrowserHandlerImpl : public mojom::ElectronBrowser,
  private:
   ~ElectronBrowserHandlerImpl() override;
 
-  // content::WebContentsObserver:
+  // 内容：：WebContentsViewer：
   void WebContentsDestroyed() override;
 
   void OnConnectionError();
@@ -77,5 +77,5 @@ class ElectronBrowserHandlerImpl : public mojom::ElectronBrowser,
 
   DISALLOW_COPY_AND_ASSIGN(ElectronBrowserHandlerImpl);
 };
-}  // namespace electron
+}  // 命名空间电子。
 #endif  // SHELL_BROWSER_ELECTRON_BROWSER_HANDLER_IMPL_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_V8_VALUE_CONVERTER_H_
 #define SHELL_COMMON_V8_VALUE_CONVERTER_H_
@@ -15,7 +15,7 @@ namespace base {
 class DictionaryValue;
 class ListValue;
 class Value;
-}  // namespace base
+}  // 命名空间库。
 
 namespace electron {
 
@@ -59,19 +59,19 @@ class V8ValueConverter {
                                             FromV8ValueState* state,
                                             v8::Isolate* isolate) const;
 
-  // If true, we will convert RegExp JavaScript objects to string.
+  // 如果为true，我们将RegExp JavaScript对象转换为字符串。
   bool reg_exp_allowed_ = false;
 
-  // If true, we will convert Function JavaScript objects to dictionaries.
+  // 如果为true，我们将把函数JavaScript对象转换为字典。
   bool function_allowed_ = false;
 
-  // If true, undefined and null values are ignored when converting v8 objects
-  // into Values.
+  // 如果为true，则在转换V8对象时忽略未定义和空值。
+  // 转化为价值。
   bool strip_null_from_objects_ = false;
 
   DISALLOW_COPY_AND_ASSIGN(V8ValueConverter);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_COMMON_V8_VALUE_CONVERTER_H_
+#endif  // Shell_COMMON_V8_VALUE_转换器_H_

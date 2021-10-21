@@ -1,6 +1,6 @@
-// Copyright (c) 2020 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NET_WEB_REQUEST_API_INTERFACE_H_
 #define SHELL_BROWSER_NET_WEB_REQUEST_API_INTERFACE_H_
@@ -14,7 +14,7 @@
 
 namespace electron {
 
-// Defines the interface for WebRequest API, implemented by api::WebRequestNS.
+// 定义WebRequest API的接口，由API：：WebRequestNS实现。
 class WebRequestAPI {
  public:
   virtual ~WebRequestAPI() {}
@@ -57,6 +57,6 @@ class WebRequestAPI {
   virtual void OnRequestWillBeDestroyed(extensions::WebRequestInfo* info) = 0;
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_NET_WEB_REQUEST_API_INTERFACE_H_

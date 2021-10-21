@@ -12,7 +12,7 @@ function createWindow () {
     if (portList && portList.length > 0) {
       callback(portList[0].portId)
     } else {
-      callback('') //Could not find any matching devices
+      callback('') // 找不到任何匹配的设备。
     }
   })
 
@@ -25,13 +25,13 @@ function createWindow () {
   })
 
   mainWindow.webContents.session.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {
-    if (permission === 'serial' && details.securityOrigin === 'file:///') {
+    if (permission === 'serial' && details.securityOrigin === 'file:// /‘){。
       return true
     }
   })
 
   mainWindow.webContents.session.setDevicePermissionHandler((details) => {
-    if (details.deviceType === 'serial' && details.origin === 'file://') {
+    if (details.deviceType === 'serial' && details.origin === 'file:// ‘){
       return true
     }
   })

@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_EVENT_EMITTER_CALLER_H_
 #define SHELL_COMMON_GIN_HELPER_EVENT_EMITTER_CALLER_H_
@@ -22,10 +22,10 @@ v8::Local<v8::Value> CallMethodWithArgs(v8::Isolate* isolate,
                                         const char* method,
                                         ValueVector* args);
 
-}  // namespace internal
+}  // 命名空间内部。
 
-// obj.emit.apply(obj, name, args...);
-// The caller is responsible of allocating a HandleScope.
+// Obj.emit.Apply(obj，name，args...)；
+// 调用方负责分配HandleScope。
 template <typename StringType>
 v8::Local<v8::Value> EmitEvent(v8::Isolate* isolate,
                                v8::Local<v8::Object> obj,
@@ -37,8 +37,8 @@ v8::Local<v8::Value> EmitEvent(v8::Isolate* isolate,
   return internal::CallMethodWithArgs(isolate, obj, "emit", &concatenated_args);
 }
 
-// obj.emit(name, args...);
-// The caller is responsible of allocating a HandleScope.
+// Obj.emit(名称，参数...)；
+// 调用方负责分配HandleScope。
 template <typename StringType, typename... Args>
 v8::Local<v8::Value> EmitEvent(v8::Isolate* isolate,
                                v8::Local<v8::Object> obj,
@@ -51,7 +51,7 @@ v8::Local<v8::Value> EmitEvent(v8::Isolate* isolate,
   return internal::CallMethodWithArgs(isolate, obj, "emit", &converted_args);
 }
 
-// obj.custom_emit(args...)
+// Obj.customemit(args...)。
 template <typename... Args>
 v8::Local<v8::Value> CustomEmit(v8::Isolate* isolate,
                                 v8::Local<v8::Object> object,
@@ -86,6 +86,6 @@ v8::Local<v8::Value> CallMethod(gin::Wrappable<T>* object,
   return CallMethod(isolate, object, method_name, std::forward<Args>(args)...);
 }
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 #endif  // SHELL_COMMON_GIN_HELPER_EVENT_EMITTER_CALLER_H_

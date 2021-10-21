@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_SERIAL_SERIAL_CHOOSER_CONTROLLER_H_
 #define SHELL_BROWSER_SERIAL_SERIAL_CHOOSER_CONTROLLER_H_
@@ -28,7 +28,7 @@ namespace electron {
 
 class ElectronSerialDelegate;
 
-// SerialChooserController provides data for the Serial API permission prompt.
+// SerialChooserController为Serial API权限提示提供数据。
 class SerialChooserController final : public SerialChooserContext::PortObserver,
                                       public content::WebContentsObserver {
  public:
@@ -40,7 +40,7 @@ class SerialChooserController final : public SerialChooserContext::PortObserver,
       base::WeakPtr<ElectronSerialDelegate> serial_delegate);
   ~SerialChooserController() override;
 
-  // SerialChooserContext::PortObserver:
+  // SerialChooserContext：：PortWatch：
   void OnPortAdded(const device::mojom::SerialPortInfo& port) override;
   void OnPortRemoved(const device::mojom::SerialPortInfo& port) override;
   void OnPortManagerConnectionError() override {}
@@ -69,6 +69,6 @@ class SerialChooserController final : public SerialChooserContext::PortObserver,
   DISALLOW_COPY_AND_ASSIGN(SerialChooserController);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_SERIAL_SERIAL_CHOOSER_CONTROLLER_H_

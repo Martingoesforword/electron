@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_URL_LOADER_H_
 #define SHELL_BROWSER_API_ELECTRON_API_URL_LOADER_H_
@@ -26,18 +26,18 @@ namespace gin {
 class Arguments;
 template <typename T>
 class Handle;
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace network {
 class SimpleURLLoader;
 struct ResourceRequest;
-}  // namespace network
+}  // 命名空间网络。
 
 namespace electron {
 
 namespace api {
 
-/** Wraps a SimpleURLLoader to make it usable from JavaScript */
+/* *包装SimpleURLLoader以使其可从JavaScript使用。*/
 class SimpleURLLoaderWrapper
     : public gin::Wrappable<SimpleURLLoaderWrapper>,
       public gin_helper::EventEmitterMixin<SimpleURLLoaderWrapper>,
@@ -49,7 +49,7 @@ class SimpleURLLoaderWrapper
 
   void Cancel();
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -60,13 +60,13 @@ class SimpleURLLoaderWrapper
                          network::mojom::URLLoaderFactory* url_loader_factory,
                          int options);
 
-  // SimpleURLLoaderStreamConsumer:
+  // SimpleURLLoaderStreamConsumer：
   void OnDataReceived(base::StringPiece string_piece,
                       base::OnceClosure resume) override;
   void OnComplete(bool success) override;
   void OnRetry(base::OnceClosure start_retry) override;
 
-  // network::mojom::URLLoaderNetworkServiceObserver:
+  // Network：：mojom：：URLLoaderNetworkServiceObserver：
   void OnAuthRequired(
       const absl::optional<base::UnguessableToken>& window_id,
       uint32_t request_id,
@@ -99,7 +99,7 @@ class SimpleURLLoaderWrapper
       mojo::PendingReceiver<network::mojom::URLLoaderNetworkServiceObserver>
           observer) override;
 
-  // SimpleURLLoader callbacks
+  // SimpleURLLoader回调。
   void OnResponseStarted(const GURL& final_url,
                          const network::mojom::URLResponseHead& response_head);
   void OnRedirect(const net::RedirectInfo& redirect_info,
@@ -121,8 +121,8 @@ class SimpleURLLoaderWrapper
   base::WeakPtrFactory<SimpleURLLoaderWrapper> weak_factory_{this};
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_API_ELECTRON_API_URL_LOADER_H_
+#endif  // Shell_Browser_API_Electronics_API_URL_Loader_H_

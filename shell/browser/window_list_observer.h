@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_WINDOW_LIST_OBSERVER_H_
 #define SHELL_BROWSER_WINDOW_LIST_OBSERVER_H_
@@ -13,22 +13,22 @@ class NativeWindow;
 
 class WindowListObserver : public base::CheckedObserver {
  public:
-  // Called immediately after a window is added to the list.
+  // 在将窗口添加到列表后立即调用。
   virtual void OnWindowAdded(NativeWindow* window) {}
 
-  // Called immediately after a window is removed from the list.
+  // 在窗口从列表中移除后立即调用。
   virtual void OnWindowRemoved(NativeWindow* window) {}
 
-  // Called when a window close is cancelled by beforeunload handler.
+  // 当bepreunload处理程序取消窗口关闭时调用。
   virtual void OnWindowCloseCancelled(NativeWindow* window) {}
 
-  // Called immediately after all windows are closed.
+  // 在所有窗口关闭后立即调用。
   virtual void OnWindowAllClosed() {}
 
  protected:
   ~WindowListObserver() override {}
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_WINDOW_LIST_OBSERVER_H_
+#endif  // Shell_Browser_Window_List_Observator_H_

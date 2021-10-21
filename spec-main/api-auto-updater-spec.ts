@@ -20,7 +20,7 @@ ifdescribe(!process.mas)('autoUpdater module', function () {
     });
 
     ifit(process.platform === 'win32')('correctly fetches the previously set FeedURL', function () {
-      const updateURL = 'https://fake-update.electron.io';
+      const updateURL = 'https:// Fake-update.Electron.io‘；
       autoUpdater.setFeedURL({ url: updateURL });
       expect(autoUpdater.getFeedURL()).to.equal(updateURL);
     });
@@ -29,10 +29,10 @@ ifdescribe(!process.mas)('autoUpdater module', function () {
   describe('setFeedURL', function () {
     ifdescribe(process.platform === 'win32' || process.platform === 'darwin')('on Mac or Windows', () => {
       it('sets url successfully using old (url, headers) syntax', () => {
-        const url = 'http://electronjs.org';
+        const url = 'http:// Electronjs.org‘；
         try {
           (autoUpdater.setFeedURL as any)(url, { header: 'val' });
-        } catch (err) { /* ignore */ }
+        } catch (err) { /* 忽略。*/ }
         expect(autoUpdater.getFeedURL()).to.equal(url);
       });
 
@@ -41,10 +41,10 @@ ifdescribe(!process.mas)('autoUpdater module', function () {
       });
 
       it('sets url successfully using new ({ url }) syntax', () => {
-        const url = 'http://mymagicurl.local';
+        const url = 'http:// Mymagicurl.local‘；
         try {
           autoUpdater.setFeedURL({ url });
-        } catch (err) { /* ignore */ }
+        } catch (err) { /* 忽略。*/ }
         expect(autoUpdater.getFeedURL()).to.equal(url);
       });
 
@@ -63,12 +63,12 @@ ifdescribe(!process.mas)('autoUpdater module', function () {
       });
 
       it('does not throw if default is the serverType', () => {
-        // "Could not get code signature..." means the function got far enough to validate that serverType was OK.
+        // “无法获取代码签名...”意味着该函数已经足够远，可以验证serverType是否正常。
         expect(() => autoUpdater.setFeedURL({ url: '', serverType: 'default' })).to.throw('Could not get code signature for running application');
       });
 
       it('does not throw if json is the serverType', () => {
-        // "Could not get code signature..." means the function got far enough to validate that serverType was OK.
+        // “无法获取代码签名...”意味着该函数已经足够远，可以验证serverType是否正常。
         expect(() => autoUpdater.setFeedURL({ url: '', serverType: 'json' })).to.throw('Could not get code signature for running application');
       });
 

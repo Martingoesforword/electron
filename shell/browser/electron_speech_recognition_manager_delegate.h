@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_ELECTRON_SPEECH_RECOGNITION_MANAGER_DELEGATE_H_
 #define SHELL_BROWSER_ELECTRON_SPEECH_RECOGNITION_MANAGER_DELEGATE_H_
@@ -20,7 +20,7 @@ class ElectronSpeechRecognitionManagerDelegate
   ElectronSpeechRecognitionManagerDelegate();
   ~ElectronSpeechRecognitionManagerDelegate() override;
 
-  // content::SpeechRecognitionEventListener:
+  // 内容：：SpeechRecognitionEventListener：
   void OnRecognitionStart(int session_id) override;
   void OnAudioStart(int session_id) override;
   void OnEnvironmentEstimationComplete(int session_id) override;
@@ -38,7 +38,7 @@ class ElectronSpeechRecognitionManagerDelegate
                            float volume,
                            float noise_volume) override;
 
-  // content::SpeechRecognitionManagerDelegate:
+  // 内容：：SpeechRecognitionManagerDelegate：
   void CheckRecognitionIsAllowed(
       int session_id,
       base::OnceCallback<void(bool ask_user, bool is_allowed)> callback)
@@ -50,6 +50,6 @@ class ElectronSpeechRecognitionManagerDelegate
   DISALLOW_COPY_AND_ASSIGN(ElectronSpeechRecognitionManagerDelegate);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_ELECTRON_SPEECH_RECOGNITION_MANAGER_DELEGATE_H_

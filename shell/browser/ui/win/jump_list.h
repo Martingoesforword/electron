@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_UI_WIN_JUMP_LIST_H_
 #define SHELL_BROWSER_UI_WIN_JUMP_LIST_H_
@@ -16,35 +16,35 @@ namespace electron {
 
 enum class JumpListResult : int {
   kSuccess = 0,
-  // In JS code this error will manifest as an exception.
+  // 在JS代码中，此错误将显示为异常。
   kArgumentError = 1,
-  // Generic error, the runtime logs may provide some clues.
+  // 一般错误，运行时日志可能会提供一些线索。
   kGenericError = 2,
-  // Custom categories can't contain separators.
+  // 自定义类别不能包含分隔符。
   kCustomCategorySeparatorError = 3,
-  // The app isn't registered to handle a file type found in a custom category.
+  // 该应用程序未注册为处理在自定义类别中找到的文件类型。
   kMissingFileTypeRegistrationError = 4,
-  // Custom categories can't be created due to user privacy settings.
+  // 由于用户隐私设置，无法创建自定义类别。
   kCustomCategoryAccessDeniedError = 5,
 };
 
 struct JumpListItem {
   enum class Type {
-    // A task will launch an app (usually the one that created the Jump List)
-    // with specific arguments.
+    // 任务将启动一个应用程序(通常是创建跳转列表的应用程序)。
+    // 带着特定的论据。
     kTask,
-    // Separators can only be inserted between items in the standard Tasks
-    // category, they can't appear in custom categories.
+    // 分隔符只能插入标准任务中的项目之间。
+    // 类别，则它们不能出现在自定义类别中。
     kSeparator,
-    // A file link will open a file using the app that created the Jump List,
-    // for this to work the app must be registered as a handler for the file
-    // type (though the app doesn't have to be the default handler).
+    // 文件链接将使用创建跳转列表的应用程序打开文件，
+    // 要进行此操作，必须将应用程序注册为该文件的处理程序。
+    // 输入(尽管应用程序不必是默认处理程序)。
     kFile
   };
 
   Type type = Type::kTask;
-  // For tasks this is the path to the program executable, for file links this
-  // is the full filename.
+  // 对于任务，这是程序可执行文件的路径；对于文件链接，这是。
+  // 是完整的文件名。
   base::FilePath path;
   std::wstring arguments;
   std::wstring title;
@@ -60,15 +60,15 @@ struct JumpListItem {
 
 struct JumpListCategory {
   enum class Type {
-    // A custom category can contain tasks and files, but not separators.
+    // 自定义类别可以包含任务和文件，但不能包含分隔符。
     kCustom,
-    // Frequent/Recent categories are managed by the OS, their name and items
-    // can't be set by the app (though items can be set indirectly).
+    // 频繁/最近的类别由操作系统、其名称和项目进行管理。
+    // 不能由应用程序设置(但可以间接设置项目)。
     kFrequent,
     kRecent,
-    // The standard Tasks category can't be renamed by the app, but the app
-    // can set the items that should appear in this category, and those items
-    // can include tasks, files, and separators.
+    // 应用程序无法重命名标准任务类别，但应用程序。
+    // 可以设置应该出现在此类别中的项目，以及那些项目。
+    // 可以包括任务、文件和分隔符。
     kTasks
   };
 
@@ -81,32 +81,32 @@ struct JumpListCategory {
   ~JumpListCategory();
 };
 
-// Creates or removes a custom Jump List for an app.
-// See https://msdn.microsoft.com/en-us/library/windows/desktop/gg281362.aspx
+// 创建或删除应用程序的自定义跳转列表。
+// 请参阅https://msdn.microsoft.com/en-us/library/windows/desktop/gg281362.aspx。
 class JumpList {
  public:
-  // |app_id| must be the Application User Model ID of the app for which the
-  // custom Jump List should be created/removed, it's usually obtained by
-  // calling GetCurrentProcessExplicitAppUserModelID().
+  // |app_id|必须是应用的应用用户型号ID。
+  // 自定义跳转列表应创建/删除，通常通过以下方式获取。
+  // 正在调用GetCurrentProcessExplitAppUserModelID()。
   explicit JumpList(const std::wstring& app_id);
   ~JumpList();
 
-  // Starts a new transaction, must be called before appending any categories,
-  // aborting or committing. After the method returns |min_items| will indicate
-  // the minimum number of items that will be displayed in the Jump List, and
-  // |removed_items| (if not null) will contain all the items the user has
-  // unpinned from the Jump List. Both parameters are optional.
+  // 启动新事务，必须在追加任何类别之前调用，
+  // 放弃或提交。方法返回后|MIN_ITEMS|将指示。
+  // 将在跳转列表中显示的最小项目数，以及。
+  // |REMOVERED_ITEMS|(如果不为空)将包含用户拥有的所有项目。
+  // 从跳转列表中取消固定。这两个参数都是可选的。
   bool Begin(int* min_items = nullptr,
              std::vector<JumpListItem>* removed_items = nullptr);
-  // Abandons any changes queued up since Begin() was called.
+  // 放弃自调用Begin()以来排队的所有更改。
   bool Abort();
-  // Commits any changes queued up since Begin() was called.
+  // 提交自调用Begin()以来排队的所有更改。
   bool Commit();
-  // Deletes the custom Jump List and restores the default Jump List.
+  // 删除自定义跳转列表并恢复默认跳转列表。
   bool Delete();
-  // Appends a category to the custom Jump List.
+  // 将类别追加到自定义跳转列表。
   JumpListResult AppendCategory(const JumpListCategory& category);
-  // Appends categories to the custom Jump List.
+  // 将类别追加到自定义跳转列表。
   JumpListResult AppendCategories(
       const std::vector<JumpListCategory>& categories);
 
@@ -117,6 +117,6 @@ class JumpList {
   DISALLOW_COPY_AND_ASSIGN(JumpList);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_UI_WIN_JUMP_LIST_H_
+#endif  // Shell_Browser_UI_WIN_JUMP_LIST_H_

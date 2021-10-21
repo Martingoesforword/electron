@@ -21,7 +21,7 @@ const nextTick = (functionToCall: Function, args: any[] = []) => {
   process.nextTick(() => functionToCall(...args));
 };
 
-// Cache asar archive objects.
+// 缓存asar存档对象。
 const cachedArchives = new Map<string, NodeJS.AsarArchive>();
 
 const getOrCreateArchive = (archivePath: string) => {
@@ -39,12 +39,12 @@ const getOrCreateArchive = (archivePath: string) => {
 
 const asarRe = /\.asar/i;
 
-// Separate asar package's path from full path.
+// 将asar包的路径与完整路径分开。
 const splitPath = (archivePathOrBuffer: string | Buffer) => {
-  // Shortcut for disabled asar.
+  // 禁用ASAR的快捷方式。
   if (isAsarDisabled()) return { isAsar: <const>false };
 
-  // Check for a bad argument type.
+  // 检查参数类型是否错误。
   let archivePath = archivePathOrBuffer;
   if (Buffer.isBuffer(archivePathOrBuffer)) {
     archivePath = archivePathOrBuffer.toString();
@@ -55,7 +55,7 @@ const splitPath = (archivePathOrBuffer: string | Buffer) => {
   return asar.splitPath(path.normalize(archivePath));
 };
 
-// Convert asar archive's Stats object to fs's Stats object.
+// 将asar存档的Stats对象转换为fs的Stats对象。
 let nextInode = 0;
 
 const uid = process.getuid != null ? process.getuid() : 0;
@@ -77,20 +77,20 @@ const asarStatsToFsStats = function (stats: NodeJS.AsarFileStat) {
   }
 
   return new Stats(
-    1, // dev
-    mode, // mode
-    1, // nlink
+    1, // 发展。
+    mode, // 模式。
+    1, // NLink。
     uid,
     gid,
-    0, // rdev
-    undefined, // blksize
-    ++nextInode, // ino
+    0, // Rdev。
+    undefined, // 块大小。
+    ++nextInode, // Ino。
     stats.size,
-    undefined, // blocks,
-    fakeTime.getTime(), // atim_msec
-    fakeTime.getTime(), // mtim_msec
-    fakeTime.getTime(), // ctim_msec
-    fakeTime.getTime() // birthtim_msec
+    undefined, // 区块，
+    fakeTime.getTime(), // 时间_毫秒。
+    fakeTime.getTime(), // MTIM_毫秒。
+    fakeTime.getTime(), // CTIM_毫秒。
+    fakeTime.getTime() // 出生时间_毫秒。
   );
 };
 
@@ -199,8 +199,8 @@ let crypto: typeof Crypto;
 function validateBufferIntegrity (buffer: Buffer, integrity: NodeJS.AsarFileInfo['integrity']) {
   if (!integrity) return;
 
-  // Delay load crypto to improve app boot performance
-  // when integrity protection is not enabled
+  // 延迟加载加密以提高应用程序引导性能。
+  // 未启用完整性保护时。
   crypto = crypto || require('crypto');
   const actual = crypto.createHash(integrity.algorithm).update(buffer).digest('hex');
   if (actual !== integrity.hash) {
@@ -231,7 +231,7 @@ const makePromiseFunction = function (orig: Function, pathArgumentIndex: number)
   };
 };
 
-// Override fs APIs.
+// 覆盖文件系统API。
 export const wrapFsWithAsar = (fs: Record<string, any>) => {
   const logFDs = new Map<string, number>();
   const logASARAccess = (asarPath: string, filePath: string, offset: number) => {
@@ -295,7 +295,7 @@ export const wrapFsWithAsar = (fs: Record<string, any>) => {
     const { isAsar } = splitPath(pathArgument);
     if (!isAsar) return statSync(pathArgument, options);
 
-    // Do not distinguish links for now.
+    // 暂时不区分链接。
     return fs.lstatSync(pathArgument, options);
   };
 
@@ -308,7 +308,7 @@ export const wrapFsWithAsar = (fs: Record<string, any>) => {
     }
     if (!isAsar) return stat(pathArgument, options, callback);
 
-    // Do not distinguish links for now.
+    // 暂时不区分链接。
     process.nextTick(() => fs.lstat(pathArgument, options, callback));
   };
 
@@ -572,7 +572,7 @@ export const wrapFsWithAsar = (fs: Record<string, any>) => {
   };
 
   const { readFile: readFilePromise } = fs.promises;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // Eslint-disable-next-line@tyescript-eslint/no-unuse-vars。
   fs.promises.readFile = function (pathArgument: string, options: any) {
     const pathInfo = splitPath(pathArgument);
     if (!pathInfo.isAsar) {
@@ -746,19 +746,19 @@ export const wrapFsWithAsar = (fs: Record<string, any>) => {
     if (!pathInfo.isAsar) return internalModuleStat(pathArgument);
     const { asarPath, filePath } = pathInfo;
 
-    // -ENOENT
+    // -ENOENT。
     const archive = getOrCreateArchive(asarPath);
     if (!archive) return -34;
 
-    // -ENOENT
+    // -ENOENT。
     const stats = archive.stat(filePath);
     if (!stats) return -34;
 
     return (stats.isDirectory) ? 1 : 0;
   };
 
-  // Calling mkdir for directory inside asar archive should throw ENOTDIR
-  // error, but on Windows it throws ENOENT.
+  // 为asar存档内的目录调用mkdir应引发ENOTDIR。
+  // 错误，但在Windows上它抛出ENOENT。
   if (process.platform === 'win32') {
     const { mkdir } = fs;
     fs.mkdir = (pathArgument: string, options: any, callback: any) => {
@@ -799,9 +799,9 @@ export const wrapFsWithAsar = (fs: Record<string, any>) => {
     };
   }
 
-  // Strictly implementing the flags of fs.copyFile is hard, just do a simple
-  // implementation for now. Doing 2 copies won't spend much time more as OS
-  // has filesystem caching.
+  // 严格实现fs.copy File的标志是很困难的，只需执行一个简单的。
+  // 暂时实施。复制2份不会花太多时间作为操作系统。
+  // 具有文件系统缓存。
   overrideAPI(fs, 'copyFile');
   overrideAPISync(fs, 'copyFileSync');
 
@@ -811,10 +811,10 @@ export const wrapFsWithAsar = (fs: Record<string, any>) => {
   overrideAPISync(fs, 'openSync');
 
   const overrideChildProcess = (childProcess: Record<string, any>) => {
-    // Executing a command string containing a path to an asar archive
-    // confuses `childProcess.execFile`, which is internally called by
-    // `childProcess.{exec,execSync}`, causing Electron to consider the full
-    // command as a single path to an archive.
+    // 执行包含ASAR存档路径的命令字符串。
+    // 混淆了由内部调用的`Child Process.execFile`。
+    // `Child Process.{exec，execSync}`，导致Electron考虑完整的。
+    // 命令作为归档的单个路径。
     const { exec, execSync } = childProcess;
     childProcess.exec = invokeWithNoAsar(exec);
     childProcess.exec[util.promisify.custom] = invokeWithNoAsar(exec[util.promisify.custom]);
@@ -826,11 +826,11 @@ export const wrapFsWithAsar = (fs: Record<string, any>) => {
 
   const asarReady = new WeakSet();
 
-  // Lazily override the child_process APIs only when child_process is
-  // fetched the first time.  We will eagerly override the child_process APIs
-  // when this env var is set so that stack traces generated inside node unit
-  // tests will match. This env var will only slow things down in users apps
-  // and should not be used.
+  // 仅当Child_process为。
+  // 第一次取回。我们将急切地覆盖Child_Process API。
+  // 当此env var设置为在节点单元内部生成堆栈跟踪时。
+  // 化验结果会匹配的。此env var只会降低用户应用程序的运行速度。
+  // 不应该使用。
   if (process.env.ELECTRON_EAGER_ASAR_HOOK_FOR_TESTING) {
     overrideChildProcess(require('child_process'));
   } else {
@@ -840,7 +840,7 @@ export const wrapFsWithAsar = (fs: Record<string, any>) => {
       if (request === 'child_process') {
         if (!asarReady.has(loadResult)) {
           asarReady.add(loadResult);
-          // Just to make it obvious what we are dealing with here
+          // 只是为了让我们在这里处理的事情变得显而易见
           const childProcess = loadResult;
 
           overrideChildProcess(childProcess);

@@ -1,6 +1,6 @@
-// Copyright (c) 2020 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_CONVERTERS_GUID_CONVERTER_H_
 #define SHELL_COMMON_GIN_CONVERTERS_GUID_CONVERTER_H_
@@ -10,11 +10,11 @@
 #include "gin/converter.h"
 
 #if defined(OS_WIN)
-// c.f.:
-// https://chromium-review.googlesource.com/c/chromium/src/+/3076480
-// REFGUID is currently incorrectly inheriting its type
-// from base::GUID, when it should be inheriting from ::GUID.
-// This workaround prevents build errors until the CL is merged
+// C.F.：
+// Https://chromium-review.googlesource.com/c/chromium/src/+/3076480。
+// REFGUID当前错误地继承其类型。
+// 当它应该从：：GUID继承时，从base：：GUID返回。
+// 此解决方法可防止在合并CL之前出现生成错误。
 #ifdef _REFGUID_DEFINED
 #undef REFGUID
 #endif
@@ -81,6 +81,6 @@ struct Converter<UUID> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
-#endif  // SHELL_COMMON_GIN_CONVERTERS_GUID_CONVERTER_H_
+#endif  // Shell_COMMON_GIN_CONVERTERS_GUID_CONFERTER_H_

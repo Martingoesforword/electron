@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_COOKIE_CHANGE_NOTIFIER_H_
 #define SHELL_BROWSER_COOKIE_CHANGE_NOTIFIER_H_
@@ -15,13 +15,13 @@ namespace electron {
 
 class ElectronBrowserContext;
 
-// Sends cookie-change notifications on the UI thread.
+// 在UI线程上发送Cookie更改通知。
 class CookieChangeNotifier : public network::mojom::CookieChangeListener {
  public:
   explicit CookieChangeNotifier(ElectronBrowserContext* browser_context);
   ~CookieChangeNotifier() override;
 
-  // Register callbacks that needs to notified on any cookie store changes.
+  // 注册需要在任何Cookie存储更改时通知的回调。
   base::CallbackListSubscription RegisterCookieChangeCallback(
       const base::RepeatingCallback<void(const net::CookieChangeInfo& change)>&
           cb);
@@ -30,7 +30,7 @@ class CookieChangeNotifier : public network::mojom::CookieChangeListener {
   void StartListening();
   void OnConnectionError();
 
-  // network::mojom::CookieChangeListener implementation.
+  // Network：：mojom：：CookieChangeListener实现。
   void OnCookieChange(const net::CookieChangeInfo& change) override;
 
   ElectronBrowserContext* browser_context_;
@@ -42,6 +42,6 @@ class CookieChangeNotifier : public network::mojom::CookieChangeListener {
   DISALLOW_COPY_AND_ASSIGN(CookieChangeNotifier);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_COOKIE_CHANGE_NOTIFIER_H_
+#endif  // Shell_Browser_Cookie_Change_Notifier_H_

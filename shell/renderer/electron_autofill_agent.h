@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_RENDERER_ELECTRON_AUTOFILL_AGENT_H_
 #define SHELL_RENDERER_ELECTRON_AUTOFILL_AGENT_H_
@@ -32,7 +32,7 @@ class AutofillAgent : public content::RenderFrameObserver,
   void BindReceiver(
       mojo::PendingAssociatedReceiver<mojom::ElectronAutofillAgent> receiver);
 
-  // content::RenderFrameObserver:
+  // 内容：：RenderFrameWatch：
   void OnDestruct() override;
 
   void DidChangeScrollOffset() override;
@@ -48,7 +48,7 @@ class AutofillAgent : public content::RenderFrameObserver,
     bool requires_caret_at_end;
   };
 
-  // blink::WebAutofillClient:
+  // BLINK：：WebAutofulClient：
   void TextFieldDidEndEditing(const blink::WebInputElement&) override;
   void TextFieldDidChange(const blink::WebFormControlElement&) override;
   void TextFieldDidChangeImpl(const blink::WebFormControlElement&);
@@ -57,7 +57,7 @@ class AutofillAgent : public content::RenderFrameObserver,
   void OpenTextDataListChooser(const blink::WebInputElement&) override;
   void DataListOptionsChanged(const blink::WebInputElement&) override;
 
-  // mojom::ElectronAutofillAgent
+  // Mojom：：电子自动填充剂。
   void AcceptDataListSuggestion(const std::u16string& suggestion) override;
 
   bool IsUserGesture() const;
@@ -74,12 +74,12 @@ class AutofillAgent : public content::RenderFrameObserver,
   GetAutofillDriver();
   mojo::AssociatedRemote<mojom::ElectronAutofillDriver> autofill_driver_;
 
-  // True when the last click was on the focused node.
+  // 上次单击焦点节点时为True。
   bool focused_node_was_last_clicked_ = false;
 
-  // This is set to false when the focus changes, then set back to true soon
-  // afterwards. This helps track whether an event happened after a node was
-  // already focused, or if it caused the focus to change.
+  // 当焦点改变时，它被设置为False，然后很快又被设置回True。
+  // 之后。这有助于跟踪事件是否在节点。
+  // 是否已经聚焦，或者是否导致焦点改变。
   bool was_focused_before_now_ = false;
 
   mojo::AssociatedReceiver<mojom::ElectronAutofillAgent> receiver_{this};
@@ -89,6 +89,6 @@ class AutofillAgent : public content::RenderFrameObserver,
   DISALLOW_COPY_AND_ASSIGN(AutofillAgent);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_RENDERER_ELECTRON_AUTOFILL_AGENT_H_
+#endif  // 外壳渲染器电子自动填充代理H_

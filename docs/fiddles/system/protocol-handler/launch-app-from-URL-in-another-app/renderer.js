@@ -1,8 +1,8 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All APIs exposed by the context bridge are available here.
+// 该文件是index.html文件所需的，它将。
+// 在该窗口的呈现器进程中执行。
+// 所有由上下文桥公开的API都可以在这里获得。
 
-// Binds the buttons to the context bridge API.
+// 将按钮绑定到上下文桥API。
 document.getElementById('open-in-browser').addEventListener('click', () => {
   shell.open();
 });

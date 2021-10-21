@@ -18,7 +18,7 @@ describe('nativeTheme module', () => {
   describe('nativeTheme.themeSource', () => {
     afterEach(async () => {
       nativeTheme.themeSource = 'system';
-      // Wait for any pending events to emit
+      // 等待发出任何挂起的事件。
       await delay(20);
 
       closeAllWindows();
@@ -46,14 +46,14 @@ describe('nativeTheme module', () => {
 
     it('should not emit the "updated" event when it is set and the resulting "shouldUseDarkColors" value is the same', async () => {
       nativeTheme.themeSource = 'dark';
-      // Wait a few ticks to allow an async events to flush
+      // 请稍等片刻，以允许刷新异步事件。
       await delay(20);
       let called = false;
       nativeTheme.once('updated', () => {
         called = true;
       });
       nativeTheme.themeSource = 'dark';
-      // Wait a few ticks to allow an async events to flush
+      // 请稍等片刻，以允许刷新异步事件
       await delay(20);
       expect(called).to.equal(false);
     });

@@ -15,14 +15,14 @@ const fixtures = path.join(__dirname, 'fixtures');
 describe('chrome extensions', () => {
   const emptyPage = '<script>console.log("loaded")</script>';
 
-  // NB. extensions are only allowed on http://, https:// and ftp:// (!) urls by default.
+  // 注意：仅在http://，https：//和ftp：//(！)上允许扩展。默认情况下，URL。
   let server: http.Server;
   let url: string;
   let port: string;
   before(async () => {
     server = http.createServer((req, res) => {
       if (req.url === '/cors') {
-        res.setHeader('Access-Control-Allow-Origin', 'http://example.com');
+        res.setHeader('Access-Control-Allow-Origin', 'http:// Example.com‘)；
       }
       res.end(emptyPage);
     });
@@ -38,7 +38,7 @@ describe('chrome extensions', () => {
 
     await new Promise<void>(resolve => server.listen(0, '127.0.0.1', () => {
       port = String((server.address() as AddressInfo).port);
-      url = `http://127.0.0.1:${port}`;
+      url = `http:// 127.0.0.1：${port}`；
       resolve();
     }));
   });
@@ -97,10 +97,10 @@ describe('chrome extensions', () => {
   });
 
   it('loads an extension', async () => {
-    // NB. we have to use a persist: session (i.e. non-OTR) because the
-    // extension registry is redirected to the main session. so installing an
-    // extension in an in-memory session results in it being installed in the
-    // default session.
+    // 注意：我们必须使用Persistent：Session(即非OTR)，因为。
+    // 扩展注册表重定向到主会话。因此，安装。
+    // 内存会话中的扩展会导致将其安装在。
+    // 默认会话。
     const customSession = session.fromPartition(`persist:${uuid.v4()}`);
     await customSession.loadExtension(path.join(fixtures, 'extensions', 'red-bg'));
     const w = new BrowserWindow({ show: false, webPreferences: { session: customSession } });
@@ -182,7 +182,7 @@ describe('chrome extensions', () => {
   it('confines an extension to the session it was loaded in', async () => {
     const customSession = session.fromPartition(`persist:${uuid.v4()}`);
     await customSession.loadExtension(path.join(fixtures, 'extensions', 'red-bg'));
-    const w = new BrowserWindow({ show: false }); // not in the session
+    const w = new BrowserWindow({ show: false }); // 不在会话中。
     await w.loadURL(url);
     const bg = await w.webContents.executeJavaScript('document.documentElement.style.backgroundColor');
     expect(bg).to.equal('');
@@ -328,7 +328,7 @@ describe('chrome extensions', () => {
         await w.loadFile(path.join(fixtures, 'api', 'webrequest.html'), { query: { port } });
         await customSession.loadExtension(path.join(fixtures, 'extensions', 'chrome-webRequest-wss'));
         customSession.webRequest.onSendHeaders((details) => {
-          if (details.url.startsWith('ws://')) {
+          if (details.url.startsWith('ws:// ‘)){。
             expect(details.requestHeaders.foo).be.equal('bar');
           }
         });
@@ -428,7 +428,7 @@ describe('chrome extensions', () => {
       const customSession = session.fromPartition(`persist:${uuid.v4()}`);
       const { id } = await customSession.loadExtension(path.join(fixtures, 'extensions', 'lazy-background-page'));
       const w = new BrowserWindow({ show: false, webPreferences: { session: customSession } });
-      await w.loadURL(`chrome-extension://${id}/page-get-background.html`);
+      await w.loadURL(`chrome-extension:// ${id}/page-get-backround.html`)；
       const receivedMessage = await w.webContents.executeJavaScript('window.completionPromise');
       expect(receivedMessage).to.deep.equal({ some: 'message' });
     });
@@ -437,7 +437,7 @@ describe('chrome extensions', () => {
       const customSession = session.fromPartition(`persist:${uuid.v4()}`);
       const { id } = await customSession.loadExtension(path.join(fixtures, 'extensions', 'lazy-background-page'));
       const w = new BrowserWindow({ show: false, webPreferences: { session: customSession } });
-      await w.loadURL(`chrome-extension://${id}/page-get-background.html`);
+      await w.loadURL(`chrome-extension:// ${id}/page-get-backround.html`)；
       const receivedMessage = await w.webContents.executeJavaScript('window.completionPromise');
       expect(receivedMessage).to.deep.equal({ some: 'message' });
     });
@@ -446,7 +446,7 @@ describe('chrome extensions', () => {
       const customSession = session.fromPartition(`persist:${uuid.v4()}`);
       const { id } = await customSession.loadExtension(path.join(fixtures, 'extensions', 'lazy-background-page'));
       const w = new BrowserWindow({ show: false, webPreferences: { session: customSession } });
-      await w.loadURL(`chrome-extension://${id}/page-runtime-get-background.html`);
+      await w.loadURL(`chrome-extension:// ${id}/page-run-get-backround.html`)；
       const receivedMessage = await w.webContents.executeJavaScript('window.completionPromise');
       expect(receivedMessage).to.deep.equal({ some: 'message' });
     });
@@ -458,7 +458,7 @@ describe('chrome extensions', () => {
       const [, bgPageContents] = await promise;
       expect(bgPageContents.getType()).to.equal('backgroundPage');
       await emittedOnce(bgPageContents, 'did-finish-load');
-      expect(bgPageContents.getURL()).to.equal(`chrome-extension://${id}/_generated_background_page.html`);
+      expect(bgPageContents.getURL()).to.equal(`chrome-extension:// ${id}/_Generated_Background_page.html`)；
       expect(bgPageContents.session).to.not.equal(undefined);
     });
 
@@ -488,7 +488,7 @@ describe('chrome extensions', () => {
           }
 
           const showLastPanel = () => {
-            // this is executed in the devtools context, where UI is a global
+            // 这是在DevTools上下文中执行的，其中UI是全局。
             const { UI } = (window as any);
             const tabs = UI.inspectorView.tabbedPane.tabs;
             const lastPanelId = tabs[tabs.length - 1].id;
@@ -585,12 +585,12 @@ describe('chrome extensions', () => {
           });
         });
 
-        // TODO(nornagon): real extensions don't load on file: urls, so this
-        // test needs to be updated to serve its content over http.
+        // TODO(Nornagon)：真正的扩展名不会加载到file：urls上，所以这是。
+        // 测试需要更新以通过http提供其内容。
         describe.skip('supports "all_frames" option', () => {
           const contentScript = path.resolve(fixtures, 'extensions/content-script');
 
-          // Computed style values
+          // 计算的样式值。
           const COLOR_RED = 'rgb(255, 0, 0)';
           const COLOR_BLUE = 'rgb(0, 0, 255)';
           const COLOR_TRANSPARENT = 'rgba(0, 0, 0, 0)';
@@ -607,7 +607,7 @@ describe('chrome extensions', () => {
             w = new BrowserWindow({
               show: false,
               webPreferences: {
-                // enable content script injection in subframes
+                // 在子帧中启用内容脚本插入。
                 nodeIntegrationInSubFrames: true,
                 preload: path.join(contentScript, 'all_frames-preload.js')
               }
@@ -643,7 +643,7 @@ describe('chrome extensions', () => {
                 if (isMainFrame) {
                   expect(result.disabledColor).to.equal(COLOR_BLUE);
                 } else {
-                  expect(result.disabledColor).to.equal(COLOR_TRANSPARENT); // null color
+                  expect(result.disabledColor).to.equal(COLOR_TRANSPARENT); // 空颜色。
                 }
               })
             );
@@ -668,7 +668,7 @@ describe('chrome extensions', () => {
     it('loads a ui page of an extension', async () => {
       const { id } = await session.defaultSession.loadExtension(path.join(fixtures, 'extensions', 'ui-page'));
       const w = new BrowserWindow({ show: false });
-      await w.loadURL(`chrome-extension://${id}/bare-page.html`);
+      await w.loadURL(`chrome-extension:// ${id}/Bare-page.html`)；
       const textContent = await w.webContents.executeJavaScript('document.body.textContent');
       expect(textContent).to.equal('ui page loaded ok\n');
     });
@@ -676,7 +676,7 @@ describe('chrome extensions', () => {
     it('can load resources', async () => {
       const { id } = await session.defaultSession.loadExtension(path.join(fixtures, 'extensions', 'ui-page'));
       const w = new BrowserWindow({ show: false });
-      await w.loadURL(`chrome-extension://${id}/page-script-load.html`);
+      await w.loadURL(`chrome-extension:// ${id}/page-script-load.html`)；
       const textContent = await w.webContents.executeJavaScript('document.body.textContent');
       expect(textContent).to.equal('script loaded ok\n');
     });

@@ -7,8 +7,8 @@ import { emittedOnce } from './events-helpers';
 import { closeWindow } from './window-helpers';
 import { ifdescribe, delay } from './spec-helpers';
 
-// visibilityState specs pass on linux with a real window manager but on CI
-// the environment does not let these specs pass
+// VisibilityState规范在具有真正窗口管理器的Linux上传递，但在CI上传递。
+// 环境不允许这些规格通过。
 ifdescribe(process.platform !== 'linux')('document.visibilityState', () => {
   let w: BrowserWindow;
 
@@ -67,9 +67,9 @@ ifdescribe(process.platform !== 'linux')('document.visibilityState', () => {
   itWithOptions('should be hidden when the window is initially shown but hidden before the page is loaded', {
     show: true
   }, async () => {
-    // TODO(MarshallOfSound): Figure out if we can work around this 1 tick issue for users
+    // TODO(MarshallOfSound)：找出我们是否可以为用户解决这个1tick问题。
     if (process.platform === 'darwin') {
-      // Wait for a tick, the window being "shown" takes 1 tick on macOS
+      // 请稍等片刻，在MacOS上正在“显示”的窗口需要1个滴答
       await delay(10000);
     }
     w.hide();

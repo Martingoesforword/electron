@@ -5,17 +5,17 @@ const { BaseWindow } = process._linkedBinding('electron_browser_base_window') as
 Object.setPrototypeOf(BaseWindow.prototype, EventEmitter.prototype);
 
 BaseWindow.prototype._init = function () {
-  // Avoid recursive require.
+  // 避免递归请求。
   const { app } = require('electron');
 
-  // Simulate the application menu on platforms other than macOS.
+  // 在MacOS以外的平台上模拟应用程序菜单。
   if (process.platform !== 'darwin') {
     const menu = app.applicationMenu;
     if (menu) this.setMenu(menu);
   }
 };
 
-// Properties
+// 属性
 
 Object.defineProperty(BaseWindow.prototype, 'autoHideMenuBar', {
   get: function () { return this.isMenuBarAutoHide(); },

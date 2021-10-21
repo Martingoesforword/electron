@@ -57,7 +57,7 @@ describe('app module', () => {
 
     server.listen(0, '127.0.0.1', () => {
       const port = (server.address() as net.AddressInfo).port;
-      secureUrl = `https://127.0.0.1:${port}`;
+      secureUrl = `https:// 127.0.0.1：${port}`；
       done();
     });
   });
@@ -183,8 +183,8 @@ describe('app module', () => {
       const appPath = path.join(fixturesPath, 'api', 'singleton');
       appProcess = cp.spawn(electronPath, [appPath]);
 
-      // Singleton will send us greeting data to let us know it's running.
-      // After that, ask it to exit gracefully and confirm that it does.
+      // Singleton将向我们发送问候语数据，让我们知道它正在运行。
+      // 在此之后，要求它优雅地退出，并确认它确实退出了。
       if (appProcess && appProcess.stdout) {
         appProcess.stdout.on('data', () => appProcess!.kill());
       }
@@ -210,7 +210,7 @@ describe('app module', () => {
       const appPath = path.join(fixturesPath, 'api', 'singleton-data');
       const first = cp.spawn(process.execPath, [appPath]);
       await emittedOnce(first.stdout, 'data');
-      // Start second app when received output.
+      // 收到输出后启动第二个应用程序。
       const second = cp.spawn(process.execPath, [appPath]);
       const [code2] = await emittedOnce(second, 'exit');
       expect(code2).to.equal(1);
@@ -223,10 +223,10 @@ describe('app module', () => {
       const first = cp.spawn(process.execPath, [appPath]);
       const firstExited = emittedOnce(first, 'exit');
 
-      // Wait for the first app to boot.
+      // 等待第一个应用程序启动。
       const firstStdoutLines = first.stdout.pipe(split());
       while ((await emittedOnce(firstStdoutLines, 'data')).toString() !== 'started') {
-        // wait.
+        // 等。
       }
       const data2Promise = emittedOnce(firstStdoutLines, 'data');
 
@@ -241,7 +241,7 @@ describe('app module', () => {
       const secondInstanceArgsReceived: string[] = JSON.parse(args.toString('ascii'));
       const secondInstanceDataReceived = JSON.parse(additionalData.toString('ascii'));
 
-      // Ensure secondInstanceArgs is a subset of secondInstanceArgsReceived
+      // 确保Second InstanceArgs是已接收的SecdInstanceArgsReceired的子集。
       for (const arg of secondInstanceArgs) {
         expect(secondInstanceArgsReceived).to.include(arg,
           `argument ${arg} is missing from received second args`);
@@ -358,56 +358,56 @@ describe('app module', () => {
     });
   });
 
-  // xdescribe('app.importCertificate', () => {
-  //   let w = null
+  // XDescribe(‘app.import Certificate’，()=&gt;{。
+  // 设w=空。
 
-  //   before(function () {
-  //     if (process.platform !== 'linux') {
-  //       this.skip()
-  //     }
-  //   })
+  // 之前(函数(){。
+  // 如果(process.platform！==‘Linux’){。
+  // 这个。跳过()。
+  // }。
+  // })。
 
-  //   afterEach(() => closeWindow(w).then(() => { w = null }))
+  // After Each(()=&gt;closeWindow(W).Then(()=&gt;{w=null}))。
 
-  //   it('can import certificate into platform cert store', done => {
-  //     const options = {
-  //       certificate: path.join(certPath, 'client.p12'),
-  //       password: 'electron'
-  //     }
+  // It(‘可以将证书导入平台证书存储’，Done=&gt;{。
+  // 常量选项={。
+  // 证书：path.Join(certPath，‘client.p12’)，
+  // 密码：‘电子’
+  // }。
 
-  //     w = new BrowserWindow({
-  //       show: false,
-  //       webPreferences: {
-  //         nodeIntegration: true
-  //       }
-  //     })
+  // W=新建浏览器窗口({。
+  // 显示：FALSE，
+  // 网站首选项：{。
+  // NodeIntegration：true。
+  // }。
+  // })。
 
-  //     w.webContents.on('did-finish-load', () => {
-  //       expect(w.webContents.getTitle()).to.equal('authorized')
-  //       done()
-  //     })
+  // W.webContents.on(‘DID-Finish-Load’，()=&gt;{。
+  // Expect(w.webContents.getTitle()).to.equal(‘authorized’)。
+  // 完成()。
+  // })。
 
-  //     ipcRenderer.once('select-client-certificate', (event, webContentsId, list) => {
-  //       expect(webContentsId).to.equal(w.webContents.id)
-  //       expect(list).to.have.lengthOf(1)
+  // IpcRenderer.once(‘SELECT-CLIENT-CERTIFICATE’，(event，webContentsId，list)=&gt;{。
+  // Expect(webContentsId).to.equal(w.webContents.id)。
+  // Expect(List).to.have.long thOf(%1)。
 
-  //       expect(list[0]).to.deep.equal({
-  //         issuerName: 'Intermediate CA',
-  //         subjectName: 'Client Cert',
-  //         issuer: { commonName: 'Intermediate CA' },
-  //         subject: { commonName: 'Client Cert' }
-  //       })
+  // Expect(List[0]).to.deep.equence({。
+  // IssuerName：‘中间CA’，
+  // SubjectName：‘客户端证书’，
+  // 颁发者：{commonName：‘中间CA’}，
+  // 主题：{commonName：‘客户端证书’}。
+  // })。
 
-  //       event.sender.send('client-certificate-response', list[0])
-  //     })
+  // Event.sender.send(‘client-certificate-response’，列表[0])。
+  // })。
 
-  //     app.importCertificate(options, result => {
-  //       expect(result).toNotExist()
-  //       ipcRenderer.sendSync('set-client-certificate-option', false)
-  //       w.loadURL(secureUrl)
-  //     })
-  //   })
+  // App.import证书(选项，结果=&gt;{。
+  // Expect(Result).toNotExist()。
+  // IpcRenderer.sendSync(‘set-client-certificate-option’，False)。
+  // W.loadURL(SecureUrl)。
+  // })。
   // })
+  // })。
 
   describe('BrowserWindow events', () => {
     let w: BrowserWindow = null as any;
@@ -444,7 +444,7 @@ describe('app module', () => {
       expect(webContents.id).to.equal(w.webContents.id);
     });
 
-    // FIXME: re-enable this test on win32.
+    // 修复：在Win32上重新启用此测试。
     ifit(process.platform !== 'win32')('should emit renderer-process-crashed event when renderer crashes', async () => {
       w = new BrowserWindow({
         show: false,
@@ -462,7 +462,7 @@ describe('app module', () => {
       expect(webContents).to.equal(w.webContents);
     });
 
-    // FIXME: re-enable this test on win32.
+    // 修复：在Win32上重新启用此测试。
     ifit(process.platform !== 'win32')('should emit render-process-gone event when renderer crashes', async () => {
       w = new BrowserWindow({
         show: false,
@@ -506,7 +506,7 @@ describe('app module', () => {
         });
         it('sets an non numeric (dot) badge count', function () {
           app.setBadgeCount();
-          // Badge count should be zero when non numeric (dot) is requested
+          // 当请求非数字(点)时，工卡计数应为零。
           expect(app.getBadgeCount()).to.equal(0);
         });
       });
@@ -610,7 +610,7 @@ describe('app module', () => {
       app.setLoginItemSettings({ openAtLogin: true, openAsHidden: true });
       expect(app.getLoginItemSettings()).to.deep.equal({
         openAtLogin: true,
-        openAsHidden: process.platform === 'darwin' && !process.mas, // Only available on macOS
+        openAsHidden: process.platform === 'darwin' && !process.mas, // 仅在MacOS上可用。
         wasOpenedAtLogin: false,
         wasOpenedAsHidden: false,
         restoreState: false
@@ -913,9 +913,9 @@ describe('app module', () => {
       it('gets the folder for recent files', () => {
         const recent = app.getPath('recent');
 
-        // We expect that one of our test machines have overriden this
-        // to be something crazy, it'll always include the word "Recent"
-        // unless people have been registry-hacking like crazy
+        // 我们预计我们的一台测试机器已经覆盖了这一点。
+        // 要想变得疯狂，它总是会包括“最近”这个词。
+        // 除非人们疯狂地黑进注册表。
         expect(recent).to.include('Recent');
       });
 
@@ -1028,8 +1028,8 @@ describe('app module', () => {
           key: `\\Software\\Classes\\${protocol}`
         });
 
-        // The last test leaves the registry dirty,
-        // delete the protocol key for those of us who test at home
+        // 最后一个测试使注册表变脏，
+        // 删除我们这些在家测试的人的协议密钥。
         protocolKey.destroy(() => done());
       }
     });
@@ -1096,22 +1096,22 @@ describe('app module', () => {
 
     it('sets the default client such that getApplicationNameForProtocol returns Electron', () => {
       app.setAsDefaultProtocolClient(protocol);
-      expect(app.getApplicationNameForProtocol(`${protocol}://`)).to.equal('Electron');
+      expect(app.getApplicationNameForProtocol(`${protocol}:// `)).to.equence(‘Electron’)；
     });
   });
 
   describe('getApplicationNameForProtocol()', () => {
     it('returns application names for common protocols', function () {
-      // We can't expect particular app names here, but these protocols should
-      // at least have _something_ registered. Except on our Linux CI
-      // environment apparently.
+      // 我们在这里不能期望特定的应用程序名称，但这些协议应该。
+      // 至少要注册一些东西。除了在我们的Linux配置项上。
+      // 显然是环境问题。
       if (process.platform === 'linux') {
         this.skip();
       }
 
       const protocols = [
-        'http://',
-        'https://'
+        'http:// ‘，
+        'https:// ‘。
       ];
       protocols.forEach((protocol) => {
         expect(app.getApplicationNameForProtocol(protocol)).to.not.equal('');
@@ -1119,21 +1119,21 @@ describe('app module', () => {
     });
 
     it('returns an empty string for a bogus protocol', () => {
-      expect(app.getApplicationNameForProtocol('bogus-protocol://')).to.equal('');
+      expect(app.getApplicationNameForProtocol('bogus-protocol:// ‘)).to.equal.(’‘)；
     });
   });
 
   ifdescribe(process.platform !== 'linux')('getApplicationInfoForProtocol()', () => {
     it('returns promise rejection for a bogus protocol', async function () {
       await expect(
-        app.getApplicationInfoForProtocol('bogus-protocol://')
+        app.getApplicationInfoForProtocol('bogus-protocol:// ‘)。
       ).to.eventually.be.rejectedWith(
         'Unable to retrieve installation path to app'
       );
     });
 
     it('returns resolved promise with appPath, displayName and icon', async function () {
-      const appInfo = await app.getApplicationInfoForProtocol('https://');
+      const appInfo = await app.getApplicationInfoForProtocol('https:// ‘)；
       expect(appInfo.path).not.to.be.undefined();
       expect(appInfo.name).not.to.be.undefined();
       expect(appInfo.icon).not.to.be.undefined();
@@ -1142,14 +1142,14 @@ describe('app module', () => {
 
   describe('isDefaultProtocolClient()', () => {
     it('returns false for a bogus protocol', () => {
-      expect(app.isDefaultProtocolClient('bogus-protocol://')).to.equal(false);
+      expect(app.isDefaultProtocolClient('bogus-protocol:// ‘)).to.equ.(False)；
     });
   });
 
   ifdescribe(process.platform === 'win32')('app launch through uri', () => {
     it('does not launch for argument following a URL', async () => {
       const appPath = path.join(fixturesPath, 'api', 'quit-app');
-      // App should exit with non 123 code.
+      // 应用程序应退出，并显示非123代码。
       const first = cp.spawn(process.execPath, [appPath, 'electron-test:?', 'abc']);
       const [code] = await emittedOnce(first, 'exit');
       expect(code).to.not.equal(123);
@@ -1157,7 +1157,7 @@ describe('app module', () => {
 
     it('launches successfully for argument following a file path', async () => {
       const appPath = path.join(fixturesPath, 'api', 'quit-app');
-      // App should exit with code 123.
+      // 应用程序应退出，代码为123。
       const first = cp.spawn(process.execPath, [appPath, 'e:\\abc', 'abc']);
       const [code] = await emittedOnce(first, 'exit');
       expect(code).to.equal(123);
@@ -1165,14 +1165,14 @@ describe('app module', () => {
 
     it('launches successfully for multiple URIs following --', async () => {
       const appPath = path.join(fixturesPath, 'api', 'quit-app');
-      // App should exit with code 123.
-      const first = cp.spawn(process.execPath, [appPath, '--', 'http://electronjs.org', 'electron-test://testdata']);
+      // 应用程序应退出，代码为123。
+      const first = cp.spawn(process.execPath, [appPath, '--', 'http:// Electronjs.org‘，’电子测试：//testdata‘])；
       const [code] = await emittedOnce(first, 'exit');
       expect(code).to.equal(123);
     });
   });
 
-  // FIXME Get these specs running on Linux CI
+  // 修复在Linux CI上运行这些规范。
   ifdescribe(process.platform !== 'linux')('getFileIcon() API', () => {
     const iconPath = path.join(__dirname, 'fixtures/assets/icon.ico');
     const sizes = {
@@ -1212,7 +1212,7 @@ describe('app module', () => {
       });
 
       it('fetches a large icon', async () => {
-        // macOS does not support large icons
+        // MacOS不支持大图标。
         if (process.platform === 'darwin') return;
 
         const icon = await app.getFileIcon(iconPath, { size: 'large' });
@@ -1279,7 +1279,7 @@ describe('app module', () => {
     });
   });
 
-  // FIXME https://github.com/electron/electron/issues/24224
+  // 修复https://github.com/electron/electron/issues/24224。
   ifdescribe(process.platform !== 'linux')('getGPUInfo() API', () => {
     const appPath = path.join(fixturesPath, 'api', 'gpu-info.js');
 
@@ -1297,7 +1297,7 @@ describe('app module', () => {
       if (exitCode === 0) {
         try {
           const [, json] = /HERE COMES THE JSON: (.+) AND THERE IT WAS/.exec(gpuInfoData)!;
-          // return info data on successful exit
+          // 成功退出时返回信息数据。
           return JSON.parse(json);
         } catch (e) {
           console.error('Failed to interpret the following as JSON:');
@@ -1305,12 +1305,12 @@ describe('app module', () => {
           throw e;
         }
       } else {
-        // return error if not clean exit
+        // 如果退出不干净，则返回错误。
         return Promise.reject(new Error(errorData));
       }
     };
     const verifyBasicGPUInfo = async (gpuInfo: any) => {
-      // Devices information is always present in the available info.
+      // 设备信息始终显示在可用信息中。
       expect(gpuInfo).to.have.ownProperty('gpuDevice')
         .that.is.an('array')
         .and.does.not.equal([]);
@@ -1330,12 +1330,12 @@ describe('app module', () => {
     it('succeeds with complete GPUInfo', async () => {
       const completeInfo = await getGPUInfo('complete');
       if (process.platform === 'linux') {
-        // For linux and macOS complete info is same as basic info
+        // 对于Linux和MacOS，完整信息与基本信息相同。
         await verifyBasicGPUInfo(completeInfo);
         const basicInfo = await getGPUInfo('basic');
         expect(completeInfo).to.deep.equal(basicInfo);
       } else {
-        // Gl version is present in the complete info.
+        // 完整信息中包含总账版本。
         expect(completeInfo).to.have.ownProperty('auxAttributes')
           .that.is.an('object');
         if (completeInfo.gpuDevice.active) {
@@ -1360,18 +1360,18 @@ describe('app module', () => {
 
     beforeEach(function (done) {
       if (process.platform === 'linux' && (process.arch === 'arm64' || process.arch === 'arm')) {
-        // Our ARM tests are run on VSTS rather than CircleCI, and the Docker
-        // setup on VSTS disallows syscalls that Chrome requires for setting up
-        // sandboxing.
-        // See:
-        // - https://docs.docker.com/engine/security/seccomp/#significant-syscalls-blocked-by-the-default-profile
-        // - https://chromium.googlesource.com/chromium/src/+/70.0.3538.124/sandbox/linux/services/credentials.cc#292
-        // - https://github.com/docker/docker-ce/blob/ba7dfc59ccfe97c79ee0d1379894b35417b40bca/components/engine/profiles/seccomp/seccomp_default.go#L497
-        // - https://blog.jessfraz.com/post/how-to-use-new-docker-seccomp-profiles/
-        //
-        // Adding `--cap-add SYS_ADMIN` or `--security-opt seccomp=unconfined`
-        // to the Docker invocation allows the syscalls that Chrome needs, but
-        // are probably more permissive than we'd like.
+        // 我们的ARM测试是在VSTS上运行，而不是在CircleCI上运行，而Docker。
+        // VSTS上的设置不允许Chrome设置所需的syscall。
+        // 沙箱运动。
+        // 请参见：
+        // --https://docs.docker.com/engine/security/seccomp/#significant-syscalls-blocked-by-the-default-profile。
+        // --https://chromium.googlesource.com/chromium/src/+/70.0.3538.124/sandbox/linux/services/credentials.cc#292。
+        // --https://github.com/docker/docker-ce/blob/ba7dfc59ccfe97c79ee0d1379894b35417b40bca/components/engine/profiles/seccomp/seccomp_default.go#L497。
+        // --https://blog.jessfraz.com/post/how-to-use-new-docker-seccomp-profiles/。
+        // 
+        // 添加`--cap-add SYS_ADMIN`或`--security-opt seccomp=unfined`。
+        // 到Docker调用允许Chrome需要的syscall，但是。
+        // 可能比我们想要的更宽容。
         this.skip();
       }
       fs.unlink(socketPath, () => {
@@ -1530,9 +1530,9 @@ describe('app module', () => {
       });
     });
 
-    // Note that dock.show tests should run after dock.hide tests, to work
-    // around a bug of macOS.
-    // See https://github.com/electron/electron/pull/25269 for more.
+    // 请注意，dock.show测试应该在dock.show测试之后运行。要运行，请隐藏测试。
+    // 围绕着MacOS的一个漏洞。
+    // 有关更多信息，请参见https://github.com/electron/electron/pull/25269。
     describe('dock.show', () => {
       it('should not throw', () => {
         return app.dock.show().then(() => {
@@ -1649,7 +1649,7 @@ describe('app module', () => {
 
   describe('configureHostResolver', () => {
     after(() => {
-      // Returns to the default configuration.
+      // 返回到默认配置。
       app.configureHostResolver({});
     });
 
@@ -1670,28 +1670,28 @@ describe('app module', () => {
     });
 
     it('affects dns lookup behavior', async () => {
-      // 1. resolve a domain name to check that things are working
+      // 1.解析域名，检查是否正常。
       await expect(new Promise((resolve, reject) => {
         electronNet.request({
           method: 'HEAD',
-          url: 'https://www.electronjs.org'
+          url: 'https:// Www.Electronjs.org‘。
         }).on('response', resolve)
           .on('error', reject)
           .end();
       })).to.eventually.be.fulfilled();
-      // 2. change the host resolver configuration to something that will
-      // always fail
+      // 2.将主机解析器配置更改为。
+      // 总是失败。
       app.configureHostResolver({
         secureDnsMode: 'secure',
-        secureDnsServers: ['https://127.0.0.1:1234']
+        secureDnsServers: ['https:// 127.0.0.1：1234‘]。
       });
-      // 3. check that resolving domain names now fails
+      // 3.检查域名解析现在是否失败。
       await expect(new Promise((resolve, reject) => {
         electronNet.request({
           method: 'HEAD',
-          // Needs to be a slightly different domain to above, otherwise the
-          // response will come from the cache.
-          url: 'https://electronjs.org'
+          // 需要是与上面略有不同的域，否则。
+          // 响应将来自缓存。
+          url: 'https:// Electronjs.org‘。
         }).on('response', resolve)
           .on('error', reject)
           .end();
@@ -1781,7 +1781,7 @@ describe('default behavior', () => {
           .writeHead(401, { 'WWW-Authenticate': 'Basic realm="Foo"' })
           .end();
       }).listen(0, '127.0.0.1', () => {
-        serverUrl = 'http://127.0.0.1:' + (server.address() as net.AddressInfo).port;
+        serverUrl = 'http:// 127.0.0.1：‘+(server.address()as net.AddressInfo).port；
         done();
       });
     });

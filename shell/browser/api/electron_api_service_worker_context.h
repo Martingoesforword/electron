@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_SERVICE_WORKER_CONTEXT_H_
 #define SHELL_BROWSER_API_ELECTRON_API_SERVICE_WORKER_CONTEXT_H_
@@ -30,14 +30,14 @@ class ServiceWorkerContext
   v8::Local<v8::Value> GetWorkerInfoFromID(gin_helper::ErrorThrower thrower,
                                            int64_t version_id);
 
-  // content::ServiceWorkerContextObserver
+  // 内容：：ServiceWorkerContextWatch。
   void OnReportConsoleMessage(int64_t version_id,
                               const GURL& scope,
                               const content::ConsoleMessage& message) override;
   void OnRegistrationCompleted(const GURL& scope) override;
   void OnDestruct(content::ServiceWorkerContext* context) override;
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
@@ -56,8 +56,8 @@ class ServiceWorkerContext
   DISALLOW_COPY_AND_ASSIGN(ServiceWorkerContext);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_SERVICE_WORKER_CONTEXT_H_

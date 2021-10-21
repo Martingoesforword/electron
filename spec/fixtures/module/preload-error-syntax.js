@@ -1,2 +1,2 @@
-// eslint-disable-next-line
+// Eslint-禁用-下一行
 foobar

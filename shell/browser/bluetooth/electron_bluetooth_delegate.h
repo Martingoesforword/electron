@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_BLUETOOTH_ELECTRON_BLUETOOTH_DELEGATE_H_
 #define SHELL_BROWSER_BLUETOOTH_ELECTRON_BLUETOOTH_DELEGATE_H_
@@ -26,24 +26,24 @@ class RenderFrameHost;
 namespace device {
 class BluetoothDevice;
 class BluetoothUUID;
-}  // namespace device
+}  // 命名空间设备。
 
 namespace electron {
 
-// Provides an interface for managing device permissions for Web Bluetooth and
-// Web Bluetooth Scanning API. This is the Electron-specific implementation of
-// the BluetoothDelegate.
+// 提供用于管理Web蓝牙的设备权限的界面，并。
+// Web蓝牙扫描API。这是特定于电子设备的实现。
+// 蓝图代表。
 class ElectronBluetoothDelegate : public content::BluetoothDelegate {
  public:
   ElectronBluetoothDelegate();
   ~ElectronBluetoothDelegate() override;
 
-  // Move-only class.
+  // 仅限行动的班级。
   ElectronBluetoothDelegate(const ElectronBluetoothDelegate&) = delete;
   ElectronBluetoothDelegate& operator=(const ElectronBluetoothDelegate&) =
       delete;
 
-  // BluetoothDelegate implementation:
+  // BluetothDelegate实现：
   std::unique_ptr<content::BluetoothChooser> RunBluetoothChooser(
       content::RenderFrameHost* frame,
       const content::BluetoothChooser::EventHandler& event_handler) override;
@@ -85,6 +85,6 @@ class ElectronBluetoothDelegate : public content::BluetoothDelegate {
       FramePermissionObserver* observer) override;
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_BLUETOOTH_ELECTRON_BLUETOOTH_DELEGATE_H_

@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_NOTIFICATIONS_NOTIFICATION_H_
 #define SHELL_BROWSER_NOTIFICATIONS_NOTIFICATION_H_
@@ -34,7 +34,7 @@ struct NotificationOptions {
   std::u16string timeout_type;
   std::u16string reply_placeholder;
   std::u16string sound;
-  std::u16string urgency;  // Linux
+  std::u16string urgency;  // Linux。
   std::vector<NotificationAction> actions;
   std::u16string close_button_text;
   std::u16string toast_xml;
@@ -47,18 +47,18 @@ class Notification {
  public:
   virtual ~Notification();
 
-  // Shows the notification.
+  // 显示通知。
   virtual void Show(const NotificationOptions& options) = 0;
-  // Closes the notification, this instance will be destroyed after the
-  // notification gets closed.
+  // 关闭通知，则此实例将在。
+  // 通知将关闭。
   virtual void Dismiss() = 0;
 
-  // Should be called by derived classes.
+  // 应由派生类调用。
   void NotificationClicked();
   void NotificationDismissed();
   void NotificationFailed(const std::string& error = "");
 
-  // delete this.
+  // 把这个删掉。
   void Destroy();
 
   base::WeakPtr<Notification> GetWeakPtr() {
@@ -86,6 +86,6 @@ class Notification {
   DISALLOW_COPY_AND_ASSIGN(Notification);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_NOTIFICATIONS_NOTIFICATION_H_
+#endif  // 外壳浏览器通知通知H_

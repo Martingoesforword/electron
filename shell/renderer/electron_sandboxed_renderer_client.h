@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 #ifndef SHELL_RENDERER_ELECTRON_SANDBOXED_RENDERER_CLIENT_H_
 #define SHELL_RENDERER_ELECTRON_SANDBOXED_RENDERER_CLIENT_H_
 
@@ -28,12 +28,12 @@ class ElectronSandboxedRendererClient : public RendererClientBase {
   void InitializeBindings(v8::Local<v8::Object> binding,
                           v8::Local<v8::Context> context,
                           content::RenderFrame* render_frame);
-  // electron::RendererClientBase:
+  // 电子邮件：：RendererClientBase：
   void DidCreateScriptContext(v8::Handle<v8::Context> context,
                               content::RenderFrame* render_frame) override;
   void WillReleaseScriptContext(v8::Handle<v8::Context> context,
                                 content::RenderFrame* render_frame) override;
-  // content::ContentRendererClient:
+  // 内容：：ContentRendererClient：
   void RenderFrameCreated(content::RenderFrame*) override;
   void RunScriptsAtDocumentStart(content::RenderFrame* render_frame) override;
   void RunScriptsAtDocumentEnd(content::RenderFrame* render_frame) override;
@@ -41,14 +41,14 @@ class ElectronSandboxedRendererClient : public RendererClientBase {
  private:
   std::unique_ptr<base::ProcessMetrics> metrics_;
 
-  // Getting main script context from web frame would lazily initializes
-  // its script context. Doing so in a web page without scripts would trigger
-  // assertion, so we have to keep a book of injected web frames.
+  // 从Web框架获取主脚本上下文将延迟初始化。
+  // 其脚本上下文。在没有脚本的网页中执行此操作将触发。
+  // 断言，所以我们必须保留一本关于注入的网页框架的书。
   std::set<content::RenderFrame*> injected_frames_;
 
   DISALLOW_COPY_AND_ASSIGN(ElectronSandboxedRendererClient);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_RENDERER_ELECTRON_SANDBOXED_RENDERER_CLIENT_H_

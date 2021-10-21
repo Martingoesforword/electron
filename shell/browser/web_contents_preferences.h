@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_WEB_CONTENTS_PREFERENCES_H_
 #define SHELL_BROWSER_WEB_CONTENTS_PREFERENCES_H_
@@ -25,11 +25,11 @@ class Dictionary;
 
 namespace electron {
 
-// Stores and applies the preferences of WebContents.
+// 存储并应用WebContents的首选项。
 class WebContentsPreferences
     : public content::WebContentsUserData<WebContentsPreferences> {
  public:
-  // Get self from WebContents.
+  // 从WebContents获取Self。
   static WebContentsPreferences* From(content::WebContents* web_contents);
 
   WebContentsPreferences(content::WebContents* web_contents,
@@ -38,11 +38,11 @@ class WebContentsPreferences
 
   void SetFromDictionary(const gin_helper::Dictionary& new_web_preferences);
 
-  // Append command paramters according to preferences.
+  // 根据首选项追加命令参数。
   void AppendCommandLineSwitches(base::CommandLine* command_line,
                                  bool is_subframe);
 
-  // Modify the WebPreferences according to preferences.
+  // 根据首选项修改WebPreferences。
   void OverrideWebkitPrefs(blink::web_pref::WebPreferences* prefs);
 
   base::Value* last_preference() { return &last_web_preferences_; }
@@ -78,7 +78,7 @@ class WebContentsPreferences
   friend class content::WebContentsUserData<WebContentsPreferences>;
   friend class ElectronBrowserClient;
 
-  // Get WebContents according to process ID.
+  // 根据进程ID获取WebContents。
   static content::WebContents* GetWebContentsFromProcessID(int process_id);
 
   void Clear();
@@ -135,8 +135,8 @@ class WebContentsPreferences
   bool spellcheck_;
 #endif
 
-  // This is a snapshot of some relevant preferences at the time the renderer
-  // was launched.
+  // 这是渲染器时一些相关首选项的快照。
+  // 已经发射了。
   base::Value last_web_preferences_;
 
   WEB_CONTENTS_USER_DATA_KEY_DECL();
@@ -144,6 +144,6 @@ class WebContentsPreferences
   DISALLOW_COPY_AND_ASSIGN(WebContentsPreferences);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_WEB_CONTENTS_PREFERENCES_H_
+#endif  // Shell_Browser_Web_Contents_Preferences_H_

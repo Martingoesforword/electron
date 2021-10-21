@@ -1,9 +1,6 @@
-/// <reference path="../electron.d.ts" />
+// /&lt;引用路径=“../Electron.d.ts”/&gt;。
 
-/**
- * This file augments the Electron TS namespace with the internal APIs
- * that are not documented but are used by Electron internally
- */
+/* **此文件使用未记录但由Electron内部使用的内部API来扩充Electron TS命名空间。*/
 
 declare namespace Electron {
   enum ProcessType {
@@ -76,7 +73,7 @@ declare namespace Electron {
     getActiveIndex(): number;
     length(): number;
     destroy(): void;
-    // <webview>
+    // &lt;WebView&gt;。
     attachToIframe(embedderWebContents: Electron.WebContents, embedderFrameId: number): void;
     detachFromOuterFrame(): void;
     setEmbedder(embedder: Electron.WebContents): void;
@@ -153,7 +150,7 @@ declare namespace Electron {
 
   class View {}
 
-  // Experimental views API
+  // 实验视图API。
   class BaseWindow {
     constructor(args: {show: boolean})
     setContentView(view: View): void
@@ -167,7 +164,7 @@ declare namespace Electron {
     constructor(options: BrowserWindowConstructorOptions)
   }
 
-  // Deprecated / undocumented BrowserWindow methods
+  // 已弃用/未记录的BrowserWindow方法。
   interface BrowserWindow {
     getURL(): string;
     send(channel: string, ...args: any[]): void;
@@ -277,7 +274,7 @@ declare namespace ElectronInternal {
     public attributeChangedCallback?(): void;
     public disconnectedCallback?(): void;
 
-    // Created in web-view-impl
+    // 在Web视图中创建-实施。
     public getWebContentsId(): number;
     public capturePage(rect?: Electron.Rectangle): Promise<Electron.NativeImage>;
   }
@@ -289,7 +286,7 @@ declare namespace ElectronInternal {
 
 declare namespace Chrome {
   namespace Tabs {
-    // https://developer.chrome.com/docs/extensions/tabs#method-executeScript
+    // Https://developer.chrome.com/docs/extensions/tabs#method-executeScript。
     interface ExecuteScriptDetails {
       code?: string;
       file?: string;
@@ -302,7 +299,7 @@ declare namespace Chrome {
 
     type ExecuteScriptCallback = (result: Array<any>) => void;
 
-    // https://developer.chrome.com/docs/extensions/tabs#method-sendMessage
+    // Https://developer.chrome.com/docs/extensions/tabs#method-sendMessage
     interface SendMessageDetails {
       frameId?: number;
     }

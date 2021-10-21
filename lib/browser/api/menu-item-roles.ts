@@ -198,7 +198,7 @@ export const roleList: Record<RoleId, Role> = {
       ses.spellCheckerEnabled = !ses.spellCheckerEnabled;
     }
   },
-  // App submenu should be used for Mac only
+  // 应用程序子菜单应仅用于Mac。
   appmenu: {
     get label () {
       return app.name;
@@ -215,14 +215,14 @@ export const roleList: Record<RoleId, Role> = {
       { role: 'quit' }
     ]
   },
-  // File submenu
+  // 文件子菜单。
   filemenu: {
     label: 'File',
     submenu: [
       isMac ? { role: 'close' } : { role: 'quit' }
     ]
   },
-  // Edit submenu
+  // 编辑子菜单。
   editmenu: {
     label: 'Edit',
     submenu: [
@@ -251,7 +251,7 @@ export const roleList: Record<RoleId, Role> = {
       ] as MenuItemConstructorOptions[])
     ]
   },
-  // View submenu
+  // 视图子菜单。
   viewmenu: {
     label: 'View',
     submenu: [
@@ -266,7 +266,7 @@ export const roleList: Record<RoleId, Role> = {
       { role: 'togglefullscreen' }
     ]
   },
-  // Window submenu
+  // 窗口子菜单。
   windowmenu: {
     label: 'Window',
     submenu: [
@@ -280,7 +280,7 @@ export const roleList: Record<RoleId, Role> = {
       ] as MenuItemConstructorOptions[])
     ]
   },
-  // Share submenu
+  // 共享子菜单。
   sharemenu: {
     label: 'Share',
     submenu: []
@@ -295,7 +295,7 @@ const canExecuteRole = (role: keyof typeof roleList) => {
   if (!hasRole(role)) return false;
   if (!isMac) return true;
 
-  // macOS handles all roles natively except for a few
+  // MacOS本机处理除少数角色之外的所有角色。
   return roleList[role].nonNativeMacOSRole;
 };
 
@@ -330,7 +330,7 @@ export function getDefaultSubmenu (role: RoleId) {
 
   let { submenu } = roleList[role];
 
-  // remove null items from within the submenu
+  // 从子菜单中删除空项
   if (Array.isArray(submenu)) {
     submenu = submenu.filter((item) => item != null);
   }

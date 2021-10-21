@@ -1,6 +1,6 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE.chromium file.
+// 版权所有2019年Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在LICENSE.Cr文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_ARGUMENTS_H_
 #define SHELL_COMMON_GIN_HELPER_ARGUMENTS_H_
@@ -9,13 +9,13 @@
 
 namespace gin_helper {
 
-// Provides additional APIs to the gin::Arguments class.
+// 为gin：：Arguments类提供其他API。
 class Arguments : public gin::Arguments {
  public:
-  // Get the next argument, if conversion to T fails then state is unchanged.
-  //
-  // This is difference from gin::Arguments::GetNext which always advances the
-  // |next_| counter no matter whether the conversion succeeds.
+  // 获取下一个参数，如果转换为T失败，则状态不变。
+  // 
+  // 这与gin：：Arguments：：GetNext不同，后者总是将。
+  // |NEXT_|转换是否成功的计数器。
   template <typename T>
   bool GetNext(T* out) {
     v8::Local<v8::Value> val = PeekNext();
@@ -27,8 +27,8 @@ class Arguments : public gin::Arguments {
     return true;
   }
 
-  // Gin always returns true when converting V8 value to boolean, we do not want
-  // this behavior when parsing parameters.
+  // 将V8值转换为布尔值时，GIN始终返回TRUE，我们不希望。
+  // 解析参数时的此行为。
   bool GetNext(bool* out) {
     v8::Local<v8::Value> val = PeekNext();
     if (val.IsEmpty() || !val->IsBoolean())
@@ -38,14 +38,14 @@ class Arguments : public gin::Arguments {
     return true;
   }
 
-  // Throw error with custom error message.
+  // 引发带有自定义错误消息的错误。
   void ThrowError() const;
   void ThrowError(base::StringPiece message) const;
 
  private:
-  // MUST NOT ADD ANY DATA MEMBER.
+  // 不得添加任何数据成员。
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
-#endif  // SHELL_COMMON_GIN_HELPER_ARGUMENTS_H_
+#endif  // Shell_COMMON_GIN_HELPER_ARGUMENTS_H_

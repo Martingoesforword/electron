@@ -5,10 +5,10 @@ const { BrowserWindow } = process._linkedBinding('electron_browser_window') as {
 Object.setPrototypeOf(BrowserWindow.prototype, BaseWindow.prototype);
 
 BrowserWindow.prototype._init = function (this: BWT) {
-  // Call parent class's _init.
+  // 调用父类的_init。
   BaseWindow.prototype._init.call(this);
 
-  // Avoid recursive require.
+  // 避免递归请求。
   const { app } = require('electron');
 
   const nativeSetBounds = this.setBounds;
@@ -20,7 +20,7 @@ BrowserWindow.prototype._init = function (this: BWT) {
     nativeSetBounds.call(this, bounds, ...opts);
   };
 
-  // Redirect focus/blur event to app instance too.
+  // 也将焦点/模糊事件重定向到应用程序实例。
   this.on('blur', (event: Event) => {
     app.emit('browser-window-blur', event, this);
   });
@@ -28,7 +28,7 @@ BrowserWindow.prototype._init = function (this: BWT) {
     app.emit('browser-window-focus', event, this);
   });
 
-  // Subscribe to visibilityState changes and pass to renderer process.
+  // 订阅visibilityState更改并传递到呈现器进程。
   let isVisible = this.isVisible() && !this.isMinimized();
   const visibilityChanged = () => {
     const newState = this.isVisible() && !this.isMinimized();
@@ -44,7 +44,7 @@ BrowserWindow.prototype._init = function (this: BWT) {
     this.on(event as any, visibilityChanged);
   }
 
-  // Notify the creation of the window.
+  // 通知窗口的创建。
   const event = process._linkedBinding('electron_browser_event').createEmpty();
   app.emit('browser-window-created', event, this);
 
@@ -89,7 +89,7 @@ BrowserWindow.prototype.setTouchBar = function (touchBar) {
   (TouchBar as any)._setOnWindow(touchBar, this);
 };
 
-// Forwarded to webContents:
+// 转发到网站内容：
 
 BrowserWindow.prototype.loadURL = function (...args) {
   return this.webContents.loadURL(...args);

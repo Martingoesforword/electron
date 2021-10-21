@@ -1,7 +1,4 @@
-/**
- * Utilities to parse comma-separated key value pairs used in browser APIs.
- * For example: "x=100,y=200,width=500,height=500"
- */
+/* **用于解析浏览器API中使用的逗号分隔的键值对的实用程序。*例如：“x=100，y=200，宽度=500，高度=500”*/
 import { BrowserWindowConstructorOptions } from 'electron';
 
 type RequiredBrowserWindowConstructorOptions = Required<BrowserWindowConstructorOptions>;
@@ -10,9 +7,9 @@ type IntegerBrowserWindowOptionKeys = {
     RequiredBrowserWindowConstructorOptions[K] extends number ? K : never
 }[keyof RequiredBrowserWindowConstructorOptions];
 
-// This could be an array of keys, but an object allows us to add a compile-time
-// check validating that we haven't added an integer property to
-// BrowserWindowConstructorOptions that this module doesn't know about.
+// 这可以是键的数组，但是对象允许我们添加编译时。
+// 检查是否未将整数属性添加到。
+// 此模块不知道的BrowserWindowConstructorOptions。
 const keysOfTypeNumberCompileTimeCheck: { [K in IntegerBrowserWindowOptionKeys] : true } = {
   x: true,
   y: true,
@@ -24,17 +21,11 @@ const keysOfTypeNumberCompileTimeCheck: { [K in IntegerBrowserWindowOptionKeys] 
   maxHeight: true,
   opacity: true
 };
-// Note `top` / `left` are special cases from the browser which we later convert
-// to y / x.
+// 注意：`top`/`left`是浏览器的特例，我们稍后会对其进行转换。
+// 到y/x。
 const keysOfTypeNumber = ['top', 'left', ...Object.keys(keysOfTypeNumberCompileTimeCheck)];
 
-/**
- * Note that we only allow "0" and "1" boolean conversion when the type is known
- * not to be an integer.
- *
- * The coercion of yes/no/1/0 represents best effort accordance with the spec:
- * https://html.spec.whatwg.org/multipage/window-object.html#concept-window-open-features-parse-boolean
- */
+/* **请注意，当类型已知*不是整数时，我们只允许“0”和“1”布尔转换。**YES/NO/1/0的强制表示根据规范尽最大努力：*https://html.spec.whatwg.org/multipage/window-object.html#concept-window-open-features-parse-boolean。*/
 type CoercedValue = string | number | boolean;
 function coerce (key: string, value: string): CoercedValue {
   if (keysOfTypeNumber.includes(key)) {
@@ -73,9 +64,7 @@ export function parseWebViewWebPreferences (preferences: string) {
 const allowedWebPreferences = ['zoomFactor', 'nodeIntegration', 'javascript', 'contextIsolation', 'webviewTag'] as const;
 type AllowedWebPreference = (typeof allowedWebPreferences)[number];
 
-/**
- * Parses a feature string that has the format used in window.open().
- */
+/* **解析window.open()中使用的格式的功能字符串。*/
 export function parseFeatures (features: string) {
   const parsed = parseCommaSeparatedKeyValue(features);
 

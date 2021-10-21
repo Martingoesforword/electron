@@ -11,8 +11,8 @@ const { resolveGetters } = require('./expect-helpers');
 const { ifdescribe, delay } = require('./spec-helpers');
 const features = process._linkedBinding('electron_common_features');
 
-/* Most of the APIs here don't use standard callbacks */
-/* eslint-disable standard/no-callback-literal */
+/* 这里的大多数API都不使用标准回调。*/
+/* Eslint-禁用标准/无回调-文字。*/
 
 describe('chromium feature', () => {
   const fixtures = path.resolve(__dirname, 'fixtures');
@@ -23,7 +23,7 @@ describe('chromium feature', () => {
         navigator.setAppBadge(42);
       }).to.not.throw();
       expect(() => {
-        // setAppBadge with no argument should show dot
+        // 不带参数的setAppBadge应显示圆点。
         navigator.setAppBadge();
       }).to.not.throw();
       expect(() => {
@@ -65,7 +65,7 @@ describe('chromium feature', () => {
   describe('window.open', () => {
     it('accepts "nodeIntegration" as feature', async () => {
       const message = waitForEvent(window, 'message');
-      const b = window.open(`file://${fixtures}/pages/window-opener-node.html`, '', 'nodeIntegration=no,show=no');
+      const b = window.open(`file:// ${Fixtures}/Pages/Window-opener-node.html`，‘’，‘nodeIntegration=no，show=no’)；
       const event = await message;
       b.close();
       expect(event.data.isProcessGlobalUndefined).to.be.true();
@@ -73,7 +73,7 @@ describe('chromium feature', () => {
 
     it('inherit options of parent window', async () => {
       const message = waitForEvent(window, 'message');
-      const b = window.open(`file://${fixtures}/pages/window-open-size.html`, '', 'show=no');
+      const b = window.open(`file:// ${Fixtures}/Pages/Window-open-size.html`，‘’，‘show=no’)；
       const event = await message;
       b.close();
       const width = outerWidth;
@@ -119,7 +119,7 @@ describe('chromium feature', () => {
         height: 450
       };
       const message = waitForEvent(window, 'message');
-      const b = window.open(`file://${fixtures}/pages/window-open-size.html`, '', 'show=no,width=' + size.width + ',height=' + size.height);
+      const b = window.open(`file:// ${Fixtures}/Pages/Window-open-size.html`，‘’，‘show=no，width=’+size.width+‘，Height=’+size.high)；
       const event = await message;
       b.close();
       expect(event.data).to.equal(`size: ${size.width} ${size.height}`);
@@ -147,7 +147,7 @@ describe('chromium feature', () => {
   describe('window.opener', () => {
     it('is not null for window opened by window.open', async () => {
       const message = waitForEvent(window, 'message');
-      const b = window.open(`file://${fixtures}/pages/window-opener.html`, '', 'show=no');
+      const b = window.open(`file:// ${Fixtures}/Pages/Window-opener.html`，‘’，‘show=no’)；
       const event = await message;
       b.close();
       expect(event.data).to.equal('object');
@@ -167,11 +167,11 @@ describe('chromium feature', () => {
   describe('window.opener.postMessage', () => {
     it('sets source and origin correctly', async () => {
       const message = waitForEvent(window, 'message');
-      const b = window.open(`file://${fixtures}/pages/window-opener-postMessage.html`, '', 'show=no');
+      const b = window.open(`file:// ${fixtures}/pages/window-opener-postMessage.html`，‘’，‘show=no’)；
       const event = await message;
       try {
         expect(event.source).to.deep.equal(b);
-        expect(event.origin).to.equal('file://');
+        expect(event.origin).to.equal('file:// ‘)；
       } finally {
         b.close();
       }
@@ -207,7 +207,7 @@ describe('chromium feature', () => {
           res.end(fs.readFileSync(filePath, 'utf8'));
         });
         server.listen(0, '127.0.0.1', () => {
-          serverURL = `http://127.0.0.1:${server.address().port}`;
+          serverURL = `http:// 127.0.0.1：${server.address().port}`；
           done();
         });
       });
@@ -235,8 +235,8 @@ describe('chromium feature', () => {
 
     it('can be get as context in canvas', () => {
       if (process.platform === 'linux') {
-        // FIXME(alexeykuzmin): Skip the test.
-        // this.skip()
+        // FIXME(Alexeykuzmin)：跳过测试。
+        // 这个。跳过()。
         return;
       }
 
@@ -266,7 +266,7 @@ describe('chromium feature', () => {
     it('Worker has node integration with nodeIntegrationInWorker', async () => {
       const webview = new WebView();
       const eventPromise = waitForEvent(webview, 'ipc-message');
-      webview.src = `file://${fixtures}/pages/worker.html`;
+      webview.src = `file:// ${Fixtures}/Pages/worker.html`；
       webview.setAttribute('webpreferences', 'nodeIntegration, nodeIntegrationInWorker, contextIsolation=no');
       document.body.appendChild(webview);
       const event = await eventPromise;
@@ -290,14 +290,14 @@ describe('chromium feature', () => {
         expect(event.data).to.equal('undefined undefined undefined undefined');
       });
 
-      // FIXME: disabled during chromium update due to crash in content::WorkerScriptFetchInitiator::CreateScriptLoaderOnIO
+      // 修复：由于content：：WorkerScriptFetchInitiator：：CreateScriptLoaderOnIO崩溃，铬更新期间禁用。
       xit('has node integration with nodeIntegrationInWorker', async () => {
         const webview = new WebView();
         webview.addEventListener('console-message', (e) => {
           console.log(e);
         });
         const eventPromise = waitForEvent(webview, 'ipc-message');
-        webview.src = `file://${fixtures}/pages/shared_worker.html`;
+        webview.src = `file:// ${Fixtures}/Pages/Shared_worker.html`；
         webview.setAttribute('webpreferences', 'nodeIntegration, nodeIntegrationInWorker');
         document.body.appendChild(webview);
         const event = await eventPromise;
@@ -319,7 +319,7 @@ describe('chromium feature', () => {
     });
 
     it('does not have node integration', async () => {
-      iframe.src = `file://${fixtures}/pages/set-global.html`;
+      iframe.src = `file:// ${fixtures}/ages/set-global.html`；
       document.body.appendChild(iframe);
       await waitForEvent(iframe, 'load');
       expect(iframe.contentWindow.test).to.equal('undefined undefined undefined');
@@ -331,22 +331,22 @@ describe('chromium feature', () => {
       ['localStorage', 'sessionStorage'].forEach((storageName) => {
         const storage = window[storageName];
         it(`allows saving at least 40MiB in ${storageName}`, async () => {
-          // Although JavaScript strings use UTF-16, the underlying
-          // storage provider may encode strings differently, muddling the
-          // translation between character and byte counts. However,
-          // a string of 40 * 2^20 characters will require at least 40MiB
-          // and presumably no more than 80MiB, a size guaranteed to
-          // to exceed the original 10MiB quota yet stay within the
-          // new 100MiB quota.
-          // Note that both the key name and value affect the total size.
+          // 尽管JavaScript字符串使用UTF-16，但底层。
+          // 存储提供程序可能会对字符串进行不同的编码，从而使。
+          // 字符和字节计数之间的转换。然而，
+          // 40*2^20个字符的字符串至少需要40MiB。
+          // 大概不会超过80MiB，这个大小保证。
+          // 超过原来的10MiB配额，但仍保持在。
+          // 新的100MiB配额。
+          // 请注意，密钥名称和值都会影响总大小。
           const testKeyName = '_electronDOMStorageQuotaIncreasedTest';
           const length = 40 * Math.pow(2, 20) - testKeyName.length;
           storage.setItem(testKeyName, 'X'.repeat(length));
-          // Wait at least one turn of the event loop to help avoid false positives
-          // Although not entirely necessary, the previous version of this test case
-          // failed to detect a real problem (perhaps related to DOM storage data caching)
-          // wherein calling `getItem` immediately after `setItem` would appear to work
-          // but then later (e.g. next tick) it would not.
+          // 至少等待事件循环一圈，以帮助避免误报。
+          // 虽然并非完全必要，但此测试用例的以前版本。
+          // 未能检测到真正的问题(可能与DOM存储数据缓存有关)。
+          // 其中，在`setItem`之后立即调用`getItem`似乎是可行的。
+          // 但后来(例如下一次勾选)就不会了。
           await delay(1);
           try {
             expect(storage.getItem(testKeyName)).to.have.lengthOf(length);
@@ -399,7 +399,7 @@ describe('chromium feature', () => {
             done('user agent is empty');
           }
         });
-        const socket = new WebSocket(`ws://127.0.0.1:${port}`);
+        const socket = new WebSocket(`ws:// 127.0.0.1：${port}`)；
       });
     });
   });
@@ -440,7 +440,7 @@ describe('chromium feature', () => {
       });
       server.listen(0, '127.0.0.1', () => {
         const port = server.address().port;
-        fetch(`http://127.0.0.1:${port}`).then((res) => res.body.getReader())
+        fetch(`http:// 127.0.0.1：${port}`).Then((Res)=&gt;res.body.getReader())。
           .then((reader) => {
             reader.read().then((r) => {
               reader.cancel();
@@ -477,10 +477,10 @@ describe('chromium feature', () => {
     });
   });
 
-  // TODO(nornagon): this is broken on CI, it triggers:
-  // [FATAL:speech_synthesis.mojom-shared.h(237)] The outgoing message will
-  // trigger VALIDATION_ERROR_UNEXPECTED_NULL_POINTER at the receiving side
-  // (null text in SpeechSynthesisUtterance struct).
+  // TODO(Nornagon)：这在CI上损坏，它会触发：
+  // [FATAL：Speech_synthesis.mojom-shared.h(237)]传出消息将。
+  // 在接收端触发VALIDATION_ERROR_INTERCEPTED_NULL。
+  // (SpeechSynthesisUtterance结构中的文本为空)。
   describe.skip('SpeechSynthesis', () => {
     before(function () {
       if (!features.isTtsEnabled()) {
@@ -492,26 +492,26 @@ describe('chromium feature', () => {
       const sentence = `long sentence which will take at least a few seconds to
           utter so that it's possible to pause and resume before the end`;
       const utter = new SpeechSynthesisUtterance(sentence);
-      // Create a dummy utterence so that speech synthesis state
-      // is initialized for later calls.
+      // 创建虚拟发声，以便语音合成状态。
+      // 为以后的调用进行初始化。
       speechSynthesis.speak(new SpeechSynthesisUtterance());
       speechSynthesis.cancel();
       speechSynthesis.speak(utter);
-      // paused state after speak()
+      // 发言后暂停状态()。
       expect(speechSynthesis.paused).to.be.false();
       await new Promise((resolve) => { utter.onstart = resolve; });
-      // paused state after start event
+      // 启动事件后的暂停状态。
       expect(speechSynthesis.paused).to.be.false();
 
       speechSynthesis.pause();
-      // paused state changes async, right before the pause event
+      // 暂停状态就在暂停事件之前异步更改。
       expect(speechSynthesis.paused).to.be.false();
       await new Promise((resolve) => { utter.onpause = resolve; });
       expect(speechSynthesis.paused).to.be.true();
 
       speechSynthesis.resume();
       await new Promise((resolve) => { utter.onresume = resolve; });
-      // paused state after resume event
+      // 恢复事件后的暂停状态
       expect(speechSynthesis.paused).to.be.false();
 
       await new Promise((resolve) => { utter.onend = resolve; });

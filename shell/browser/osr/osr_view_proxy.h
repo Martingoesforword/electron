@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_OSR_OSR_VIEW_PROXY_H_
 #define SHELL_BROWSER_OSR_OSR_VIEW_PROXY_H_
@@ -49,6 +49,6 @@ class OffscreenViewProxy {
   OffscreenViewProxyObserver* observer_ = nullptr;
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_OSR_OSR_VIEW_PROXY_H_
+#endif  // Shell_Browser_OSR_OSR_VIEW_PROXY_H_

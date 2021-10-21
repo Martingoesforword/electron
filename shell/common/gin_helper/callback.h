@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc. All rights reserved.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.保留所有权利。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_CALLBACK_H_
 #define SHELL_COMMON_GIN_HELPER_CALLBACK_H_
@@ -14,14 +14,14 @@
 #include "shell/common/gin_helper/function_template.h"
 #include "shell/common/gin_helper/locker.h"
 #include "shell/common/gin_helper/microtasks_scope.h"
-// Implements safe conversions between JS functions and base::RepeatingCallback.
+// 实现JS函数和base：：RepeatingCallback之间的安全转换。
 
 namespace gin_helper {
 
 template <typename T>
 class RefCountedGlobal;
 
-// Manages the V8 function with RAII.
+// 使用RAII管理V8功能。
 class SafeV8Function {
  public:
   SafeV8Function(v8::Isolate* isolate, v8::Local<v8::Value> value);
@@ -35,7 +35,7 @@ class SafeV8Function {
   scoped_refptr<RefCountedGlobal<v8::Function>> v8_function_;
 };
 
-// Helper to invoke a V8 function with C++ parameters.
+// Helper使用C++参数调用V8函数。
 template <typename Sig>
 struct V8FunctionInvoker {};
 
@@ -110,7 +110,7 @@ struct V8FunctionInvoker<ReturnType(ArgTypes...)> {
   }
 };
 
-// Helper to pass a C++ function to JavaScript.
+// Helper将C++函数传递给JavaScript。
 using Translater = base::RepeatingCallback<void(gin::Arguments* args)>;
 v8::Local<v8::Value> CreateFunctionFromTranslater(v8::Isolate* isolate,
                                                   const Translater& translater,
@@ -121,7 +121,7 @@ v8::Local<v8::Value> BindFunctionWith(v8::Isolate* isolate,
                                       v8::Local<v8::Value> arg1,
                                       v8::Local<v8::Value> arg2);
 
-// Calls callback with Arguments.
+// 使用参数调用回调。
 template <typename Sig>
 struct NativeFunctionInvoker {};
 
@@ -136,8 +136,8 @@ struct NativeFunctionInvoker<ReturnType(ArgTypes...)> {
   }
 };
 
-// Convert a callback to V8 without the call number limitation, this can easily
-// cause memory leaks so use it with caution.
+// 将回调转换为V8，不受呼叫号的限制，这很容易实现。
+// 导致内存泄漏，因此请谨慎使用。
 template <typename Sig>
 v8::Local<v8::Value> CallbackToV8Leaked(
     v8::Isolate* isolate,
@@ -147,6 +147,6 @@ v8::Local<v8::Value> CallbackToV8Leaked(
   return CreateFunctionFromTranslater(isolate, translater, false);
 }
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 #endif  // SHELL_COMMON_GIN_HELPER_CALLBACK_H_

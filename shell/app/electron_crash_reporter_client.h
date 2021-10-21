@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_APP_ELECTRON_CRASH_REPORTER_CLIENT_H_
 #define SHELL_APP_ELECTRON_CRASH_REPORTER_CLIENT_H_
@@ -26,7 +26,7 @@ class ElectronCrashReporterClient : public crash_reporter::CrashReporterClient {
   void SetGlobalAnnotations(
       const std::map<std::string, std::string>& annotations);
 
-  // crash_reporter::CrashReporterClient implementation.
+  // CRASH_REPORTER：：CrashReporterClient实现。
 #if defined(OS_LINUX)
   void SetCrashReporterClientIdFromGUID(
       const std::string& client_guid) override;
@@ -89,4 +89,4 @@ class ElectronCrashReporterClient : public crash_reporter::CrashReporterClient {
   DISALLOW_COPY_AND_ASSIGN(ElectronCrashReporterClient);
 };
 
-#endif  // SHELL_APP_ELECTRON_CRASH_REPORTER_CLIENT_H_
+#endif  // Shell_APP_ELECTIVE_CRASH_REPORTER_CLIENT_H_

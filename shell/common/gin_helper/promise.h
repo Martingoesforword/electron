@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_PROMISE_H_
 #define SHELL_COMMON_GIN_HELPER_PROMISE_H_
@@ -20,36 +20,36 @@
 
 namespace gin_helper {
 
-// A wrapper around the v8::Promise.
-//
-// This is the non-template base class to share code between templates
-// instances.
-//
-// This is a move-only type that should always be `std::move`d when passed to
-// callbacks, and it should be destroyed on the same thread of creation.
+// V8：：Promise的包装纸。
+// 
+// 这是在模板之间共享代码的非模板基类。
+// 实例。
+// 
+// 这是一个仅移动类型，传递给时应始终为`std：：move`d。
+// 回调，应该在相同的创建线程上销毁它。
 class PromiseBase {
  public:
   explicit PromiseBase(v8::Isolate* isolate);
   PromiseBase(v8::Isolate* isolate, v8::Local<v8::Promise::Resolver> handle);
   ~PromiseBase();
 
-  // Support moving.
+  // 支持搬家。
   PromiseBase(PromiseBase&&);
   PromiseBase& operator=(PromiseBase&&);
 
-  // Helper for rejecting promise with error message.
-  //
-  // Note: The parameter type is PromiseBase&& so it can take the instances of
-  // Promise<T> type.
+  // 用于拒绝带有错误消息的承诺的帮助器。
+  // 
+  // 注意：参数类型为PromiseBase&&，因此它可以采用。
+  // 承诺&lt;T&gt;类型。
   static void RejectPromise(PromiseBase&& promise, base::StringPiece errmsg) {
     if (gin_helper::Locker::IsBrowserProcess() &&
         !content::BrowserThread::CurrentlyOn(content::BrowserThread::UI)) {
       base::PostTask(
           FROM_HERE, {content::BrowserThread::UI},
           base::BindOnce(
-              // Note that this callback can not take StringPiece,
-              // as StringPiece only references string internally and
-              // will blow when a temporary string is passed.
+              // 请注意，此回调不能接受StringPiess，
+              // 因为StringPiess仅在内部引用字符串，并且。
+              // 将在经过临时字符串时爆炸。
               [](PromiseBase&& promise, std::string str) {
                 promise.RejectWithErrorMessage(str);
               },
@@ -79,13 +79,13 @@ class PromiseBase {
   DISALLOW_COPY_AND_ASSIGN(PromiseBase);
 };
 
-// Template implementation that returns values.
+// 返回值的模板实现。
 template <typename RT>
 class Promise : public PromiseBase {
  public:
   using PromiseBase::PromiseBase;
 
-  // Helper for resolving the promise with |result|.
+  // 使用|Result|解析承诺的帮助器。
   static void ResolvePromise(Promise<RT> promise, RT result) {
     if (gin_helper::Locker::IsBrowserProcess() &&
         !content::BrowserThread::CurrentlyOn(content::BrowserThread::UI)) {
@@ -98,7 +98,7 @@ class Promise : public PromiseBase {
     }
   }
 
-  // Returns an already-resolved promise.
+  // 返回已解析的承诺。
   static v8::Local<v8::Promise> ResolvedPromise(v8::Isolate* isolate,
                                                 RT result) {
     Promise<RT> resolved(isolate);
@@ -106,8 +106,8 @@ class Promise : public PromiseBase {
     return resolved.GetHandle();
   }
 
-  // Promise resolution is a microtask
-  // We use the MicrotasksRunner to trigger the running of pending microtasks
+  // 承诺解决是一项微任务。
+  // 我们使用MicrotasksRunner来触发挂起的微任务的运行。
   v8::Maybe<bool> Resolve(const RT& value) {
     gin_helper::Locker locker(isolate());
     v8::HandleScope handle_scope(isolate());
@@ -139,22 +139,22 @@ class Promise : public PromiseBase {
   }
 };
 
-// Template implementation that returns nothing.
+// 不返回任何内容的模板实现。
 template <>
 class Promise<void> : public PromiseBase {
  public:
   using PromiseBase::PromiseBase;
 
-  // Helper for resolving the empty promise.
+  // 解决空头承诺的帮助者。
   static void ResolvePromise(Promise<void> promise);
 
-  // Returns an already-resolved promise.
+  // 返回已解析的承诺。
   static v8::Local<v8::Promise> ResolvedPromise(v8::Isolate* isolate);
 
   v8::Maybe<bool> Resolve();
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 namespace gin {
 
@@ -164,13 +164,13 @@ struct Converter<gin_helper::Promise<T>> {
                                    const gin_helper::Promise<T>& val) {
     return val.GetHandle();
   }
-  // TODO(MarshallOfSound): Implement FromV8 to allow promise chaining
-  //                        in native land
-  // static bool FromV8(v8::Isolate* isolate,
-  //                    v8::Local<v8::Value> val,
-  //                    Promise* out);
+  // TODO(MarshallOfSound)：实现FromV8以允许承诺链接。
+  // 在故乡。
+  // 静态布尔来自V8(V8：：Isolate*Isolate，
+  // V8：：local&lt;v8：：value&gt;val，
+  // 承诺*出局)；
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
-#endif  // SHELL_COMMON_GIN_HELPER_PROMISE_H_
+#endif  // Shell_COMMON_GIN_HELPER_PROMANCE_H_

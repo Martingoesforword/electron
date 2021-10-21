@@ -1,6 +1,6 @@
-// Copyright (c) 2015 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2015年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #ifndef SHELL_BROWSER_WIN_SCOPED_HSTRING_H_
 #define SHELL_BROWSER_WIN_SCOPED_HSTRING_H_
@@ -16,22 +16,22 @@ namespace electron {
 
 class ScopedHString {
  public:
-  // Copy from |source|.
+  // 复制自|源|。
   explicit ScopedHString(const wchar_t* source);
   explicit ScopedHString(const std::wstring& source);
-  // Create empty string.
+  // 创建空字符串。
   ScopedHString();
   ~ScopedHString();
 
-  // Sets to |source|.
+  // 设置为|源|。
   void Reset();
   void Reset(const wchar_t* source);
   void Reset(const std::wstring& source);
 
-  // Returns string.
+  // 返回字符串。
   operator HSTRING() const { return str_; }
 
-  // Whether there is a string created.
+  // 是否创建了字符串。
   bool success() const { return str_; }
 
  private:
@@ -40,6 +40,6 @@ class ScopedHString {
   DISALLOW_COPY_AND_ASSIGN(ScopedHString);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_BROWSER_WIN_SCOPED_HSTRING_H_
+#endif  // Shell_Browser_Win_Scope_HSTRING_H_

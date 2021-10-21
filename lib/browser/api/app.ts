@@ -6,12 +6,12 @@ const bindings = process._linkedBinding('electron_browser_app');
 const commandLine = process._linkedBinding('electron_common_command_line');
 const { app } = bindings;
 
-// Only one app object permitted.
+// 只允许一个应用程序对象。
 export default app;
 
 let dockMenu: Electron.Menu | null = null;
 
-// Properties.
+// 财产。
 
 const nativeASGetter = app.isAccessibilitySupportEnabled;
 const nativeASSetter = app.setAccessibilitySupportEnabled;
@@ -44,8 +44,8 @@ Object.assign(app, {
   } as Electron.CommandLine
 });
 
-// we define this here because it'd be overly complicated to
-// do in native land
+// 我们之所以在这里定义这一点，是因为要把它定义得过于复杂。
+// 在本土做的事。
 Object.defineProperty(app, 'applicationMenu', {
   get () {
     return Menu.getApplicationMenu();
@@ -55,7 +55,7 @@ Object.defineProperty(app, 'applicationMenu', {
   }
 });
 
-// The native implementation is not provided on non-windows platforms
+// 非windows平台上不提供本机实现。
 app.setAppUserModelId = app.setAppUserModelId || (() => {});
 
 if (process.platform === 'darwin') {
@@ -104,7 +104,7 @@ if (process.platform === 'linux') {
   };
 }
 
-// Routes the events to webContents.
+// 将事件路由到webContents。
 const events = ['certificate-error', 'select-client-certificate'];
 for (const name of events) {
   app.on(name as 'certificate-error', (event, webContents, ...args: any[]) => {

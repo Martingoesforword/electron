@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_RENDERER_ELECTRON_API_SERVICE_IMPL_H_
 #define SHELL_RENDERER_ELECTRON_API_SERVICE_IMPL_H_
@@ -47,13 +47,13 @@ class ElectronApiServiceImpl : public mojom::ElectronRenderer,
       mojo::ScopedMessagePipeHandle* interface_pipe) override;
 
  private:
-  // RenderFrameObserver implementation.
+  // RenderFrameWatch实现。
   void DidCreateDocumentElement() override;
   void OnDestruct() override;
 
   void OnConnectionError();
 
-  // Whether the DOM document element has been created.
+  // 是否已创建DOM文档元素。
   bool document_created_ = false;
   service_manager::BinderRegistry registry_;
 
@@ -66,6 +66,6 @@ class ElectronApiServiceImpl : public mojom::ElectronRenderer,
   DISALLOW_COPY_AND_ASSIGN(ElectronApiServiceImpl);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
-#endif  // SHELL_RENDERER_ELECTRON_API_SERVICE_IMPL_H_
+#endif  // Shell_渲染器_电子_API_SERVICE_IMPLL_H_

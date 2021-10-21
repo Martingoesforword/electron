@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_OSR_OSR_RENDER_WIDGET_HOST_VIEW_H_
 #define SHELL_BROWSER_OSR_OSR_RENDER_WIDGET_HOST_VIEW_H_
@@ -19,11 +19,11 @@
 #include "base/time/time.h"
 #include "components/viz/common/quads/compositor_frame.h"
 #include "components/viz/common/surfaces/parent_local_surface_id_allocator.h"
-#include "content/browser/renderer_host/delegated_frame_host.h"  // nogncheck
-#include "content/browser/renderer_host/input/mouse_wheel_phase_handler.h"  // nogncheck
-#include "content/browser/renderer_host/render_widget_host_impl.h"  // nogncheck
-#include "content/browser/renderer_host/render_widget_host_view_base.h"  // nogncheck
-#include "content/browser/web_contents/web_contents_view.h"  // nogncheck
+#include "content/browser/renderer_host/delegated_frame_host.h"  // 点名检查。
+#include "content/browser/renderer_host/input/mouse_wheel_phase_handler.h"  // 点名检查。
+#include "content/browser/renderer_host/render_widget_host_impl.h"  // 点名检查。
+#include "content/browser/renderer_host/render_widget_host_view_base.h"  // 点名检查。
+#include "content/browser/web_contents/web_contents_view.h"  // 点名检查。
 #include "shell/browser/osr/osr_host_display_client.h"
 #include "shell/browser/osr/osr_video_consumer.h"
 #include "shell/browser/osr/osr_view_proxy.h"
@@ -69,7 +69,7 @@ class OffScreenRenderWidgetHostView : public content::RenderWidgetHostViewBase,
                                 gfx::Size initial_size);
   ~OffScreenRenderWidgetHostView() override;
 
-  // content::RenderWidgetHostView:
+  // 内容：：RenderWidgetHostView：
   void InitAsChild(gfx::NativeView) override;
   void SetSize(const gfx::Size&) override;
   void SetBounds(const gfx::Rect&) override;
@@ -108,9 +108,9 @@ class OffScreenRenderWidgetHostView : public content::RenderWidgetHostViewBase,
       const std::vector<std::string>& file_paths,
       blink::mojom::ShareService::ShareCallback callback) override;
   bool UpdateNSViewAndDisplay();
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 
-  // content::RenderWidgetHostViewBase:
+  // 内容：：RenderWidgetHostViewBase：
 
   void ResetFallbackToFirstNavigationSurface() override;
   void InitAsPopup(content::RenderWidgetHostView* parent_host_view,
@@ -157,7 +157,7 @@ class OffScreenRenderWidgetHostView : public content::RenderWidgetHostViewBase,
       RenderWidgetHostViewBase* target_view,
       gfx::PointF* transformed_point) override;
 
-  // ui::CompositorDelegate:
+  // UI：：CompositorDelegate：
   bool IsOffscreen() const override;
   std::unique_ptr<viz::HostDisplayClient> CreateHostDisplayClient(
       ui::Compositor* compositor) override;
@@ -225,11 +225,11 @@ class OffScreenRenderWidgetHostView : public content::RenderWidgetHostViewBase,
 
   viz::FrameSinkId AllocateFrameSinkId();
 
-  // Applies background color without notifying the RenderWidget about
-  // opaqueness changes.
+  // 在不通知RenderWidget的情况下应用背景色。
+  // 不透明改变。
   void UpdateBackgroundColorFromRenderer(SkColor color);
 
-  // Weak ptrs.
+  // 较弱的PTRS。
   content::RenderWidgetHostImpl* render_widget_host_;
 
   OffScreenRenderWidgetHostView* parent_host_view_ = nullptr;
@@ -280,9 +280,9 @@ class OffScreenRenderWidgetHostView : public content::RenderWidgetHostViewBase,
 
   content::MouseWheelPhaseHandler mouse_wheel_phase_handler_;
 
-  // Latest capture sequence number which is incremented when the caller
-  // requests surfaces be synchronized via
-  // EnsureSurfaceSynchronizedForWebTest().
+  // 最新捕获序列号，该序列号在调用方执行以下操作时递增。
+  // 请求通过以下方式同步曲面。
+  // EnsureSurfaceSynchronizedForWebTest()。
   uint32_t latest_capture_sequence_number_ = 0u;
 
   SkColor background_color_ = SkColor();
@@ -294,6 +294,6 @@ class OffScreenRenderWidgetHostView : public content::RenderWidgetHostViewBase,
   DISALLOW_COPY_AND_ASSIGN(OffScreenRenderWidgetHostView);
 };
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_OSR_OSR_RENDER_WIDGET_HOST_VIEW_H_

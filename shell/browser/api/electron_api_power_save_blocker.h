@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_BROWSER_API_ELECTRON_API_POWER_SAVE_BLOCKER_H_
 #define SHELL_BROWSER_API_ELECTRON_API_POWER_SAVE_BLOCKER_H_
@@ -21,7 +21,7 @@ class PowerSaveBlocker : public gin::Wrappable<PowerSaveBlocker> {
  public:
   static gin::Handle<PowerSaveBlocker> Create(v8::Isolate* isolate);
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override;
 
@@ -39,13 +39,13 @@ class PowerSaveBlocker : public gin::Wrappable<PowerSaveBlocker> {
 
   device::mojom::WakeLock* GetWakeLock();
 
-  // Current wake lock level.
+  // 当前唤醒锁定级别。
   device::mojom::WakeLockType current_lock_type_;
 
-  // Whether the wake lock is currently active.
+  // 唤醒锁当前是否处于活动状态。
   bool is_wake_lock_active_ = false;
 
-  // Map from id to the corresponding blocker type for each request.
+  // 将id映射到每个请求的相应拦截器类型。
   using WakeLockTypeMap = std::map<int, device::mojom::WakeLockType>;
   WakeLockTypeMap wake_lock_types_;
 
@@ -54,8 +54,8 @@ class PowerSaveBlocker : public gin::Wrappable<PowerSaveBlocker> {
   DISALLOW_COPY_AND_ASSIGN(PowerSaveBlocker);
 };
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 #endif  // SHELL_BROWSER_API_ELECTRON_API_POWER_SAVE_BLOCKER_H_

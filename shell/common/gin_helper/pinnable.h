@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef SHELL_COMMON_GIN_HELPER_PINNABLE_H_
 #define SHELL_COMMON_GIN_HELPER_PINNABLE_H_
@@ -12,7 +12,7 @@ namespace gin_helper {
 template <typename T>
 class Pinnable {
  protected:
-  // Prevent the object from being garbage collected until Unpin() is called.
+  // 在调用Unpin()之前防止对对象进行垃圾回收。
   void Pin(v8::Isolate* isolate) {
     v8::Locker locker(isolate);
     v8::HandleScope scope(isolate);
@@ -22,13 +22,13 @@ class Pinnable {
     }
   }
 
-  // Allow the object to be garbage collected.
+  // 允许对对象进行垃圾回收。
   void Unpin() { pinned_.Reset(); }
 
  private:
   v8::Global<v8::Value> pinned_;
 };
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper。
 
 #endif  // SHELL_COMMON_GIN_HELPER_PINNABLE_H_
