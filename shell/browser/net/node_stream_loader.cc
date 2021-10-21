@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/net/node_stream_loader.h"
 
@@ -34,7 +34,7 @@ NodeStreamLoader::~NodeStreamLoader() {
   v8::Isolate::Scope isolate_scope(isolate_);
   v8::HandleScope handle_scope(isolate_);
 
-  // Unsubscribe all handlers.
+  // 取消订阅所有处理程序。
   for (const auto& it : handlers_) {
     v8::Local<v8::Value> args[] = {gin::StringToV8(isolate_, it.first),
                                    it.second.Get(isolate_)};
@@ -42,7 +42,7 @@ NodeStreamLoader::~NodeStreamLoader() {
                        node::arraysize(args), args, {0, 0});
   }
 
-  // Destroy the stream if not already ended
+  // 如果流尚未结束，请销毁该流。
   if (!ended_) {
     node::MakeCallback(isolate_, emitter_.Get(isolate_), "destroy", 0, nullptr,
                        {0, 0});
@@ -79,7 +79,7 @@ void NodeStreamLoader::NotifyReadable() {
 }
 
 void NodeStreamLoader::NotifyComplete(int result) {
-  // Wait until write finishes or fails.
+  // 等待写入完成或失败。
   if (is_reading_ || is_writing_) {
     ended_ = true;
     result_ = result;
@@ -92,25 +92,25 @@ void NodeStreamLoader::NotifyComplete(int result) {
 
 void NodeStreamLoader::ReadMore() {
   if (is_reading_) {
-    // Calling read() can trigger the "readable" event again, making this
-    // function re-entrant. If we're already reading, we don't want to start
-    // a nested read, so short-circuit.
+    // 调用read()可以再次触发“readable”事件，使得。
+    // 函数重入。如果我们已经在阅读了，我们就不想开始。
+    // 嵌套读取，所以短路。
     return;
   }
   is_reading_ = true;
   auto weak = weak_factory_.GetWeakPtr();
   v8::HandleScope scope(isolate_);
-  // buffer = emitter.read()
+  // Buffer=emitter.read()。
   v8::MaybeLocal<v8::Value> ret = node::MakeCallback(
       isolate_, emitter_.Get(isolate_), "read", 0, nullptr, {0, 0});
   DCHECK(weak) << "We shouldn't have been destroyed when calling read()";
 
-  // If there is no buffer read, wait until |readable| is emitted again.
+  // 如果没有缓冲区读取，请等待再次发出|Readable|。
   v8::Local<v8::Value> buffer;
   if (!ret.ToLocal(&buffer) || !node::Buffer::HasInstance(buffer)) {
     is_reading_ = false;
 
-    // If 'readable' was called after 'read()', try again
+    // 如果在“read()”之后调用了“readable”，请重试。
     if (has_read_waiting_) {
       has_read_waiting_ = false;
       ReadMore();
@@ -124,10 +124,10 @@ void NodeStreamLoader::ReadMore() {
     return;
   }
 
-  // Hold the buffer until the write is done.
+  // 保持缓冲区，直到写入完成。
   buffer_.Reset(isolate_, buffer);
 
-  // Write buffer to mojo pipe asynchronously.
+  // 将缓冲区异步写入mojo管道。
   is_reading_ = false;
   is_writing_ = true;
   producer_->Write(std::make_unique<mojo::StringDataSource>(
@@ -140,7 +140,7 @@ void NodeStreamLoader::ReadMore() {
 
 void NodeStreamLoader::DidWrite(MojoResult result) {
   is_writing_ = false;
-  // We were told to end streaming.
+  // 我们被告知停止流媒体播放。
   if (ended_) {
     NotifyComplete(result_);
     return;
@@ -157,7 +157,7 @@ void NodeStreamLoader::On(const char* event, EventCallback callback) {
   v8::Isolate::Scope isolate_scope(isolate_);
   v8::HandleScope handle_scope(isolate_);
 
-  // emitter.on(event, callback)
+  // Emitter.on(事件，回调)。
   v8::Local<v8::Value> args[] = {
       gin::StringToV8(isolate_, event),
       gin_helper::CallbackToV8Leaked(isolate_, std::move(callback)),
@@ -165,7 +165,7 @@ void NodeStreamLoader::On(const char* event, EventCallback callback) {
   handlers_[event].Reset(isolate_, args[1]);
   node::MakeCallback(isolate_, emitter_.Get(isolate_), "on",
                      node::arraysize(args), args, {0, 0});
-  // No more code below, as this class may destruct when subscribing.
+  // 下面不再有代码，因为该类在订阅时可能会销毁。
 }
 
-}  // namespace electron
+}  // 命名空间电子

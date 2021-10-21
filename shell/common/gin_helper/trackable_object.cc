@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_helper/trackable_object.h"
 
@@ -29,10 +29,10 @@ class IDUserData : public base::SupportsUserData::Data {
   DISALLOW_COPY_AND_ASSIGN(IDUserData);
 };
 
-}  // namespace
+}  // 命名空间。
 
 TrackableObjectBase::TrackableObjectBase() {
-  // TODO(zcbenz): Make TrackedObject work in renderer process.
+  // TODO(Zcbenz)：使TrackedObject在渲染器进程中工作。
   DCHECK(gin_helper::Locker::IsBrowserProcess())
       << "This class only works for browser process";
 }
@@ -53,7 +53,7 @@ void TrackableObjectBase::AttachAsUserData(base::SupportsUserData* wrapped) {
                        std::make_unique<IDUserData>(weak_map_id_));
 }
 
-// static
+// 静电。
 int32_t TrackableObjectBase::GetIDFromWrappedClass(
     base::SupportsUserData* wrapped) {
   if (wrapped) {
@@ -65,4 +65,4 @@ int32_t TrackableObjectBase::GetIDFromWrappedClass(
   return 0;
 }
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper

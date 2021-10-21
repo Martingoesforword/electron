@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/electron_render_frame_observer.h"
 
@@ -45,7 +45,7 @@ scoped_refptr<base::RefCountedMemory> NetResourceProvider(int key) {
   return nullptr;
 }
 
-}  // namespace
+}  // 命名空间。
 
 ElectronRenderFrameObserver::ElectronRenderFrameObserver(
     content::RenderFrame* frame,
@@ -53,7 +53,7 @@ ElectronRenderFrameObserver::ElectronRenderFrameObserver(
     : content::RenderFrameObserver(frame),
       render_frame_(frame),
       renderer_client_(renderer_client) {
-  // Initialise resource for directory listing.
+  // 初始化目录列表的资源。
   net::NetModule::SetResourceProvider(NetResourceProvider);
 }
 
@@ -73,9 +73,9 @@ void ElectronRenderFrameObserver::DidInstallConditionalFeatures(
 
   auto prefs = render_frame_->GetBlinkPreferences();
   bool use_context_isolation = prefs.context_isolation;
-  // This logic matches the EXPLAINED logic in electron_renderer_client.cc
-  // to avoid explaining it twice go check that implementation in
-  // DidCreateScriptContext();
+  // 此逻辑与Electronics_renender_client.cc中解释的逻辑相匹配。
+  // 为了避免解释两次，请将该实现签入。
+  // DidCreateScriptContext()；
   bool is_main_world = IsMainWorld(world_id);
   bool is_main_frame = render_frame_->IsMainFrame();
   bool allow_node_in_sub_frames = prefs.node_integration_in_sub_frames;
@@ -133,15 +133,15 @@ void ElectronRenderFrameObserver::DidMeaningfulLayout(
 void ElectronRenderFrameObserver::CreateIsolatedWorldContext() {
   auto* frame = render_frame_->GetWebFrame();
   blink::WebIsolatedWorldInfo info;
-  // This maps to the name shown in the context combo box in the Console tab
-  // of the dev tools.
+  // 这将映射到Console选项卡的Context组合框中显示的名称。
+  // 开发工具。
   info.human_readable_name =
       blink::WebString::FromUTF8("Electron Isolated Context");
-  // Setup document's origin policy in isolated world
+  // 在与世隔绝的世界中设置文档的来源策略。
   info.security_origin = frame->GetDocument().GetSecurityOrigin();
   blink::SetIsolatedWorldInfo(WorldIDs::ISOLATED_WORLD_ID, info);
 
-  // Create initial script context in isolated world
+  // 在与世隔绝的世界中创建初始脚本上下文。
   blink::WebScriptSource source("void 0");
   frame->ExecuteScriptInIsolatedWorld(
       WorldIDs::ISOLATED_WORLD_ID, source,
@@ -159,12 +159,12 @@ bool ElectronRenderFrameObserver::IsIsolatedWorld(int world_id) {
 bool ElectronRenderFrameObserver::ShouldNotifyClient(int world_id) {
   auto prefs = render_frame_->GetBlinkPreferences();
 
-  // This is necessary because if an iframe is created and a source is not
-  // set, the iframe loads about:blank and creates a script context for the
-  // same. We don't want to create a Node.js environment here because if the src
-  // is later set, the JS necessary to do that triggers illegal access errors
-  // when the initial about:blank Node.js environment is cleaned up. See:
-  // https://source.chromium.org/chromium/chromium/src/+/main:content/renderer/render_frame_impl.h;l=870-892;drc=4b6001440a18740b76a1c63fa2a002cc941db394
+  // 这是必要的，因为如果创建了IFRAME而未创建源。
+  // 设置时，IFRAME将加载About：空白，并为。
+  // 一样的。我们不想在这里创建Node.js环境，因为如果src。
+  // 稍后设置，则执行该操作所需的JS将触发非法访问错误。
+  // 清理初始的About：Blank Node.js环境后。请参见：
+  // Https://source.chromium.org/chromium/chromium/src/+/main:content/renderer/render_frame_impl.h；l=870-892；drc=4b6001440a18740b76a1c63fa2a002cc941db394。
   GURL url = render_frame_->GetWebFrame()->GetDocument().Url();
   bool allow_node_in_sub_frames = prefs.node_integration_in_sub_frames;
   if (allow_node_in_sub_frames && url.IsAboutBlank() &&
@@ -178,4 +178,4 @@ bool ElectronRenderFrameObserver::ShouldNotifyClient(int world_id) {
   return IsMainWorld(world_id);
 }
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_converters/accelerator_converter.h"
 
@@ -10,7 +10,7 @@
 
 namespace gin {
 
-// static
+// 静电。
 bool Converter<ui::Accelerator>::FromV8(v8::Isolate* isolate,
                                         v8::Local<v8::Value> val,
                                         ui::Accelerator* out) {
@@ -20,4 +20,4 @@ bool Converter<ui::Accelerator>::FromV8(v8::Isolate* isolate,
   return accelerator_util::StringToAccelerator(keycode, out);
 }
 
-}  // namespace gin
+}  // 命名空间杜松子酒

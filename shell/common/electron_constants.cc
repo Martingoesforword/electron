@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/electron_constants.h"
 
@@ -33,6 +33,6 @@ const char kRunAsNode[] = "ELECTRON_RUN_AS_NODE";
 const char kPdfPluginMimeType[] = "application/x-google-chrome-pdf";
 const base::FilePath::CharType kPdfPluginPath[] =
     FILE_PATH_LITERAL("internal-pdf-viewer");
-#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)
+#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)。
 
-}  // namespace electron
+}  // 命名空间电子

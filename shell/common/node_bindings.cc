@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/node_bindings.h"
 
@@ -36,7 +36,7 @@
 #include "shell/common/gin_helper/microtasks_scope.h"
 #include "shell/common/mac/main_application_bundle.h"
 #include "shell/common/node_includes.h"
-#include "third_party/blink/renderer/bindings/core/v8/v8_initializer.h"  // nogncheck
+#include "third_party/blink/renderer/bindings/core/v8/v8_initializer.h"  // 点名检查。
 
 #if !defined(MAS_BUILD)
 #include "shell/common/crash_keys.h"
@@ -93,11 +93,11 @@
 
 #define ELECTRON_TESTING_MODULE(V) V(electron_common_testing)
 
-// This is used to load built-in modules. Instead of using
-// __attribute__((constructor)), we call the _register_<modname>
-// function for each built-in modules explicitly. This is only
-// forward declaration. The definitions are in each module's
-// implementation when calling the NODE_LINKED_MODULE_CONTEXT_AWARE.
+// 这用于加载内置模块。而不是使用。
+// __ATTRIBUTE__((构造函数))，我们调用_register_&lt;modname&gt;。
+// 显式地为每个内置模块提供函数。这只是。
+// 正向申报。定义在每个模块的。
+// 调用NODE_LINKED_MODULE_CONTEXT_AWARE时实现。
 #define V(modname) void _register_##modname();
 ELECTRON_BUILTIN_MODULES(V)
 #if BUILDFLAG(ENABLE_VIEWS_API)
@@ -117,10 +117,10 @@ void stop_and_close_uv_loop(uv_loop_t* loop) {
   uv_stop(loop);
 
   auto const ensure_closing = [](uv_handle_t* handle, void*) {
-    // We should be using the UvHandle wrapper everywhere, in which case
-    // all handles should already be in a closing state...
+    // 我们应该在任何地方使用UvHandle包装器，在这种情况下。
+    // 所有手柄应已处于关闭状态...。
     DCHECK(uv_is_closing(handle));
-    // ...but if a raw handle got through, through, do the right thing anyway
+    // .但是如果一个未加工的把手通过了，通过了，还是要做正确的事情。
     if (!uv_is_closing(handle)) {
       uv_close(handle, nullptr);
     }
@@ -128,8 +128,8 @@ void stop_and_close_uv_loop(uv_loop_t* loop) {
 
   uv_walk(loop, ensure_closing, nullptr);
 
-  // All remaining handles are in a closing state now.
-  // Pump the event loop so that they can finish closing.
+  // 所有剩余的句柄现在都处于关闭状态。
+  // 泵送事件循环，以便它们可以完成关闭。
   for (;;)
     if (uv_run(loop, UV_RUN_DEFAULT) == 0)
       break;
@@ -153,8 +153,8 @@ void V8FatalErrorCallback(const char* location, const char* message) {
 
 bool AllowWasmCodeGenerationCallback(v8::Local<v8::Context> context,
                                      v8::Local<v8::String>) {
-  // If we're running with contextIsolation enabled in the renderer process,
-  // fall back to Blink's logic.
+  // 如果我们在渲染器进程中启用了contextIsolation，
+  // 回到布林克的逻辑。
   v8::Isolate* isolate = context->GetIsolate();
   if (node::Environment::GetCurrent(isolate) == nullptr) {
     if (gin_helper::Locker::IsBrowserProcess())
@@ -175,8 +175,8 @@ void ErrorMessageListener(v8::Local<v8::Message> message,
   node::Environment* env = node::Environment::GetCurrent(isolate);
 
   if (env) {
-    // Emit the after() hooks now that the exception has been handled.
-    // Analogous to node/lib/internal/process/execution.js#L176-L180
+    // 既然异常已经被处理，就发出After()钩子。
+    // 类似于node/lib/internal/process/execution.js#L176-L180。
     if (env->async_hooks()->fields()[node::AsyncHooks::kAfter]) {
       while (env->async_hooks()->fields()[node::AsyncHooks::kStackLength]) {
         node::AsyncWrap::EmitAfter(env, env->execution_async_id());
@@ -184,8 +184,8 @@ void ErrorMessageListener(v8::Local<v8::Message> message,
       }
     }
 
-    // Ensure that the async id stack is properly cleared so the async
-    // hook stack does not become corrupted.
+    // 确保正确清除异步ID堆栈，以便异步。
+    // 挂钩堆栈未损坏。
     env->async_hooks()->clear_async_id_stack();
   }
 }
@@ -193,7 +193,7 @@ void ErrorMessageListener(v8::Local<v8::Message> message,
 const std::unordered_set<base::StringPiece, base::StringPieceHash>
 GetAllowedDebugOptions() {
   if (electron::fuses::IsNodeCliInspectEnabled()) {
-    // Only allow DebugOptions in non-ELECTRON_RUN_AS_NODE mode
+    // 仅允许非电子Run_As_Node模式下的DebugOptions。
     return {
         "--inspect",          "--inspect-brk",
         "--inspect-port",     "--debug",
@@ -201,12 +201,12 @@ GetAllowedDebugOptions() {
         "--inspect-brk-node", "--inspect-publish-uid",
     };
   }
-  // If node CLI inspect support is disabled, allow no debug options.
+  // 如果禁用了节点CLI检查支持，则不允许任何调试选项。
   return {};
 }
 
-// Initialize Node.js cli options to pass to Node.js
-// See https://nodejs.org/api/cli.html#cli_options
+// 初始化Node.js cli选项以传递给Node.js。
+// 请参阅https://nodejs.org/api/cli.html#cli_options。
 void SetNodeCliFlags() {
   const std::unordered_set<base::StringPiece, base::StringPieceHash> allowed =
       GetAllowedDebugOptions();
@@ -214,9 +214,9 @@ void SetNodeCliFlags() {
   const auto argv = base::CommandLine::ForCurrentProcess()->argv();
   std::vector<std::string> args;
 
-  // TODO(codebytere): We need to set the first entry in args to the
-  // process name owing to src/node_options-inl.h#L286-L290 but this is
-  // redundant and so should be refactored upstream.
+  // TODO(Codebytere)：我们需要将args中的第一个条目设置为。
+  // 由于src/node_options-inl.h#L286-L290而导致的进程名称，但这是。
+  // 这是多余的，因此应该在上游进行重构。
   args.reserve(argv.size() + 1);
   args.emplace_back("electron");
 
@@ -228,7 +228,7 @@ void SetNodeCliFlags() {
 #endif
     const auto stripped = base::StringPiece(option).substr(0, option.find('='));
 
-    // Only allow in no-op (--) option or DebugOptions
+    // 仅允许在no-op(--)选项或DebugOptions中使用。
     if (allowed.count(stripped) != 0 || stripped == "--")
       args.push_back(option);
   }
@@ -245,15 +245,15 @@ void SetNodeCliFlags() {
   }
 }
 
-// Initialize NODE_OPTIONS to pass to Node.js
-// See https://nodejs.org/api/cli.html#cli_node_options_options
+// 初始化node_options以传递给Node.js。
+// 请参阅https://nodejs.org/api/cli.html#cli_node_options_options。
 void SetNodeOptions(base::Environment* env) {
-  // Options that are unilaterally disallowed
+  // 单方面不允许的期权。
   const std::set<std::string> disallowed = {
       "--openssl-config", "--use-bundled-ca", "--use-openssl-ca",
       "--force-fips", "--enable-fips"};
 
-  // Subset of options allowed in packaged apps
+  // 打包应用程序中允许的选项子集。
   const std::set<std::string> allowed_in_packaged = {"--max-http-header-size",
                                                      "--http-parser"};
 
@@ -267,25 +267,25 @@ void SetNodeOptions(base::Environment* env) {
       bool is_packaged_app = electron::api::App::IsPackaged();
 
       for (const auto& part : parts) {
-        // Strip off values passed to individual NODE_OPTIONs
+        // 剥离传递给各个node_options的值。
         std::string option = part.substr(0, part.find('='));
 
         if (is_packaged_app &&
             allowed_in_packaged.find(option) == allowed_in_packaged.end()) {
-          // Explicitly disallow majority of NODE_OPTIONS in packaged apps
+          // 明确禁止打包应用程序中的大多数NODE_OPTIONS。
           LOG(ERROR) << "Most NODE_OPTIONs are not supported in packaged apps."
                      << " See documentation for more details.";
           options.erase(options.find(option), part.length());
         } else if (disallowed.find(option) != disallowed.end()) {
-          // Remove NODE_OPTIONS specifically disallowed for use in Node.js
-          // through Electron owing to constraints like BoringSSL.
+          // 删除专门不允许在Node.js中使用的node_options。
+          // 由于像BoringSSL这样的限制，我们通过Electron。
           LOG(ERROR) << "The NODE_OPTION " << option
                      << " is not supported in Electron";
           options.erase(options.find(option), part.length());
         }
       }
 
-      // overwrite new NODE_OPTIONS without unsupported variables
+      // 覆盖不带不支持变量的新NODE_OPTIONS。
       env->SetVar("NODE_OPTIONS", options);
     } else {
       LOG(ERROR) << "NODE_OPTIONS have been disabled in this app";
@@ -294,7 +294,7 @@ void SetNodeOptions(base::Environment* env) {
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -312,7 +312,7 @@ base::FilePath GetResourcesPath() {
 #endif
 }
 
-}  // namespace
+}  // 命名空间。
 
 NodeBindings::NodeBindings(BrowserEnvironment browser_env)
     : browser_env_(browser_env) {
@@ -325,20 +325,20 @@ NodeBindings::NodeBindings(BrowserEnvironment browser_env)
 }
 
 NodeBindings::~NodeBindings() {
-  // Quit the embed thread.
+  // 退出嵌入线程。
   embed_closed_ = true;
   uv_sem_post(&embed_sem_);
 
   WakeupEmbedThread();
 
-  // Wait for everything to be done.
+  // 等待一切都做好。
   uv_thread_join(&embed_thread_);
 
-  // Clear uv.
+  // 清除UV。
   uv_sem_destroy(&embed_sem_);
   dummy_uv_handle_.reset();
 
-  // Clean up worker loop
+  // 清理工作循环
   if (in_worker_loop())
     stop_and_close_uv_loop(uv_loop_);
 }
@@ -364,19 +364,19 @@ bool NodeBindings::IsInitialized() {
 
 void NodeBindings::Initialize() {
   TRACE_EVENT0("electron", "NodeBindings::Initialize");
-  // Open node's error reporting system for browser process.
+  // 开放节点的错误报告系统，供浏览器进程使用。
   node::g_upstream_node_mode = false;
 
 #if defined(OS_LINUX)
-  // Get real command line in renderer process forked by zygote.
+  // 获取由zygote派生的渲染器进程中的真实命令行。
   if (browser_env_ != BrowserEnvironment::kBrowser)
     ElectronCommandLine::InitializeFromCommandLine();
 #endif
 
-  // Explicitly register electron's builtin modules.
+  // 明确注册电子的内置模块。
   RegisterBuiltinModules();
 
-  // Parse and set Node.js cli flags.
+  // 解析并设置Node.js cli标志。
   SetNodeCliFlags();
 
   auto env = base::Environment::Create();
@@ -397,8 +397,8 @@ void NodeBindings::Initialize() {
     exit(exit_code);
 
 #if defined(OS_WIN)
-  // uv_init overrides error mode to suppress the default crash dialog, bring
-  // it back if user wants to show it.
+  // Uv_init覆盖错误模式以取消默认的崩溃对话框。
+  // 如果用户想要显示它，它会返回。
   if (browser_env_ == BrowserEnvironment::kBrowser ||
       env->HasVar("ELECTRON_DEFAULT_ERROR_MODE"))
     SetErrorMode(GetErrorMode() & ~SEM_NOGPFAULTERRORBOX);
@@ -419,7 +419,7 @@ node::Environment* NodeBindings::CreateEnvironment(
   auto args = ElectronCommandLine::argv();
 #endif
 
-  // Feed node the path to initialization script.
+  // Feed节点初始化脚本的路径。
   std::string process_type;
   switch (browser_env_) {
     case BrowserEnvironment::kBrowser:
@@ -435,9 +435,9 @@ node::Environment* NodeBindings::CreateEnvironment(
 
   v8::Isolate* isolate = context->GetIsolate();
   gin_helper::Dictionary global(isolate, context->Global());
-  // Do not set DOM globals for renderer process.
-  // We must set this before the node bootstrapper which is run inside
-  // CreateEnvironment
+  // 不要为渲染器进程设置DOM全局变量。
+  // 我们必须在内部运行的节点引导程序之前设置此设置。
+  // CreateEnvironment。
   if (browser_env_ != BrowserEnvironment::kBrowser)
     global.Set("_noBrowserGlobals", true);
 
@@ -471,9 +471,9 @@ node::Environment* NodeBindings::CreateEnvironment(
                    node::EnvironmentFlags::kNoGlobalSearchPaths;
 
   if (browser_env_ != BrowserEnvironment::kBrowser) {
-    // Only one ESM loader can be registered per isolate -
-    // in renderer processes this should be blink. We need to tell Node.js
-    // not to register its handler (overriding blinks) in non-browser processes.
+    // 每个隔离物只能注册一个ESM加载器-。
+    // 在渲染器进程中，这应该是闪烁的。我们需要告诉Node.js。
+    // 不在非浏览器进程中注册其处理程序(覆盖闪烁)。
     flags |= node::EnvironmentFlags::kNoRegisterESMLoader |
              node::EnvironmentFlags::kNoInitializeInspector;
     v8::TryCatch try_catch(context->GetIsolate());
@@ -482,8 +482,8 @@ node::Environment* NodeBindings::CreateEnvironment(
         static_cast<node::EnvironmentFlags::Flags>(flags));
     DCHECK(env);
 
-    // This will only be caught when something has gone terrible wrong as all
-    // electron scripts are wrapped in a try {} catch {} by webpack
+    // 只有当某些事情出了可怕的问题时，才会发现这一点。
+    // 电子剧本包装在webpack的一次尝试{}捕捉{}中。
     if (try_catch.HasCaught()) {
       LOG(ERROR) << "Failed to initialize node environment in process: "
                  << process_type;
@@ -495,62 +495,62 @@ node::Environment* NodeBindings::CreateEnvironment(
     DCHECK(env);
   }
 
-  // Clean up the global _noBrowserGlobals that we unironically injected into
-  // the global scope
+  // 清理我们以非讽刺方式注入的global_noBrowserGlobals。
+  // 全球范围。
   if (browser_env_ != BrowserEnvironment::kBrowser) {
-    // We need to bootstrap the env in non-browser processes so that
-    // _noBrowserGlobals is read correctly before we remove it
+    // 我们需要在非浏览器进程中引导env，以便。
+    // _noBrowserGlobals在我们删除之前已正确读取。
     global.Delete("_noBrowserGlobals");
   }
 
   node::IsolateSettings is;
 
-  // Use a custom fatal error callback to allow us to add
-  // crash message and location to CrashReports.
+  // 使用自定义致命错误回调允许我们添加。
+  // 将崩溃消息和位置发送到CrashReports。
   is.fatal_error_callback = V8FatalErrorCallback;
 
-  // We don't want to abort either in the renderer or browser processes.
-  // We already listen for uncaught exceptions and handle them there.
+  // 我们不想在渲染器或浏览器进程中中止。
+  // 我们已经在监听未捕获的异常并在那里处理它们。
   is.should_abort_on_uncaught_exception_callback = [](v8::Isolate*) {
     return false;
   };
 
-  // Use a custom callback here to allow us to leverage Blink's logic in the
-  // renderer process.
+  // 在此处使用自定义回调，以允许我们在。
+  // 渲染器进程。
   is.allow_wasm_code_generation_callback = AllowWasmCodeGenerationCallback;
 
   if (browser_env_ == BrowserEnvironment::kBrowser) {
-    // Node.js requires that microtask checkpoints be explicitly invoked.
+    // Js要求显式调用微任务检查点。
     is.policy = v8::MicrotasksPolicy::kExplicit;
   } else {
-    // Blink expects the microtasks policy to be kScoped, but Node.js expects it
-    // to be kExplicit. In the renderer, there can be many contexts within the
-    // same isolate, so we don't want to change the existing policy here, which
-    // could be either kExplicit or kScoped depending on whether we're executing
-    // from within a Node.js or a Blink entrypoint. Instead, the policy is
-    // toggled to kExplicit when entering Node.js through UvRunOnce.
+    // Blink期望微任务策略是kScoped，但Node.js期望它。
+    // 去做一个kexplexent。在呈现器中，
+    // 相同的隔离，所以我们不想在这里更改现有策略，这。
+    // 可以是kExplative或kScoped，具体取决于我们是否正在执行。
+    // 从Node.js或Blink入口点中。相反，政策是。
+    // 已在通过UvRunOnce输入Node.js时切换为kExpltual。
     is.policy = context->GetIsolate()->GetMicrotasksPolicy();
 
-    // We do not want to use Node.js' message listener as it interferes with
-    // Blink's.
+    // 我们不想使用Node.js的消息监听器，因为它会干扰。
+    // 眨眼的。
     is.flags &= ~node::IsolateSettingsFlags::MESSAGE_LISTENER_WITH_ERROR_LEVEL;
 
-    // Isolate message listeners are additive (you can add multiple), so instead
-    // we add an extra one here to ensure that the async hook stack is properly
-    // cleared when errors are thrown.
+    // 隔离消息监听器是累加的(您可以添加多个)，因此。
+    // 我们在这里添加了一个额外的钩子堆栈，以确保异步挂接堆栈正确。
+    // 引发错误时清除。
     context->GetIsolate()->AddMessageListenerWithErrorLevel(
         ErrorMessageListener, v8::Isolate::kMessageError);
 
-    // We do not want to use the promise rejection callback that Node.js uses,
-    // because it does not send PromiseRejectionEvents to the global script
-    // context. We need to use the one Blink already provides.
+    // 我们不想使用Node.js使用的Promise Rejection回调。
+    // 因为它不向全局脚本发送PromiseRejectionEvents。
+    // 背景。我们需要使用Blink已经提供的功能。
     is.flags |=
         node::IsolateSettingsFlags::SHOULD_NOT_SET_PROMISE_REJECTION_CALLBACK;
 
-    // We do not want to use the stack trace callback that Node.js uses,
-    // because it relies on Node.js being aware of the current Context and
-    // that's not always the case. We need to use the one Blink already
-    // provides.
+    // 我们不想使用Node.js使用的堆栈跟踪回调，
+    // 因为它依赖于Node.js感知当前上下文，并且。
+    // 情况并不总是这样。我们已经需要使用One Blink了。
+    // 提供了。
     is.flags |=
         node::IsolateSettingsFlags::SHOULD_NOT_SET_PREPARE_STACK_TRACE_CALLBACK;
   }
@@ -560,7 +560,7 @@ node::Environment* NodeBindings::CreateEnvironment(
   gin_helper::Dictionary process(context->GetIsolate(), env->process_object());
   process.SetReadOnly("type", process_type);
   process.Set("resourcesPath", resources_path);
-  // The path to helper app.
+  // 助手应用程序的路径。
   base::FilePath helper_exec_path;
   base::PathService::Get(content::CHILD_PROCESS_EXE, &helper_exec_path);
   process.Set("helperExecPath", helper_exec_path);
@@ -577,50 +577,50 @@ void NodeBindings::PrepareMessageLoop() {
 #if !defined(OS_WIN)
   int handle = uv_backend_fd(uv_loop_);
 
-  // If the backend fd hasn't changed, don't proceed.
+  // 如果后端FD没有更改，请不要继续。
   if (handle == handle_)
     return;
 
   handle_ = handle;
 #endif
 
-  // Add dummy handle for libuv, otherwise libuv would quit when there is
-  // nothing to do.
+  // 为libuv添加虚拟句柄，否则libuv将在存在时退出。
+  // 没什么可做的。
   uv_async_init(uv_loop_, dummy_uv_handle_.get(), nullptr);
 
-  // Start worker that will interrupt main loop when having uv events.
+  // 启动发生UV事件时将中断主循环的Worker。
   uv_sem_init(&embed_sem_, 0);
   uv_thread_create(&embed_thread_, EmbedThreadRunner, this);
 }
 
 void NodeBindings::RunMessageLoop() {
-  // The MessageLoop should have been created, remember the one in main thread.
+  // 应该已经创建了MessageLoop，请记住主线程中的那个。
   task_runner_ = base::ThreadTaskRunnerHandle::Get();
 
-  // Run uv loop for once to give the uv__io_poll a chance to add all events.
+  // 运行一次UV循环，使uv__io_poll有机会添加所有事件。
   UvRunOnce();
 }
 
 void NodeBindings::UvRunOnce() {
   node::Environment* env = uv_env();
 
-  // When doing navigation without restarting renderer process, it may happen
-  // that the node environment is destroyed but the message loop is still there.
-  // In this case we should not run uv loop.
+  // 在不重新启动渲染器进程的情况下执行导航时，可能会发生这种情况。
+  // 节点环境被破坏，但消息循环仍然存在。
+  // 在这种情况下，我们不应该运行UV循环。
   if (!env)
     return;
 
-  // Use Locker in browser process.
+  // 在浏览器进程中使用锁定器。
   gin_helper::Locker locker(env->isolate());
   v8::HandleScope handle_scope(env->isolate());
 
-  // Enter node context while dealing with uv events.
+  // 在处理UV事件时输入节点上下文。
   v8::Context::Scope context_scope(env->context());
 
-  // Node.js expects `kExplicit` microtasks policy and will run microtasks
-  // checkpoints after every call into JavaScript. Since we use a different
-  // policy in the renderer - switch to `kExplicit` and then drop back to the
-  // previous policy value.
+  // Node.js需要`kExplitt`微任务策略，并将运行微任务。
+  // 每次调用JavaScript后设置检查点。因为我们使用了不同的。
+  // 渲染器中的策略-切换到`kExplit`，然后放回。
+  // 以前的策略值。
   auto old_policy = env->isolate()->GetMicrotasksPolicy();
   DCHECK_EQ(v8::MicrotasksScope::GetCurrentDepth(env->isolate()), 0);
   env->isolate()->SetMicrotasksPolicy(v8::MicrotasksPolicy::kExplicit);
@@ -628,7 +628,7 @@ void NodeBindings::UvRunOnce() {
   if (browser_env_ != BrowserEnvironment::kBrowser)
     TRACE_EVENT_BEGIN0("devtools.timeline", "FunctionCall");
 
-  // Deal with uv events.
+  // 处理紫外线事件。
   int r = uv_run(uv_loop_, UV_RUN_NOWAIT);
 
   if (browser_env_ != BrowserEnvironment::kBrowser)
@@ -637,9 +637,9 @@ void NodeBindings::UvRunOnce() {
   env->isolate()->SetMicrotasksPolicy(old_policy);
 
   if (r == 0)
-    base::RunLoop().QuitWhenIdle();  // Quit from uv.
+    base::RunLoop().QuitWhenIdle();  // 退出UV。
 
-  // Tell the worker thread to continue polling.
+  // 告诉工作线程继续轮询。
   uv_sem_post(&embed_sem_);
 }
 
@@ -653,28 +653,28 @@ void NodeBindings::WakeupEmbedThread() {
   uv_async_send(dummy_uv_handle_.get());
 }
 
-// static
+// 静电。
 void NodeBindings::EmbedThreadRunner(void* arg) {
   auto* self = static_cast<NodeBindings*>(arg);
 
   while (true) {
-    // Wait for the main loop to deal with events.
+    // 等待主循环处理事件。
     uv_sem_wait(&self->embed_sem_);
     if (self->embed_closed_)
       break;
 
-    // Wait for something to happen in uv loop.
-    // Note that the PollEvents() is implemented by derived classes, so when
-    // this class is being destructed the PollEvents() would not be available
-    // anymore. Because of it we must make sure we only invoke PollEvents()
-    // when this class is alive.
+    // 等待UV循环中发生的事情。
+    // 请注意，PollEvents()是由派生类实现的，因此当。
+    // 此类正在被析构，PollEvents()将不可用。
+    // 更多。因此，我们必须确保只调用PollEvents()。
+    // 当这个班级还活着的时候。
     self->PollEvents();
     if (self->embed_closed_)
       break;
 
-    // Deal with event in main thread.
+    // 在主线程中处理事件。
     self->WakeupMainThread();
   }
 }
 
-}  // namespace electron
+}  // 命名空间电子

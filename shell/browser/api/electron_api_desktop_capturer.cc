@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_desktop_capturer.h"
 
@@ -28,7 +28,7 @@
 #include "third_party/webrtc/modules/desktop_capture/win/dxgi_duplicator_controller.h"
 #include "third_party/webrtc/modules/desktop_capture/win/screen_capturer_win_directx.h"
 #include "ui/display/win/display_info.h"
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 
 namespace gin {
 
@@ -57,7 +57,7 @@ struct Converter<electron::api::DesktopCapturer::Source> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -77,23 +77,23 @@ void DesktopCapturer::StartHandling(bool capture_window,
 #if defined(OS_WIN)
   if (content::desktop_capture::CreateDesktopCaptureOptions()
           .allow_directx_capturer()) {
-    // DxgiDuplicatorController should be alive in this scope according to
-    // screen_capturer_win.cc.
+    // 根据DxgiDuplicatorController，DxgiDuplicatorController应该在此作用域中处于活动状态。
+    // Screen_Capturer_win.cc..。
     auto duplicator = webrtc::DxgiDuplicatorController::Instance();
     using_directx_capturer_ = webrtc::ScreenCapturerWinDirectx::IsSupported();
   }
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 
-  // clear any existing captured sources.
+  // 清除所有现有捕获的来源。
   captured_sources_.clear();
 
-  // Start listening for captured sources.
+  // 开始监听捕获的消息来源。
   capture_window_ = capture_window;
   capture_screen_ = capture_screen;
 
   {
-    // Initialize the source list.
-    // Apply the new thumbnail size and restart capture.
+    // 初始化源列表。
+    // 应用新的缩略图大小并重新启动捕获。
     if (capture_window) {
       window_capturer_ = std::make_unique<NativeDesktopMediaList>(
           DesktopMediaList::Type::kWindow,
@@ -103,7 +103,7 @@ void DesktopCapturer::StartHandling(bool capture_window,
           base::BindOnce(&DesktopCapturer::UpdateSourcesList,
                          weak_ptr_factory_.GetWeakPtr(),
                          window_capturer_.get()),
-          /* refresh_thumbnails = */ true);
+          /* 刷新缩略图=。*/ true);
     }
 
     if (capture_screen) {
@@ -115,7 +115,7 @@ void DesktopCapturer::StartHandling(bool capture_window,
           base::BindOnce(&DesktopCapturer::UpdateSourcesList,
                          weak_ptr_factory_.GetWeakPtr(),
                          screen_capturer_.get()),
-          /* refresh_thumbnails = */ true);
+          /* 刷新缩略图=。*/ true);
     }
   }
 }
@@ -144,14 +144,14 @@ void DesktopCapturer::UpdateSourcesList(DesktopMediaList* list) {
           DesktopCapturer::Source{list->GetSource(i), std::string()});
     }
 #if defined(OS_WIN)
-    // Gather the same unique screen IDs used by the electron.screen API in
-    // order to provide an association between it and
-    // desktopCapturer/getUserMedia. This is only required when using the
-    // DirectX capturer, otherwise the IDs across the APIs already match.
+    // 中收集与Electron.Screen API使用的相同的唯一屏幕ID。
+    // 命令提供它与它之间的关联。
+    // DesktopCapturer/getUserMedia。只有在使用。
+    // DirectX捕获器，否则跨API的ID已经匹配。
     if (using_directx_capturer_) {
       std::vector<std::string> device_names;
-      // Crucially, this list of device names will be in the same order as
-      // |media_list_sources|.
+      // 重要的是，此设备名称列表的顺序将与。
+      // |media_list_Sources|。
       if (!webrtc::DxgiDuplicatorController::Instance()->GetDeviceNames(
               &device_names)) {
         v8::Isolate* isolate = JavascriptEnvironment::GetIsolate();
@@ -177,14 +177,14 @@ void DesktopCapturer::UpdateSourcesList(DesktopMediaList* list) {
       }
     }
 #elif defined(OS_MAC)
-    // On Mac, the IDs across the APIs match.
+    // 在Mac上，所有API的ID都是匹配的。
     for (auto& source : screen_sources) {
       source.display_id = base::NumberToString(source.media_list_source.id.id);
     }
-#endif  // defined(OS_WIN)
-    // TODO(ajmacd): Add Linux support. The IDs across APIs differ but Chrome
-    // only supports capturing the entire desktop on Linux. Revisit this if
-    // individual screen support is added.
+#endif  // 已定义(OS_WIN)。
+    // TODO(Ajmacd)：添加Linux支持。不同API的ID有所不同，但Chrome。
+    // 仅支持在Linux上捕获整个桌面。如果出现以下情况，请重新访问此内容。
+    // 增加了单独的屏幕支持。
     std::move(screen_sources.begin(), screen_sources.end(),
               std::back_inserter(captured_sources_));
   }
@@ -199,11 +199,11 @@ void DesktopCapturer::UpdateSourcesList(DesktopMediaList* list) {
   }
 }
 
-// static
+// 静电。
 gin::Handle<DesktopCapturer> DesktopCapturer::Create(v8::Isolate* isolate) {
   auto handle = gin::CreateHandle(isolate, new DesktopCapturer(isolate));
 
-  // Keep reference alive until capturing has finished.
+  // 保持引用活动，直到捕获完成。
   handle->Pin(isolate);
 
   return handle;
@@ -219,9 +219,9 @@ const char* DesktopCapturer::GetTypeName() {
   return "DesktopCapturer";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -234,6 +234,6 @@ void Initialize(v8::Local<v8::Object> exports,
                  &electron::api::DesktopCapturer::Create);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_desktop_capturer, Initialize)

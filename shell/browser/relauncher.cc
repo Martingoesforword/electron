@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/relauncher.h"
 
@@ -34,15 +34,15 @@ const int kRelauncherSyncFD = STDERR_FILENO + 1;
 const CharType* kRelauncherTypeArg = FILE_PATH_LITERAL("--type=relauncher");
 const CharType* kRelauncherArgSeparator = FILE_PATH_LITERAL("---");
 
-}  // namespace internal
+}  // 命名空间内部。
 
 bool RelaunchApp(const StringVector& argv) {
-  // Use the currently-running application's helper process. The automatic
-  // update feature is careful to leave the currently-running version alone,
-  // so this is safe even if the relaunch is the result of an update having
-  // been applied. In fact, it's safer than using the updated version of the
-  // helper process, because there's no guarantee that the updated version's
-  // relauncher implementation will be compatible with the running version's.
+  // 使用当前运行的应用程序的帮助器进程。自动的。
+  // 更新功能会小心地保留当前运行的版本，
+  // 因此，这是安全的，即使重新启动是在以下情况下进行更新的结果。
+  // 已应用。事实上，它比使用更新版本的。
+  // 帮助器进程，因为不能保证更新版本的。
+  // 重新启动程序的实现将与正在运行的版本兼容。
   base::FilePath child_path;
   if (!base::PathService::Get(content::CHILD_PROCESS_EXE, &child_path)) {
     LOG(ERROR) << "No CHILD_PROCESS_EXE";
@@ -59,10 +59,10 @@ bool RelaunchAppWithHelper(const base::FilePath& helper,
   StringVector relaunch_argv;
   relaunch_argv.push_back(helper.value());
   relaunch_argv.push_back(internal::kRelauncherTypeArg);
-  // Relauncher process has its own --type=relauncher which
-  // is not recognized by the service_manager, explicitly set
-  // the sandbox type to avoid CHECK failure in
-  // service_manager::SandboxTypeFromCommandLine
+  // Relauncher进程有自己的--type=relauncher。
+  // SERVICE_MANAGER无法识别，显式设置。
+  // 中避免签入失败的沙盒类型。
+  // SERVICE_MANAGER：：SandboxTypeFromCommandLine。
   relaunch_argv.push_back(FILE_PATH_LITERAL("--no-sandbox"));
 
   relaunch_argv.insert(relaunch_argv.end(), relauncher_args.begin(),
@@ -79,18 +79,18 @@ bool RelaunchAppWithHelper(const base::FilePath& helper,
     return false;
   }
 
-  // The parent process will only use pipe_read_fd as the read side of the
-  // pipe. It can close the write side as soon as the relauncher process has
-  // forked off. The relauncher process will only use pipe_write_fd as the
-  // write side of the pipe. In that process, the read side will be closed by
-  // base::LaunchApp because it won't be present in fd_map, and the write side
-  // will be remapped to kRelauncherSyncFD by fd_map.
+  // 父进程将仅使用PIPE_READ_FD作为。
+  // 管子。一旦重新启动程序进程完成，它就可以关闭写入端。
+  // 付了钱。重新启动程序进程将仅使用PIPE_WRITE_FD作为。
+  // 在管子的一侧写字。在该过程中，读取侧将通过以下方式关闭。
+  // Base：：LaunchApp，因为它不会出现在FD_MAP中，而写入端。
+  // 将通过FD_MAP重新映射到kRelauncherSyncFD。
   base::ScopedFD pipe_read_fd(pipe_fds[0]);
   base::ScopedFD pipe_write_fd(pipe_fds[1]);
 
-  // Make sure kRelauncherSyncFD is a safe value. base::LaunchProcess will
-  // preserve these three FDs in forked processes, so kRelauncherSyncFD should
-  // not conflict with them.
+  // 确保kRelauncherSyncFD为安全值。Base：：LaunchProcess将。
+  // 在派生进程中保留这三个FD，因此kRelauncherSyncFD应该。
+  // 而不是与他们发生冲突。
   static_assert(internal::kRelauncherSyncFD != STDIN_FILENO &&
                     internal::kRelauncherSyncFD != STDOUT_FILENO &&
                     internal::kRelauncherSyncFD != STDERR_FILENO,
@@ -111,11 +111,11 @@ bool RelaunchAppWithHelper(const base::FilePath& helper,
     return false;
   }
 
-  // The relauncher process is now starting up, or has started up. The
-  // original parent process continues.
+  // 重新启动程序进程现在正在启动，或已经启动。这个。
+  // 原始父进程将继续。
 
 #if defined(OS_WIN)
-  // Synchronize with the relauncher process.
+  // 与重新启动程序进程同步。
   StringType name = internal::GetWaitEventName(process.Pid());
   HANDLE wait_event = ::CreateEventW(NULL, TRUE, FALSE, name.c_str());
   if (wait_event != NULL) {
@@ -123,9 +123,9 @@ bool RelaunchAppWithHelper(const base::FilePath& helper,
     CloseHandle(wait_event);
   }
 #elif defined(OS_POSIX)
-  pipe_write_fd.reset();  // close(pipe_fds[1]);
+  pipe_write_fd.reset();  // CLOSE(PIPE_FDS[1])；
 
-  // Synchronize with the relauncher process.
+  // 与重新启动程序进程同步。
   char read_char;
   int read_result = HANDLE_EINTR(read(pipe_read_fd.get(), &read_char, 1));
   if (read_result != 1) {
@@ -137,9 +137,9 @@ bool RelaunchAppWithHelper(const base::FilePath& helper,
     return false;
   }
 
-  // Since a byte has been successfully read from the relauncher process, it's
-  // guaranteed to have set up its kqueue monitoring this process for exit.
-  // It's safe to exit now.
+  // 由于已从重新启动器进程中成功读取了一个字节，因此它的。
+  // 保证已经设置了它的kQueue，监视该进程是否退出。
+  // 现在可以安全出口了。
 #endif
   return true;
 }
@@ -154,8 +154,8 @@ int RelauncherMain(const content::MainFunctionParams& main_parameters) {
 
   internal::RelauncherSynchronizeWithParent();
 
-  // Figure out what to execute, what arguments to pass it, and whether to
-  // start it in the background.
+  // 确定要执行的内容、要传递的参数以及是否。
+  // 在后台启动它。
   bool in_relauncher_args = false;
   StringType relaunch_executable;
   StringVector relauncher_args;
@@ -183,11 +183,11 @@ int RelauncherMain(const content::MainFunctionParams& main_parameters) {
     return 1;
   }
 
-  // The application should have relaunched (or is in the process of
-  // relaunching). From this point on, only clean-up tasks should occur, and
-  // failures are tolerable.
+  // 应用程序应该已重新启动(或正在重新启动。
+  // 重新启动)。从这一点开始，应该只执行清理任务，并且。
+  // 失败是可以容忍的。
 
   return 0;
 }
 
-}  // namespace relauncher
+}  // 命名空间重新启动器

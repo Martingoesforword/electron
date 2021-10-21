@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_converters/content_converter.h"
 
@@ -54,7 +54,7 @@ struct Converter<ui::MenuSourceType> {
   }
 };
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<blink::mojom::MenuItem::Type>::ToV8(
     v8::Isolate* isolate,
     const blink::mojom::MenuItem::Type& val) {
@@ -73,7 +73,7 @@ v8::Local<v8::Value> Converter<blink::mojom::MenuItem::Type>::ToV8(
   }
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<ContextMenuParamsWithRenderFrameHost>::ToV8(
     v8::Isolate* isolate,
     const ContextMenuParamsWithRenderFrameHost& val) {
@@ -116,7 +116,7 @@ v8::Local<v8::Value> Converter<ContextMenuParamsWithRenderFrameHost>::ToV8(
   return gin::ConvertToV8(isolate, dict);
 }
 
-// static
+// 静电。
 bool Converter<blink::mojom::PermissionStatus>::FromV8(
     v8::Isolate* isolate,
     v8::Local<v8::Value> val,
@@ -133,14 +133,14 @@ bool Converter<blink::mojom::PermissionStatus>::FromV8(
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<content::PermissionType>::ToV8(
     v8::Isolate* isolate,
     const content::PermissionType& val) {
   using PermissionType = electron::WebContentsPermissionHelper::PermissionType;
-  // Based on mappings from content/browser/devtools/protocol/browser_handler.cc
-  // Not all permissions are currently used by Electron but this will future
-  // proof these conversions.
+  // 基于来自content/browser/devtools/protocol/browser_handler.cc的映射。
+  // 并非所有权限目前都由Electron使用，但这将是未来使用的权限。
+  // 证明这些转换。
   switch (val) {
     case content::PermissionType::ACCESSIBILITY_EVENTS:
       return StringToV8(isolate, "accessibility-events");
@@ -216,7 +216,7 @@ v8::Local<v8::Value> Converter<content::PermissionType>::ToV8(
   }
 }
 
-// static
+// 静电。
 bool Converter<content::StopFindAction>::FromV8(v8::Isolate* isolate,
                                                 v8::Local<v8::Value> val,
                                                 content::StopFindAction* out) {
@@ -236,7 +236,7 @@ bool Converter<content::StopFindAction>::FromV8(v8::Isolate* isolate,
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<content::WebContents*>::ToV8(
     v8::Isolate* isolate,
     content::WebContents* val) {
@@ -245,14 +245,14 @@ v8::Local<v8::Value> Converter<content::WebContents*>::ToV8(
   return electron::api::WebContents::FromOrCreate(isolate, val).ToV8();
 }
 
-// static
+// 静电。
 bool Converter<content::WebContents*>::FromV8(v8::Isolate* isolate,
                                               v8::Local<v8::Value> val,
                                               content::WebContents** out) {
   if (!val->IsObject())
     return false;
-  // gin's unwrapping converter doesn't expect the pointer inside to ever be
-  // nullptr, so we check here first before attempting to unwrap.
+  // 杜松子酒的解包转换器并不期望里面的指针。
+  // Nullptr，所以在尝试解包之前，我们首先检查这里。
   if (gin_helper::Destroyable::IsDestroyed(val.As<v8::Object>()))
     return false;
   electron::api::WebContents* web_contents = nullptr;
@@ -263,7 +263,7 @@ bool Converter<content::WebContents*>::FromV8(v8::Isolate* isolate,
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<content::Referrer>::ToV8(
     v8::Isolate* isolate,
     const content::Referrer& val) {
@@ -273,7 +273,7 @@ v8::Local<v8::Value> Converter<content::Referrer>::ToV8(
   return gin::ConvertToV8(isolate, dict);
 }
 
-// static
+// 静电。
 bool Converter<content::Referrer>::FromV8(v8::Isolate* isolate,
                                           v8::Local<v8::Value> val,
                                           content::Referrer* out) {
@@ -290,7 +290,7 @@ bool Converter<content::Referrer>::FromV8(v8::Isolate* isolate,
   return true;
 }
 
-// static
+// 静电。
 bool Converter<content::NativeWebKeyboardEvent>::FromV8(
     v8::Isolate* isolate,
     v8::Local<v8::Value> val,
@@ -304,11 +304,11 @@ bool Converter<content::NativeWebKeyboardEvent>::FromV8(
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<content::NativeWebKeyboardEvent>::ToV8(
     v8::Isolate* isolate,
     const content::NativeWebKeyboardEvent& in) {
   return ConvertToV8(isolate, static_cast<blink::WebKeyboardEvent>(in));
 }
 
-}  // namespace gin
+}  // 命名空间杜松子酒

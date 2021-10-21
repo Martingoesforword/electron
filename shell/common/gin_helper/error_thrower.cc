@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_helper/error_thrower.h"
 
@@ -10,9 +10,9 @@ namespace gin_helper {
 
 ErrorThrower::ErrorThrower(v8::Isolate* isolate) : isolate_(isolate) {}
 
-// This constructor should be rarely if ever used, since
-// v8::Isolate::GetCurrent() uses atomic loads and is thus a bit
-// costly to invoke
+// 此构造函数即使使用过，也应该很少使用，因为。
+// V8：：Isolate：：GetCurrent()使用原子加载，因此有点。
+// 调用成本高昂。
 ErrorThrower::ErrorThrower() : isolate_(v8::Isolate::GetCurrent()) {}
 
 void ErrorThrower::ThrowError(base::StringPiece err_msg) const {
@@ -41,4 +41,4 @@ void ErrorThrower::Throw(ErrorGenerator gen, base::StringPiece err_msg) const {
     isolate_->ThrowException(exception);
 }
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper

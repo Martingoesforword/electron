@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_app.h"
 
@@ -22,8 +22,8 @@
 #include "chrome/browser/icon_manager.h"
 #include "chrome/common/chrome_features.h"
 #include "chrome/common/chrome_paths.h"
-#include "content/browser/gpu/compositor_util.h"        // nogncheck
-#include "content/browser/gpu/gpu_data_manager_impl.h"  // nogncheck
+#include "content/browser/gpu/compositor_util.h"        // 点名检查。
+#include "content/browser/gpu/gpu_data_manager_impl.h"  // 点名检查。
 #include "content/public/browser/browser_accessibility_state.h"
 #include "content/public/browser/browser_child_process_host.h"
 #include "content/public/browser/child_process_data.h"
@@ -310,7 +310,7 @@ struct Converter<JumpListCategory> {
   }
 };
 
-// static
+// 静电。
 template <>
 struct Converter<JumpListResult> {
   static v8::Local<v8::Value> ToV8(v8::Isolate* isolate, JumpListResult val) {
@@ -448,7 +448,7 @@ struct Converter<net::SecureDnsMode> {
     return false;
   }
 };
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -467,7 +467,7 @@ IconLoader::IconSize GetIconSizeByString(const std::string& size) {
   return IconLoader::IconSize::NORMAL;
 }
 
-// Return the path constant from string.
+// 从字符串返回路径常量。
 int GetPathConstant(const std::string& name) {
   if (name == "appData")
     return DIR_APP_DATA;
@@ -521,19 +521,19 @@ bool NotificationCallbackWrapper(
     const base::CommandLine& cmd,
     const base::FilePath& cwd,
     const std::vector<const uint8_t> additional_data) {
-  // Make sure the callback is called after app gets ready.
+  // 确保在APP准备好之后调用回调。
   if (Browser::Get()->is_ready()) {
     callback.Run(cmd, cwd, std::move(additional_data));
   } else {
     scoped_refptr<base::SingleThreadTaskRunner> task_runner(
         base::ThreadTaskRunnerHandle::Get());
 
-    // Make a copy of the span so that the data isn't lost.
+    // 复制跨区，这样数据就不会丢失。
     task_runner->PostTask(FROM_HERE,
                           base::BindOnce(base::IgnoreResult(callback), cmd, cwd,
                                          std::move(additional_data)));
   }
-  // ProcessSingleton needs to know whether current process is quiting.
+  // ProcessSingleton需要知道当前进程是否正在退出。
   return !Browser::Get()->is_shutting_down();
 }
 
@@ -579,10 +579,10 @@ void OnClientCertificateSelected(
     for (auto& identity : *identities) {
       scoped_refptr<net::X509Certificate> identity_cert =
           identity->certificate();
-      // Since |cert| was recreated from |data|, it won't include any
-      // intermediates. That's fine for checking equality, but once a match is
-      // found then |identity_cert| should be used since it will include the
-      // intermediates which would otherwise be lost.
+      // 由于|cert|是从|data|重新创建的，因此不会包含任何。
+      // 中间体。这对于检查等价性是很好的，但是一旦匹配就是。
+      // 则应使用Found|Identity_cert|，因为它将包含。
+      // 否则就会丢失的中间体。
       if (cert->EqualsExcludingChain(identity_cert.get())) {
         net::ClientCertIdentity::SelfOwningAcquirePrivateKey(
             std::move(identity), base::BindRepeating(&GotPrivateKey, delegate,
@@ -615,7 +615,7 @@ int ImportIntoCertStore(CertificateManagerModel* model, base::Value options) {
                                    &imported_certs);
       if (imported_certs.size() > 1) {
         auto it = imported_certs.begin();
-        ++it;  // skip first which would  be the client certificate.
+        ++it;  // 首先跳过客户端证书。
         for (; it != imported_certs.end(); ++it)
           rv &= model->SetCertTrust(it->get(), net::CA_CERT,
                                     net::NSSCertDatabase::TRUSTED_SSL);
@@ -635,7 +635,7 @@ void OnIconDataAvailable(gin_helper::Promise<gfx::Image> promise,
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 App::App() {
   static_cast<ElectronBrowserClient*>(ElectronBrowserClient::Get())
@@ -703,8 +703,8 @@ void App::OnWillFinishLaunching() {
 
 void App::OnFinishLaunching(const base::DictionaryValue& launch_info) {
 #if defined(OS_LINUX)
-  // Set the application name for audio streams shown in external
-  // applications. Only affects pulseaudio currently.
+  // 设置外部中显示的音频流的应用程序名称。
+  // 申请。当前仅影响PulseAudio。
   media::AudioManager::SetGlobalAppName(Browser::Get()->GetName());
 #endif
   Emit("ready", launch_info);
@@ -803,7 +803,7 @@ bool App::CanCreateWindow(
       content::WebContents::FromRenderFrameHost(opener);
   if (web_contents) {
     WebContents* api_web_contents = WebContents::From(web_contents);
-    // No need to emit any event if the WebContents is not available in JS.
+    // 如果JS中没有WebContents，则无需发出任何事件。
     if (api_web_contents) {
       api_web_contents->OnCreateWindow(target_url, referrer, frame_name,
                                        disposition, raw_features, body);
@@ -830,7 +830,7 @@ void App::AllowCertificateError(
       request_url, net::ErrorToString(cert_error), ssl_info.cert,
       adapted_callback, is_main_frame_request);
 
-  // Deny the certificate by default.
+  // 默认情况下拒绝证书。
   if (!prevent_default)
     adapted_callback.Run(content::CERTIFICATE_REQUEST_RESULT_TYPE_DENY);
 }
@@ -843,8 +843,8 @@ base::OnceClosure App::SelectClientCertificate(
   std::shared_ptr<content::ClientCertificateDelegate> shared_delegate(
       delegate.release());
 
-  // Convert the ClientCertIdentityList to a CertificateList
-  // to avoid changes in the API.
+  // 将ClientCertIdentityList转换为CertificateList。
+  // 以避免API更改。
   auto client_certs = net::CertificateList();
   for (const std::unique_ptr<net::ClientCertIdentity>& identity : identities)
     client_certs.emplace_back(identity->certificate());
@@ -861,7 +861,7 @@ base::OnceClosure App::SelectClientCertificate(
            base::BindOnce(&OnClientCertificateSelected, isolate,
                           shared_delegate, shared_identities));
 
-  // Default to first certificate from the platform store.
+  // 默认为平台存储中的第一个证书。
   if (!prevent_default) {
     scoped_refptr<net::X509Certificate> cert =
         (*shared_identities)[0]->certificate();
@@ -983,7 +983,7 @@ void App::SetAppLogsPath(gin_helper::ErrorThrower thrower,
 }
 #endif
 
-// static
+// 静电。
 bool App::IsPackaged() {
   auto env = base::Environment::Create();
   if (env->HasVar("ELECTRON_FORCE_IS_PACKAGED"))
@@ -1022,7 +1022,7 @@ void App::SetPath(gin_helper::ErrorThrower thrower,
 
   int key = GetPathConstant(name);
   if (key < 0 || !base::PathService::OverrideAndCreateIfNeeded(
-                     key, path, /* is_absolute = */ true, /* create = */ false))
+                     key, path, /* IS_绝对值=。*/ true, /* 创建=。*/ false))
     thrower.ThrowError("Failed to set path");
 }
 
@@ -1126,7 +1126,7 @@ bool App::RequestSingleInstanceLock(gin::Arguments* args) {
       return false;
     }
     case ProcessSingleton::NotifyResult::PROCESS_NONE:
-    default:  // Shouldn't be needed, but VS warns if it is not there.
+    default:  // 不应该需要，但VS会在不存在的情况下发出警告。
       return true;
   }
 }
@@ -1139,7 +1139,7 @@ void App::ReleaseSingleInstanceLock() {
 }
 
 bool App::Relaunch(gin::Arguments* js_args) {
-  // Parse parameters.
+  // 解析参数。
   bool override_argv = false;
   base::FilePath exec_path;
   relauncher::StringVector args;
@@ -1272,7 +1272,7 @@ v8::Local<v8::Value> App::GetJumpListSettings() {
   int min_items = 10;
   std::vector<JumpListItem> removed_items;
   if (jump_list.Begin(&min_items, &removed_items)) {
-    // We don't actually want to change anything, so abort the transaction.
+    // 我们实际上不想更改任何内容，因此中止交易。
     jump_list.Abort();
   } else {
     LOG(ERROR) << "Failed to begin Jump List transaction.";
@@ -1303,25 +1303,25 @@ JumpListResult App::SetJumpList(v8::Local<v8::Value> val,
                               : JumpListResult::kGenericError;
   }
 
-  // Start a transaction that updates the JumpList of this application.
+  // 启动更新此应用程序的JumpList的事务。
   if (!jump_list.Begin())
     return JumpListResult::kGenericError;
 
   JumpListResult result = jump_list.AppendCategories(categories);
-  // AppendCategories may have failed to add some categories, but it's better
-  // to have something than nothing so try to commit the changes anyway.
+  // AppendCategories可能无法添加某些类别，但它更好。
+  // 有东西总比什么都没有好，所以无论如何都要试着提交更改。
   if (!jump_list.Commit()) {
     LOG(ERROR) << "Failed to commit changes to custom Jump List.";
-    // It's more useful to return the earlier error code that might give
-    // some indication as to why the transaction actually failed, so don't
-    // overwrite it with a "generic error" code here.
+    // 返回可能给出的早期错误代码更有用。
+    // 一些关于事务实际失败原因的提示，所以不要。
+    // 在这里用“一般错误”代码覆盖它。
     if (result == JumpListResult::kSuccess)
       result = JumpListResult::kGenericError;
   }
 
   return result;
 }
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 
 v8::Local<v8::Promise> App::GetFileIcon(const base::FilePath& path,
                                         gin::Arguments* args) {
@@ -1374,9 +1374,9 @@ std::vector<gin_helper::Dictionary> App::GetAppMetrics(v8::Isolate* isolate) {
     cpu_dict.Set("idleWakeupsPerSecond",
                  process_metric.second->metrics->GetIdleWakeupsPerSecond());
 #else
-    // Chrome's underlying process_metrics.cc will throw a non-fatal warning
-    // that this method isn't implemented on Windows, so set it to 0 instead
-    // of calling it
+    // Chrome的底层process_metrics.cc将抛出非致命警告。
+    // 此方法未在Windows上实现，因此请将其设置为0。
+    // 把它称为。
     cpu_dict.Set("idleWakeupsPerSecond", 0);
 #endif
 
@@ -1456,7 +1456,7 @@ v8::Local<v8::Promise> App::GetGPUInfo(v8::Isolate* isolate,
 #else
     info_mgr->FetchBasicInfo(std::move(promise));
 #endif
-  } else /* (info_type == "basic") */ {
+  } else /* (INFO_TYPE==“基本”)。*/ {
     info_mgr->FetchBasicInfo(std::move(promise));
   }
   return handle;
@@ -1547,8 +1547,8 @@ void DockSetMenu(electron::api::Menu* menu) {
 
 v8::Local<v8::Value> App::GetDockAPI(v8::Isolate* isolate) {
   if (dock_.IsEmpty()) {
-    // Initialize the Dock API, the methods are bound to "dock" which exists
-    // for the lifetime of "app"
+    // 初始化Dock API，方法被绑定到已存在的“dock”
+    // 在“应用程序”的生命周期内。
     auto browser = base::Unretained(Browser::Get());
     gin_helper::Dictionary dock_obj = gin::Dictionary::CreateEmpty(isolate);
     dock_obj.SetMethod("bounce", &DockBounce);
@@ -1673,20 +1673,20 @@ void ConfigureHostResolver(v8::Isolate* isolate,
     return;
   }
 
-  // Configure the stub resolver. This must be done after the system
-  // NetworkContext is created, but before anything has the chance to use it.
+  // 配置存根解析器。此操作必须在系统运行后执行。
+  // NetworkContext已创建，但尚未有机会使用它。
   content::GetNetworkService()->ConfigureStubHostResolver(
       enable_built_in_resolver, secure_dns_mode, std::move(servers_mojo),
       additional_dns_query_types_enabled);
 }
 
-// static
+// 静电。
 App* App::Get() {
   static base::NoDestructor<App> app;
   return app.get();
 }
 
-// static
+// 静电。
 gin::Handle<App> App::Create(v8::Isolate* isolate) {
   return gin::CreateHandle(isolate, Get());
 }
@@ -1834,9 +1834,9 @@ const char* App::GetTypeName() {
   return "App";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -1849,6 +1849,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("app", electron::api::App::Create(isolate));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_app, Initialize)

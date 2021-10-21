@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/protocol_registry.h"
 
@@ -11,7 +11,7 @@
 
 namespace electron {
 
-// static
+// 静电。
 ProtocolRegistry* ProtocolRegistry::FromBrowserContext(
     content::BrowserContext* context) {
   return static_cast<ElectronBrowserContext*>(context)->protocol_registry();
@@ -26,15 +26,15 @@ void ProtocolRegistry::RegisterURLLoaderFactories(
     bool allow_file_access) {
   auto file_factory = factories->find(url::kFileScheme);
   if (file_factory != factories->end()) {
-    // If Chromium already allows file access then replace the url factory to
-    // also loading asar files.
+    // 如果Chromium已经允许文件访问，则将url工厂替换为。
+    // 也在加载asar文件。
     file_factory->second = AsarURLLoaderFactory::Create();
   } else if (allow_file_access) {
-    // Otherwise only allow file access when it is explicitly allowed.
-    //
-    // Note that Chromium may call |emplace| to create the default file factory
-    // after this call, it won't override our asar factory, but if asar support
-    // breaks in future, please check if Chromium has changed the call.
+    // 否则，仅在显式允许的情况下才允许文件访问。
+    // 
+    // 请注意，Chromium可能会调用|emplace|来创建默认文件工厂。
+    // 在此调用之后，它不会覆盖我们的asar工厂，但如果asar支持。
+    // 以后休息时，请检查Chromium是否更改了通话。
     factories->emplace(url::kFileScheme, AsarURLLoaderFactory::Create());
   }
 
@@ -72,4 +72,4 @@ bool ProtocolRegistry::IsProtocolIntercepted(const std::string& scheme) {
   return base::Contains(intercept_handlers_, scheme);
 }
 
-}  // namespace electron
+}  // 命名空间电子

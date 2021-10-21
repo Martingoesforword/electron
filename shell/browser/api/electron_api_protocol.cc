@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_protocol.h"
 
@@ -26,10 +26,10 @@
 
 namespace {
 
-// List of registered custom standard schemes.
+// 已注册的自定义标准方案列表。
 std::vector<std::string> g_standard_schemes;
 
-// List of registered custom streaming schemes.
+// 已注册的自定义流方案列表。
 std::vector<std::string> g_streaming_schemes;
 
 struct SchemeOptions {
@@ -47,7 +47,7 @@ struct CustomScheme {
   SchemeOptions options;
 };
 
-}  // namespace
+}  // 命名空间。
 
 namespace gin {
 
@@ -62,7 +62,7 @@ struct Converter<CustomScheme> {
     if (!dict.Get("scheme", &(out->scheme)))
       return false;
     gin::Dictionary opt(isolate);
-    // options are optional. Default values specified in SchemeOptions are used
+    // 选项是可选的。使用在SchemeOptions中指定的默认值。
     if (dict.Get("privileges", &opt)) {
       opt.Get("standard", &(out->options.standard));
       opt.Get("secure", &(out->options.secure));
@@ -76,7 +76,7 @@ struct Converter<CustomScheme> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 namespace api {
@@ -88,10 +88,10 @@ std::vector<std::string> GetStandardSchemes() {
 }
 
 void AddServiceWorkerScheme(const std::string& scheme) {
-  // There is no API to add service worker scheme, but there is an API to
-  // return const reference to the schemes vector.
-  // If in future the API is changed to return a copy instead of reference,
-  // the compilation will fail, and we should add a patch at that time.
+  // 没有用于添加服务工作者方案的API，但有一个用于添加服务工作者方案的API。
+  // 返回对方案向量的常量引用。
+  // 如果将来API改变为返回副本而不是引用，
+  // 编译将失败，我们应该在那时添加一个补丁。
   auto& mutable_schemes =
       const_cast<std::vector<std::string>&>(content::GetServiceWorkerSchemes());
   mutable_schemes.push_back(scheme);
@@ -108,7 +108,7 @@ void RegisterSchemesAsPrivileged(gin_helper::ErrorThrower thrower,
   std::vector<std::string> secure_schemes, cspbypassing_schemes, fetch_schemes,
       service_worker_schemes, cors_schemes;
   for (const auto& custom_scheme : custom_schemes) {
-    // Register scheme to privileged list (https, wss, data, chrome-extension)
+    // 将方案注册到特权列表(https、wss、data、Chrome-Extension)。
     if (custom_scheme.options.standard) {
       auto* policy = content::ChildProcessSecurityPolicy::GetInstance();
       url::AddStandardScheme(custom_scheme.scheme.c_str(),
@@ -142,8 +142,8 @@ void RegisterSchemesAsPrivileged(gin_helper::ErrorThrower thrower,
 
   const auto AppendSchemesToCmdLine = [](const char* switch_name,
                                          std::vector<std::string> schemes) {
-    // Add the schemes to command line switches, so child processes can also
-    // register them.
+    // 将方案添加到命令行开关，以便子进程也可以。
+    // 注册他们。
     base::CommandLine::ForCurrentProcess()->AppendSwitchASCII(
         switch_name, base::JoinString(schemes, ","));
   };
@@ -167,7 +167,7 @@ const char* const kBuiltinSchemes[] = {
     "about", "file", "http", "https", "data", "filesystem",
 };
 
-// Convert error code to string.
+// 将错误代码转换为字符串。
 std::string ErrorCodeToString(ProtocolError error) {
   switch (error) {
     case ProtocolError::kRegistered:
@@ -183,7 +183,7 @@ std::string ErrorCodeToString(ProtocolError error) {
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 Protocol::Protocol(v8::Isolate* isolate, ProtocolRegistry* protocol_registry)
     : protocol_registry_(protocol_registry) {}
@@ -239,13 +239,13 @@ v8::Local<v8::Promise> Protocol::IsProtocolHandled(const std::string& scheme,
   return gin_helper::Promise<bool>::ResolvedPromise(
       args->isolate(),
       IsProtocolRegistered(scheme) || IsProtocolIntercepted(scheme) ||
-          // The |isProtocolHandled| should return true for builtin
-          // schemes, however with NetworkService it is impossible to
-          // know which schemes are registered until a real network
-          // request is sent.
-          // So we have to test against a hard-coded builtin schemes
-          // list make it work with old code. We should deprecate
-          // this API with the new |isProtocolRegistered| API.
+          // 对于构建，|isProtocolHandled|应返回TRUE。
+          // 方案，但是使用NetworkService不可能。
+          // 知道哪些计划已注册，直到真正的网络。
+          // 请求已发送。
+          // 因此我们必须针对硬编码的内置方案进行测试。
+          // 列表使其与旧代码一起工作。我们应该反对。
+          // 此接口与新的|isProtocolRegisted|接口配合使用。
           base::Contains(kBuiltinSchemes, scheme));
 }
 
@@ -266,7 +266,7 @@ void Protocol::HandleOptionalCallback(gin::Arguments* args,
   }
 }
 
-// static
+// 静电。
 gin::Handle<Protocol> Protocol::Create(
     v8::Isolate* isolate,
     ElectronBrowserContext* browser_context) {
@@ -312,8 +312,8 @@ const char* Protocol::GetTypeName() {
   return "Protocol";
 }
 
-}  // namespace api
-}  // namespace electron
+}  // 命名空间API。
+}  // 命名空间电子。
 
 namespace {
 
@@ -339,6 +339,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("getStandardSchemes", &electron::api::GetStandardSchemes);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_protocol, Initialize)

@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_download_item.h"
 
@@ -46,7 +46,7 @@ struct Converter<download::DownloadItem::DownloadState> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -54,12 +54,12 @@ namespace api {
 
 namespace {
 
-// Ordinarily base::SupportsUserData only supports strong links, where the
-// thing to which the user data is attached owns the user data. But we can't
-// make the api::DownloadItem owned by the DownloadItem, since it's owned by
-// V8. So this makes a weak link. The lifetimes of download::DownloadItem and
-// api::DownloadItem are fully independent, and either one may be destroyed
-// before the other.
+// 通常base：：SupportsUserData只支持强链接，其中。
+// 用户数据附加到的事物拥有用户数据。但是我们不能。
+// 使API：：DownloadItem归DownloadItem所有，因为它由。
+// V8。所以这就是一个薄弱环节。DownloadItem和DownloadItem的生存期。
+// API：：DownloadItem是完全独立的，任何一个都可能被销毁。
+// 在另一个之前。
 struct UserDataLink : base::SupportsUserData::Data {
   explicit UserDataLink(base::WeakPtr<DownloadItem> item)
       : download_item(item) {}
@@ -69,13 +69,13 @@ struct UserDataLink : base::SupportsUserData::Data {
 
 const void* kElectronApiDownloadItemKey = &kElectronApiDownloadItemKey;
 
-}  // namespace
+}  // 命名空间。
 
 gin::WrapperInfo DownloadItem::kWrapperInfo = {gin::kEmbedderNativeGin};
 
-// static
+// 静电。
 DownloadItem* DownloadItem::FromDownloadItem(download::DownloadItem* item) {
-  // ^- say that 7 times fast in a row
+  // ^-连续说出7倍的速度。
   auto* data = static_cast<UserDataLink*>(
       item->GetUserData(kElectronApiDownloadItemKey));
   return data ? data->download_item.get() : nullptr;
@@ -91,7 +91,7 @@ DownloadItem::DownloadItem(v8::Isolate* isolate, download::DownloadItem* item)
 
 DownloadItem::~DownloadItem() {
   if (download_item_) {
-    // Destroyed by either garbage collection or destroy().
+    // 被垃圾收集或销毁()销毁。
     download_item_->RemoveObserver(this);
     download_item_->Remove();
   }
@@ -117,7 +117,7 @@ void DownloadItem::OnDownloadUpdated(download::DownloadItem* item) {
   }
 }
 
-void DownloadItem::OnDownloadDestroyed(download::DownloadItem* /*item*/) {
+void DownloadItem::OnDownloadDestroyed(download::DownloadItem* /* 项目。*/) {
   download_item_ = nullptr;
   Unpin();
 }
@@ -137,7 +137,7 @@ bool DownloadItem::IsPaused() const {
 void DownloadItem::Resume() {
   if (!CheckAlive())
     return;
-  download_item_->Resume(true /* user_gesture */);
+  download_item_->Resume(true /* 用户手势(_S)。*/);
 }
 
 bool DownloadItem::CanResume() const {
@@ -251,7 +251,7 @@ double DownloadItem::GetStartTime() const {
   return download_item_->GetStartTime().ToDoubleT();
 }
 
-// static
+// 静电。
 gin::ObjectTemplateBuilder DownloadItem::GetObjectTemplateBuilder(
     v8::Isolate* isolate) {
   return gin_helper::EventEmitterMixin<DownloadItem>::GetObjectTemplateBuilder(
@@ -286,7 +286,7 @@ const char* DownloadItem::GetTypeName() {
   return "DownloadItem";
 }
 
-// static
+// 静电。
 gin::Handle<DownloadItem> DownloadItem::FromOrCreate(
     v8::Isolate* isolate,
     download::DownloadItem* item) {
@@ -301,6 +301,6 @@ gin::Handle<DownloadItem> DownloadItem::FromOrCreate(
   return handle;
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/process_metric.h"
 
@@ -44,9 +44,9 @@ absl::optional<mach_task_basic_info_data_t> GetTaskInfo(mach_port_t task) {
   return (kr == KERN_SUCCESS) ? absl::make_optional(info) : absl::nullopt;
 }
 
-}  // namespace
+}  // 命名空间。
 
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 
 namespace electron {
 
@@ -140,7 +140,7 @@ ProcessIntegrityLevel ProcessMetric::GetIntegrityLevel() const {
   return ProcessIntegrityLevel::kUnknown;
 }
 
-// static
+// 静电。
 bool ProcessMetric::IsSandboxed(ProcessIntegrityLevel integrity_level) {
   return integrity_level > ProcessIntegrityLevel::kUnknown &&
          integrity_level < ProcessIntegrityLevel::kMedium;
@@ -167,6 +167,6 @@ bool ProcessMetric::IsSandboxed() const {
 #endif
 }
 
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 
-}  // namespace electron
+}  // 命名空间电子

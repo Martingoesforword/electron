@@ -1,6 +1,6 @@
-// Copyright (c) 2015 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2015年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/win/scoped_hstring.h"
 
@@ -39,4 +39,4 @@ void ScopedHString::Reset(const std::wstring& source) {
   WindowsCreateString(source.c_str(), source.length(), &str_);
 }
 
-}  // namespace electron
+}  // 命名空间电子

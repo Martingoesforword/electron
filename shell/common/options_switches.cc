@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/options_switches.h"
 
@@ -31,120 +31,120 @@ const char kFullscreen[] = "fullscreen";
 const char kTrafficLightPosition[] = "trafficLightPosition";
 const char kRoundedCorners[] = "roundedCorners";
 
-// The color to use as the theme and symbol colors respectively for Window
-// Controls Overlay if enabled on Windows.
+// 分别用作窗口的主题颜色和符号颜色的颜色。
+// 控件覆盖(如果在Windows上启用)。
 const char kOverlayButtonColor[] = "color";
 const char kOverlaySymbolColor[] = "symbolColor";
 
-// Whether the window should show in taskbar.
+// 窗口是否应显示在任务栏中。
 const char kSkipTaskbar[] = "skipTaskbar";
 
-// Start with the kiosk mode, see Opera's page for description:
-// http://www.opera.com/support/mastering/kiosk/
+// 从Kiosk模式开始，说明请参见Opera页面：
+// Http://www.opera.com/support/mastering/kiosk/。
 const char kKiosk[] = "kiosk";
 
 const char kSimpleFullScreen[] = "simpleFullscreen";
 
-// Make windows stays on the top of all other windows.
+// 使窗口位于所有其他窗口的顶部。
 const char kAlwaysOnTop[] = "alwaysOnTop";
 
-// Enable the NSView to accept first mouse event.
+// 启用NSView以接受第一个鼠标事件。
 const char kAcceptFirstMouse[] = "acceptFirstMouse";
 
-// Whether window size should include window frame.
+// 窗口大小是否应包括窗口框架。
 const char kUseContentSize[] = "useContentSize";
 
-// Whether window zoom should be to page width.
+// 窗口缩放是否应为页面宽度。
 const char kZoomToPageWidth[] = "zoomToPageWidth";
 
-// Whether always show title text in full screen is enabled.
+// 是否启用始终全屏显示标题文本。
 const char kFullscreenWindowTitle[] = "fullscreenWindowTitle";
 
-// The requested title bar style for the window
+// 请求的窗口标题栏样式。
 const char kTitleBarStyle[] = "titleBarStyle";
 
-// Tabbing identifier for the window if native tabs are enabled on macOS.
+// 如果在MacOS上启用了本机选项卡，则窗口的跳转标识符。
 const char kTabbingIdentifier[] = "tabbingIdentifier";
 
-// The menu bar is hidden unless "Alt" is pressed.
+// 除非按下“Alt”，否则菜单栏将隐藏。
 const char kAutoHideMenuBar[] = "autoHideMenuBar";
 
-// Enable window to be resized larger than screen.
+// 使窗口可以调整到大于屏幕的大小。
 const char kEnableLargerThanScreen[] = "enableLargerThanScreen";
 
-// Forces to use dark theme on Linux.
+// 强制在Linux上使用黑暗主题。
 const char kDarkTheme[] = "darkTheme";
 
-// Whether the window should be transparent.
+// 窗口是否应该是透明的。
 const char kTransparent[] = "transparent";
 
-// Window type hint.
+// 窗口类型提示。
 const char kType[] = "type";
 
-// Disable auto-hiding cursor.
+// 禁用自动隐藏光标。
 const char kDisableAutoHideCursor[] = "disableAutoHideCursor";
 
-// Use the macOS' standard window instead of the textured window.
+// 使用MacOS的标准窗口，而不是纹理窗口。
 const char kStandardWindow[] = "standardWindow";
 
-// Default browser window background color.
+// 默认浏览器窗口背景颜色。
 const char kBackgroundColor[] = "backgroundColor";
 
-// Whether the window should have a shadow.
+// 窗口是否应该有阴影。
 const char kHasShadow[] = "hasShadow";
 
-// Browser window opacity
+// 浏览器窗口不透明。
 const char kOpacity[] = "opacity";
 
-// Whether the window can be activated.
+// 窗口是否可以激活。
 const char kFocusable[] = "focusable";
 
-// The WebPreferences.
+// Web首选项。
 const char kWebPreferences[] = "webPreferences";
 
-// Add a vibrancy effect to the browser window
+// 向浏览器窗口添加振动效果。
 const char kVibrancyType[] = "vibrancy";
 
-// Specify how the material appearance should reflect window activity state on
-// macOS.
+// 指定材质外观应如何反映窗口活动状态。
+// MacOS操作系统。
 const char kVisualEffectState[] = "visualEffectState";
 
-// The factor of which page should be zoomed.
+// 哪个页面应该缩放的因素。
 const char kZoomFactor[] = "zoomFactor";
 
-// Script that will be loaded by guest WebContents before other scripts.
+// 将由来宾WebContents在其他脚本之前加载的脚本。
 const char kPreloadScript[] = "preload";
 
 const char kPreloadScripts[] = "preloadScripts";
 
-// Like --preload, but the passed argument is an URL.
+// 比如--preload，但是传递的参数是一个URL。
 const char kPreloadURL[] = "preloadURL";
 
-// Enable the node integration.
+// 启用节点集成。
 const char kNodeIntegration[] = "nodeIntegration";
 
-// Enable context isolation of Electron APIs and preload script
+// 启用电子API和预加载脚本的上下文隔离。
 const char kContextIsolation[] = "contextIsolation";
 
-// Web runtime features.
+// Web运行时功能。
 const char kExperimentalFeatures[] = "experimentalFeatures";
 
-// Opener window's ID.
+// 打开窗口的ID。
 const char kOpenerID[] = "openerId";
 
-// Enable the rubber banding effect.
+// 启用橡皮筋效果。
 const char kScrollBounce[] = "scrollBounce";
 
-// Enable blink features.
+// 启用闪烁功能。
 const char kEnableBlinkFeatures[] = "enableBlinkFeatures";
 
-// Disable blink features.
+// 禁用闪烁功能。
 const char kDisableBlinkFeatures[] = "disableBlinkFeatures";
 
-// Enable the node integration in WebWorker.
+// 在WebWorker中启用节点集成。
 const char kNodeIntegrationInWorker[] = "nodeIntegrationInWorker";
 
-// Enable the web view tag.
+// 启用Web视图标记。
 const char kWebviewTag[] = "webviewTag";
 
 const char kNativeWindowOpen[] = "nativeWindowOpen";
@@ -163,27 +163,27 @@ const char kOffscreen[] = "offscreen";
 
 const char kNodeIntegrationInSubFrames[] = "nodeIntegrationInSubFrames";
 
-// Disable window resizing when HTML Fullscreen API is activated.
+// 激活HTML FullScreen API时禁用窗口大小调整。
 const char kDisableHtmlFullscreenWindowResize[] =
     "disableHtmlFullscreenWindowResize";
 
-// Enables JavaScript support.
+// 启用JavaScript支持。
 const char kJavaScript[] = "javascript";
 
-// Enables image support.
+// 启用映像支持。
 const char kImages[] = "images";
 
-// Image animation policy.
+// 图像动画策略。
 const char kImageAnimationPolicy[] = "imageAnimationPolicy";
 
-// Make TextArea elements resizable.
+// 使TextArea元素可调整大小。
 const char kTextAreasAreResizable[] = "textAreasAreResizable";
 
-// Enables WebGL support.
+// 启用WebGL支持。
 const char kWebGL[] = "webgl";
 
-// Whether dragging and dropping a file or link onto the page causes a
-// navigation.
+// 将文件或链接拖放到页面上是否会导致。
+// 导航。
 const char kNavigateOnDragDrop[] = "navigateOnDragDrop";
 
 const char kHiddenPage[] = "hiddenPage";
@@ -198,84 +198,84 @@ const char kEnablePreferredSizeMode[] = "enablePreferredSizeMode";
 
 const char ktitleBarOverlay[] = "titleBarOverlay";
 
-}  // namespace options
+}  // 命名空间选项。
 
 namespace switches {
 
-// Enable chromium sandbox.
+// 启用铬沙箱。
 const char kEnableSandbox[] = "enable-sandbox";
 
-// Ppapi Flash path.
+// PPapi闪存路径。
 const char kPpapiFlashPath[] = "ppapi-flash-path";
 
-// Ppapi Flash version.
+// PPapi Flash版本。
 const char kPpapiFlashVersion[] = "ppapi-flash-version";
 
-// Disable HTTP cache.
+// 禁用HTTP缓存。
 const char kDisableHttpCache[] = "disable-http-cache";
 
-// The list of standard schemes.
+// 标准方案列表。
 const char kStandardSchemes[] = "standard-schemes";
 
-// Register schemes to handle service worker.
+// 注册计划以处理服务人员。
 const char kServiceWorkerSchemes[] = "service-worker-schemes";
 
-// Register schemes as secure.
+// 将方案注册为安全方案。
 const char kSecureSchemes[] = "secure-schemes";
 
-// Register schemes as bypassing CSP.
+// 将方案注册为绕过CSP。
 const char kBypassCSPSchemes[] = "bypasscsp-schemes";
 
-// Register schemes as support fetch API.
+// 将方案注册为支持FETCH API。
 const char kFetchSchemes[] = "fetch-schemes";
 
-// Register schemes as CORS enabled.
+// 将方案注册为启用CORS。
 const char kCORSSchemes[] = "cors-schemes";
 
-// Register schemes as streaming responses.
+// 将方案注册为流响应。
 const char kStreamingSchemes[] = "streaming-schemes";
 
-// The browser process app model ID
+// 浏览器进程应用程序型号ID。
 const char kAppUserModelId[] = "app-user-model-id";
 
-// The application path
+// 应用程序路径
 const char kAppPath[] = "app-path";
 
-// The command line switch versions of the options.
+// 命令行可切换选项的版本。
 const char kScrollBounce[] = "scroll-bounce";
 
-// Command switch passed to renderer process to control nodeIntegration.
+// 命令开关传递给渲染器进程以控制节点集成。
 const char kNodeIntegrationInWorker[] = "node-integration-in-worker";
 
-// Widevine options
-// Path to Widevine CDM binaries.
+// 广域选项。
+// Widevine CDM二进制文件的路径。
 const char kWidevineCdmPath[] = "widevine-cdm-path";
-// Widevine CDM version.
+// 威德文清洁发展机制版本。
 const char kWidevineCdmVersion[] = "widevine-cdm-version";
 
-// Forces the maximum disk space to be used by the disk cache, in bytes.
+// 强制磁盘缓存使用的最大磁盘空间(以字节为单位)。
 const char kDiskCacheSize[] = "disk-cache-size";
 
-// Ignore the limit of 6 connections per host.
+// 忽略每台主机6个连接的限制。
 const char kIgnoreConnectionsLimit[] = "ignore-connections-limit";
 
-// Whitelist containing servers for which Integrated Authentication is enabled.
+// 包含启用了集成身份验证的服务器的白名单。
 const char kAuthServerWhitelist[] = "auth-server-whitelist";
 
-// Whitelist containing servers for which Kerberos delegation is allowed.
+// 包含允许Kerberos委派的服务器的白名单。
 const char kAuthNegotiateDelegateWhitelist[] =
     "auth-negotiate-delegate-whitelist";
 
-// If set, include the port in generated Kerberos SPNs.
+// 如果设置，请将端口包括在生成的Kerberos SPN中。
 const char kEnableAuthNegotiatePort[] = "enable-auth-negotiate-port";
 
-// If set, NTLM v2 is disabled for POSIX platforms.
+// 如果设置，则对POSIX平台禁用NTLM v2。
 const char kDisableNTLMv2[] = "disable-ntlm-v2";
 
 const char kGlobalCrashKeys[] = "global-crash-keys";
 
 const char kEnableWebSQL[] = "enable-websql";
 
-}  // namespace switches
+}  // 命名空间开关。
 
-}  // namespace electron
+}  // 命名空间电子

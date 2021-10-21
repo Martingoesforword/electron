@@ -1,6 +1,6 @@
-// Copyright (c) 2017 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2017年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/ui/views/electron_views_delegate.h"
 
@@ -19,19 +19,19 @@ bool MonitorHasAutohideTaskbarForEdge(UINT edge, HMONITOR monitor) {
   APPBARDATA taskbar_data = {sizeof(APPBARDATA), NULL, 0, edge};
   taskbar_data.hWnd = ::GetForegroundWindow();
 
-  // MSDN documents an ABM_GETAUTOHIDEBAREX, which supposedly takes a monitor
-  // rect and returns autohide bars on that monitor.  This sounds like a good
-  // idea for multi-monitor systems.  Unfortunately, it appears to not work at
-  // least some of the time (erroneously returning NULL) and there's almost no
-  // online documentation or other sample code using it that suggests ways to
-  // address this problem. We do the following:-
-  // 1. Use the ABM_GETAUTOHIDEBAR message. If it works, i.e. returns a valid
-  //    window we are done.
-  // 2. If the ABM_GETAUTOHIDEBAR message does not work we query the auto hide
-  //    state of the taskbar and then retrieve its position. That call returns
-  //    the edge on which the taskbar is present. If it matches the edge we
-  //    are looking for, we are done.
-  // NOTE: This call spins a nested run loop.
+  // MSDN记录了一个ABM_GETAUTOHIDEBAREX，据说它需要一个监视器。
+  // RECT并返回该监视器上的自动隐藏条。这听起来很不错。
+  // 多监视器系统的想法。不幸的是，它似乎在。
+  // 至少在某些情况下(错误地返回NULL)，并且几乎没有。
+  // 在线文档或使用它的其他示例代码，这些文档或示例代码建议以下方法。
+  // 解决这个问题。我们的工作如下：
+  // 1.使用ABM_GETAUTOHIDEBAR消息。如果它起作用，即返回有效的。
+  // 窗户，我们完事了。
+  // 2.如果ABM_GETAUTOHIDEBAR消息不起作用，我们查询自动隐藏。
+  // 任务栏的状态，然后检索其位置。该调用返回。
+  // 任务栏所在的边缘。如果它与我们的边缘匹配。
+  // 都在找，我们就完了。
+  // 注意：此调用旋转嵌套的Run循环。
   HWND taskbar = reinterpret_cast<HWND>(
       SHAppBarMessage(ABM_GETAUTOHIDEBAR, &taskbar_data));
   if (!::IsWindow(taskbar)) {
@@ -49,31 +49,31 @@ bool MonitorHasAutohideTaskbarForEdge(UINT edge, HMONITOR monitor) {
       taskbar = taskbar_data.hWnd;
   }
 
-  // There is a potential race condition here:
-  // 1. A maximized chrome window is fullscreened.
-  // 2. It is switched back to maximized.
-  // 3. In the process the window gets a WM_NCCACLSIZE message which calls us to
-  //    get the autohide state.
-  // 4. The worker thread is invoked. It calls the API to get the autohide
-  //    state. On Windows versions  earlier than Windows 7, taskbars could
-  //    easily be always on top or not.
-  //    This meant that we only want to look for taskbars which have the topmost
-  //    bit set.  However this causes problems in cases where the window on the
-  //    main thread is still in the process of switching away from fullscreen.
-  //    In this case the taskbar might not yet have the topmost bit set.
-  // 5. The main thread resumes and does not leave space for the taskbar and
-  //    hence it does not pop when hovered.
-  //
-  // To address point 4 above, it is best to not check for the WS_EX_TOPMOST
-  // window style on the taskbar, as starting from Windows 7, the topmost
-  // style is always set. We don't support XP and Vista anymore.
+  // 这里存在潜在的竞争条件：
+  // 1.最大化的镀铬窗口全屏显示。
+  // 2.切换回最大化。
+  // 3.在此过程中，窗口会收到一条WM_NCCACLSIZE消息，要求我们。
+  // 获取自动隐藏状态。
+  // 4.调用工作线程。它调用API来获取自动隐藏。
+  // 州政府。在Windows 7之前的Windows版本上，任务栏可以。
+  // 轻松地总是处于领先或不领先的地位。
+  // 这意味着我们只想查找最上面的任务栏。
+  // 位设置。但是，这在以下情况下会导致问题：
+  // 主线程仍在从全屏切换的过程中。
+  // 在这种情况下，任务栏可能尚未设置最顶位。
+  // 5.主线程恢复并且不为任务栏留出空间，并且。
+  // 因此，它在悬停时不会弹出。
+  // 
+  // 要解决上述第4点，最好不要检查WS_EX_TOPMOST。
+  // 任务栏上的窗口样式，从最上面的Windows 7开始。
+  // 样式始终是固定的。我们不再支持XP和Vista。
   if (::IsWindow(taskbar)) {
     if (MonitorFromWindow(taskbar, MONITOR_DEFAULTTONEAREST) == monitor)
       return true;
-    // In some cases like when the autohide taskbar is on the left of the
-    // secondary monitor, the MonitorFromWindow call above fails to return the
-    // correct monitor the taskbar is on. We fallback to MonitorFromPoint for
-    // the cursor position in that case, which seems to work well.
+    // 在某些情况下，例如当自动隐藏任务栏位于。
+    // 辅助监视器，则上面的Monitor/FromWindow调用无法返回。
+    // 正确的监视器任务栏已打开。我们退回到Monitor FromPoint。
+    // 在这种情况下的光标位置，这似乎工作得很好。
     POINT cursor_pos = {0};
     GetCursorPos(&cursor_pos);
     if (MonitorFromPoint(cursor_pos, MONITOR_DEFAULTTONEAREST) == monitor)
@@ -97,14 +97,14 @@ int GetAppbarAutohideEdgesOnWorkerThread(HMONITOR monitor) {
   return edges;
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
 HICON ViewsDelegate::GetDefaultWindowIcon() const {
-  // Use current exe's icon as default window icon.
+  // 使用当前exe的图标作为默认窗口图标。
   return LoadIcon(GetModuleHandle(NULL),
-                  MAKEINTRESOURCE(1 /* IDR_MAINFRAME */));
+                  MAKEINTRESOURCE(1 /* IDR_大型机。*/));
 }
 
 HICON ViewsDelegate::GetSmallWindowIcon() const {
@@ -117,21 +117,21 @@ bool ViewsDelegate::IsWindowInMetro(gfx::NativeWindow window) const {
 
 int ViewsDelegate::GetAppbarAutohideEdges(HMONITOR monitor,
                                           base::OnceClosure callback) {
-  // Initialize the map with EDGE_BOTTOM. This is important, as if we return an
-  // initial value of 0 (no auto-hide edges) then we'll go fullscreen and
-  // windows will automatically remove WS_EX_TOPMOST from the appbar resulting
-  // in us thinking there is no auto-hide edges. By returning at least one edge
-  // we don't initially go fullscreen until we figure out the real auto-hide
-  // edges.
+  // 使用edge_Bottom初始化贴图。这一点很重要，就好像我们返回一个。
+  // 初始值为0(无自动隐藏边)，然后我们将全屏显示。
+  // Windows将自动从生成的应用程序栏中删除WS_EX_TOPMOST。
+  // 在我们看来，没有自动隐藏的边缘。通过返回至少一条边。
+  // 在我们弄清楚真正的自动隐藏之前，我们最初不会全屏显示。
+  // 边缘。
   if (!appbar_autohide_edge_map_.count(monitor))
     appbar_autohide_edge_map_[monitor] = EDGE_BOTTOM;
 
-  // We use the SHAppBarMessage API to get the taskbar autohide state. This API
-  // spins a modal loop which could cause callers to be reentered. To avoid
-  // that we retrieve the taskbar state in a worker thread.
+  // 我们使用SHAppBarMessage API来获取任务栏自动隐藏状态。本接口。
+  // 旋转可能导致调用者重新进入的模式循环。为了避免。
+  // 我们在工作线程中检索任务栏状态。
   if (monitor && !in_autohide_edges_callback_) {
-    // TODO(robliao): Annotate this task with .WithCOM() once supported.
-    // https://crbug.com/662122
+    // TODO(Robliao)：一旦支持，就用.WithCOM()注释此任务。
+    // Https://crbug.com/662122。
     base::ThreadPool::PostTaskAndReplyWithResult(
         FROM_HERE, {base::MayBlock(), base::TaskPriority::USER_BLOCKING},
         base::BindOnce(&GetAppbarAutohideEdgesOnWorkerThread, monitor),
@@ -154,4 +154,4 @@ void ViewsDelegate::OnGotAppbarAutohideEdges(base::OnceClosure callback,
   std::move(callback).Run();
 }
 
-}  // namespace electron
+}  // 命名空间电子

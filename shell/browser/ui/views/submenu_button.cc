@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/views/submenu_button.h"
 
@@ -23,7 +23,7 @@ SubmenuButton::SubmenuButton(PressedCallback callback,
     : views::MenuButton(callback, gfx::RemoveAccelerator(title)),
       background_color_(background_color) {
 #if defined(OS_LINUX)
-  // Dont' use native style border.
+  // 不要使用原生风格的边框。
   SetBorder(CreateDefaultBorder());
 #endif
 
@@ -96,4 +96,4 @@ void SubmenuButton::GetCharacterPosition(const std::u16string& text,
                              &height, 0, 0);
 }
 
-}  // namespace electron
+}  // 命名空间电子

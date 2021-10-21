@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/win/notify_icon.h"
 
@@ -40,7 +40,7 @@ UINT ConvertIconType(electron::TrayIcon::IconType type) {
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -57,14 +57,14 @@ NotifyIcon::NotifyIcon(NotifyIconHost* host,
   icon_data.uFlags |= NIF_MESSAGE;
   icon_data.uCallbackMessage = message_id_;
   BOOL result = Shell_NotifyIcon(NIM_ADD, &icon_data);
-  // This can happen if the explorer process isn't running when we try to
-  // create the icon for some reason (for example, at startup).
+  // 当我们尝试执行以下操作时，如果资源管理器进程未运行，则可能会发生这种情况。
+  // 出于某种原因(例如，在启动时)创建图标。
   if (!result)
     LOG(WARNING) << "Unable to create status tray icon.";
 }
 
 NotifyIcon::~NotifyIcon() {
-  // Remove our icon.
+  // 移除我们的图标。
   host_->Remove(this);
   NOTIFYICONDATA icon_data;
   InitIconData(&icon_data);
@@ -77,14 +77,14 @@ void NotifyIcon::HandleClickEvent(int modifiers,
   gfx::Rect bounds = GetBounds();
 
   if (left_mouse_click) {
-    if (double_button_click)  // double left click
+    if (double_button_click)  // 双击左键。
       NotifyDoubleClicked(bounds, modifiers);
-    else  // single left click
+    else  // 单击鼠标左键。
       NotifyClicked(bounds,
                     display::Screen::GetScreen()->GetCursorScreenPoint(),
                     modifiers);
     return;
-  } else if (!double_button_click) {  // single right click
+  } else if (!double_button_click) {  // 单击鼠标右键。
     if (menu_model_)
       PopUpContextMenu(gfx::Point(), menu_model_);
     else
@@ -94,7 +94,7 @@ void NotifyIcon::HandleClickEvent(int modifiers,
 
 void NotifyIcon::HandleMouseMoveEvent(int modifiers) {
   gfx::Point cursorPos = display::Screen::GetScreen()->GetCursorScreenPoint();
-  // Omit event fired when tray icon is created but cursor is outside of it.
+  // 创建托盘图标但光标在托盘图标之外时触发的忽略事件。
   if (GetBounds().Contains(cursorPos))
     NotifyMouseMoved(cursorPos, modifiers);
 }
@@ -102,17 +102,17 @@ void NotifyIcon::HandleMouseMoveEvent(int modifiers) {
 void NotifyIcon::ResetIcon() {
   NOTIFYICONDATA icon_data;
   InitIconData(&icon_data);
-  // Delete any previously existing icon.
+  // 删除任何以前存在的图标。
   Shell_NotifyIcon(NIM_DELETE, &icon_data);
   InitIconData(&icon_data);
   icon_data.uFlags |= NIF_MESSAGE;
   icon_data.uCallbackMessage = message_id_;
   icon_data.hIcon = icon_.get();
-  // If we have an image, then set the NIF_ICON flag, which tells
-  // Shell_NotifyIcon() to set the image for the status icon it creates.
+  // 如果我们有一个图像，那么设置NIF_ICON标志，它告诉我们。
+  // Shell_NotifyIcon()设置其创建的状态图标的图像。
   if (icon_data.hIcon)
     icon_data.uFlags |= NIF_ICON;
-  // Re-add our icon.
+  // 重新添加我们的图标。
   BOOL result = Shell_NotifyIcon(NIM_ADD, &icon_data);
   if (!result)
     LOG(WARNING) << "Unable to re-create status tray icon.";
@@ -121,7 +121,7 @@ void NotifyIcon::ResetIcon() {
 void NotifyIcon::SetImage(HICON image) {
   icon_ = base::win::ScopedHICON(CopyIcon(image));
 
-  // Create the icon.
+  // 创建图标。
   NOTIFYICONDATA icon_data;
   InitIconData(&icon_data);
   icon_data.uFlags |= NIF_ICON;
@@ -132,12 +132,12 @@ void NotifyIcon::SetImage(HICON image) {
 }
 
 void NotifyIcon::SetPressedImage(HICON image) {
-  // Ignore pressed images, since the standard on Windows is to not highlight
-  // pressed status icons.
+  // 忽略按下的图像，因为Windows上的标准是不突出显示。
+  // 按下状态图标。
 }
 
 void NotifyIcon::SetToolTip(const std::string& tool_tip) {
-  // Create the icon.
+  // 创建图标。
   NOTIFYICONDATA icon_data;
   InitIconData(&icon_data);
   icon_data.uFlags |= NIF_TIP;
@@ -192,19 +192,19 @@ void NotifyIcon::Focus() {
 
 void NotifyIcon::PopUpContextMenu(const gfx::Point& pos,
                                   ElectronMenuModel* menu_model) {
-  // Returns if context menu isn't set.
+  // 如果未设置上下文菜单，则返回。
   if (menu_model == nullptr && menu_model_ == nullptr)
     return;
 
-  // Set our window as the foreground window, so the context menu closes when
-  // we click away from it.
+  // 将我们的窗口设置为前台窗口，以便上下文菜单在以下情况下关闭。
+  // 我们点击离开它。
   if (!SetForegroundWindow(window_))
     return;
 
-  // Cancel current menu if there is one.
+  // 取消当前菜单(如果有)。
   CloseContextMenu();
 
-  // Show menu at mouse's position by default.
+  // 默认情况下在鼠标位置显示菜单。
   gfx::Rect rect(pos, gfx::Size());
   if (pos.IsOrigin())
     rect.set_origin(display::Screen::GetScreen()->GetCursorScreenPoint());
@@ -253,4 +253,4 @@ void NotifyIcon::InitIconData(NOTIFYICONDATA* icon_data) {
   }
 }
 
-}  // namespace electron
+}  // 命名空间电子

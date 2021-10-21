@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/app/node_main.h"
 
@@ -39,7 +39,7 @@
 #endif
 
 #if !defined(MAS_BUILD)
-#include "components/crash/core/app/crashpad.h"  // nogncheck
+#include "components/crash/core/app/crashpad.h"  // 点名检查。
 #include "shell/app/electron_crash_reporter_client.h"
 #include "shell/browser/api/electron_api_crash_reporter.h"
 #include "shell/common/crash_keys.h"
@@ -47,10 +47,10 @@
 
 namespace {
 
-// Initialize Node.js cli options to pass to Node.js
-// See https://nodejs.org/api/cli.html#cli_options
+// 初始化Node.js cli选项以传递给Node.js。
+// 请参阅https://nodejs.org/api/cli.html#cli_options。
 int SetNodeCliFlags() {
-  // Options that are unilaterally disallowed
+  // 单方面不允许的期权。
   const std::unordered_set<base::StringPiece, base::StringPieceHash>
       disallowed = {"--openssl-config", "--use-bundled-ca", "--use-openssl-ca",
                     "--force-fips", "--enable-fips"};
@@ -58,9 +58,9 @@ int SetNodeCliFlags() {
   const auto argv = base::CommandLine::ForCurrentProcess()->argv();
   std::vector<std::string> args;
 
-  // TODO(codebytere): We need to set the first entry in args to the
-  // process name owing to src/node_options-inl.h#L286-L290 but this is
-  // redundant and so should be refactored upstream.
+  // TODO(Codebytere)：我们需要将args中的第一个条目设置为。
+  // 由于src/node_options-inl.h#L286-L290而导致的进程名称，但这是。
+  // 这是多余的，因此应该在上游进行重构。
   args.reserve(argv.size() + 1);
   args.emplace_back("electron");
 
@@ -74,9 +74,9 @@ int SetNodeCliFlags() {
     if (disallowed.count(stripped) != 0) {
       LOG(ERROR) << "The Node.js cli flag " << stripped
                  << " is not supported in Electron";
-      // Node.js returns 9 from ProcessGlobalArgs for any errors encountered
-      // when setting up cli flags and env vars. Since we're outlawing these
-      // flags (making them errors) return 9 here for consistency.
+      // 对于遇到的任何错误，Node.js从ProcessGlobalArgs返回9。
+      // 在设置CLI标志和环境变量时。既然我们宣布这些都是非法的。
+      // 为了保持一致性，标志(使其出错)在这里返回9。
       return 9;
     } else {
       args.push_back(option);
@@ -85,8 +85,8 @@ int SetNodeCliFlags() {
 
   std::vector<std::string> errors;
 
-  // Node.js itself will output parsing errors to
-  // console so we don't need to handle that ourselves
+  // Node.js本身会将解析错误输出到。
+  // 控制台，所以我们不需要自己处理。
   return ProcessGlobalArgs(&args, nullptr, &errors,
                            node::kDisallowedInEnvironment);
 }
@@ -96,7 +96,7 @@ void SetCrashKeyStub(const std::string& key, const std::string& value) {}
 void ClearCrashKeyStub(const std::string& key) {}
 #endif
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -160,20 +160,20 @@ int NodeMain(int argc, char* argv[]) {
 
   int exit_code = 1;
   {
-    // Feed gin::PerIsolateData with a task runner.
+    // 向GIN：：PerIsolateData提供任务运行器。
     uv_loop_t* loop = uv_default_loop();
     auto uv_task_runner = base::MakeRefCounted<UvTaskRunner>(loop);
     base::ThreadTaskRunnerHandle handle(uv_task_runner);
 
-    // Initialize feature list.
+    // 初始化功能列表。
     auto feature_list = std::make_unique<base::FeatureList>();
     feature_list->InitializeFromCommandLine("", "");
     base::FeatureList::SetInstance(std::move(feature_list));
 
-    // Explicitly register electron's builtin modules.
+    // 明确注册电子的内置模块。
     NodeBindings::RegisterBuiltinModules();
 
-    // Parse and set Node.js cli flags.
+    // 解析并设置Node.js cli标志。
     int flags_exit_code = SetNodeCliFlags();
     if (flags_exit_code != 0)
       exit(flags_exit_code);
@@ -188,14 +188,14 @@ int NodeMain(int argc, char* argv[]) {
     gin::V8Initializer::LoadV8Snapshot(
         gin::V8Initializer::V8SnapshotFileType::kWithAdditionalContext);
 
-    // V8 requires a task scheduler.
+    // V8需要一个任务调度器。
     base::ThreadPoolInstance::CreateAndStartWithDefaultParams("Electron");
 
-    // Allow Node.js to track the amount of time the event loop has spent
-    // idle in the kernel’s event provider .
+    // 允许Node.js跟踪事件循环花费的时间。
+    // 在内核的事件提供程序中处于空闲状态。
     uv_loop_configure(loop, UV_METRICS_IDLE_TIME);
 
-    // Initialize gin::IsolateHolder.
+    // 初始化gin：：IsolateHolder。
     JavascriptEnvironment gin_env(loop);
 
     v8::Isolate* isolate = gin_env.isolate();
@@ -220,7 +220,7 @@ int NodeMain(int argc, char* argv[]) {
       gin_helper::Dictionary process(isolate, env->process_object());
       process.SetMethod("crash", &ElectronBindings::Crash);
 
-      // Setup process.crashReporter in child node processes
+      // 设置进程。子节点进程中的crashReporter。
       gin_helper::Dictionary reporter = gin::Dictionary::CreateEmpty(isolate);
 #if defined(OS_LINUX)
       reporter.SetMethod("start", &CrashReporterStart);
@@ -268,8 +268,8 @@ int NodeMain(int argc, char* argv[]) {
           EmitBeforeExit(env);
         }
 
-        // Emit `beforeExit` if the loop became alive either after emitting
-        // event, or after running some callbacks.
+        // 如果循环在发出后变为活动状态，则发出`beforeExit`。
+        // 事件，或者在运行一些回调之后。
         more = uv_loop_alive(env->event_loop());
       } while (more && !env->is_stopping());
       env->performance_state()->Mark(
@@ -287,11 +287,11 @@ int NodeMain(int argc, char* argv[]) {
     node::FreeIsolateData(isolate_data);
   }
 
-  // According to "src/gin/shell/gin_main.cc":
-  //
-  // gin::IsolateHolder waits for tasks running in ThreadPool in its
-  // destructor and thus must be destroyed before ThreadPool starts skipping
-  // CONTINUE_ON_SHUTDOWN tasks.
+  // 根据“src/gin/shell/gin_main.cc”：
+  // 
+  // GIN：：IsolateHolder在其线程池中等待运行的任务。
+  // 析构函数，因此必须在ThreadPool开始跳过之前销毁。
+  // 继续关闭任务(_ON_SHUTDOWN)。
   base::ThreadPoolInstance::Get()->Shutdown();
 
   v8::V8::Dispose();
@@ -299,4 +299,4 @@ int NodeMain(int argc, char* argv[]) {
   return exit_code;
 }
 
-}  // namespace electron
+}  // 命名空间电子

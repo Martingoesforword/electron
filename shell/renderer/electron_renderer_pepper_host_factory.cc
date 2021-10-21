@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/electron_renderer_pepper_host_factory.h"
 
@@ -18,7 +18,7 @@
 
 using ppapi::host::ResourceHost;
 
-// Stub class which ignores all messages
+// 忽略所有消息的存根类。
 class PepperUMAHost : public ppapi::host::ResourceHost {
  public:
   PepperUMAHost(content::RendererPpapiHost* host,
@@ -27,7 +27,7 @@ class PepperUMAHost : public ppapi::host::ResourceHost {
       : ResourceHost(host->GetPpapiHost(), instance, resource) {}
   ~PepperUMAHost() override = default;
 
-  // ppapi::host::ResourceMessageHandler implementation.
+  // PPAPI：：Host：：ResourceMessageHandler实现。
   int32_t OnResourceMessageReceived(
       const IPC::Message& msg,
       ppapi::host::HostMessageContext* context) override {
@@ -90,14 +90,14 @@ ElectronRendererPepperHostFactory::CreateResourceHost(
     const IPC::Message& message) {
   DCHECK_EQ(host_->GetPpapiHost(), host);
 
-  // Make sure the plugin is giving us a valid instance for this resource.
+  // 确保插件为我们提供了此资源的有效实例。
   if (!host_->IsValidInstance(instance))
     return nullptr;
 
-  // Permissions for the following interfaces will be checked at the
-  // time of the corresponding instance's method calls.  Currently these
-  // interfaces are available only for specifically permitted apps which may
-  // not have access to the other private interfaces.
+  // 将在以下位置检查以下接口的权限。
+  // 相应实例的方法调用的时间。目前这些。
+  // 界面仅对特定许可的应用程序可用，这些应用程序可能。
+  // 无法访问其他专用接口。
   switch (message.type()) {
     case PpapiHostMsg_UMA_Create::ID: {
       return std::make_unique<PepperUMAHost>(host_, instance, resource);

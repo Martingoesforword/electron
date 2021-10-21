@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE.chromium file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在LICENSE.Cr文件中找到。
 
 #include "shell/common/gin_helper/wrappable.h"
 
@@ -53,7 +53,7 @@ void WrappableBase::InitWith(v8::Isolate* isolate,
   wrapper_.SetWeak(this, FirstWeakCallback,
                    v8::WeakCallbackType::kInternalFields);
 
-  // Call object._init if we have one.
+  // 调用Object._init(如果我们有)。
   v8::Local<v8::Function> init;
   if (Dictionary(isolate, wrapper).Get("_init", &init))
     init->Call(isolate->GetCurrentContext(), wrapper, 0, nullptr).IsEmpty();
@@ -61,7 +61,7 @@ void WrappableBase::InitWith(v8::Isolate* isolate,
   AfterInit(isolate);
 }
 
-// static
+// 静电。
 void WrappableBase::FirstWeakCallback(
     const v8::WeakCallbackInfo<WrappableBase>& data) {
   auto* wrappable = static_cast<WrappableBase*>(data.GetInternalField(0));
@@ -71,7 +71,7 @@ void WrappableBase::FirstWeakCallback(
   }
 }
 
-// static
+// 静电。
 void WrappableBase::SecondWeakCallback(
     const v8::WeakCallbackInfo<WrappableBase>& data) {
   delete static_cast<WrappableBase*>(data.GetInternalField(0));
@@ -88,6 +88,6 @@ void* FromV8Impl(v8::Isolate* isolate, v8::Local<v8::Value> val) {
   return obj->GetAlignedPointerFromInternalField(0);
 }
 
-}  // namespace internal
+}  // 命名空间内部。
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper

@@ -1,6 +1,6 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2019年Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/hid/hid_chooser_context.h"
 
@@ -34,15 +34,15 @@ HidChooserContext::HidChooserContext(ElectronBrowserContext* context)
     : browser_context_(context) {}
 
 HidChooserContext::~HidChooserContext() {
-  // Notify observers that the chooser context is about to be destroyed.
-  // Observers must remove themselves from the observer lists.
+  // 通知观察者选择器上下文即将被销毁。
+  // 观察员必须将自己从观察员名单中删除。
   for (auto& observer : device_observer_list_) {
     observer.OnHidChooserContextShutdown();
     DCHECK(!device_observer_list_.HasObserver(&observer));
   }
 }
 
-// static
+// 静电。
 std::u16string HidChooserContext::DisplayNameFromDeviceInfo(
     const device::mojom::HidDeviceInfo& device) {
   if (device.product_name.empty()) {
@@ -54,13 +54,13 @@ std::u16string HidChooserContext::DisplayNameFromDeviceInfo(
   return base::UTF8ToUTF16(device.product_name);
 }
 
-// static
+// 静电。
 bool HidChooserContext::CanStorePersistentEntry(
     const device::mojom::HidDeviceInfo& device) {
   return !device.serial_number.empty() && !device.product_name.empty();
 }
 
-// static
+// 静电。
 base::Value HidChooserContext::DeviceInfoToValue(
     const device::mojom::HidDeviceInfo& device) {
   base::Value value(base::Value::Type::DICTIONARY);
@@ -70,13 +70,13 @@ base::Value HidChooserContext::DeviceInfoToValue(
   value.SetIntKey(kHidVendorIdKey, device.vendor_id);
   value.SetIntKey(kHidProductIdKey, device.product_id);
   if (HidChooserContext::CanStorePersistentEntry(device)) {
-    // Use the USB serial number as a persistent identifier. If it is
-    // unavailable, only ephemeral permissions may be granted.
+    // 使用USB序列号作为永久标识符。如果是的话。
+    // 不可用，只能授予短暂权限。
     value.SetStringKey(kHidSerialNumberKey, device.serial_number);
   } else {
-    // The GUID is a temporary ID created on connection that remains valid until
-    // the device is disconnected. Ephemeral permissions are keyed by this ID
-    // and must be granted again each time the device is connected.
+    // GUID是在连接时创建的临时ID，在。
+    // 设备已断开连接。临时权限以此ID为关键字。
+    // 并且必须在每次连接设备时再次授予。
     value.SetStringKey(kHidGuidKey, device.guid);
   }
   return value;
@@ -166,11 +166,11 @@ base::WeakPtr<HidChooserContext> HidChooserContext::AsWeakPtr() {
 void HidChooserContext::DeviceAdded(device::mojom::HidDeviceInfoPtr device) {
   DCHECK(device);
 
-  // Update the device list.
+  // 更新设备列表。
   if (!base::Contains(devices_, device->guid))
     devices_.insert({device->guid, device->Clone()});
 
-  // Notify all observers.
+  // 通知所有观察员。
   for (auto& observer : device_observer_list_)
     observer.OnDeviceAdded(*device);
 }
@@ -179,16 +179,16 @@ void HidChooserContext::DeviceRemoved(device::mojom::HidDeviceInfoPtr device) {
   DCHECK(device);
   DCHECK(base::Contains(devices_, device->guid));
 
-  // Update the device list.
+  // 更新设备列表。
   devices_.erase(device->guid);
 
-  // Notify all device observers.
+  // 通知所有设备观察者。
   for (auto& observer : device_observer_list_)
     observer.OnDeviceRemoved(*device);
 
-  // Next we'll notify observers for revoked permissions. If the device does not
-  // support persistent permissions then device permissions are revoked on
-  // disconnect.
+  // 接下来，我们将通知观察者撤销的权限。如果设备没有。
+  // 支持永久权限，则设备权限将在。
+  // 断开连接。
   if (CanStorePersistentEntry(*device))
     return;
 
@@ -205,10 +205,10 @@ void HidChooserContext::DeviceChanged(device::mojom::HidDeviceInfoPtr device) {
   DCHECK(device);
   DCHECK(base::Contains(devices_, device->guid));
 
-  // Update the device list.
+  // 更新设备列表。
   devices_[device->guid] = device->Clone();
 
-  // Notify all observers.
+  // 通知所有观察员。
   for (auto& observer : device_observer_list_)
     observer.OnDeviceChanged(*device);
 }
@@ -264,9 +264,9 @@ void HidChooserContext::OnHidManagerConnectionError() {
     revoked_origins.push_back(map_entry.first);
   ephemeral_devices_.clear();
 
-  // Notify all device observers.
+  // 通知所有设备观察者。
   for (auto& observer : device_observer_list_)
     observer.OnHidManagerConnectionError();
 }
 
-}  // namespace electron
+}  // 命名空间电子

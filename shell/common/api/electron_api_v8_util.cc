@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <utility>
 
@@ -17,7 +17,7 @@
 
 namespace std {
 
-// The hash function used by DoubleIDWeakMap.
+// DoubleIDWeakMap使用的哈希函数。
 template <typename Type1, typename Type2>
 struct hash<std::pair<Type1, Type2>> {
   std::size_t operator()(std::pair<Type1, Type2> value) const {
@@ -25,7 +25,7 @@ struct hash<std::pair<Type1, Type2>> {
   }
 };
 
-}  // namespace std
+}  // 命名空间标准。
 
 namespace gin {
 
@@ -49,7 +49,7 @@ struct Converter<std::pair<Type1, Type2>> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace {
 
@@ -83,9 +83,9 @@ void DeleteHiddenValue(v8::Isolate* isolate,
                        v8::Local<v8::String> key) {
   v8::Local<v8::Context> context = isolate->GetCurrentContext();
   v8::Local<v8::Private> privateKey = v8::Private::ForApi(isolate, key);
-  // Actually deleting the value would make force the object into
-  // dictionary mode which is unnecessarily slow. Instead, we replace
-  // the hidden value with "undefined".
+  // 如果实际删除该值，则会强制该对象。
+  // 字典模式，这是不必要的缓慢。取而代之的是，我们用。
+  // “未定义”的隐藏值。
   object->SetPrivate(context, privateKey, v8::Undefined(isolate));
 }
 
@@ -106,7 +106,7 @@ bool IsSameOrigin(const GURL& l, const GURL& r) {
   return url::Origin::Create(l).IsSameOriginWith(url::Origin::Create(r));
 }
 
-// This causes a fatal error by creating a circular extension dependency.
+// 这会创建循环扩展依赖项，从而导致致命错误。
 void TriggerFatalErrorForTesting(v8::Isolate* isolate) {
   static const char* aDeps[] = {"B"};
   v8::RegisterExtension(std::make_unique<v8::Extension>("A", "", 1, aDeps));
@@ -137,6 +137,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("runUntilIdle", &RunUntilIdle);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_common_v8_util, Initialize)

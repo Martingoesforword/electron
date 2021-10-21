@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/v8_value_serializer.h"
 
@@ -19,7 +19,7 @@ namespace electron {
 
 namespace {
 enum SerializationTag { kNativeImageTag = 'i', kVersionTag = 0xFF };
-}  // namespace
+}  // 命名空间。
 
 class V8Serializer : public v8::ValueSerializer::Delegate {
  public:
@@ -50,7 +50,7 @@ class V8Serializer : public v8::ValueSerializer::Delegate {
     return true;
   }
 
-  // v8::ValueSerializer::Delegate
+  // V8：：ValueSerializer：：Delegate。
   void* ReallocateBufferMemory(void* old_buffer,
                                size_t size,
                                size_t* actual_size) override {
@@ -69,7 +69,7 @@ class V8Serializer : public v8::ValueSerializer::Delegate {
                                   v8::Local<v8::Object> object) override {
     api::NativeImage* native_image;
     if (gin::ConvertFromV8(isolate, object, &native_image)) {
-      // Serialize the NativeImage
+      // 序列化NativeImage。
       WriteTag(kNativeImageTag);
       gfx::ImageSkia image = native_image->image().AsImageSkia();
       std::vector<gfx::ImageSkiaRep> image_reps = image.image_reps();
@@ -96,8 +96,8 @@ class V8Serializer : public v8::ValueSerializer::Delegate {
   void WriteTag(SerializationTag tag) { serializer_.WriteRawBytes(&tag, 1); }
 
   void WriteBlinkEnvelope(uint32_t blink_version) {
-    // Write a dummy blink version envelope for compatibility with
-    // blink::V8ScriptValueSerializer
+    // 编写虚拟眨眼版信封以与兼容。
+    // 闪烁：：V8ScriptValueSerializer。
     WriteTag(kVersionTag);
     serializer_.WriteUint32(blink_version);
   }
@@ -143,7 +143,7 @@ class V8Deserializer : public v8::ValueDeserializer::Delegate {
           return native_image->GetWrapper(isolate);
         break;
     }
-    // Throws an exception.
+    // 引发异常。
     return v8::ValueDeserializer::Delegate::ReadHostObject(isolate);
   }
 
@@ -157,8 +157,8 @@ class V8Deserializer : public v8::ValueDeserializer::Delegate {
   }
 
   bool ReadBlinkEnvelope(uint32_t* blink_version) {
-    // Read a dummy blink version envelope for compatibility with
-    // blink::V8ScriptValueDeserializer
+    // 读取虚拟闪烁版本信封以与兼容。
+    // Blink：：V8ScriptValueAnti ializer。
     uint8_t tag = 0;
     if (!ReadTag(&tag) || tag != kVersionTag)
       return false;
@@ -212,4 +212,4 @@ v8::Local<v8::Value> DeserializeV8Value(v8::Isolate* isolate,
   return V8Deserializer(isolate, data).Deserialize();
 }
 
-}  // namespace electron
+}  // 命名空间电子

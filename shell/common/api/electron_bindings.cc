@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/api/electron_bindings.h"
 
@@ -28,7 +28,7 @@
 #include "shell/common/gin_helper/promise.h"
 #include "shell/common/heap_snapshot.h"
 #include "shell/common/node_includes.h"
-#include "third_party/blink/renderer/platform/heap/process_heap.h"  // nogncheck
+#include "third_party/blink/renderer/platform/heap/process_heap.h"  // 点名检查。
 
 namespace electron {
 
@@ -40,11 +40,11 @@ ElectronBindings::ElectronBindings(uv_loop_t* loop) {
 
 ElectronBindings::~ElectronBindings() = default;
 
-// static
+// 静电。
 void ElectronBindings::BindProcess(v8::Isolate* isolate,
                                    gin_helper::Dictionary* process,
                                    base::ProcessMetrics* metrics) {
-  // These bindings are shared between sandboxed & unsandboxed renderers
+  // 这些绑定在沙箱渲染器和未沙箱渲染器之间共享。
   process->SetMethod("crash", &Crash);
   process->SetMethod("hang", &Hang);
   process->SetMethod("getCreationTime", &GetCreationTime);
@@ -108,7 +108,7 @@ void ElectronBindings::ActivateUVLoop(v8::Isolate* isolate) {
   uv_async_send(call_next_tick_async_.get());
 }
 
-// static
+// 静电。
 void ElectronBindings::OnCallNextTick(uv_async_t* handle) {
   auto* self = static_cast<ElectronBindings*>(handle->data);
   for (auto* env : self->pending_next_ticks_) {
@@ -122,19 +122,19 @@ void ElectronBindings::OnCallNextTick(uv_async_t* handle) {
   self->pending_next_ticks_.clear();
 }
 
-// static
+// 静电。
 void ElectronBindings::Crash() {
   volatile int* zero = nullptr;
   *zero = 0;
 }
 
-// static
+// 静电。
 void ElectronBindings::Hang() {
   for (;;)
     base::PlatformThread::Sleep(base::TimeDelta::FromSeconds(1));
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> ElectronBindings::GetHeapStatistics(v8::Isolate* isolate) {
   v8::HeapStatistics v8_heap_stats;
   isolate->GetHeapStatistics(&v8_heap_stats);
@@ -164,7 +164,7 @@ v8::Local<v8::Value> ElectronBindings::GetHeapStatistics(v8::Isolate* isolate) {
   return dict.GetHandle();
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> ElectronBindings::GetCreationTime(v8::Isolate* isolate) {
   auto timeValue = base::Process::Current().CreationTime();
   if (timeValue.is_null()) {
@@ -174,7 +174,7 @@ v8::Local<v8::Value> ElectronBindings::GetCreationTime(v8::Isolate* isolate) {
   return v8::Number::New(isolate, jsTime);
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> ElectronBindings::GetSystemMemoryInfo(
     v8::Isolate* isolate,
     gin_helper::Arguments* args) {
@@ -188,7 +188,7 @@ v8::Local<v8::Value> ElectronBindings::GetSystemMemoryInfo(
   dict.SetHidden("simple", true);
   dict.Set("total", mem_info.total);
 
-  // See Chromium's "base/process/process_metrics.h" for an explanation.
+  // 有关说明，请参阅Chromium的“base/process/process_metrics.h”。
   int free =
 #if defined(OS_WIN)
       mem_info.avail_phys;
@@ -197,7 +197,7 @@ v8::Local<v8::Value> ElectronBindings::GetSystemMemoryInfo(
 #endif
   dict.Set("free", free);
 
-  // NB: These return bogus values on macOS
+  // 注：这些在MacOS上返回的值是假值。
 #if !defined(OS_MAC)
   dict.Set("swapTotal", mem_info.swap_total);
   dict.Set("swapFree", mem_info.swap_free);
@@ -206,7 +206,7 @@ v8::Local<v8::Value> ElectronBindings::GetSystemMemoryInfo(
   return dict.GetHandle();
 }
 
-// static
+// 静电。
 v8::Local<v8::Promise> ElectronBindings::GetProcessMemoryInfo(
     v8::Isolate* isolate) {
   CHECK(gin_helper::Locker::IsBrowserProcess());
@@ -229,7 +229,7 @@ v8::Local<v8::Promise> ElectronBindings::GetProcessMemoryInfo(
   return handle;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> ElectronBindings::GetBlinkMemoryInfo(
     v8::Isolate* isolate) {
   auto allocated = blink::ProcessHeap::TotalAllocatedObjectSize();
@@ -242,7 +242,7 @@ v8::Local<v8::Value> ElectronBindings::GetBlinkMemoryInfo(
   return dict.GetHandle();
 }
 
-// static
+// 静电。
 void ElectronBindings::DidReceiveMemoryDump(
     v8::Global<v8::Context> context,
     gin_helper::Promise<gin_helper::Dictionary> promise,
@@ -283,7 +283,7 @@ void ElectronBindings::DidReceiveMemoryDump(
   }
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> ElectronBindings::GetCPUUsage(
     base::ProcessMetrics* metrics,
     v8::Isolate* isolate) {
@@ -293,8 +293,8 @@ v8::Local<v8::Value> ElectronBindings::GetCPUUsage(
   dict.Set("percentCPUUsage",
            metrics->GetPlatformIndependentCPUUsage() / processor_count);
 
-  // NB: This will throw NOTIMPLEMENTED() on Windows
-  // For backwards compatibility, we'll return 0
+  // 注意：这将在Windows上抛出NOTIMPLEMENTED()。
+  // 为了向后兼容，我们将返回0。
 #if !defined(OS_WIN)
   dict.Set("idleWakeupsPerSecond", metrics->GetIdleWakeupsPerSecond());
 #else
@@ -304,7 +304,7 @@ v8::Local<v8::Value> ElectronBindings::GetCPUUsage(
   return dict.GetHandle();
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> ElectronBindings::GetIOCounters(v8::Isolate* isolate) {
   auto metrics = base::ProcessMetrics::CreateCurrentProcessMetrics();
   base::IoCounters io_counters;
@@ -323,7 +323,7 @@ v8::Local<v8::Value> ElectronBindings::GetIOCounters(v8::Isolate* isolate) {
   return dict.GetHandle();
 }
 
-// static
+// 静电。
 bool ElectronBindings::TakeHeapSnapshot(v8::Isolate* isolate,
                                         const base::FilePath& file_path) {
   base::ThreadRestrictions::ScopedAllowIO allow_io;
@@ -334,4 +334,4 @@ bool ElectronBindings::TakeHeapSnapshot(v8::Isolate* isolate,
   return electron::TakeHeapSnapshot(isolate, &file);
 }
 
-}  // namespace electron
+}  // 命名空间电子

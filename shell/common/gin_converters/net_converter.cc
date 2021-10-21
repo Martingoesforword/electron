@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_converters/net_converter.h"
 
@@ -48,9 +48,9 @@ bool CertFromData(const std::string& data,
   return true;
 }
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<net::AuthChallengeInfo>::ToV8(
     v8::Isolate* isolate,
     const net::AuthChallengeInfo& val) {
@@ -63,7 +63,7 @@ v8::Local<v8::Value> Converter<net::AuthChallengeInfo>::ToV8(
   return gin::ConvertToV8(isolate, dict);
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<scoped_refptr<net::X509Certificate>>::ToV8(
     v8::Isolate* isolate,
     const scoped_refptr<net::X509Certificate>& val) {
@@ -133,7 +133,7 @@ bool Converter<scoped_refptr<net::X509Certificate>>::FromV8(
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<net::CertPrincipal>::ToV8(
     v8::Isolate* isolate,
     const net::CertPrincipal& val) {
@@ -149,7 +149,7 @@ v8::Local<v8::Value> Converter<net::CertPrincipal>::ToV8(
   return ConvertToV8(isolate, dict);
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<net::HttpResponseHeaders*>::ToV8(
     v8::Isolate* isolate,
     net::HttpResponseHeaders* headers) {
@@ -220,7 +220,7 @@ bool Converter<net::HttpResponseHeaders*>::FromV8(
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<net::HttpRequestHeaders>::ToV8(
     v8::Isolate* isolate,
     const net::HttpRequestHeaders& val) {
@@ -230,7 +230,7 @@ v8::Local<v8::Value> Converter<net::HttpRequestHeaders>::ToV8(
   return ConvertToV8(isolate, headers);
 }
 
-// static
+// 静电。
 bool Converter<net::HttpRequestHeaders>::FromV8(v8::Isolate* isolate,
                                                 v8::Local<v8::Value> val,
                                                 net::HttpRequestHeaders* out) {
@@ -246,7 +246,7 @@ bool Converter<net::HttpRequestHeaders>::FromV8(v8::Isolate* isolate,
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<network::ResourceRequestBody>::ToV8(
     v8::Isolate* isolate,
     const network::ResourceRequestBody& val) {
@@ -279,12 +279,12 @@ v8::Local<v8::Value> Converter<network::ResourceRequestBody>::ToV8(
       }
       case network::mojom::DataElement::Tag::kDataPipe: {
         upload_data.Set("type", "blob");
-        // TODO(zcbenz): After the NetworkService refactor, the old blobUUID API
-        // becomes unnecessarily complex, we should deprecate the getBlobData
-        // API and return the DataPipeHolder wrapper directly.
+        // TODO(Zcbenz)：在NetworkService重构之后，旧的blobUUID API。
+        // 变得不必要的复杂，我们应该弃用getBlobData。
+        // 接口，并直接返回DataPipeHolder包装器。
         auto holder = electron::api::DataPipeHolder::Create(isolate, element);
         upload_data.Set("blobUUID", holder->id());
-        // The lifetime of data pipe is bound to the uploadData object.
+        // 数据管道的生存期绑定到ploadData对象。
         upload_data.Set("dataPipe", holder);
         break;
       }
@@ -298,7 +298,7 @@ v8::Local<v8::Value> Converter<network::ResourceRequestBody>::ToV8(
   return arr;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value>
 Converter<scoped_refptr<network::ResourceRequestBody>>::ToV8(
     v8::Isolate* isolate,
@@ -308,7 +308,7 @@ Converter<scoped_refptr<network::ResourceRequestBody>>::ToV8(
   return ConvertToV8(isolate, *val);
 }
 
-// static
+// 静电。
 bool Converter<scoped_refptr<network::ResourceRequestBody>>::FromV8(
     v8::Isolate* isolate,
     v8::Local<v8::Value> val,
@@ -348,7 +348,7 @@ bool Converter<scoped_refptr<network::ResourceRequestBody>>::FromV8(
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<network::ResourceRequest>::ToV8(
     v8::Isolate* isolate,
     const network::ResourceRequest& val) {
@@ -362,7 +362,7 @@ v8::Local<v8::Value> Converter<network::ResourceRequest>::ToV8(
   return ConvertToV8(isolate, dict);
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<electron::VerifyRequestParams>::ToV8(
     v8::Isolate* isolate,
     electron::VerifyRequestParams val) {
@@ -376,7 +376,7 @@ v8::Local<v8::Value> Converter<electron::VerifyRequestParams>::ToV8(
   return ConvertToV8(isolate, dict);
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<net::HttpVersion>::ToV8(
     v8::Isolate* isolate,
     const net::HttpVersion& val) {
@@ -386,7 +386,7 @@ v8::Local<v8::Value> Converter<net::HttpVersion>::ToV8(
   return ConvertToV8(isolate, dict);
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<net::RedirectInfo>::ToV8(
     v8::Isolate* isolate,
     const net::RedirectInfo& val) {
@@ -404,4 +404,4 @@ v8::Local<v8::Value> Converter<net::RedirectInfo>::ToV8(
   return ConvertToV8(isolate, dict);
 }
 
-}  // namespace gin
+}  // 命名空间杜松子酒

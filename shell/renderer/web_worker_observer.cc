@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/web_worker_observer.h"
 
@@ -19,9 +19,9 @@ static base::LazyInstance<
     base::ThreadLocalPointer<WebWorkerObserver>>::DestructorAtExit lazy_tls =
     LAZY_INSTANCE_INITIALIZER;
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 WebWorkerObserver* WebWorkerObserver::GetCurrent() {
   WebWorkerObserver* self = lazy_tls.Pointer()->Get();
   return self ? self : new WebWorkerObserver;
@@ -48,29 +48,29 @@ void WebWorkerObserver::WorkerScriptReadyForEvaluation(
   v8::MicrotasksScope microtasks_scope(
       isolate, v8::MicrotasksScope::kDoNotRunMicrotasks);
 
-  // Start the embed thread.
+  // 启动嵌入线程。
   node_bindings_->PrepareMessageLoop();
 
-  // Setup node tracing controller.
+  // 设置节点跟踪控制器。
   if (!node::tracing::TraceEventHelper::GetAgent())
     node::tracing::TraceEventHelper::SetAgent(node::CreateAgent());
 
-  // Setup node environment for each window.
+  // 为每个窗口设置节点环境。
   bool initialized = node::InitializeContext(worker_context);
   CHECK(initialized);
   node::Environment* env =
       node_bindings_->CreateEnvironment(worker_context, nullptr);
 
-  // Add Electron extended APIs.
+  // 添加电子扩展API。
   electron_bindings_->BindTo(env->isolate(), env->process_object());
 
-  // Load everything.
+  // 把所有东西都装上。
   node_bindings_->LoadEnvironment(env);
 
-  // Make uv loop being wrapped by window context.
+  // 使UV循环被窗口上下文包裹。
   node_bindings_->set_uv_env(env);
 
-  // Give the node loop a run to make sure everything is ready.
+  // 让节点循环运行一次，以确保一切准备就绪。
   node_bindings_->RunMessageLoop();
 }
 
@@ -82,4 +82,4 @@ void WebWorkerObserver::ContextWillDestroy(v8::Local<v8::Context> context) {
   delete this;
 }
 
-}  // namespace electron
+}  // 命名空间电子

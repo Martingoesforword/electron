@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/api/electron_api_context_bridge.h"
 
@@ -46,19 +46,19 @@ const char kSupportsDynamicPropertiesPrivateKey[] =
     "electron_contextBridge_supportsDynamicProperties";
 const char kOriginalFunctionPrivateKey[] = "electron_contextBridge_original_fn";
 
-}  // namespace context_bridge
+}  // 命名空间上下文桥接器。
 
 namespace {
 
 static int kMaxRecursion = 1000;
 
-// Returns true if |maybe| is both a value, and that value is true.
+// 如果|PROSECT|同时为值且该值为TRUE，则返回TRUE。
 inline bool IsTrue(v8::Maybe<bool> maybe) {
   return maybe.IsJust() && maybe.FromJust();
 }
 
-// Sourced from "extensions/renderer/v8_schema_registry.cc"
-// Recursively freezes every v8 object on |object|.
+// 源自“扩展/渲染器/v8_schema_registry.cc”
+// 递归冻结|Object|上的每个V8对象。
 bool DeepFreeze(const v8::Local<v8::Object>& object,
                 const v8::Local<v8::Context>& context,
                 std::set<int> frozen = std::set<int>()) {
@@ -130,7 +130,7 @@ v8::MaybeLocal<v8::Value> GetPrivate(v8::Local<v8::Context> context,
                           gin::StringToV8(context->GetIsolate(), key)));
 }
 
-}  // namespace
+}  // 命名空间。
 
 v8::MaybeLocal<v8::Value> PassValueToOtherContext(
     v8::Local<v8::Context> source_context,
@@ -153,24 +153,24 @@ v8::MaybeLocal<v8::Value> PassValueToOtherContext(
     return v8::MaybeLocal<v8::Value>();
   }
 
-  // Certain primitives always use the current contexts prototype and we can
-  // pass these through directly which is significantly more performant than
-  // copying them. This list of primitives is based on the classification of
-  // "primitive value" as defined in the ECMA262 spec
-  // https://tc39.es/ecma262/#sec-primitive-value
+  // 某些原语始终使用当前上下文原型，我们可以。
+  // 直接传递这些信息，其性能明显高于。
+  // 复制它们。此基元列表基于。
+  // ECMA262规范中定义的“原始值”
+  // Https://tc39.es/ecma262/#sec-primitive-value。
   if (value->IsString() || value->IsNumber() || value->IsNullOrUndefined() ||
       value->IsBoolean() || value->IsSymbol() || value->IsBigInt()) {
     return v8::MaybeLocal<v8::Value>(value);
   }
 
-  // Check Cache
+  // 检查缓存。
   auto cached_value = object_cache->GetCachedProxiedObject(value);
   if (!cached_value.IsEmpty()) {
     return cached_value;
   }
 
-  // Proxy functions and monitor the lifetime in the new context to release
-  // the global handle at the right time.
+  // 代理函数并监控在新上下文中发布的生存期。
+  // 在正确的时间使用全局句柄。
   if (value->IsFunction()) {
     auto func = value.As<v8::Function>();
     v8::MaybeLocal<v8::Value> maybe_original_fn = GetPrivate(
@@ -180,13 +180,13 @@ v8::MaybeLocal<v8::Value> PassValueToOtherContext(
       v8::Context::Scope destination_scope(destination_context);
       v8::Local<v8::Value> proxy_func;
 
-      // If this function has already been sent over the bridge,
-      // then it is being sent _back_ over the bridge and we can
-      // simply return the original method here for performance reasons
+      // 如果该函数已经通过网桥发送，
+      // 然后通过网桥将其发回，我们可以。
+      // 出于性能原因，只需在此处返回原始方法。
 
-      // For safety reasons we check if the destination context is the
-      // creation context of the original method.  If it's not we proceed
-      // with the proxy logic
+      // 出于安全原因，我们检查目标上下文是否为。
+      // 原始方法的创建上下文。如果不是，我们就继续。
+      // 使用代理逻辑。
       if (maybe_original_fn.ToLocal(&proxy_func) && proxy_func->IsFunction() &&
           proxy_func.As<v8::Object>()->CreationContext() ==
               destination_context) {
@@ -212,13 +212,13 @@ v8::MaybeLocal<v8::Value> PassValueToOtherContext(
     }
   }
 
-  // Proxy promises as they have a safe and guaranteed memory lifecycle
+  // 代理承诺，因为它们具有安全且有保证的内存生命周期。
   if (value->IsPromise()) {
     v8::Context::Scope destination_scope(destination_context);
     auto source_promise = value.As<v8::Promise>();
-    // Make the promise a shared_ptr so that when the original promise is
-    // freed the proxy promise is correctly freed as well instead of being
-    // left dangling
+    // 将承诺设置为Shared_PTR，以便在原始承诺。
+    // 被释放的代理承诺也被正确地释放，而不是。
+    // 左悬吊。
     auto proxied_promise =
         std::make_shared<gin_helper::Promise<v8::Local<v8::Value>>>(
             destination_context->GetIsolate());
@@ -290,14 +290,14 @@ v8::MaybeLocal<v8::Value> PassValueToOtherContext(
     return v8::MaybeLocal<v8::Value>(proxied_promise_handle);
   }
 
-  // Errors aren't serializable currently, we need to pull the message out and
-  // re-construct in the destination context
+  // 错误目前无法序列化，我们需要取出消息并。
+  // 在目标上下文中重建。
   if (value->IsNativeError()) {
     v8::Context::Scope destination_context_scope(destination_context);
-    // We should try to pull "message" straight off of the error as a
-    // v8::Message includes some pretext that can get duplicated each time it
-    // crosses the bridge we fallback to the v8::Message approach if we can't
-    // pull "message" for some reason
+    // 我们应该试着把“信息”直接从错误中拉出来。
+    // V8：：Message包含一些每次都可能被复制的借口。
+    // 跨过这座桥，如果不能，我们将退回到V8：：Message方法。
+    // 出于某种原因拉出“消息”
     v8::MaybeLocal<v8::Value> maybe_message = value.As<v8::Object>()->Get(
         source_context,
         gin::ConvertToV8(source_context->GetIsolate(), "message"));
@@ -311,9 +311,9 @@ v8::MaybeLocal<v8::Value> PassValueToOtherContext(
             ->Get()));
   }
 
-  // Manually go through the array and pass each value individually into a new
-  // array so that functions deep inside arrays get proxied or arrays of
-  // promises are proxied correctly.
+  // 手动遍历数组并将每个值分别传递到新的。
+  // 数组，以便代理数组内部的函数或。
+  // 承诺是正确的。
   if (IsPlainArray(value)) {
     v8::Context::Scope destination_context_scope(destination_context);
     v8::Local<v8::Array> arr = value.As<v8::Array>();
@@ -337,7 +337,7 @@ v8::MaybeLocal<v8::Value> PassValueToOtherContext(
     return v8::MaybeLocal<v8::Value>(cloned_arr);
   }
 
-  // Custom logic to "clone" Element references
+  // 用于“克隆”元素引用的自定义逻辑。
   blink::WebElement elem = blink::WebElement::FromV8Value(value);
   if (!elem.IsNull()) {
     v8::Context::Scope destination_context_scope(destination_context);
@@ -345,7 +345,7 @@ v8::MaybeLocal<v8::Value> PassValueToOtherContext(
         destination_context->Global(), destination_context->GetIsolate()));
   }
 
-  // Custom logic to "clone" Blob references
+  // 用于“克隆”Blob引用的自定义逻辑。
   blink::WebBlob blob = blink::WebBlob::FromV8Value(value);
   if (!blob.IsNull()) {
     v8::Context::Scope destination_context_scope(destination_context);
@@ -353,7 +353,7 @@ v8::MaybeLocal<v8::Value> PassValueToOtherContext(
         destination_context->Global(), destination_context->GetIsolate()));
   }
 
-  // Proxy all objects
+  // 代理所有对象。
   if (IsPlainObject(value)) {
     auto object_value = value.As<v8::Object>();
     auto passed_value = CreateProxyForAPI(
@@ -364,14 +364,14 @@ v8::MaybeLocal<v8::Value> PassValueToOtherContext(
     return v8::MaybeLocal<v8::Value>(passed_value.ToLocalChecked());
   }
 
-  // Serializable objects
+  // 可序列化对象。
   blink::CloneableMessage ret;
   {
     v8::Local<v8::Context> error_context =
         error_target == BridgeErrorTarget::kSource ? source_context
                                                    : destination_context;
     v8::Context::Scope error_scope(error_context);
-    // V8 serializer will throw an error if required
+    // 如果需要，V8序列化程序将抛出错误。
     if (!gin::ConvertFromV8(error_context->GetIsolate(), value, &ret))
       return v8::MaybeLocal<v8::Value>();
   }
@@ -391,10 +391,10 @@ void ProxyFunctionWrapper(const v8::FunctionCallbackInfo<v8::Value>& info) {
   v8::Local<v8::Object> data = info.Data().As<v8::Object>();
   bool support_dynamic_properties = false;
   gin::Arguments args(info);
-  // Context the proxy function was called from
+  // 从中调用代理函数的上下文。
   v8::Local<v8::Context> calling_context = args.isolate()->GetCurrentContext();
 
-  // Pull the original function and its context off of the data private key
+  // 从数据私钥中取出原始函数及其上下文。
   v8::MaybeLocal<v8::Value> sdp_value =
       GetPrivate(calling_context, data,
                  context_bridge::kSupportsDynamicPropertiesPrivateKey);
@@ -703,9 +703,9 @@ bool IsCalledFromMainWorld(v8::Isolate* isolate) {
   return isolate->GetCurrentContext() == main_context;
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -727,6 +727,6 @@ void Initialize(v8::Local<v8::Object> exports,
 #endif
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_renderer_context_bridge, Initialize)

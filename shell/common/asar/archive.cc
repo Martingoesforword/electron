@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/asar/archive.h"
 
@@ -40,11 +40,11 @@ bool GetNodeFromPath(std::string path,
                      const base::DictionaryValue* root,
                      const base::DictionaryValue** out);
 
-// Gets the "files" from "dir".
+// 从“dir”中获取“files”。
 bool GetFilesNode(const base::DictionaryValue* root,
                   const base::DictionaryValue* dir,
                   const base::DictionaryValue** out) {
-  // Test for symbol linked directory.
+  // 测试符号链接目录。
   const std::string* link = dir->FindStringKey("link");
   if (link != nullptr) {
     const base::DictionaryValue* linked_node = nullptr;
@@ -56,7 +56,7 @@ bool GetFilesNode(const base::DictionaryValue* root,
   return dir->GetDictionaryWithoutPathExpansion("files", out);
 }
 
-// Gets sub-file "name" from "dir".
+// 从“dir”中获取子文件“name”。
 bool GetChildNode(const base::DictionaryValue* root,
                   const std::string& name,
                   const base::DictionaryValue* dir,
@@ -71,7 +71,7 @@ bool GetChildNode(const base::DictionaryValue* root,
          files->GetDictionaryWithoutPathExpansion(name, out);
 }
 
-// Gets the node of "path" from "root".
+// 从“root”获取“path”的节点。
 bool GetNodeFromPath(std::string path,
                      const base::DictionaryValue* root,
                      const base::DictionaryValue** out) {
@@ -155,7 +155,7 @@ bool FillFileInfoWithNode(Archive::FileInfo* info,
   return true;
 }
 
-}  // namespace
+}  // 命名空间。
 
 IntegrityPayload::IntegrityPayload()
     : algorithm(HashAlgorithm::NONE), block_size(0) {}
@@ -181,7 +181,7 @@ Archive::~Archive() {
 #if defined(OS_WIN)
   if (fd_ != -1) {
     _close(fd_);
-    // Don't close the handle since we already closed the fd.
+    // 不要关闭手柄，因为我们已经关闭了FD。
     file_.TakePlatformFile();
   }
 #endif
@@ -190,7 +190,7 @@ Archive::~Archive() {
 }
 
 bool Archive::Init() {
-  // Should only be initialized once
+  // 应该只初始化一次。
   CHECK(!initialized_);
   initialized_ = true;
 
@@ -240,7 +240,7 @@ bool Archive::Init() {
   }
 
 #if defined(OS_MAC)
-  // Validate header signature if required and possible
+  // 如果需要且可能，验证标题签名。
   if (electron::fuses::IsEmbeddedAsarIntegrityValidationEnabled() &&
       RelativePath().has_value()) {
     absl::optional<IntegrityPayload> integrity = HeaderIntegrity();
@@ -250,9 +250,9 @@ bool Archive::Init() {
       return false;
     }
 
-    // Currently we only support the sha256 algorithm, we can add support for
-    // more below ensure we read them in preference order from most secure to
-    // least
+    // 目前我们只支持sha256算法，可以增加对。
+    // 下面的更多内容确保我们按照从最安全到最安全的优先顺序阅读它们。
+    // 最小值。
     if (integrity.value().algorithm != HashAlgorithm::NONE) {
       ValidateIntegrityOrDie(header.c_str(), header.length(),
                              integrity.value());
@@ -394,7 +394,7 @@ bool Archive::CopyFileOut(const base::FilePath& path, base::FilePath* out) {
 
 #if defined(OS_POSIX)
   if (info.executable) {
-    // chmod a+x temp_file;
+    // Chmod a+x临时文件；
     base::SetPosixFilePermissions(temp_file->path(), 0755);
   }
 #endif
@@ -408,4 +408,4 @@ int Archive::GetUnsafeFD() const {
   return fd_;
 }
 
-}  // namespace asar
+}  // 命名空间asar

@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_notification.h"
 
@@ -43,7 +43,7 @@ struct Converter<electron::NotificationAction> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -81,7 +81,7 @@ Notification::~Notification() {
     notification_->set_delegate(nullptr);
 }
 
-// static
+// 静电。
 gin::Handle<Notification> Notification::New(gin_helper::ErrorThrower thrower,
                                             gin::Arguments* args) {
   if (!Browser::Get()->is_ready()) {
@@ -91,7 +91,7 @@ gin::Handle<Notification> Notification::New(gin_helper::ErrorThrower thrower,
   return gin::CreateHandle(thrower.isolate(), new Notification(args));
 }
 
-// Getters
+// 吸气剂。
 std::u16string Notification::GetTitle() const {
   return title_;
 }
@@ -140,7 +140,7 @@ std::u16string Notification::GetToastXml() const {
   return toast_xml_;
 }
 
-// Setters
+// 二传手。
 void Notification::SetTitle(const std::u16string& new_title) {
   title_ = new_title;
 }
@@ -224,7 +224,7 @@ void Notification::Close() {
   }
 }
 
-// Showing notifications
+// 显示通知。
 void Notification::Show() {
   Close();
   if (presenter_) {
@@ -284,9 +284,9 @@ v8::Local<v8::ObjectTemplate> Notification::FillObjectTemplate(
       .Build();
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -302,6 +302,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("isSupported", &Notification::IsSupported);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_common_notification, Initialize)

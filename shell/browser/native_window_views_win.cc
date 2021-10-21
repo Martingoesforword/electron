@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <dwmapi.h>
 #include <shellapi.h>
@@ -17,14 +17,14 @@
 #include "ui/gfx/geometry/resize_utils.h"
 #include "ui/views/widget/native_widget_private.h"
 
-// Must be included after other Windows headers.
+// 必须包含在其他Windows标头之后。
 #include <UIAutomationCoreApi.h>
 
 namespace electron {
 
 namespace {
 
-// Convert Win32 WM_APPCOMMANDS to strings.
+// 将Win32 WM_APPCOMMANDS转换为字符串。
 const char* AppCommandToString(int command_id) {
   switch (command_id) {
     case APPCOMMAND_BROWSER_BACKWARD:
@@ -138,7 +138,7 @@ const char* AppCommandToString(int command_id) {
   }
 }
 
-// Copied from ui/views/win/hwnd_message_handler.cc
+// 从ui/views/win/hwnd_message_handler.cc复制。
 gfx::ResizeEdge GetWindowResizeEdge(WPARAM param) {
   switch (param) {
     case WMSZ_BOTTOM:
@@ -168,13 +168,13 @@ bool IsScreenReaderActive() {
   return screenReader && UiaClientsAreListening();
 }
 
-}  // namespace
+}  // 命名空间。
 
 std::set<NativeWindowViews*> NativeWindowViews::forwarding_windows_;
 HHOOK NativeWindowViews::mouse_hook_ = NULL;
 
 void NativeWindowViews::Maximize() {
-  // Only use Maximize() when window is NOT transparent style
+  // 仅当窗口不是透明样式时才使用最大化()。
   if (!transparent()) {
     if (IsVisible())
       widget()->Maximize();
@@ -203,25 +203,25 @@ bool NativeWindowViews::PreHandleMSG(UINT message,
                                      LRESULT* result) {
   NotifyWindowMessage(message, w_param, l_param);
 
-  // Avoid side effects when calling SetWindowPlacement.
+  // 调用SetWindowPlacement时避免副作用。
   if (is_setting_window_placement_) {
-    // Let Chromium handle the WM_NCCALCSIZE message otherwise the window size
-    // would be wrong.
-    // See https://github.com/electron/electron/issues/22393 for more.
+    // 让Chromium处理WM_NCCALCSIZE消息，否则窗口大小。
+    // 那就大错特错了。
+    // 有关更多信息，请参见https://github.com/electron/electron/issues/22393。
     if (message == WM_NCCALCSIZE)
       return false;
-    // Otherwise handle the message with default proc,
+    // 否则用缺省流程处理报文，
     *result = DefWindowProc(GetAcceleratedWidget(), message, w_param, l_param);
-    // and tell Chromium to ignore this message.
+    // 告诉Chromium忽略这条消息。
     return true;
   }
 
   switch (message) {
-    // Screen readers send WM_GETOBJECT in order to get the accessibility
-    // object, so take this opportunity to push Chromium into accessible
-    // mode if it isn't already, always say we didn't handle the message
-    // because we still want Chromium to handle returning the actual
-    // accessibility object.
+    // 屏幕阅读器发送WM_GETOBJECT以获取可访问性。
+    // 对象，所以借此机会将铬推向可访问的。
+    // 模式(如果还没有的话)，总是说我们没有处理消息。
+    // 因为我们仍然希望Chromium处理返回实际的。
+    // 辅助功能对象。
     case WM_GETOBJECT: {
       if (checked_for_a11y_support_)
         return false;
@@ -250,24 +250,24 @@ bool NativeWindowViews::PreHandleMSG(UINT message,
       WINDOWPLACEMENT wp;
       wp.length = sizeof(WINDOWPLACEMENT);
 
-      // We do this to work around a Windows bug, where the minimized Window
-      // would report that the closest display to it is not the one that it was
-      // previously on (but the leftmost one instead). We restore the position
-      // of the window during the restore operation, this way chromium can
-      // use the proper display to calculate the scale factor to use.
+      // 我们这样做是为了解决Windows错误，其中最小化的窗口。
+      // 会报告说最接近它的显示器不是它原来的那个。
+      // 前情提要(不过是最左边的那个)。我们恢复了阵地。
+      // 在恢复操作期间，铬可以。
+      // 使用正确的显示来计算要使用的比例因子。
       if (!last_normal_placement_bounds_.IsEmpty() &&
           (IsVisible() || IsMinimized()) &&
           GetWindowPlacement(GetAcceleratedWidget(), &wp)) {
         wp.rcNormalPosition = last_normal_placement_bounds_.ToRECT();
 
-        // When calling SetWindowPlacement, Chromium would do window messages
-        // handling. But since we are already in PreHandleMSG this would cause
-        // crash in Chromium under some cases.
-        //
-        // We work around the crash by prevent Chromium from handling window
-        // messages until the SetWindowPlacement call is done.
-        //
-        // See https://github.com/electron/electron/issues/21614 for more.
+        // 当调用SetWindowPlacement时，Chromium将执行窗口消息。
+        // 正在处理。但由于我们已经在PreHandleMSG中，这将导致。
+        // 在某些情况下会在Chromium中崩溃。
+        // 
+        // 我们通过阻止Chromium处理窗口来解决崩溃问题。
+        // 消息，直到SetWindowPlacement调用完成。
+        // 
+        // 有关更多信息，请参见https://github.com/electron/electron/issues/21614。
         is_setting_window_placement_ = true;
         SetWindowPlacement(GetAcceleratedWidget(), &wp);
         is_setting_window_placement_ = false;
@@ -278,7 +278,7 @@ bool NativeWindowViews::PreHandleMSG(UINT message,
       return false;
     }
     case WM_COMMAND:
-      // Handle thumbar button click message.
+      // 处理拇指按钮点击消息。
       if (HIWORD(w_param) == THBN_CLICKED)
         return taskbar_host_.HandleThumbarButtonEvent(LOWORD(w_param));
       return false;
@@ -292,12 +292,12 @@ bool NativeWindowViews::PreHandleMSG(UINT message,
                              &prevent_default);
       if (prevent_default) {
         ::GetWindowRect(hwnd, reinterpret_cast<RECT*>(l_param));
-        return true;  // Tells Windows that the Sizing is handled.
+        return true;  // 通知Windows已处理大小调整。
       }
       return false;
     }
     case WM_SIZE: {
-      // Handle window state change.
+      // 处理窗口状态更改。
       HandleSizeEvent(w_param, l_param);
       return false;
     }
@@ -321,9 +321,9 @@ bool NativeWindowViews::PreHandleMSG(UINT message,
       NotifyWindowWillMove(dpi_bounds, &prevent_default);
       if (!movable_ || prevent_default) {
         ::GetWindowRect(hwnd, reinterpret_cast<RECT*>(l_param));
-        return true;  // Tells Windows that the Move is handled. If not true,
-                      // frameless windows can be moved using
-                      // -webkit-app-region: drag elements.
+        return true;  // 通知Windows移动已处理。如果不是真的，
+                      // 可以使用以下工具移动无边框窗口。
+                      // -webkit-app-region：拖动元素。
       }
       return false;
     }
@@ -335,11 +335,11 @@ bool NativeWindowViews::PreHandleMSG(UINT message,
     }
     case WM_PARENTNOTIFY: {
       if (LOWORD(w_param) == WM_CREATE) {
-        // Because of reasons regarding legacy drivers and stuff, a window that
-        // matches the client area is created and used internally by Chromium.
-        // This is used when forwarding mouse messages. We only cache the first
-        // occurrence (the webview window) because dev tools also cause this
-        // message to be sent.
+        // 由于有关遗留驱动程序和其他东西的原因，
+        // 匹配Chromium在内部创建和使用的工作区。
+        // 这在转发鼠标消息时使用。我们只缓存第一个。
+        // 发生(Webview窗口)，因为开发工具也会导致这种情况。
+        // 要发送的消息。
         if (!legacy_window_) {
           legacy_window_ = reinterpret_cast<HWND>(l_param);
         }
@@ -353,7 +353,7 @@ bool NativeWindowViews::PreHandleMSG(UINT message,
       return prevent_default;
     }
     case WM_SYSCOMMAND: {
-      // Mask is needed to account for double clicking title bar to maximize
+      // 需要蒙版才能说明双击标题栏以最大化。
       WPARAM max_mask = 0xFFF0;
       if (transparent() && ((w_param & max_mask) == SC_MAXIMIZE)) {
         return true;
@@ -361,9 +361,9 @@ bool NativeWindowViews::PreHandleMSG(UINT message,
       return false;
     }
     case WM_INITMENU: {
-      // This is handling the scenario where the menu might get triggered by the
-      // user doing "alt + space" resulting in system maximization and restore
-      // being used on transparent windows when that does not work.
+      // 这是在处理菜单可能由。
+      // 用户使用“Alt+空格键”可实现系统最大化和还原。
+      // 在透明窗口上使用，但这不起作用。
       if (transparent()) {
         HMENU menu = GetSystemMenu(GetAcceleratedWidget(), false);
         EnableMenuItem(menu, SC_MAXIMIZE,
@@ -381,8 +381,8 @@ bool NativeWindowViews::PreHandleMSG(UINT message,
 }
 
 void NativeWindowViews::HandleSizeEvent(WPARAM w_param, LPARAM l_param) {
-  // Here we handle the WM_SIZE event in order to figure out what is the current
-  // window state and notify the user accordingly.
+  // 这里我们处理WM_SIZE事件，以便找出当前。
+  // 窗口状态，并相应地通知用户。
   switch (w_param) {
     case SIZE_MAXIMIZED:
     case SIZE_MINIMIZED: {
@@ -393,8 +393,8 @@ void NativeWindowViews::HandleSizeEvent(WPARAM w_param, LPARAM l_param) {
         last_normal_placement_bounds_ = gfx::Rect(wp.rcNormalPosition);
       }
 
-      // Note that SIZE_MAXIMIZED and SIZE_MINIMIZED might be emitted for
-      // multiple times for one resize because of the SetWindowPlacement call.
+      // 请注意，可能会发出SIZE_MAXIMIZED和SIZE_MINIMIZED。
+      // 由于SetWindowPlacement调用，一次调整大小需要多次执行。
       if (w_param == SIZE_MAXIMIZED &&
           last_window_state_ != ui::SHOW_STATE_MAXIMIZED) {
         last_window_state_ = ui::SHOW_STATE_MAXIMIZED;
@@ -433,8 +433,8 @@ void NativeWindowViews::SetForwardMouseMessages(bool forward) {
     forwarding_mouse_messages_ = true;
     forwarding_windows_.insert(this);
 
-    // Subclassing is used to fix some issues when forwarding mouse messages;
-    // see comments in |SubclassProc|.
+    // 子类化用于修复转发鼠标消息时的一些问题；
+    // 请参阅|SubclassProc|中的注释。
     SetWindowSubclass(legacy_window_, SubclassProc, 1,
                       reinterpret_cast<DWORD_PTR>(this));
 
@@ -463,16 +463,16 @@ LRESULT CALLBACK NativeWindowViews::SubclassProc(HWND hwnd,
   auto* window = reinterpret_cast<NativeWindowViews*>(ref_data);
   switch (msg) {
     case WM_MOUSELEAVE: {
-      // When input is forwarded to underlying windows, this message is posted.
-      // If not handled, it interferes with Chromium logic, causing for example
-      // mouseleave events to fire. If those events are used to exit forward
-      // mode, excessive flickering on for example hover items in underlying
-      // windows can occur due to rapidly entering and leaving forwarding mode.
-      // By consuming and ignoring the message, we're essentially telling
-      // Chromium that we have not left the window despite somebody else getting
-      // the messages. As to why this is catched for the legacy window and not
-      // the actual browser window is simply that the legacy window somehow
-      // makes use of these events; posting to the main window didn't work.
+      // 当输入被转发到底层窗口时，将发布此消息。
+      // 如果不处理，它会干扰Chromium逻辑，例如。
+      // 用鼠标将事件保留在要激发的位置。如果使用这些事件向前退出。
+      // 模式时，会出现过度闪烁，例如将项目悬停在基础。
+      // 由于快速进入和离开转发模式，可能会出现窗口。
+      // 通过消费和忽略信息，我们本质上是在告诉。
+      // 铬，我们没有离开窗户，尽管别人拿到了。
+      // 这些信息。为什么这是为传统窗口捕获的，而不是。
+      // 实际的浏览器窗口在某种程度上就是传统窗口。
+      // 利用这些事件；发布到主窗口不起作用。
       if (window->forwarding_mouse_messages_) {
         return 0;
       }
@@ -490,21 +490,21 @@ LRESULT CALLBACK NativeWindowViews::MouseHookProc(int n_code,
     return CallNextHookEx(NULL, n_code, w_param, l_param);
   }
 
-  // Post a WM_MOUSEMOVE message for those windows whose client area contains
-  // the cursor since they are in a state where they would otherwise ignore all
-  // mouse input.
+  // 为工作区包含以下内容的窗口发布WM_MOUSEMOVE消息。
+  // 游标，因为它们所处的状态否则会忽略所有。
+  // 鼠标输入。
   if (w_param == WM_MOUSEMOVE) {
     for (auto* window : forwarding_windows_) {
-      // At first I considered enumerating windows to check whether the cursor
-      // was directly above the window, but since nothing bad seems to happen
-      // if we post the message even if some other window occludes it I have
-      // just left it as is.
+      // 起初我考虑枚举窗口来检查光标是否。
+      // 就在窗户的正上方，但由于似乎没有什么不好的事情发生。
+      // 如果我们发布消息，即使其他窗口遮挡了它，我也有
+      // 只是让它保持原样。
       RECT client_rect;
       GetClientRect(window->legacy_window_, &client_rect);
       POINT p = reinterpret_cast<MSLLHOOKSTRUCT*>(l_param)->pt;
       ScreenToClient(window->legacy_window_, &p);
       if (PtInRect(&client_rect, p)) {
-        WPARAM w = 0;  // No virtual keys pressed for our purposes
+        WPARAM w = 0;  // 没有为我们的目的按下虚拟按键。
         LPARAM l = MAKELPARAM(p.x, p.y);
         PostMessage(window->legacy_window_, WM_MOUSEMOVE, w, l);
       }
@@ -514,4 +514,4 @@ LRESULT CALLBACK NativeWindowViews::MouseHookProc(int n_code,
   return CallNextHookEx(NULL, n_code, w_param, l_param);
 }
 
-}  // namespace electron
+}  // 命名空间电子

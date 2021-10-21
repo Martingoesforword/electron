@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_crash_reporter.h"
 
@@ -30,12 +30,12 @@
 #include "shell/common/node_includes.h"
 
 #if !defined(MAS_BUILD)
-#include "components/crash/core/app/crashpad.h"  // nogncheck
-#include "components/crash/core/browser/crash_upload_list_crashpad.h"  // nogncheck
+#include "components/crash/core/app/crashpad.h"  // 点名检查。
+#include "components/crash/core/browser/crash_upload_list_crashpad.h"  // 点名检查。
 #include "components/crash/core/common/crash_key.h"
 #include "shell/app/electron_crash_reporter_client.h"
 #include "shell/common/crash_keys.h"
-#include "third_party/crashpad/crashpad/client/crashpad_info.h"  // nogncheck
+#include "third_party/crashpad/crashpad/client/crashpad_info.h"  // 点名检查。
 #endif
 
 #if defined(OS_LINUX)
@@ -57,11 +57,11 @@ std::map<std::string, std::string>& GetGlobalCrashKeysMutable() {
       global_crash_keys;
   return *global_crash_keys;
 }
-#endif  // defined(OS_LINUX)
+#endif  // 已定义(OS_Linux)。
 
 bool g_crash_reporter_initialized = false;
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -74,7 +74,7 @@ namespace {
 
 void NoOp() {}
 
-}  // namespace
+}  // 命名空间。
 #endif
 
 bool IsCrashReporterEnabled() {
@@ -97,7 +97,7 @@ bool GetClientIdPath(base::FilePath* path) {
 std::string ReadClientId() {
   base::ThreadRestrictions::ScopedAllowIO allow_io;
   std::string client_id;
-  // "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".length == 36
+  // “xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxx”.length==36。
   base::FilePath client_id_path;
   if (GetClientIdPath(&client_id_path) &&
       (!base::ReadFileToStringWithMaxSize(client_id_path, &client_id, 36) ||
@@ -194,11 +194,11 @@ void Start(const std::string& submit_url,
 #endif
 }
 
-}  // namespace crash_reporter
+}  // 命名空间CRASH_REPORTER。
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -220,25 +220,25 @@ scoped_refptr<UploadList> CreateCrashUploadList() {
   scoped_refptr<UploadList> result =
       base::MakeRefCounted<TextLogUploadList>(upload_log_path);
   if (crash_reporter::IsCrashpadEnabled()) {
-    // Crashpad keeps the records of C++ crashes (segfaults, etc) in its
-    // internal database. The JavaScript error reporter writes JS error upload
-    // records to the older text format. Combine the two to present a complete
-    // list to the user.
-    // TODO(nornagon): what is "The JavaScript error reporter", and do we care
-    // about it?
+    // CrashPad将C++崩溃(段错误等)的记录保存在其。
+    // 内部数据库。JavaScript错误报告器编写JS错误上传。
+    // 将记录转换为较旧的文本格式。将两者结合起来呈现一个完整的。
+    // 列表发送给用户。
+    // TODO(Nornagon)：什么是“JavaScript错误报告器”，我们关心吗？
+    // 关于这件事？
     std::vector<scoped_refptr<UploadList>> uploaders = {
         base::MakeRefCounted<CrashUploadListCrashpad>(), std::move(result)};
     result = base::MakeRefCounted<CombiningUploadList>(std::move(uploaders));
   }
   return result;
-#endif  // defined(OS_MAC) || defined(OS_WIN)
+#endif  // 已定义(OS_MAC)||已定义(OS_WIN)。
 }
 
 v8::Local<v8::Value> GetUploadedReports(v8::Isolate* isolate) {
   auto list = CreateCrashUploadList();
-  // TODO(nornagon): switch to using Load() instead of LoadSync() once the
-  // synchronous version of getUploadedReports is deprecated so we can remove
-  // our patch.
+  // TODO(Nornagon)：切换到使用Load()而不是LoadSync()。
+  // 不推荐使用同步版本的getUploadedReports，因此我们可以删除。
+  // 我们的地盘。
   {
     base::ThreadRestrictions::ScopedAllowIO allow_io;
     list->LoadSync();
@@ -299,6 +299,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("getUploadToServer", &GetUploadToServer);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_crash_reporter, Initialize)

@@ -1,6 +1,6 @@
-// Copyright (c) 2020 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/language_util.h"
 
@@ -9,9 +9,9 @@
 namespace electron {
 
 std::vector<std::string> GetPreferredLanguages() {
-  // Return empty as there's no API to use. You may be able to use
-  // GetApplicationLocale() of a browser process.
+  // 返回空，因为没有API可用。您或许可以使用。
+  // 浏览器进程的GetApplicationLocale()。
   return std::vector<std::string>{};
 }
 
-}  // namespace electron
+}  // 命名空间电子

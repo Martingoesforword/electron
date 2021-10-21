@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/application_info.h"
 
@@ -27,15 +27,15 @@ GDesktopAppInfo* get_desktop_app_info() {
   return ret;
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
 std::string GetApplicationName() {
-  // attempt #1: the string set in app.setName()
+  // 尝试#1：app.setName()中设置的字符串。
   std::string ret = OverriddenApplicationName();
 
-  // attempt #2: the 'Name' entry from .desktop file's [Desktop] section
+  // 尝试#2：来自.ktop文件的[Desktop]部分的‘name’条目。
   if (ret.empty()) {
     GDesktopAppInfo* info = get_desktop_app_info();
     if (info != nullptr) {
@@ -47,7 +47,7 @@ std::string GetApplicationName() {
     }
   }
 
-  // attempt #3: Electron's name
+  // 尝试3：电子的名字。
   if (ret.empty()) {
     ret = ELECTRON_PRODUCT_NAME;
   }
@@ -58,15 +58,15 @@ std::string GetApplicationName() {
 std::string GetApplicationVersion() {
   std::string ret;
 
-  // ensure ELECTRON_PRODUCT_NAME and GetApplicationVersion match up
+  // 确保ELEMENT_PRODUCT_NAME和GetApplicationVersion匹配。
   if (GetApplicationName() == ELECTRON_PRODUCT_NAME)
     ret = ELECTRON_VERSION_STRING;
 
-  // try to use the string set in app.setVersion()
+  // 尝试使用app.setVersion()中设置的字符串。
   if (ret.empty())
     ret = OverriddenApplicationVersion();
 
-  // no known version number; return some safe fallback
+  // 没有已知的版本号；返回一些安全的后备。
   if (ret.empty()) {
     LOG(WARNING) << "No version found. Was app.setVersion() called?";
     ret = "0.0";
@@ -75,4 +75,4 @@ std::string GetApplicationVersion() {
   return ret;
 }
 
-}  // namespace electron
+}  // 命名空间电子

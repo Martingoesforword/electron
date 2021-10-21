@@ -1,10 +1,10 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/message_box.h"
 
-#include <windows.h>  // windows.h must be included first
+#include <windows.h>  // 必须先包含windows.h。
 
 #include <commctrl.h>
 
@@ -38,41 +38,41 @@ struct DialogResult {
   bool verification_flag_checked;
 };
 
-// <ID, messageBox> map.
-//
-// Note that the HWND is stored in a unique_ptr, because the pointer of HWND
-// will be passed between threads and we need to ensure the memory of HWND is
-// not changed while dialogs map is modified.
+// &lt;ID，messageBox&gt;映射。
+// 
+// 请注意，HWND存储在UNIQUE_PTR中，因为HWND的指针。
+// 将在线程之间传递，我们需要确保HWND的内存。
+// 修改对话框映射时未更改。
 std::map<int, std::unique_ptr<HWND>>& GetDialogsMap() {
   static base::NoDestructor<std::map<int, std::unique_ptr<HWND>>> dialogs;
   return *dialogs;
 }
 
-// Speical HWND used by the dialogs map.
-//
-// - ID is used but window has not been created yet.
+// 对话框映射使用的特定HWND。
+// 
+// -ID已使用，但窗口尚未创建。
 const HWND kHwndReserve = reinterpret_cast<HWND>(-1);
-// - Notification to cancel message box.
+// -通知取消消息框。
 const HWND kHwndCancel = reinterpret_cast<HWND>(-2);
 
-// Lock used for modifying HWND between threads.
-//
-// Note that there might be multiple dialogs being opened at the same time, but
-// we only use one lock for them all, because each dialog is independent from
-// each other and there is no need to use different lock for each one.
-// Also note that the |GetDialogsMap| is only used in the main thread, what is
-// shared between threads is the memory of HWND, so there is no need to use lock
-// when accessing dialogs map.
+// 用于修改线程间HWND的锁。
+// 
+// 请注意，可能同时打开了多个对话框，但是。
+// 我们只对它们使用一个锁，因为每个对话框都独立于。
+// 并且不需要对每一个都使用不同的锁。
+// 另请注意，|GetDialogsMap|仅在主线程中使用，什么是。
+// 线程之间共享的是HWND的内存，因此不需要使用锁。
+// 当访问对话框地图时。
 base::Lock& GetHWNDLock() {
   static base::NoDestructor<base::Lock> lock;
   return *lock;
 }
 
-// Small command ID values are already taken by Windows, we have to start from
-// a large number to avoid conflicts with Windows.
+// Windows已经采用了较小的命令ID值，我们必须从。
+// 数量较大，以避免与Windows发生冲突。
 const int kIDStart = 100;
 
-// Get the common ID from button's name.
+// 从按钮的名称中获取公共ID。
 struct CommonButtonID {
   int button;
   int id;
@@ -94,8 +94,8 @@ CommonButtonID GetCommonID(const std::wstring& button) {
   return {-1, -1};
 }
 
-// Determine whether the buttons are common buttons, if so map common ID
-// to button ID.
+// 确定按钮是否为通用按钮，如果是，则映射通用ID。
+// 设置为按钮ID。
 void MapToCommonID(const std::vector<std::wstring>& buttons,
                    std::map<int, int>* id_map,
                    TASKDIALOG_COMMON_BUTTON_FLAGS* button_flags,
@@ -103,34 +103,34 @@ void MapToCommonID(const std::vector<std::wstring>& buttons,
   for (size_t i = 0; i < buttons.size(); ++i) {
     auto common = GetCommonID(buttons[i]);
     if (common.button != -1) {
-      // It is a common button.
+      // 这是一个普通的按钮。
       (*id_map)[common.id] = i;
       (*button_flags) |= common.button;
     } else {
-      // It is a custom button.
+      // 这是一个自定义按钮。
       dialog_buttons->push_back(
           {static_cast<int>(i + kIDStart), buttons[i].c_str()});
     }
   }
 }
 
-// Callback of the task dialog. The TaskDialogIndirect API does not provide the
-// HWND of the dialog, and we have to listen to the TDN_CREATED message to get
-// it.
-// Note that this callback runs in dialog thread instead of main thread, so it
-// is possible for CloseMessageBox to be called before or all after the dialog
-// window is created.
+// 任务对话框的回调。TaskDialogIndirect API不提供。
+// HWND，我们必须监听TDN_CREATED消息才能获得。
+// 它。
+// 请注意，此回调在对话线程中运行，而不是在主线程中运行，因此它。
+// CloseMessageBox可以在对话框之前调用或全部在对话框之后调用。
+// 窗口已创建。
 HRESULT CALLBACK
 TaskDialogCallback(HWND hwnd, UINT msg, WPARAM, LPARAM, LONG_PTR data) {
   if (msg == TDN_CREATED) {
     HWND* target = reinterpret_cast<HWND*>(data);
-    // Lock since CloseMessageBox might be called.
+    // 锁定，因为可能会调用CloseMessageBox。
     base::AutoLock lock(GetHWNDLock());
     if (*target == kHwndCancel) {
-      // The dialog is cancelled before it is created, close it directly.
+      // 该对话框在创建前已取消，请直接将其关闭。
       ::PostMessage(hwnd, WM_CLOSE, 0, 0);
     } else if (*target == kHwndReserve) {
-      // Otherwise save the hwnd.
+      // 否则就救了HWND吧。
       *target = hwnd;
     } else {
       NOTREACHED();
@@ -153,8 +153,8 @@ DialogResult ShowTaskDialogWstr(NativeWindow* parent,
                                 const gfx::ImageSkia& icon,
                                 HWND* hwnd) {
   TASKDIALOG_FLAGS flags =
-      TDF_SIZE_TO_CONTENT |           // Show all content.
-      TDF_ALLOW_DIALOG_CANCELLATION;  // Allow canceling the dialog.
+      TDF_SIZE_TO_CONTENT |           // 显示所有内容。
+      TDF_ALLOW_DIALOG_CANCELLATION;  // 允许取消对话。
 
   TASKDIALOGCONFIG config = {0};
   config.cbSize = sizeof(config);
@@ -169,8 +169,8 @@ DialogResult ShowTaskDialogWstr(NativeWindow* parent,
   if (default_id > 0)
     config.nDefaultButton = kIDStart + default_id;
 
-  // TaskDialogIndirect doesn't allow empty name, if we set empty title it
-  // will show "electron.exe" in title.
+  // TaskDialogIndirect不允许名称为空，如果我们将标题设置为空。
+  // 将在标题中显示“Electron.exe”。
   if (title.empty()) {
     std::wstring app_name = base::UTF8ToWide(Browser::Get()->GetName());
     config.pszWindowTitle = app_name.c_str();
@@ -184,7 +184,7 @@ DialogResult ShowTaskDialogWstr(NativeWindow* parent,
     config.dwFlags |= TDF_USE_HICON_MAIN;
     config.hMainIcon = hicon.get();
   } else {
-    // Show icon according to dialog's type.
+    // 根据对话框类型显示图标。
     switch (type) {
       case MessageBoxType::kInformation:
       case MessageBoxType::kQuestion:
@@ -201,7 +201,7 @@ DialogResult ShowTaskDialogWstr(NativeWindow* parent,
     }
   }
 
-  // If "detail" is empty then don't make message highlighted.
+  // 如果“详细信息”为空，则不要突出显示消息。
   if (detail.empty()) {
     config.pszContent = base::as_wcstr(message);
   } else {
@@ -215,8 +215,8 @@ DialogResult ShowTaskDialogWstr(NativeWindow* parent,
       config.dwFlags |= TDF_VERIFICATION_FLAG_CHECKED;
   }
 
-  // Iterate through the buttons, put common buttons in dwCommonButtons
-  // and custom buttons in pButtons.
+  // 遍历按钮，将常用按钮放入dwCommonButton。
+  // 以及pButton中的自定义按钮。
   std::map<int, int> id_map;
   std::vector<TASKDIALOG_BUTTON> dialog_buttons;
   if (no_link) {
@@ -230,10 +230,10 @@ DialogResult ShowTaskDialogWstr(NativeWindow* parent,
     config.pButtons = &dialog_buttons.front();
     config.cButtons = dialog_buttons.size();
     if (!no_link)
-      config.dwFlags |= TDF_USE_COMMAND_LINKS;  // custom buttons as links.
+      config.dwFlags |= TDF_USE_COMMAND_LINKS;  // 自定义按钮作为链接。
   }
 
-  // Pass a callback to receive the HWND of the message box.
+  // 传递回调以接收消息框的HWND。
   if (hwnd) {
     config.pfCallback = &TaskDialogCallback;
     config.lpCallbackData = reinterpret_cast<LONG_PTR>(hwnd);
@@ -244,9 +244,9 @@ DialogResult ShowTaskDialogWstr(NativeWindow* parent,
   TaskDialogIndirect(&config, &id, nullptr, &verification_flag_checked);
 
   int button_id;
-  if (id_map.find(id) != id_map.end())  // common button.
+  if (id_map.find(id) != id_map.end())  // 公共按钮。
     button_id = id_map[id];
-  else if (id >= kIDStart)  // custom button.
+  else if (id >= kIDStart)  // 自定义按钮。
     button_id = id - kIDStart;
   else
     button_id = cancel_id;
@@ -272,7 +272,7 @@ DialogResult ShowTaskDialogUTF8(const MessageBoxSettings& settings,
       checkbox_label, settings.checkbox_checked, settings.icon, hwnd);
 }
 
-}  // namespace
+}  // 命名空间。
 
 int ShowMessageBoxSync(const MessageBoxSettings& settings) {
   electron::UnresponsiveSuppressor suppressor;
@@ -282,8 +282,8 @@ int ShowMessageBoxSync(const MessageBoxSettings& settings) {
 
 void ShowMessageBox(const MessageBoxSettings& settings,
                     MessageBoxCallback callback) {
-  // The dialog is created in a new thread so we don't know its HWND yet, put
-  // kHwndReserve in the dialogs map for now.
+  // 该对话框是在一个新线程中创建的，因此我们还不知道它的HWND，请将。
+  // 对话框图中的kHwndReserve。
   HWND* hwnd = nullptr;
   if (settings.id) {
     if (base::Contains(GetDialogsMap(), *settings.id))
@@ -313,14 +313,14 @@ void CloseMessageBox(int id) {
     return;
   }
   HWND* hwnd = it->second.get();
-  // Lock since the TaskDialogCallback might be saving the dialog's HWND.
+  // 锁定，因为TaskDialogCallback可能正在保存对话框的HWND。
   base::AutoLock lock(GetHWNDLock());
   DCHECK(*hwnd != kHwndCancel);
   if (*hwnd == kHwndReserve) {
-    // If the dialog window has not been created yet, tell it to cancel.
+    // 如果对话框窗口尚未创建，则告诉它取消。
     *hwnd = kHwndCancel;
   } else {
-    // Otherwise send a message to close it.
+    // 否则，发送消息将其关闭。
     ::PostMessage(*hwnd, WM_CLOSE, 0, 0);
   }
 }
@@ -332,4 +332,4 @@ void ShowErrorBox(const std::u16string& title, const std::u16string& content) {
                      nullptr);
 }
 
-}  // namespace electron
+}  // 命名空间电子

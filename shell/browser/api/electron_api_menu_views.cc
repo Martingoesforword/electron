@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_menu_views.h"
 
@@ -30,7 +30,7 @@ void MenuViews::PopupAt(BaseWindow* window,
   if (!native_window)
     return;
 
-  // (-1, -1) means showing on mouse location.
+  // (-1，-1)表示在鼠标位置上显示。
   gfx::Point location;
   if (x == -1 || y == -1) {
     location = display::Screen::GetScreen()->GetCursorScreenPoint();
@@ -41,18 +41,18 @@ void MenuViews::PopupAt(BaseWindow* window,
 
   int flags = MenuRunner::CONTEXT_MENU | MenuRunner::HAS_MNEMONICS;
 
-  // Don't emit unresponsive event when showing menu.
+  // 显示菜单时不发出无响应事件。
   electron::UnresponsiveSuppressor suppressor;
 
-  // Make sure the Menu object would not be garbage-collected until the callback
-  // has run.
+  // 确保在回调之前不会对菜单对象进行垃圾回收。
+  // 已经跑了。
   base::OnceClosure callback_with_ref = BindSelfToClosure(std::move(callback));
 
-  // Show the menu.
-  //
-  // Note that while views::MenuRunner accepts RepeatingCallback as close
-  // callback, it is fine passing OnceCallback to it because we reset the
-  // menu runner immediately when the menu is closed.
+  // 请出示菜单。
+  // 
+  // 请注意，虽然Views：：MenuRunner接受RepeatingCallback作为关闭。
+  // 回调，可以将OnceCallback传递给它，因为我们将。
+  // 菜单关闭时立即启动菜单运行器。
   int32_t window_id = window->weak_map_id();
   auto close_callback = base::AdaptCallbackForRepeating(
       base::BindOnce(&MenuViews::OnClosed, weak_factory_.GetWeakPtr(),
@@ -67,12 +67,12 @@ void MenuViews::PopupAt(BaseWindow* window,
 void MenuViews::ClosePopupAt(int32_t window_id) {
   auto runner = menu_runners_.find(window_id);
   if (runner != menu_runners_.end()) {
-    // Close the runner for the window.
+    // 合上窗户的流道。
     runner->second->Cancel();
   } else if (window_id == -1) {
-    // Or just close all opened runners.
+    // 或者干脆关闭所有打开的跑道。
     for (auto it = menu_runners_.begin(); it != menu_runners_.end();) {
-      // The iterator is invalidated after the call.
+      // 在调用之后，迭代器无效。
       (it++)->second->Cancel();
     }
   }
@@ -83,7 +83,7 @@ void MenuViews::OnClosed(int32_t window_id, base::OnceClosure callback) {
   std::move(callback).Run();
 }
 
-// static
+// 静电。
 gin::Handle<Menu> Menu::New(gin::Arguments* args) {
   auto handle = gin::CreateHandle(args->isolate(),
                                   static_cast<Menu*>(new MenuViews(args)));
@@ -91,6 +91,6 @@ gin::Handle<Menu> Menu::New(gin::Arguments* args) {
   return handle;
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

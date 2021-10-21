@@ -1,6 +1,6 @@
-// Copyright 2015 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2015年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/api/resources_private/resources_private_api.h"
 
@@ -21,13 +21,13 @@
 
 #if BUILDFLAG(ENABLE_PDF)
 #include "pdf/pdf_features.h"
-#endif  // BUILDFLAG(ENABLE_PDF)
+#endif  // BUILDFLAG(ENABLE_PDF)。
 
-// To add a new component to this API, simply:
-// 1. Add your component to the Component enum in
-//      chrome/common/extensions/api/resources_private.idl
-// 2. Create an AddStringsForMyComponent(base::DictionaryValue * dict) method.
-// 3. Tie in that method to the switch statement in Run()
+// 要向此API添加新组件，只需：
+// 1.将您的组件添加到中的组件枚举。
+// Chrome/common/extensions/api/resources_private.idl。
+// 2.创建AddStringsForMyComponent(base：：DictionaryValue*dict)方法。
+// 3.将该方法绑定到run()中switch语句。
 
 namespace extensions {
 
@@ -59,17 +59,17 @@ void AddStringsForPdf(base::DictionaryValue* dict) {
     dict->SetString(resource.name, l10n_util::GetStringUTF16(resource.id));
 
   dict->SetString("presetZoomFactors", zoom::GetPresetZoomFactorsAsJSON());
-#endif  // BUILDFLAG(ENABLE_PDF)
+#endif  // BUILDFLAG(ENABLE_PDF)。
 }
 
 void AddAdditionalDataForPdf(base::DictionaryValue* dict) {
 #if BUILDFLAG(ENABLE_PDF)
   dict->SetKey("pdfAnnotationsEnabled", base::Value(false));
   dict->SetKey("printingEnabled", base::Value(true));
-#endif  // BUILDFLAG(ENABLE_PDF)
+#endif  // BUILDFLAG(ENABLE_PDF)。
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace get_strings = api::resources_private::GetStrings;
 
@@ -106,4 +106,4 @@ ExtensionFunction::ResponseAction ResourcesPrivateGetStringsFunction::Run() {
       OneArgument(base::Value::FromUniquePtrValue(std::move(dict))));
 }
 
-}  // namespace extensions
+}  // 命名空间扩展

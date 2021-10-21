@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/electron_download_manager_delegate.h"
 
@@ -33,7 +33,7 @@ namespace electron {
 
 namespace {
 
-// Generate default file path to save the download.
+// 生成保存下载的默认文件路径。
 base::FilePath CreateDownloadPath(const GURL& url,
                                   const std::string& content_disposition,
                                   const std::string& suggested_filename,
@@ -46,22 +46,22 @@ base::FilePath CreateDownloadPath(const GURL& url,
 
   base::FilePath download_path;
 
-  // If the last saved directory is a non-empty existent path, use it as the
-  // default.
+  // 如果上次保存的目录是非空的现有路径，请将其用作。
+  // 默认设置。
   if (last_saved_directory.empty() || !base::PathExists(last_saved_directory)) {
     download_path = default_download_path;
 
     if (!base::PathExists(download_path))
       base::CreateDirectory(download_path);
   } else {
-    // Otherwise use the global default.
+    // 否则，请使用全局默认值。
     download_path = last_saved_directory;
   }
 
   return download_path.Append(generated_name);
 }
 
-}  // namespace
+}  // 命名空间。
 
 ElectronDownloadManagerDelegate::ElectronDownloadManagerDelegate(
     content::DownloadManager* manager)
@@ -111,7 +111,7 @@ void ElectronDownloadManagerDelegate::OnDownloadPathGenerated(
   if (relay)
     window = relay->GetNativeWindow();
 
-  // Show save dialog if save path was not set already on item
+  // 如果项目上尚未设置保存路径，则显示保存对话框。
   base::FilePath path;
   GetItemSavePath(item, &path);
   if (path.empty()) {
@@ -164,7 +164,7 @@ void ElectronDownloadManagerDelegate::OnDownloadSaveDialogDone(
 
   if (!canceled) {
     if (result.Get("filePath", &path)) {
-      // Remember the last selected download directory.
+      // 记住上次选择的下载目录。
       last_saved_directory_ = path.DirName();
 
       api::DownloadItem* download = api::DownloadItem::FromDownloadItem(item);
@@ -173,9 +173,9 @@ void ElectronDownloadManagerDelegate::OnDownloadSaveDialogDone(
     }
   }
 
-  // Running the DownloadTargetCallback with an empty FilePath signals that the
-  // download should be cancelled. If user cancels the file save dialog, run
-  // the callback with empty FilePath.
+  // 使用空FilePath运行DownloadTargetCallback发出信号。
+  // 下载应该取消。如果用户取消文件保存对话框，请运行。
+  // FilePath为空的回调。
   const auto interrupt_reason =
       path.empty() ? download::DOWNLOAD_INTERRUPT_REASON_USER_CANCELED
                    : download::DOWNLOAD_INTERRUPT_REASON_NONE;
@@ -207,7 +207,7 @@ bool ElectronDownloadManagerDelegate::DetermineDownloadTarget(
     return true;
   }
 
-  // Try to get the save path from JS wrapper.
+  // 尝试从JS包装器获取保存路径。
   base::FilePath save_path;
   GetItemSavePath(download, &save_path);
   if (!save_path.empty()) {
@@ -250,4 +250,4 @@ void ElectronDownloadManagerDelegate::GetNextId(
   std::move(callback).Run(next_id++);
 }
 
-}  // namespace electron
+}  // 命名空间电子

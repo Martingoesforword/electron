@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/views/root_view.h"
 
@@ -14,7 +14,7 @@ namespace electron {
 
 namespace {
 
-// The menu bar height in pixels.
+// 菜单栏高度(以像素为单位)。
 #if defined(OS_WIN)
 const int kMenuBarHeight = 20;
 #else
@@ -35,7 +35,7 @@ bool IsAltModifier(const content::NativeWebKeyboardEvent& event) {
          (modifiers == (Modifiers::kAltKey | Modifiers::kIsRight));
 }
 
-}  // namespace
+}  // 命名空间。
 
 RootView::RootView(NativeWindow* window)
     : window_(window),
@@ -47,9 +47,9 @@ RootView::~RootView() = default;
 
 void RootView::SetMenu(ElectronMenuModel* menu_model) {
   if (menu_model == nullptr) {
-    // Remove accelerators
+    // 移除加速器。
     UnregisterAcceleratorsWithFocusManager();
-    // and menu bar.
+    // 和菜单栏。
     SetMenuBarVisibility(false);
     menu_bar_.reset();
     return;
@@ -57,7 +57,7 @@ void RootView::SetMenu(ElectronMenuModel* menu_model) {
 
   RegisterAcceleratorsWithFocusManager(menu_model);
 
-  // Do not show menu bar in frameless window.
+  // 不在无框架窗口中显示菜单栏。
   if (!window_->has_frame())
     return;
 
@@ -112,12 +112,12 @@ void RootView::HandleKeyEvent(const content::NativeWebKeyboardEvent& event) {
   if (!menu_bar_)
     return;
 
-  // Show accelerator when "Alt" is pressed.
+  // 按下“Alt”时显示快捷键。
   if (menu_bar_visible_ && IsAltKey(event))
     menu_bar_->SetAcceleratorVisibility(
         event.GetType() == blink::WebInputEvent::Type::kRawKeyDown);
 
-  // Show the submenu when "Alt+Key" is pressed.
+  // 按下Alt+键时显示子菜单。
   if (event.GetType() == blink::WebInputEvent::Type::kRawKeyDown &&
       event.windows_key_code >= ui::VKEY_A &&
       event.windows_key_code <= ui::VKEY_Z && IsAltModifier(event) &&
@@ -134,14 +134,14 @@ void RootView::HandleKeyEvent(const content::NativeWebKeyboardEvent& event) {
     return;
   }
 
-  // Toggle the menu bar only when a single Alt is released.
+  // 仅在释放单个Alt键时切换菜单栏。
   if (event.GetType() == blink::WebInputEvent::Type::kRawKeyDown &&
       IsAltKey(event)) {
-    // When a single Alt is pressed:
+    // 当按下单个Alt时：
     menu_bar_alt_pressed_ = true;
   } else if (event.GetType() == blink::WebInputEvent::Type::kKeyUp &&
              IsAltKey(event) && menu_bar_alt_pressed_) {
-    // When a single Alt is released right after a Alt is pressed:
+    // 在按下Alt后立即释放单个Alt时：
     menu_bar_alt_pressed_ = false;
     if (menu_bar_autohide_)
       SetMenuBarVisibility(!menu_bar_visible_);
@@ -150,11 +150,11 @@ void RootView::HandleKeyEvent(const content::NativeWebKeyboardEvent& event) {
     last_focused_view_tracker_->SetView(focused_view);
     if (menu_bar_visible_) {
       menu_bar_->RequestFocus();
-      // Show accelerators when menu bar is focused
+      // 当菜单栏被聚焦时显示快捷键。
       menu_bar_->SetAcceleratorVisibility(true);
     }
   } else {
-    // When any other keys except single Alt have been pressed/released:
+    // 当按下/松开除单个Alt键以外的任何其他键时：
     menu_bar_alt_pressed_ = false;
   }
 }
@@ -175,7 +175,7 @@ void RootView::ResetAltState() {
 }
 
 void RootView::Layout() {
-  if (!window_->content_view())  // Not ready yet.
+  if (!window_->content_view())  // 还没准备好。
     return;
 
   const auto menu_bar_bounds =
@@ -206,11 +206,11 @@ void RootView::RegisterAcceleratorsWithFocusManager(
     ElectronMenuModel* menu_model) {
   if (!menu_model)
     return;
-  // Clear previous accelerators.
+  // 清除以前的加速器。
   UnregisterAcceleratorsWithFocusManager();
 
   views::FocusManager* focus_manager = GetFocusManager();
-  // Register accelerators with focus manager.
+  // 向焦点管理器注册加速器。
   accelerator_util::GenerateAcceleratorTable(&accelerator_table_, menu_model);
   for (const auto& iter : accelerator_table_) {
     focus_manager->RegisterAccelerator(
@@ -224,4 +224,4 @@ void RootView::UnregisterAcceleratorsWithFocusManager() {
   focus_manager->UnregisterAccelerators(this);
 }
 
-}  // namespace electron
+}  // 命名空间电子

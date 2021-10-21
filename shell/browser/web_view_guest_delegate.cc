@@ -1,12 +1,12 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/web_view_guest_delegate.h"
 
 #include <memory>
 
-#include "content/browser/web_contents/web_contents_impl.h"  // nogncheck
+#include "content/browser/web_contents/web_contents_impl.h"  // 点名检查。
 #include "content/public/browser/navigation_handle.h"
 #include "content/public/browser/render_frame_host.h"
 #include "content/public/browser/render_process_host.h"
@@ -40,13 +40,13 @@ void WebViewGuestDelegate::AttachToIframe(
 
   content::WebContents* guest_web_contents = api_web_contents_->web_contents();
 
-  // Force a refresh of the webPreferences so that OverrideWebkitPrefs runs on
-  // the new web contents before the renderer process initializes.
-  // guest_web_contents->NotifyPreferencesChanged();
+  // 强制刷新WebPreferences，以便OverrideWebkitPrefs在。
+  // 在呈现器进程初始化之前的新Web内容。
+  // Guest_web_contents-&gt;NotifyPreferencesChanged()；
 
-  // Attach this inner WebContents |guest_web_contents| to the outer
-  // WebContents |embedder_web_contents|. The outer WebContents's
-  // frame |embedder_frame| hosts the inner WebContents.
+  // 将此内部WebContents|GUEST_WEB_CONTENTS|附加到外部。
+  // WebContents|Embedder_Web_Contents|。外部WebContents的。
+  // Frame|Embedder_Frame|托管内部WebContents。
   embedder_web_contents_->AttachInnerWebContents(
       base::WrapUnique<content::WebContents>(guest_web_contents),
       embedder_frame, false);
@@ -80,7 +80,7 @@ void WebViewGuestDelegate::OnZoomLevelChanged(
     } else {
       api_web_contents_->GetZoomController()->SetZoomLevel(level);
     }
-    // Change the default zoom factor to match the embedders' new zoom level.
+    // 更改默认缩放因子以匹配嵌入器的新缩放级别。
     double zoom_factor = blink::PageZoomFactorToZoomLevel(level);
     api_web_contents_->GetZoomController()->SetDefaultZoomFactor(zoom_factor);
   }
@@ -99,8 +99,8 @@ void WebViewGuestDelegate::ResetZoomController() {
 
 content::WebContents* WebViewGuestDelegate::CreateNewGuestWindow(
     const content::WebContents::CreateParams& create_params) {
-  // Code below mirrors what content::WebContentsImpl::CreateNewWindow
-  // does for non-guest sources
+  // 下面的代码反映了Content：：WebContentsImpl：：CreateNewWindow。
+  // 对非来宾来源执行的操作。
   content::WebContents::CreateParams guest_params(create_params);
   guest_params.context = embedder_web_contents_->GetNativeView();
   std::unique_ptr<content::WebContents> guest_contents =
@@ -119,4 +119,4 @@ content::WebContents* WebViewGuestDelegate::CreateNewGuestWindow(
   return guest_contents.release();
 }
 
-}  // namespace electron
+}  // 命名空间电子

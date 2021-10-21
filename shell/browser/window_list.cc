@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/window_list.h"
 
@@ -20,38 +20,38 @@ std::vector<base::WeakPtr<T>> ConvertToWeakPtrVector(std::vector<T*> raw_ptrs) {
   }
   return converted_to_weak;
 }
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
-// static
+// 静电。
 base::LazyInstance<base::ObserverList<WindowListObserver>>::Leaky
     WindowList::observers_ = LAZY_INSTANCE_INITIALIZER;
 
-// static
+// 静电。
 WindowList* WindowList::instance_ = nullptr;
 
-// static
+// 静电。
 WindowList* WindowList::GetInstance() {
   if (!instance_)
     instance_ = new WindowList;
   return instance_;
 }
 
-// static
+// 静电。
 WindowList::WindowVector WindowList::GetWindows() {
   return GetInstance()->windows_;
 }
 
-// static
+// 静电。
 bool WindowList::IsEmpty() {
   return GetInstance()->windows_.empty();
 }
 
-// static
+// 静电。
 void WindowList::AddWindow(NativeWindow* window) {
   DCHECK(window);
-  // Push |window| on the appropriate list instance.
+  // 在相应的列表实例上推送|窗口|。
   WindowVector& windows = GetInstance()->windows_;
   windows.push_back(window);
 
@@ -59,7 +59,7 @@ void WindowList::AddWindow(NativeWindow* window) {
     observer.OnWindowAdded(window);
 }
 
-// static
+// 静电。
 void WindowList::RemoveWindow(NativeWindow* window) {
   WindowVector& windows = GetInstance()->windows_;
   windows.erase(std::remove(windows.begin(), windows.end(), window),
@@ -74,23 +74,23 @@ void WindowList::RemoveWindow(NativeWindow* window) {
   }
 }
 
-// static
+// 静电。
 void WindowList::WindowCloseCancelled(NativeWindow* window) {
   for (WindowListObserver& observer : observers_.Get())
     observer.OnWindowCloseCancelled(window);
 }
 
-// static
+// 静电。
 void WindowList::AddObserver(WindowListObserver* observer) {
   observers_.Get().AddObserver(observer);
 }
 
-// static
+// 静电。
 void WindowList::RemoveObserver(WindowListObserver* observer) {
   observers_.Get().RemoveObserver(observer);
 }
 
-// static
+// 静电。
 void WindowList::CloseAllWindows() {
   std::vector<base::WeakPtr<NativeWindow>> weak_windows =
       ConvertToWeakPtrVector(GetInstance()->windows_);
@@ -103,7 +103,7 @@ void WindowList::CloseAllWindows() {
   }
 }
 
-// static
+// 静电。
 void WindowList::DestroyAllWindows() {
   std::vector<base::WeakPtr<NativeWindow>> weak_windows =
       ConvertToWeakPtrVector(GetInstance()->windows_);
@@ -118,4 +118,4 @@ WindowList::WindowList() = default;
 
 WindowList::~WindowList() = default;
 
-}  // namespace electron
+}  // 命名空间电子

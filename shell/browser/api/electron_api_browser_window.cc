@@ -1,13 +1,13 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_browser_window.h"
 
 #include "base/threading/thread_task_runner_handle.h"
-#include "content/browser/renderer_host/render_widget_host_impl.h"  // nogncheck
-#include "content/browser/renderer_host/render_widget_host_owner_delegate.h"  // nogncheck
-#include "content/browser/web_contents/web_contents_impl.h"  // nogncheck
+#include "content/browser/renderer_host/render_widget_host_impl.h"  // 点名检查。
+#include "content/browser/renderer_host/render_widget_host_owner_delegate.h"  // 点名检查。
+#include "content/browser/web_contents/web_contents_impl.h"  // 点名检查。
 #include "content/public/browser/render_process_host.h"
 #include "content/public/browser/render_view_host.h"
 #include "shell/browser/api/electron_api_web_contents_view.h"
@@ -31,26 +31,26 @@ namespace api {
 BrowserWindow::BrowserWindow(gin::Arguments* args,
                              const gin_helper::Dictionary& options)
     : BaseWindow(args->isolate(), options) {
-  // Use options.webPreferences in WebContents.
+  // 在WebContents中使用options.webPreferences。
   v8::Isolate* isolate = args->isolate();
   gin_helper::Dictionary web_preferences =
       gin::Dictionary::CreateEmpty(isolate);
   options.Get(options::kWebPreferences, &web_preferences);
 
-  // Copy the backgroundColor to webContents.
+  // 将backround Color复制到webContents。
   v8::Local<v8::Value> value;
   bool transparent = false;
   if (options.Get(options::kBackgroundColor, &value)) {
     web_preferences.SetHidden(options::kBackgroundColor, value);
   } else if (options.Get(options::kTransparent, &transparent) && transparent) {
-    // If the BrowserWindow is transparent, also propagate transparency to the
-    // WebContents unless a separate backgroundColor has been set.
+    // 如果BrowserWindow是透明的，还会将透明度传播到。
+    // WebContents，除非设置了单独的backmentColor。
     web_preferences.SetHidden(options::kBackgroundColor,
                               ToRGBAHex(SK_ColorTRANSPARENT));
   }
 
-  // Copy the show setting to webContents, but only if we don't want to paint
-  // when initially hidden
+  // 将show设置复制到webContents，但前提是我们不想绘制。
+  // 最初隐藏时。
   bool paint_when_initially_hidden = true;
   options.Get("paintWhenInitiallyHidden", &paint_when_initially_hidden);
   if (!paint_when_initially_hidden) {
@@ -70,18 +70,18 @@ BrowserWindow::BrowserWindow(gin::Arguments* args,
     web_preferences.Set(options::kEnableBlinkFeatures, enabled_features);
   }
 
-  // Copy the webContents option to webPreferences. This is only used internally
-  // to implement nativeWindowOpen option.
+  // 将webContents选项复制到webPreferences。这仅供内部使用。
+  // 若要实现nativeWindowOpen选项，请执行以下操作。
   if (options.Get("webContents", &value)) {
     web_preferences.SetHidden("webContents", value);
   }
 
-  // Creates the WebContentsView.
+  // 创建WebContentsView。
   gin::Handle<WebContentsView> web_contents_view =
       WebContentsView::Create(isolate, web_preferences);
   DCHECK(web_contents_view.get());
 
-  // Save a reference of the WebContents.
+  // 保存WebContents的引用。
   gin::Handle<WebContents> web_contents =
       web_contents_view->GetWebContents(isolate);
   web_contents_.Reset(isolate, web_contents.ToV8());
@@ -89,7 +89,7 @@ BrowserWindow::BrowserWindow(gin::Arguments* args,
   api_web_contents_->AddObserver(this);
   Observe(api_web_contents_->web_contents());
 
-  // Associate with BrowserWindow.
+  // 与BrowserWindow关联。
   web_contents->SetOwnerWindow(window());
 
   auto* host = web_contents->web_contents()->GetRenderViewHost();
@@ -98,7 +98,7 @@ BrowserWindow::BrowserWindow(gin::Arguments* args,
 
   InitWithArgs(args);
 
-  // Install the content view after BaseWindow's JS code is initialized.
+  // 在初始化BaseWindow的JS代码后安装内容视图。
   SetContentView(gin::CreateHandle<View>(isolate, web_contents_view.get()));
 
 #if defined(OS_MAC)
@@ -106,19 +106,19 @@ BrowserWindow::BrowserWindow(gin::Arguments* args,
       web_contents->inspectable_web_contents()->GetView());
 #endif
 
-  // Init window after everything has been setup.
+  // 一切设置完成后初始化窗口。
   window()->InitFromOptions(options);
 }
 
 BrowserWindow::~BrowserWindow() {
   if (api_web_contents_) {
-    // Cleanup the observers if user destroyed this instance directly instead of
-    // gracefully closing content::WebContents.
+    // 如果用户直接销毁此实例，而不是。
+    // 优雅地关闭Content：：WebContents。
     auto* host = web_contents()->GetRenderViewHost();
     if (host)
       host->GetWidget()->RemoveInputEventObserver(this);
     api_web_contents_->RemoveObserver(this);
-    // Destroy the WebContents.
+    // 销毁Web内容。
     OnCloseContents();
   }
 }
@@ -159,8 +159,8 @@ void BrowserWindow::DidFirstVisuallyNonEmptyPaint() {
   if (window()->IsClosed() || window()->IsVisible())
     return;
 
-  // When there is a non-empty first paint, resize the RenderWidget to force
-  // Chromium to draw.
+  // 当存在非空的第一个绘制时，调整要强制的RenderWidget的大小。
+  // 铬来画。
   auto* const view = web_contents()->GetRenderWidgetHostView();
   view->Show();
   view->SetSize(window()->GetContentSize());
@@ -168,18 +168,18 @@ void BrowserWindow::DidFirstVisuallyNonEmptyPaint() {
 
 void BrowserWindow::BeforeUnloadDialogCancelled() {
   WindowList::WindowCloseCancelled(window());
-  // Cancel unresponsive event when window close is cancelled.
+  // 取消窗口关闭时取消无响应事件。
   window_unresponsive_closure_.Cancel();
 }
 
 void BrowserWindow::OnRendererUnresponsive(content::RenderProcessHost*) {
-  // Schedule the unresponsive shortly later, since we may receive the
-  // responsive event soon. This could happen after the whole application had
-  // blocked for a while.
-  // Also notice that when closing this event would be ignored because we have
-  // explicitly started a close timeout counter. This is on purpose because we
-  // don't want the unresponsive event to be sent too early when user is closing
-  // the window.
+  // 将无响应时间安排在稍后，因为我们可能会收到。
+  // 很快就会有反应事件。这可能发生在整个应用程序。
+  // 封锁了一段时间。
+  // 另请注意，当关闭此事件时将被忽略，因为我们有。
+  // 显式启动关闭超时计数器。这是故意的，因为我们。
+  // 我不希望在用户关闭时过早发送无响应事件。
+  // 窗户。
   ScheduleUnresponsiveEvent(50);
 }
 
@@ -204,13 +204,13 @@ void BrowserWindow::OnDraggableRegionsUpdated(
 }
 
 void BrowserWindow::OnSetContentBounds(const gfx::Rect& rect) {
-  // window.resizeTo(...)
-  // window.moveTo(...)
+  // Window.size to(...)。
+  // Window.moveto(...)。
   window()->SetBounds(rect, false);
 }
 
 void BrowserWindow::OnActivateContents() {
-  // Hide the auto-hide menu when webContents is focused.
+  // 聚焦WebContents时隐藏自动隐藏菜单。
 #if !defined(OS_MAC)
   if (IsMenuBarAutoHide() && IsMenuBarVisible())
     window()->SetMenuBarVisibility(false);
@@ -219,10 +219,10 @@ void BrowserWindow::OnActivateContents() {
 
 void BrowserWindow::OnPageTitleUpdated(const std::u16string& title,
                                        bool explicit_set) {
-  // Change window title to page title.
+  // 将窗口标题更改为页面标题。
   auto self = GetWeakPtr();
   if (!Emit("page-title-updated", title, explicit_set)) {
-    // |this| might be deleted, or marked as destroyed by close().
+    // |此|可能已删除，或被Close()标记为销毁。
     if (self && !IsDestroyed())
       SetTitle(base::UTF16ToUTF8(title));
   }
@@ -233,47 +233,47 @@ void BrowserWindow::RequestPreferredWidth(int* width) {
 }
 
 void BrowserWindow::OnCloseButtonClicked(bool* prevent_default) {
-  // When user tries to close the window by clicking the close button, we do
-  // not close the window immediately, instead we try to close the web page
-  // first, and when the web page is closed the window will also be closed.
+  // 当用户尝试通过单击Close按钮关闭窗口时，我们会这样做。
+  // 不是立即关闭窗口，而是尝试关闭网页。
+  // 首先，当网页关闭时，窗口也将关闭。
   *prevent_default = true;
 
-  // Assume the window is not responding if it doesn't cancel the close and is
-  // not closed in 5s, in this way we can quickly show the unresponsive
-  // dialog when the window is busy executing some script without waiting for
-  // the unresponsive timeout.
+  // 假设窗口没有响应，如果它没有取消关闭，并且。
+  // 没有在5秒内关闭，这样我们就可以快速地显示无响应的。
+  // 当窗口忙于执行某些脚本而不等待。
+  // 无响应超时。
   if (window_unresponsive_closure_.IsCancelled())
     ScheduleUnresponsiveEvent(5000);
 
-  // Already closed by renderer.
+  // 已由渲染器关闭。
   if (!web_contents())
     return;
 
-  // Required to make beforeunload handler work.
+  // 需要使Bere Unload处理程序工作。
   api_web_contents_->NotifyUserActivation();
 
-  // Trigger beforeunload events for associated BrowserViews.
+  // 在关联的BrowserViews的Unload事件之前触发。
   for (NativeBrowserView* view : window_->browser_views()) {
     auto* vwc = view->web_contents();
     auto* api_web_contents = api::WebContents::From(vwc);
 
-    // Required to make beforeunload handler work.
+    // 需要使Bere Unload处理程序工作。
     if (api_web_contents)
       api_web_contents->NotifyUserActivation();
 
     if (vwc) {
       if (vwc->NeedToFireBeforeUnloadOrUnloadEvents()) {
-        vwc->DispatchBeforeUnload(false /* auto_cancel */);
+        vwc->DispatchBeforeUnload(false /* 自动取消(_C)。*/);
       }
     }
   }
 
   if (web_contents()->NeedToFireBeforeUnloadOrUnloadEvents()) {
-    web_contents()->DispatchBeforeUnload(false /* auto_cancel */);
+    web_contents()->DispatchBeforeUnload(false /* 自动取消(_C)。*/);
   } else {
     web_contents()->Close();
   }
-}  // namespace api
+}  // 命名空间API。
 
 void BrowserWindow::OnWindowBlur() {
   if (api_web_contents_)
@@ -283,7 +283,7 @@ void BrowserWindow::OnWindowBlur() {
 }
 
 void BrowserWindow::OnWindowFocus() {
-  // focus/blur events might be emitted while closing window.
+  // 关闭窗口时可能会发出聚焦/模糊事件。
   if (api_web_contents_) {
     web_contents()->RestoreFocus();
 #if !defined(OS_MAC)
@@ -331,7 +331,7 @@ void BrowserWindow::UpdateWindowControlsOverlay(
 }
 
 void BrowserWindow::CloseImmediately() {
-  // Close all child windows before closing current window.
+  // 在关闭当前窗口之前关闭所有子窗口。
   v8::Locker locker(isolate());
   v8::HandleScope handle_scope(isolate());
   for (v8::Local<v8::Value> value : child_windows_.Values(isolate())) {
@@ -342,7 +342,7 @@ void BrowserWindow::CloseImmediately() {
 
   BaseWindow::CloseImmediately();
 
-  // Do not sent "unresponsive" event after window is closed.
+  // 窗口关闭后不发送“无响应”事件。
   window_unresponsive_closure_.Cancel();
 }
 
@@ -367,8 +367,8 @@ void BrowserWindow::SetBackgroundColor(const std::string& color_name) {
   auto* rwhv = web_contents()->GetRenderWidgetHostView();
   if (rwhv)
     rwhv->SetBackgroundColor(color);
-  // Also update the web preferences object otherwise the view will be reset on
-  // the next load URL call
+  // 还要更新Web首选项对象，否则视图将重置为。
+  // 下一次加载URL调用。
   if (api_web_contents_) {
     auto* web_preferences =
         WebContentsPreferences::From(api_web_contents_->web_contents());
@@ -484,7 +484,7 @@ void BrowserWindow::OnWindowHide() {
   BaseWindow::OnWindowHide();
 }
 
-// static
+// 静电。
 gin_helper::WrappableBase* BrowserWindow::New(gin_helper::ErrorThrower thrower,
                                               gin::Arguments* args) {
   if (!Browser::Get()->is_ready()) {
@@ -505,7 +505,7 @@ gin_helper::WrappableBase* BrowserWindow::New(gin_helper::ErrorThrower thrower,
   return new BrowserWindow(args, options);
 }
 
-// static
+// 静电。
 void BrowserWindow::BuildPrototype(v8::Isolate* isolate,
                                    v8::Local<v8::FunctionTemplate> prototype) {
   prototype->SetClassName(gin::StringToV8(isolate, "BrowserWindow"));
@@ -516,7 +516,7 @@ void BrowserWindow::BuildPrototype(v8::Isolate* isolate,
       .SetProperty("webContents", &BrowserWindow::GetWebContents);
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> BrowserWindow::From(v8::Isolate* isolate,
                                          NativeWindow* native_window) {
   auto* existing = TrackableObject::FromWrappedClass(isolate, native_window);
@@ -526,9 +526,9 @@ v8::Local<v8::Value> BrowserWindow::From(v8::Isolate* isolate,
     return v8::Null(isolate);
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -545,6 +545,6 @@ void Initialize(v8::Local<v8::Object> exports,
                isolate, base::BindRepeating(&BrowserWindow::New)));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_window, Initialize)

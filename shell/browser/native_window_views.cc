@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/native_window_views.h"
 
@@ -85,10 +85,10 @@ namespace electron {
 
 #if defined(OS_WIN)
 
-// Similar to the ones in display::win::ScreenWin, but with rounded values
-// These help to avoid problems that arise from unresizable windows where the
-// original ceil()-ed values can cause calculation errors, since converting
-// both ways goes through a ceil() call. Related issue: #15816
+// 类似于Display：：Win：：ScreenWin中的值，但具有四舍五入的值。
+// 这些功能有助于避免因不可调整大小的窗口而引起的问题，在不可调整窗口中，
+// 原始ceil()值可能会导致计算错误，因为。
+// 这两种方法都通过ceil()调用。相关问题：#15816。
 gfx::Rect ScreenToDIPRect(HWND hwnd, const gfx::Rect& pixel_bounds) {
   float scale_factor = display::win::ScreenWin::GetScaleFactorForHWND(hwnd);
   gfx::Rect dip_rect = ScaleToRoundedRect(pixel_bounds, 1.0f / scale_factor);
@@ -111,9 +111,9 @@ void FlipWindowStyle(HWND handle, bool on, DWORD flag) {
   else
     style &= ~flag;
   ::SetWindowLong(handle, GWL_STYLE, style);
-  // Window's frame styles are cached so we need to call SetWindowPos
-  // with the SWP_FRAMECHANGED flag to update cache properly.
-  ::SetWindowPos(handle, 0, 0, 0, 0, 0,  // ignored
+  // 窗口的框架样式已缓存，因此需要调用SetWindowPos。
+  // 使用SWP_FRAMECHANGED标志正确更新缓存。
+  ::SetWindowPos(handle, 0, 0, 0, 0, 0,  // 忽略。
                  SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER |
                      SWP_NOACTIVATE | SWP_NOOWNERZORDER);
 }
@@ -147,7 +147,7 @@ class NativeWindowClientView : public views::ClientView {
   DISALLOW_COPY_AND_ASSIGN(NativeWindowClientView);
 };
 
-}  // namespace
+}  // 命名空间。
 
 NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
                                      NativeWindow* parent)
@@ -162,13 +162,13 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
     root_view_->SetAutoHideMenuBar(menu_bar_autohide);
 
 #if defined(OS_WIN)
-  // On Windows we rely on the CanResize() to indicate whether window can be
-  // resized, and it should be set before window is created.
+  // 在Windows上，我们依赖CanResize()来指示窗口是否可以。
+  // 已调整大小，应在创建窗口之前设置。
   options.Get(options::kResizable, &resizable_);
   options.Get(options::kMinimizable, &minimizable_);
   options.Get(options::kMaximizable, &maximizable_);
 
-  // Transparent window must not have thick frame.
+  // 透明窗不能有厚边框。
   options.Get("thickFrame", &thick_frame_);
   if (transparent())
     thick_frame_ = false;
@@ -206,10 +206,10 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
 #endif
 
   if (enable_larger_than_screen())
-    // We need to set a default maximum window size here otherwise Windows
-    // will not allow us to resize the window larger than scree.
-    // Setting directly to INT_MAX somehow doesn't work, so we just divide
-    // by 10, which should still be large enough.
+    // 我们需要在此处设置默认的最大窗口大小，否则Windows。
+    // 将不允许我们调整大于屏幕的窗口大小。
+    // 不知何故，直接设置为INT_MAX不起作用，所以我们只是除以。
+    // 到10点，应该还是够大的。
     SetContentSizeConstraints(extensions::SizeConstraints(
         gfx::Size(), gfx::Size(INT_MAX / 10, INT_MAX / 10)));
 
@@ -231,8 +231,8 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
   if (transparent())
     params.opacity = views::Widget::InitParams::WindowOpacity::kTranslucent;
 
-  // The given window is most likely not rectangular since it uses
-  // transparency and has no standard frame, don't show a shadow for it.
+  // 给定的窗口很可能不是矩形的，因为它使用。
+  // 透明且没有标准边框，请不要为其显示阴影。
   if (transparent() && !has_frame())
     params.shadow_type = views::Widget::InitParams::ShadowType::kNone;
 
@@ -247,9 +247,9 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
   params.native_widget = new ElectronDesktopNativeWidgetAura(this);
 #elif defined(OS_LINUX)
   std::string name = Browser::Get()->GetName();
-  // Set WM_WINDOW_ROLE.
+  // 设置WM_WINDOW_ROLE。
   params.wm_role_name = "browser-window";
-  // Set WM_CLASS.
+  // 设置WM_CLASS。
   params.wm_class_name = base::ToLowerASCII(name);
   params.wm_class_class = name;
 #endif
@@ -264,10 +264,10 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
   options.Get(options::kType, &window_type);
 
 #if defined(USE_X11)
-  // Start monitoring window states.
+  // 开始监视窗口状态。
   window_state_watcher_ = std::make_unique<WindowStateWatcher>(this);
 
-  // Set _GTK_THEME_VARIANT to dark if we have "dark-theme" option set.
+  // 如果我们设置了“Dark-Theme”选项，则将_GTK_THEME_VARIANT设置为DULK。
   bool use_dark_theme = false;
   if (options.Get(options::kDarkTheme, &use_dark_theme) && use_dark_theme) {
     SetGTKDarkThemeEnabled(use_dark_theme);
@@ -280,24 +280,24 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
 #endif
 
 #if defined(USE_X11)
-  // Before the window is mapped the SetWMSpecState can not work, so we have
-  // to manually set the _NET_WM_STATE.
+  // 在映射窗口之前，SetWMSpecState无法工作，因此我们需要。
+  // 要手动设置_NET_WM_STATE，请执行以下操作。
   std::vector<x11::Atom> state_atom_list;
   bool skip_taskbar = false;
   if (options.Get(options::kSkipTaskbar, &skip_taskbar) && skip_taskbar) {
     state_atom_list.push_back(x11::GetAtom("_NET_WM_STATE_SKIP_TASKBAR"));
   }
 
-  // Before the window is mapped, there is no SHOW_FULLSCREEN_STATE.
+  // 在映射窗口之前，没有show_FullScreen_STATE。
   if (fullscreen) {
     state_atom_list.push_back(x11::GetAtom("_NET_WM_STATE_FULLSCREEN"));
   }
 
   if (parent) {
-    // Force using dialog type for child window.
+    // 强制对子窗口使用对话框类型。
     window_type = "dialog";
 
-    // Modal window needs the _NET_WM_STATE_MODAL hint.
+    // 模式窗口需要_NET_WM_STATE_MODEL提示。
     if (is_modal())
       state_atom_list.push_back(x11::GetAtom("_NET_WM_STATE_MODAL"));
   }
@@ -307,7 +307,7 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
                      x11::GetAtom("_NET_WM_STATE"), x11::Atom::ATOM,
                      state_atom_list);
 
-  // Set the _NET_WM_WINDOW_TYPE.
+  // 设置_NET_WM_WINDOW_TYPE。
   if (!window_type.empty())
     SetWindowType(static_cast<x11::Window>(GetAcceleratedWidget()),
                   window_type);
@@ -315,8 +315,8 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
 
 #if defined(OS_WIN)
   if (!has_frame()) {
-    // Set Window style so that we get a minimize and maximize animation when
-    // frameless.
+    // 设置窗口样式，以便在以下情况下获得最小化和最大化动画。
+    // 无框架的。
     DWORD frame_style = WS_CAPTION | WS_OVERLAPPED;
     if (resizable_)
       frame_style |= WS_THICKFRAME;
@@ -324,7 +324,7 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
       frame_style |= WS_MINIMIZEBOX;
     if (maximizable_)
       frame_style |= WS_MAXIMIZEBOX;
-    // We should not show a frame for transparent window.
+    // 我们不应该显示透明窗口的框架。
     if (!thick_frame_)
       frame_style &= ~(WS_THICKFRAME | WS_CAPTION);
     ::SetWindowLong(GetAcceleratedWidget(), GWL_STYLE, frame_style);
@@ -337,18 +337,18 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
 #endif
 
   if (has_frame()) {
-    // TODO(zcbenz): This was used to force using native frame on Windows 2003,
-    // we should check whether setting it in InitParams can work.
+    // TODO(Zcbenz)：这用于在Windows 2003上强制使用本机框架，
+    // 我们应该检查在InitParams中设置它是否可行。
     widget()->set_frame_type(views::Widget::FrameType::kForceNative);
     widget()->FrameTypeChanged();
 #if defined(OS_WIN)
-    // thickFrame also works for normal window.
+    // 加厚框也适用于普通窗口。
     if (!thick_frame_)
       FlipWindowStyle(GetAcceleratedWidget(), false, WS_THICKFRAME);
 #endif
   }
 
-  // Default content view.
+  // 默认内容视图。
   SetContentView(new views::View());
 
   gfx::Size size = bounds.size();
@@ -360,21 +360,21 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
   widget()->CenterWindow(size);
 
 #if defined(OS_WIN)
-  // Save initial window state.
+  // 保存初始窗口状态。
   if (fullscreen)
     last_window_state_ = ui::SHOW_STATE_FULLSCREEN;
   else
     last_window_state_ = ui::SHOW_STATE_NORMAL;
 #endif
 
-  // Listen to mouse events.
+  // 收听鼠标事件。
   aura::Window* window = GetNativeWindow();
   if (window)
     window->AddPreTargetHandler(this);
 
 #if defined(OS_LINUX)
-  // On linux after the widget is initialized we might have to force set the
-  // bounds if the bounds are smaller than the current display
+  // 在Linux上，在小部件初始化之后，我们可能必须强制设置
+  // 如果边界小于当前显示，则为边界。
   SetBounds(gfx::Rect(GetPosition(), bounds.size()), false);
 #endif
 
@@ -383,9 +383,9 @@ NativeWindowViews::NativeWindowViews(const gin_helper::Dictionary& options,
       [](NativeWindowViews* window) {
         if (window->is_modal() && window->parent()) {
           auto* parent = window->parent();
-          // Enable parent window after current window gets closed.
+          // 在当前窗口关闭后启用父窗口。
           static_cast<NativeWindowViews*>(parent)->DecrementChildModals();
-          // Focus on parent window.
+          // 将焦点放在父窗口上。
           parent->Focus(true);
         }
 
@@ -398,7 +398,7 @@ NativeWindowViews::~NativeWindowViews() {
   widget()->RemoveObserver(this);
 
 #if defined(OS_WIN)
-  // Disable mouse forwarding to relinquish resources, should any be held.
+  // 如果保留任何资源，请禁用鼠标转发以释放资源。
   SetForwardMouseMessages(false);
 #endif
 
@@ -440,7 +440,7 @@ void NativeWindowViews::CloseImmediately() {
 }
 
 void NativeWindowViews::Focus(bool focus) {
-  // For hidden window focus() should do nothing.
+  // 对于隐藏窗口，Focus()不应执行任何操作。
   if (!IsVisible())
     return;
 
@@ -462,7 +462,7 @@ void NativeWindowViews::Show() {
 
   widget()->native_widget_private()->Show(GetRestoredState(), gfx::Rect());
 
-  // explicitly focus the window
+  // 显式聚焦窗口。
   widget()->Activate();
 
   NotifyWindowShow();
@@ -498,10 +498,10 @@ void NativeWindowViews::Hide() {
 #endif
 
 #if defined(OS_WIN)
-  // When the window is removed from the taskbar via win.hide(),
-  // the thumbnail buttons need to be set up again.
-  // Ensure that when the window is hidden,
-  // the taskbar host is notified that it should re-add them.
+  // 当通过win.ide()将窗口从任务栏移除时，
+  // 需要重新设置缩略图按钮。
+  // 确保在窗口隐藏时，
+  // 系统会通知任务栏宿主它应该重新添加它们。
   taskbar_host_.SetThumbarButtonsAdded(false);
 #endif
 }
@@ -595,11 +595,11 @@ bool NativeWindowViews::IsMaximized() {
   } else {
 #if defined(OS_WIN)
     if (transparent()) {
-      // Compare the size of the window with the size of the display
+      // 将窗口的大小与显示器的大小进行比较。
       auto display = display::Screen::GetScreen()->GetDisplayNearestWindow(
           GetNativeWindow());
-      // Maximized if the window is the same dimensions and placement as the
-      // display
+      // 如果窗口的尺寸和位置与。
+      // 显示。
       return GetBounds() == display.work_area();
     }
 #endif
@@ -629,7 +629,7 @@ void NativeWindowViews::SetFullScreen(bool fullscreen) {
     return;
 
 #if defined(OS_WIN)
-  // There is no native fullscreen state on Windows.
+  // Windows上没有本机全屏状态。
   bool leaving_fullscreen = IsFullscreen() && !fullscreen;
 
   if (fullscreen) {
@@ -640,8 +640,8 @@ void NativeWindowViews::SetFullScreen(bool fullscreen) {
     NotifyWindowLeaveFullScreen();
   }
 
-  // For window without WS_THICKFRAME style, we can not call SetFullscreen().
-  // This path will be used for transparent windows as well.
+  // 对于没有WS_THICKFRAME样式的窗口，我们不能调用SetFullScreen()。
+  // 此路径也将用于透明窗口。
   if (!thick_frame_) {
     if (fullscreen) {
       restore_bounds_ = GetBounds();
@@ -654,14 +654,14 @@ void NativeWindowViews::SetFullScreen(bool fullscreen) {
     return;
   }
 
-  // We set the new value after notifying, so we can handle the size event
-  // correctly.
+  // 我们在通知之后设置新值，这样我们就可以处理Size事件。
+  // 正确。
   widget()->SetFullscreen(fullscreen);
 
-  // If restoring from fullscreen and the window isn't visible, force visible,
-  // else a non-responsive window shell could be rendered.
-  // (this situation may arise when app starts with fullscreen: true)
-  // Note: the following must be after "widget()->SetFullscreen(fullscreen);"
+  // 如果从全屏恢复并且窗口不可见，则强制可见，
+  // 否则，可以呈现无响应的窗口外壳。
+  // (当APP以全屏方式启动时可能会出现这种情况：TRUE)。
+  // 注意：以下内容必须在“widget()-&gt;SetFullScreen(Full Screen)；”之后；
   if (leaving_fullscreen && !IsVisible())
     FlipWindowStyle(GetAcceleratedWidget(), true, WS_VISIBLE);
 #else
@@ -671,7 +671,7 @@ void NativeWindowViews::SetFullScreen(bool fullscreen) {
     widget()->native_widget_private()->Show(ui::SHOW_STATE_FULLSCREEN,
                                             gfx::Rect());
 
-  // Auto-hide menubar when in fullscreen.
+  // 全屏时自动隐藏菜单栏。
   if (fullscreen)
     SetMenuBarVisibility(false);
   else
@@ -685,8 +685,8 @@ bool NativeWindowViews::IsFullscreen() const {
 
 void NativeWindowViews::SetBounds(const gfx::Rect& bounds, bool animate) {
 #if defined(OS_WIN) || defined(OS_LINUX)
-  // On Linux and Windows the minimum and maximum size should be updated with
-  // window size when window is not resizable.
+  // 在Linux和Windows上，最小和最大大小应更新为。
+  // 当窗口不可调整大小时的窗口大小。
   if (!resizable_) {
     SetMaximumSize(bounds.size());
     SetMinimumSize(bounds.size());
@@ -726,13 +726,13 @@ void NativeWindowViews::SetContentSizeConstraints(
     const extensions::SizeConstraints& size_constraints) {
   NativeWindow::SetContentSizeConstraints(size_constraints);
 #if defined(OS_WIN)
-  // Changing size constraints would force adding the WS_THICKFRAME style, so
-  // do nothing if thickFrame is false.
+  // 更改大小约束将强制添加WS_THICKFRAME样式，因此。
+  // 如果ThickFrame为false，则不执行任何操作。
   if (!thick_frame_)
     return;
 #endif
-  // widget_delegate() is only available after Init() is called, we make use of
-  // this to determine whether native widget has initialized.
+  // Widget_Delegate()只有在调用Init()之后才可用，我们利用。
+  // 这将确定本机小部件是否已初始化。
   if (widget() && widget()->widget_delegate())
     widget()->OnSizeConstraintsChanged();
   if (resizable_)
@@ -741,8 +741,8 @@ void NativeWindowViews::SetContentSizeConstraints(
 
 void NativeWindowViews::SetResizable(bool resizable) {
   if (resizable != resizable_) {
-    // On Linux there is no "resizable" property of a window, we have to set
-    // both the minimum and maximum size to the window size to achieve it.
+    // 在Linux上，窗口没有“可调整大小”属性，我们必须设置。
+    // 将最小尺寸和最大尺寸都调到窗口大小才能实现。
     if (resizable) {
       SetContentSizeConstraints(old_size_constraints_);
       SetMaximizable(maximizable_);
@@ -787,8 +787,8 @@ bool NativeWindowViews::MoveAbove(const std::string& sourceId) {
 }
 
 void NativeWindowViews::MoveTop() {
-// TODO(julien.isorce): fix chromium in order to use existing
-// widget()->StackAtTop().
+// TODO(julien.isorce)：修复铬以便使用现有的。
+// Widget()-&gt;StackAtTop()。
 #if defined(OS_WIN)
   gfx::Point pos = GetPosition();
   gfx::Size size = GetSize();
@@ -813,7 +813,7 @@ void NativeWindowViews::SetAspectRatio(double aspect_ratio,
                                        const gfx::Size& extra_size) {
   NativeWindow::SetAspectRatio(aspect_ratio, extra_size);
   gfx::SizeF aspect(aspect_ratio, 1.0);
-  // Scale up because SetAspectRatio() truncates aspect value to int
+  // 向上扩展，因为SetAspectRatio()将纵横比值截断为整型。
   aspect.Scale(100);
 
   widget()->SetAspectRatio(aspect);
@@ -827,7 +827,7 @@ bool NativeWindowViews::IsMovable() {
 #if defined(OS_WIN)
   return movable_;
 #else
-  return true;  // Not implemented on Linux.
+  return true;  // 未在Linux上实现。
 #endif
 }
 
@@ -842,7 +842,7 @@ bool NativeWindowViews::IsMinimizable() {
 #if defined(OS_WIN)
   return ::GetWindowLong(GetAcceleratedWidget(), GWL_STYLE) & WS_MINIMIZEBOX;
 #else
-  return true;  // Not implemented on Linux.
+  return true;  // 未在Linux上实现。
 #endif
 }
 
@@ -857,14 +857,14 @@ bool NativeWindowViews::IsMaximizable() {
 #if defined(OS_WIN)
   return ::GetWindowLong(GetAcceleratedWidget(), GWL_STYLE) & WS_MAXIMIZEBOX;
 #else
-  return true;  // Not implemented on Linux.
+  return true;  // 未在Linux上实现。
 #endif
 }
 
 void NativeWindowViews::SetExcludedFromShownWindowsMenu(bool excluded) {}
 
 bool NativeWindowViews::IsExcludedFromShownWindowsMenu() {
-  // return false on unsupported platforms
+  // 在不支持的平台上返回False。
   return false;
 }
 
@@ -910,11 +910,11 @@ void NativeWindowViews::SetAlwaysOnTop(ui::ZOrderLevel z_order,
   widget()->SetZOrderLevel(z_order);
 
 #if defined(OS_WIN)
-  // Reset the placement flag.
+  // 重置放置标志。
   behind_task_bar_ = false;
   if (z_order != ui::ZOrderLevel::kNormal) {
-    // On macOS the window is placed behind the Dock for the following levels.
-    // Re-use the same names on Windows to make it easier for the user.
+    // 在MacOS上，该窗口位于Dock后面的以下级别。
+    // 在Windows上重复使用相同的名称以便于用户使用。
     static const std::vector<std::string> levels = {
         "floating", "torn-off-menu", "modal-panel", "main-menu", "status"};
     behind_task_bar_ = base::Contains(levels, level);
@@ -922,8 +922,8 @@ void NativeWindowViews::SetAlwaysOnTop(ui::ZOrderLevel z_order,
 #endif
   MoveBehindTaskBarIfNeeded();
 
-  // This must be notified at the very end or IsAlwaysOnTop
-  // will not yet have been updated to reflect the new status
+  // 这必须在最后或IsAlwaysOnTop通知。
+  // 将尚未更新以反映新状态。
   if (level_changed)
     NativeWindow::NotifyWindowAlwaysOnTopChanged();
 }
@@ -951,7 +951,7 @@ std::string NativeWindowViews::GetTitle() {
 
 void NativeWindowViews::FlashFrame(bool flash) {
 #if defined(OS_WIN)
-  // The Chromium's implementation has a bug stopping flash.
+  // Chromium的实现有一个停止闪烁的错误。
   if (!flash) {
     FLASHWINFO fwi;
     fwi.cbSize = sizeof(fwi);
@@ -1017,11 +1017,11 @@ SkColor NativeWindowViews::GetBackgroundColor() {
 }
 
 void NativeWindowViews::SetBackgroundColor(SkColor background_color) {
-  // web views' background color.
+  // Web视图的背景色。
   root_view_->SetBackground(views::CreateSolidBackground(background_color));
 
 #if defined(OS_WIN)
-  // Set the background color of native window.
+  // 设置本机窗口的背景色。
   HBRUSH brush = CreateSolidBrush(skia::SkColorToCOLORREF(background_color));
   ULONG_PTR previous_brush =
       SetClassLongPtr(GetAcceleratedWidget(), GCLP_HBRBACKGROUND,
@@ -1056,7 +1056,7 @@ void NativeWindowViews::SetOpacity(const double opacity) {
   ::SetLayeredWindowAttributes(hwnd, 0, boundedOpacity * 255, LWA_ALPHA);
   opacity_ = boundedOpacity;
 #else
-  opacity_ = 1.0;  // setOpacity unsupported on Linux
+  opacity_ = 1.0;  // Linux上不支持setOpacity。
 #endif
 }
 
@@ -1075,7 +1075,7 @@ void NativeWindowViews::SetIgnoreMouseEvents(bool ignore, bool forward) {
     ex_style |= WS_EX_LAYERED;
   ::SetWindowLong(GetAcceleratedWidget(), GWL_EXSTYLE, ex_style);
 
-  // Forwarding is always disabled when not ignoring mouse messages.
+  // 当未忽略鼠标消息时，转发始终处于禁用状态。
   if (!ignore) {
     SetForwardMouseMessages(false);
   } else {
@@ -1107,8 +1107,8 @@ void NativeWindowViews::SetContentProtection(bool enable) {
 #if defined(OS_WIN)
   HWND hwnd = GetAcceleratedWidget();
   if (!layered_) {
-    // Workaround to prevent black window on screen capture after hiding and
-    // showing the BrowserWindow.
+    // 解决方法，以防止在隐藏和显示屏幕截图后出现黑色窗口。
+    // 显示浏览器窗口。
     LONG ex_style = ::GetWindowLong(hwnd, GWL_EXSTYLE);
     ex_style |= WS_EX_LAYERED;
     ::SetWindowLong(hwnd, GWL_EXSTYLE, ex_style);
@@ -1146,14 +1146,14 @@ bool NativeWindowViews::IsFocusable() {
 
 void NativeWindowViews::SetMenu(ElectronMenuModel* menu_model) {
 #if defined(USE_X11)
-  // Remove global menu bar.
+  // 删除全局菜单栏。
   if (global_menu_bar_ && menu_model == nullptr) {
     global_menu_bar_.reset();
     root_view_->UnregisterAcceleratorsWithFocusManager();
     return;
   }
 
-  // Use global application menu bar when possible.
+  // 尽可能使用全局应用程序菜单栏。
   if (ShouldUseGlobalMenuBar()) {
     if (!global_menu_bar_)
       global_menu_bar_ = std::make_unique<GlobalMenuBarX11>(this);
@@ -1165,7 +1165,7 @@ void NativeWindowViews::SetMenu(ElectronMenuModel* menu_model) {
   }
 #endif
 
-  // Should reset content size when setting menu.
+  // 设置菜单时应重置内容大小。
   gfx::Size content_size = GetContentSize();
   bool should_reset_size = use_content_size_ && has_frame() &&
                            !IsMenuBarAutoHide() &&
@@ -1174,7 +1174,7 @@ void NativeWindowViews::SetMenu(ElectronMenuModel* menu_model) {
   root_view_->SetMenu(menu_model);
 
   if (should_reset_size) {
-    // Enlarge the size constraints for the menu.
+    // 放大菜单的大小约束。
     int menu_bar_height = root_view_->GetMenuBarHeight();
     extensions::SizeConstraints constraints = GetContentSizeConstraints();
     if (constraints.HasMinimumSize()) {
@@ -1189,7 +1189,7 @@ void NativeWindowViews::SetMenu(ElectronMenuModel* menu_model) {
     }
     SetContentSizeConstraints(constraints);
 
-    // Resize the window to make sure content size is not changed.
+    // 调整窗口大小以确保内容大小不变。
     SetContentSize(content_size);
   }
 }
@@ -1248,19 +1248,19 @@ void NativeWindowViews::SetParentWindow(NativeWindow* parent) {
       parent ? static_cast<x11::Window>(parent->GetAcceleratedWidget())
              : ui::GetX11RootWindow());
 #elif defined(OS_WIN)
-  // To set parentship between windows into Windows is better to play with the
-  //  owner instead of the parent, as Windows natively seems to do if a parent
-  //  is specified at window creation time.
-  // For do this we must NOT use the ::SetParent function, instead we must use
-  //  the ::GetWindowLongPtr or ::SetWindowLongPtr functions with "nIndex" set
-  //  to "GWLP_HWNDPARENT" which actually means the window owner.
+  // 要将窗口之间的父子关系设置为Windows，最好使用。
+  // 所有者，而不是父级，如果父级。
+  // 在窗口创建时指定。
+  // 为此，我们不能使用：：SetParent函数，而必须使用。
+  // 设置了“nIndex”的：：GetWindowLongPtr或：：SetWindowLongPtr函数。
+  // 设置为“GWLP_HWNDPARENT”，它实际上表示窗口所有者。
   HWND hwndParent = parent ? parent->GetAcceleratedWidget() : NULL;
   if (hwndParent ==
       (HWND)::GetWindowLongPtr(GetAcceleratedWidget(), GWLP_HWNDPARENT))
     return;
   ::SetWindowLongPtr(GetAcceleratedWidget(), GWLP_HWNDPARENT,
                      (LONG_PTR)hwndParent);
-  // Ensures the visibility
+  // 确保可见性。
   if (IsVisible()) {
     WINDOWPLACEMENT wp;
     wp.length = sizeof(WINDOWPLACEMENT);
@@ -1325,8 +1325,8 @@ void NativeWindowViews::SetVisibleOnAllWorkspaces(
 
 bool NativeWindowViews::IsVisibleOnAllWorkspaces() {
 #if defined(USE_X11)
-  // Use the presence/absence of _NET_WM_STATE_STICKY in _NET_WM_STATE to
-  // determine whether the current window is visible on all workspaces.
+  // 使用_NET_WM_STATE_STATE_STATE中的_NET_WM_STATE_SICKY的存在/缺失来执行以下操作：
+  // 确定当前窗口是否在所有工作区中可见。
   x11::Atom sticky_atom = x11::GetAtom("_NET_WM_STATE_STICKY");
   std::vector<x11::Atom> wm_states;
   GetArrayProperty(static_cast<x11::Window>(GetAcceleratedWidget()),
@@ -1357,14 +1357,14 @@ content::DesktopMediaID NativeWindowViews::GetDesktopMediaID() const {
                   .window_id;
   }
 
-  // No constructor to pass the aura_id. Make sure to not use the other
-  // constructor that has a third parameter, it is for yet another purpose.
+  // 没有要传递aura_id的构造函数。一定不要用另一个。
+  // 有第三个参数的构造函数，它还有另一个用途。
   content::DesktopMediaID result = content::DesktopMediaID(
       content::DesktopMediaID::TYPE_WINDOW, window_handle);
 
-  // Confusing but this is how content::DesktopMediaID is designed. The id
-  // property is the window handle whereas the window_id property is an id
-  // given by a map containing all aura instances.
+  // 令人困惑，但这就是Content：：DesktopMediaID的设计方式。本ID。
+  // 属性是窗口句柄，而window_id属性是id。
+  // 由包含所有气场实例的贴图给出。
   result.window_id = aura_id;
   return result;
 }
@@ -1438,7 +1438,7 @@ void NativeWindowViews::UpdateDraggableRegions(
 
 #if defined(OS_WIN)
 void NativeWindowViews::SetIcon(HICON window_icon, HICON app_icon) {
-  // We are responsible for storing the images.
+  // 我们负责存储图像。
   window_icon_ = base::win::ScopedHICON(CopyIcon(window_icon));
   app_icon_ = base::win::ScopedHICON(CopyIcon(app_icon));
 
@@ -1468,7 +1468,7 @@ void NativeWindowViews::OnWidgetActivationChanged(views::Widget* changed_widget,
     NativeWindow::NotifyWindowBlur();
   }
 
-  // Hide menu bar when window is blured.
+  // 当窗口模糊时隐藏菜单栏。
   if (!active && IsMenuBarAutoHide() && IsMenuBarVisible())
     SetMenuBarVisibility(false);
 
@@ -1480,8 +1480,8 @@ void NativeWindowViews::OnWidgetBoundsChanged(views::Widget* changed_widget,
   if (changed_widget != widget())
     return;
 
-  // Note: We intentionally use `GetBounds()` instead of `bounds` to properly
-  // handle minimized windows on Windows.
+  // 注意：我们故意使用`GetBound()`而不是`bons`来正确地。
+  // 处理Windows上的最小化窗口。
   const auto new_bounds = GetBounds();
   if (widget_size_ != new_bounds.size()) {
     int width_delta = new_bounds.width() - widget_size_.width();
@@ -1534,8 +1534,8 @@ views::View* NativeWindowViews::GetContentsView() {
 bool NativeWindowViews::ShouldDescendIntoChildForEventHandling(
     gfx::NativeView child,
     const gfx::Point& location) {
-  // App window should claim mouse events that fall within any BrowserViews'
-  // draggable region.
+  // 应用程序窗口应声明属于任何BrowserViews的鼠标事件。
+  // 可拖动区域。
   for (auto* view : browser_views()) {
     auto* native_view = static_cast<NativeBrowserViewViews*>(view);
     auto* view_draggable_region = native_view->draggable_region();
@@ -1544,12 +1544,12 @@ bool NativeWindowViews::ShouldDescendIntoChildForEventHandling(
       return false;
   }
 
-  // App window should claim mouse events that fall within the draggable region.
+  // 应用程序窗口应声明落在可拖动区域内的鼠标事件。
   if (draggable_region() &&
       draggable_region()->contains(location.x(), location.y()))
     return false;
 
-  // And the events on border for dragging resizable frameless window.
+  // 以及用于拖动可调整大小的无边框窗口的边框上事件。
   if (!has_frame() && resizable_) {
     auto* frame =
         static_cast<FramelessView*>(widget()->non_client_view()->frame_view());
@@ -1606,7 +1606,7 @@ void NativeWindowViews::OnMouseEvent(ui::MouseEvent* event) {
   if (event->type() != ui::ET_MOUSE_PRESSED)
     return;
 
-  // Alt+Click should not toggle menu bar.
+  // 按住Alt键并单击不应切换菜单栏。
   root_view_->ResetAltState();
 
 #if defined(OS_LINUX)
@@ -1620,7 +1620,7 @@ void NativeWindowViews::OnMouseEvent(ui::MouseEvent* event) {
 ui::WindowShowState NativeWindowViews::GetRestoredState() {
   if (IsMaximized()) {
 #if defined(OS_WIN)
-    // Only restore Maximized state when window is NOT transparent style
+    // 仅当窗口不是透明样式时才恢复最大化状态。
     if (!transparent()) {
       return ui::SHOW_STATE_MAXIMIZED;
     }
@@ -1643,13 +1643,13 @@ void NativeWindowViews::MoveBehindTaskBarIfNeeded() {
                    SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
   }
 #endif
-  // TODO(julien.isorce): Implement X11 case.
+  // TODO(julien.isorce)：实现X11案例。
 }
 
-// static
+// 静电。
 NativeWindow* NativeWindow::Create(const gin_helper::Dictionary& options,
                                    NativeWindow* parent) {
   return new NativeWindowViews(options, parent);
 }
 
-}  // namespace electron
+}  // 命名空间电子

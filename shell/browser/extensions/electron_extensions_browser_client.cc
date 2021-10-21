@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/electron_extensions_browser_client.h"
 
@@ -61,8 +61,8 @@ ElectronExtensionsBrowserClient::ElectronExtensionsBrowserClient()
       process_manager_delegate_(
           std::make_unique<extensions::ElectronProcessManagerDelegate>()),
       extension_cache_(std::make_unique<extensions::NullExtensionCache>()) {
-  // Electron does not have a concept of channel, so leave UNKNOWN to
-  // enable all channel-dependent extension APIs.
+  // 电子没有通道的概念，所以留个未知数给。
+  // 开启所有通道相关扩展API。
   extensions::SetCurrentChannel(version_info::Channel::UNKNOWN);
   resource_manager_ =
       std::make_unique<extensions::ElectronComponentExtensionResourceManager>();
@@ -106,7 +106,7 @@ bool ElectronExtensionsBrowserClient::HasOffTheRecordContext(
 
 BrowserContext* ElectronExtensionsBrowserClient::GetOffTheRecordContext(
     BrowserContext* context) {
-  // app_shell only supports a single context.
+  // APP_SHELL仅支持单个上下文。
   return nullptr;
 }
 
@@ -146,10 +146,10 @@ base::FilePath ElectronExtensionsBrowserClient::GetBundleResourcePath(
   if (!base::PathService::Get(chrome::DIR_RESOURCES, &chrome_resources_path))
     return base::FilePath();
 
-  // Since component extension resources are included in
-  // component_extension_resources.pak file in |chrome_resources_path|,
-  // calculate the extension |request_relative_path| against
-  // |chrome_resources_path|.
+  // 由于组件扩展资源包含在。
+  // |Chrome_RESOURCES_PATH|中的Component_Extension_Resources.pak文件，
+  // 计算扩展|REQUEST_RESORATE_PATH|针对。
+  // |Chrome_RESOURCES_PATH|。
   if (!chrome_resources_path.IsParent(extension_resources_path))
     return base::FilePath();
 
@@ -195,19 +195,19 @@ bool AllowCrossRendererResourceLoad(
     return true;
   }
 
-  // If there aren't any explicitly marked web accessible resources, the
-  // load should be allowed only if it is by DevTools. A close approximation is
-  // checking if the extension contains a DevTools page.
+  // 如果没有任何明确标记的Web可访问资源，
+  // 只有在由DevTools加载时才允许加载。一个非常接近的例子是。
+  // 检查扩展是否包含DevTools页。
   if (extension && !extensions::chrome_manifest_urls::GetDevToolsPage(extension)
                         .is_empty()) {
     *allowed = true;
     return true;
   }
 
-  // Couldn't determine if the resource is allowed or not.
+  // 无法确定是否允许该资源。
   return false;
 }
-}  // namespace
+}  // 命名空间。
 
 bool ElectronExtensionsBrowserClient::AllowCrossRendererResourceLoad(
     const network::ResourceRequest& request,
@@ -225,7 +225,7 @@ bool ElectronExtensionsBrowserClient::AllowCrossRendererResourceLoad(
     return allowed;
   }
 
-  // Couldn't determine if resource is allowed. Block the load.
+  // 无法确定是否允许资源。挡住装载物。
   return false;
 }
 
@@ -245,13 +245,13 @@ ElectronExtensionsBrowserClient::GetProcessManagerDelegate() const {
 
 std::unique_ptr<extensions::ExtensionHostDelegate>
 ElectronExtensionsBrowserClient::
-    CreateExtensionHostDelegate() {  // TODO(samuelmaddock):
+    CreateExtensionHostDelegate() {  // TODO(Samuelmaddock)：
   return std::make_unique<extensions::ElectronExtensionHostDelegate>();
 }
 
 bool ElectronExtensionsBrowserClient::DidVersionUpdate(
     BrowserContext* context) {
-  // TODO(jamescook): We might want to tell extensions when app_shell updates.
+  // TODO(詹姆斯库克)：我们可能希望在APP_SHELL更新时告知扩展。
   return false;
 }
 
@@ -373,4 +373,4 @@ void ElectronExtensionsBrowserClient::RegisterBrowserInterfaceBindersForFrame(
   PopulateExtensionFrameBinders(map, render_frame_host, extension);
 }
 
-}  // namespace electron
+}  // 命名空间电子

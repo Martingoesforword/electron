@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/api/electron_api_clipboard.h"
 
@@ -33,7 +33,7 @@ std::vector<std::u16string> Clipboard::AvailableFormats(
   std::vector<std::u16string> format_types;
   ui::Clipboard* clipboard = ui::Clipboard::GetForCurrentThread();
   clipboard->ReadAvailableTypes(GetClipboardBuffer(args),
-                                /* data_dst = */ nullptr, &format_types);
+                                /* DATA_DST=。*/ nullptr, &format_types);
   return format_types;
 }
 
@@ -45,7 +45,7 @@ bool Clipboard::Has(const std::string& format_string,
   if (format.GetName().empty())
     format = ui::ClipboardFormatType::CustomPlatformType(format_string);
   return clipboard->IsFormatAvailable(format, GetClipboardBuffer(args),
-                                      /* data_dst = */ nullptr);
+                                      /* DATA_DST=。*/ nullptr);
 }
 
 std::string Clipboard::Read(const std::string& format_string) {
@@ -53,12 +53,12 @@ std::string Clipboard::Read(const std::string& format_string) {
   std::map<std::string, std::string> custom_format_names;
   custom_format_names =
       clipboard->ExtractCustomPlatformNames(ui::ClipboardBuffer::kCopyPaste,
-                                            /* data_dst = */ nullptr);
+                                            /* DATA_DST=。*/ nullptr);
 #if defined(OS_LINUX)
   if (custom_format_names.find(format_string) == custom_format_names.end()) {
     custom_format_names =
         clipboard->ExtractCustomPlatformNames(ui::ClipboardBuffer::kSelection,
-                                              /* data_dst = */ nullptr);
+                                              /* DATA_DST=。*/ nullptr);
   }
 #endif
   CHECK(custom_format_names.find(format_string) != custom_format_names.end());
@@ -66,7 +66,7 @@ std::string Clipboard::Read(const std::string& format_string) {
       custom_format_names[format_string]));
 
   std::string data;
-  clipboard->ReadData(format, /* data_dst = */ nullptr, &data);
+  clipboard->ReadData(format, /* DATA_DST=。*/ nullptr, &data);
   return data;
 }
 
@@ -123,15 +123,15 @@ std::u16string Clipboard::ReadText(gin_helper::Arguments* args) {
   ui::Clipboard* clipboard = ui::Clipboard::GetForCurrentThread();
   auto type = GetClipboardBuffer(args);
   if (clipboard->IsFormatAvailable(ui::ClipboardFormatType::PlainTextType(),
-                                   type, /* data_dst = */ nullptr)) {
-    clipboard->ReadText(type, /* data_dst = */ nullptr, &data);
+                                   type, /* DATA_DST=。*/ nullptr)) {
+    clipboard->ReadText(type, /* DATA_DST=。*/ nullptr, &data);
   } else {
 #if defined(OS_WIN)
     if (clipboard->IsFormatAvailable(ui::ClipboardFormatType::PlainTextAType(),
                                      type,
-                                     /* data_dst = */ nullptr)) {
+                                     /* DATA_DST=。*/ nullptr)) {
       std::string result;
-      clipboard->ReadAsciiText(type, /* data_dst = */ nullptr, &result);
+      clipboard->ReadAsciiText(type, /* DATA_DST=。*/ nullptr, &result);
       data = base::ASCIIToUTF16(result);
     }
 #endif
@@ -148,7 +148,7 @@ void Clipboard::WriteText(const std::u16string& text,
 std::u16string Clipboard::ReadRTF(gin_helper::Arguments* args) {
   std::string data;
   ui::Clipboard* clipboard = ui::Clipboard::GetForCurrentThread();
-  clipboard->ReadRTF(GetClipboardBuffer(args), /* data_dst = */ nullptr, &data);
+  clipboard->ReadRTF(GetClipboardBuffer(args), /* DATA_DST=。*/ nullptr, &data);
   return base::UTF8ToUTF16(data);
 }
 
@@ -164,7 +164,7 @@ std::u16string Clipboard::ReadHTML(gin_helper::Arguments* args) {
   uint32_t start;
   uint32_t end;
   ui::Clipboard* clipboard = ui::Clipboard::GetForCurrentThread();
-  clipboard->ReadHTML(GetClipboardBuffer(args), /* data_dst = */ nullptr, &html,
+  clipboard->ReadHTML(GetClipboardBuffer(args), /* DATA_DST=。*/ nullptr, &html,
                       &url, &start, &end);
   data = html.substr(start, end - start);
   return data;
@@ -182,7 +182,7 @@ v8::Local<v8::Value> Clipboard::ReadBookmark(gin_helper::Arguments* args) {
   gin_helper::Dictionary dict =
       gin_helper::Dictionary::CreateEmpty(args->isolate());
   ui::Clipboard* clipboard = ui::Clipboard::GetForCurrentThread();
-  clipboard->ReadBookmark(/* data_dst = */ nullptr, &title, &url);
+  clipboard->ReadBookmark(/* DATA_DST=。*/ nullptr, &title, &url);
   dict.Set("title", title);
   dict.Set("url", url);
   return dict.GetHandle();
@@ -200,7 +200,7 @@ gfx::Image Clipboard::ReadImage(gin_helper::Arguments* args) {
   absl::optional<gfx::Image> image;
   clipboard->ReadImage(
       GetClipboardBuffer(args),
-      /* data_dst = */ nullptr,
+      /* DATA_DST=。*/ nullptr,
       base::BindOnce(
           [](absl::optional<gfx::Image>* image, const SkBitmap& result) {
             image->emplace(gfx::Image::CreateFrom1xBitmap(result));
@@ -233,9 +233,9 @@ void Clipboard::Clear(gin_helper::Arguments* args) {
   ui::Clipboard::GetForCurrentThread()->Clear(GetClipboardBuffer(args));
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -266,6 +266,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("clear", &electron::api::Clipboard::Clear);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_common_clipboard, Initialize)

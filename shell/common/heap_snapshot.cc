@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/heap_snapshot.h"
 
@@ -18,7 +18,7 @@ class HeapSnapshotOutputStream : public v8::OutputStream {
 
   bool IsComplete() const { return is_complete_; }
 
-  // v8::OutputStream
+  // V8：：OutputStream。
   int GetChunkSize() override { return 65536; }
   void EndOfStream() override { is_complete_ = true; }
 
@@ -32,7 +32,7 @@ class HeapSnapshotOutputStream : public v8::OutputStream {
   bool is_complete_ = false;
 };
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -55,4 +55,4 @@ bool TakeHeapSnapshot(v8::Isolate* isolate, base::File* file) {
   return stream.IsComplete();
 }
 
-}  // namespace electron
+}  // 命名空间电子

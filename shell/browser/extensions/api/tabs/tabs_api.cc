@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/api/tabs/tabs_api.h"
 
@@ -57,7 +57,7 @@ void ZoomModeToZoomSettings(WebContentsZoomController::ZoomMode zoom_mode,
       break;
   }
 }
-}  // namespace
+}  // 命名空间。
 
 ExecuteCodeInTabFunction::ExecuteCodeInTabFunction() : execute_tab_id_(-1) {}
 
@@ -71,17 +71,17 @@ ExecuteCodeFunction::InitResult ExecuteCodeInTabFunction::Init() {
     return set_init_result(VALIDATION_FAILURE);
 
   const auto& tab_id_value = args()[0];
-  // |tab_id| is optional so it's ok if it's not there.
+  // |tab_id|可选，如果没有也没关系。
   int tab_id = -1;
   if (tab_id_value.is_int()) {
-    // But if it is present, it needs to be non-negative.
+    // 但如果它是存在的，它就需要是非负面的。
     tab_id = tab_id_value.GetInt();
     if (tab_id < 0) {
       return set_init_result(VALIDATION_FAILURE);
     }
   }
 
-  // |details| are not optional.
+  // |详情|非可选。
   const base::Value& details_value = args()[1];
   if (!details_value.is_dict())
     return set_init_result(VALIDATION_FAILURE);
@@ -90,9 +90,9 @@ ExecuteCodeFunction::InitResult ExecuteCodeInTabFunction::Init() {
     return set_init_result(VALIDATION_FAILURE);
 
   if (tab_id == -1) {
-    // There's no useful concept of a "default tab" in Electron.
-    // TODO(nornagon): we could potentially kick this to an event to allow the
-    // app to decide what "default tab" means for them?
+    // 在Electron中没有有用的“默认标签”概念。
+    // TODO(Nornagon)：我们可能会把它踢到一个事件上，以允许。
+    // 应用程序决定“默认选项卡”对他们意味着什么？
     return set_init_result(VALIDATION_FAILURE);
   }
 
@@ -104,8 +104,8 @@ ExecuteCodeFunction::InitResult ExecuteCodeInTabFunction::Init() {
 }
 
 bool ExecuteCodeInTabFunction::CanExecuteScriptOnPage(std::string* error) {
-  // If |tab_id| is specified, look for the tab. Otherwise default to selected
-  // tab in the current window.
+  // 如果指定了|tab_id|，请查找该选项卡。否则默认为选定。
+  // 当前窗口中的选项卡。
   CHECK_GE(execute_tab_id_, 0);
   auto* contents = electron::api::WebContents::FromID(execute_tab_id_);
   if (!contents) {
@@ -124,9 +124,9 @@ bool ExecuteCodeInTabFunction::CanExecuteScriptOnPage(std::string* error) {
     return false;
   }
 
-  // Content scripts declared in manifest.json can access frames at about:-URLs
-  // if the extension has permission to access the frame's origin, so also allow
-  // programmatic content scripts at about:-URLs for allowed origins.
+  // 清单.json中声明的内容脚本可以访问大约：-urls处的框架。
+  // 如果扩展名有权访问帧的原点，则还允许。
+  // 编程内容脚本位于以下位置：-允许来源的URL。
   GURL effective_document_url(rfh->GetLastCommittedURL());
   bool is_about_url = effective_document_url.SchemeIs(url::kAboutScheme);
   if (is_about_url && details_->match_about_blank &&
@@ -135,13 +135,13 @@ bool ExecuteCodeInTabFunction::CanExecuteScriptOnPage(std::string* error) {
   }
 
   if (!effective_document_url.is_valid()) {
-    // Unknown URL, e.g. because no load was committed yet. Allow for now, the
-    // renderer will check again and fail the injection if needed.
+    // 未知URL，例如因为尚未提交加载。考虑到现在，
+    // 渲染器将再次检查，如果需要，注入将失败。
     return true;
   }
 
-  // NOTE: This can give the wrong answer due to race conditions, but it is OK,
-  // we check again in the renderer.
+  // 注意：由于竞争条件，这可能会给出错误的答案，但这是可以的。
+  // 我们再次签入渲染器。
   if (!extension()->permissions_data()->CanAccessPage(effective_document_url,
                                                       execute_tab_id_, error)) {
     if (is_about_url &&
@@ -194,9 +194,9 @@ ExtensionFunction::ResponseAction TabsGetFunction::Run() {
   tabs::Tab tab;
 
   tab.id = std::make_unique<int>(tab_id);
-  // TODO(nornagon): in Chrome, the tab URL is only available to extensions
-  // that have the "tabs" (or "activeTab") permission. We should do the same
-  // permission check here.
+  // TODO(Nornagon)：在Chrome中，选项卡URL仅对扩展模块可用。
+  // 具有“选项卡”(或“activeTab”)权限的。我们也应该这么做。
+  // 许可检查在这里。
   tab.url = std::make_unique<std::string>(
       contents->web_contents()->GetLastCommittedURL().spec());
 
@@ -288,15 +288,15 @@ ExtensionFunction::ResponseAction TabsSetZoomSettingsFunction::Run() {
   if (extension()->permissions_data()->IsRestrictedUrl(url, &error))
     return RespondNow(Error(error));
 
-  // "per-origin" scope is only available in "automatic" mode.
+  // “Per-Origin”作用域仅在“Automatic”模式下可用。
   if (params->zoom_settings.scope == tabs::ZOOM_SETTINGS_SCOPE_PER_ORIGIN &&
       params->zoom_settings.mode != tabs::ZOOM_SETTINGS_MODE_AUTOMATIC &&
       params->zoom_settings.mode != tabs::ZOOM_SETTINGS_MODE_NONE) {
     return RespondNow(Error(kPerOriginOnlyInAutomaticError));
   }
 
-  // Determine the correct internal zoom mode to set |web_contents| to from the
-  // user-specified |zoom_settings|.
+  // 确定要从|web_content|设置为的正确内部缩放模式。
+  // 用户指定|ZOOM_SETTINGS|。
   WebContentsZoomController::ZoomMode zoom_mode =
       WebContentsZoomController::ZoomMode::kDefault;
   switch (params->zoom_settings.mode) {
@@ -325,9 +325,9 @@ ExtensionFunction::ResponseAction TabsSetZoomSettingsFunction::Run() {
 
 bool IsKillURL(const GURL& url) {
 #if DCHECK_IS_ON()
-  // Caller should ensure that |url| is already "fixed up" by
-  // url_formatter::FixupURL, which (among many other things) takes care
-  // of rewriting about:kill into chrome://kill/.
+  // 调用方应确保|url|已由。
+  // Url_Formatter：：FixupURL，它(在许多事情中)负责。
+  // 重写的内容：kill to Chrome：//kill/。
   if (url.SchemeIs(url::kAboutScheme))
     DCHECK(url.IsAboutBlank() || url.IsAboutSrcdoc());
 #endif
@@ -359,20 +359,20 @@ bool PrepareURLForNavigation(const std::string& url_string,
                              std::string* error) {
   GURL url = ResolvePossiblyRelativeURL(url_string, extension);
 
-  // Ideally, the URL would only be "fixed" for user input (e.g. for URLs
-  // entered into the Omnibox), but some extensions rely on the legacy behavior
-  // where all navigations were subject to the "fixing".  See also
-  // https://crbug.com/1145381.
-  url = url_formatter::FixupURL(url.spec(), "" /* = desired_tld */);
+  // 理想情况下，URL只对用户输入(例如URL)是“固定的”
+  // 进入Omnibox)，但一些扩展依赖于遗留行为。
+  // 在那里所有的航行都受到“修理”的影响。另请参阅。
+  // Https://crbug.com/1145381.。
+  url = url_formatter::FixupURL(url.spec(), "" /* =所需的_TLD。*/);
 
-  // Reject invalid URLs.
+  // 拒绝无效的URL。
   if (!url.is_valid()) {
     const char kInvalidUrlError[] = "Invalid url: \"*\".";
     *error = ErrorUtils::FormatErrorMessage(kInvalidUrlError, url_string);
     return false;
   }
 
-  // Don't let the extension crash the browser or renderers.
+  // 不要让扩展使浏览器或渲染器崩溃。
   if (IsKillURL(url)) {
     const char kNoCrashBrowserError[] =
         "I'm sorry. I'm afraid I can't do that.";
@@ -380,15 +380,15 @@ bool PrepareURLForNavigation(const std::string& url_string,
     return false;
   }
 
-  // Don't let the extension navigate directly to devtools scheme pages, unless
-  // they have applicable permissions.
+  // 不要让扩展直接导航到DevTools方案页面，除非。
+  // 他们拥有适用的权限。
   if (url.SchemeIs(content::kChromeDevToolsScheme) &&
       !(extension->permissions_data()->HasAPIPermission(
             extensions::mojom::APIPermissionID::kDevtools) ||
         extension->permissions_data()->HasAPIPermission(
             extensions::mojom::APIPermissionID::kDebugger))) {
     const char kCannotNavigateToDevtools[] =
-        "Cannot navigate to a devtools:// page without either the devtools or "
+        "Cannot navigate to a devtools:// 没有DevTools或“。
         "debugger permission.";
     *error = kCannotNavigateToDevtools;
     return false;
@@ -412,7 +412,7 @@ ExtensionFunction::ResponseAction TabsUpdateFunction::Run() {
 
   web_contents_ = contents->web_contents();
 
-  // Navigate the tab to a new location if the url is different.
+  // 如果URL不同，请将选项卡导航到新位置。
   std::string error;
   if (params->update_properties.url.get()) {
     std::string updated_url = *params->update_properties.url;
@@ -436,7 +436,7 @@ bool TabsUpdateFunction::UpdateURL(const std::string& url_string,
   }
 
   const bool is_javascript_scheme = url.SchemeIs(url::kJavaScriptScheme);
-  // JavaScript URLs are forbidden in chrome.tabs.update().
+  // Chrome.tab.update()中禁止使用JavaScript URL。
   if (is_javascript_scheme) {
     const char kJavaScriptUrlsNotAllowedInTabsUpdate[] =
         "JavaScript URLs are not allowed in chrome.tabs.update. Use "
@@ -447,20 +447,20 @@ bool TabsUpdateFunction::UpdateURL(const std::string& url_string,
 
   content::NavigationController::LoadURLParams load_params(url);
 
-  // Treat extension-initiated navigations as renderer-initiated so that the URL
-  // does not show in the omnibox until it commits.  This avoids URL spoofs
-  // since URLs can be opened on behalf of untrusted content.
+  // 将扩展模块启动的导航视为渲染器启动，以便URL。
+  // 在提交之前不会显示在全能框中。这避免了URL欺骗。
+  // 因为URL可以代表不可信的内容打开。
   load_params.is_renderer_initiated = true;
-  // All renderer-initiated navigations need to have an initiator origin.
+  // 所有渲染器启动的导航都需要具有启动器原点。
   load_params.initiator_origin = extension()->origin();
-  // |source_site_instance| needs to be set so that a renderer process
-  // compatible with |initiator_origin| is picked by Site Isolation.
+  // |SOURCE_SITE_INSTANCE|需要设置渲染器进程。
+  // 站点隔离选择与|Initiator_Origin|兼容。
   load_params.source_site_instance = content::SiteInstance::CreateForURL(
       web_contents_->GetBrowserContext(),
       load_params.initiator_origin->GetURL());
 
-  // Marking the navigation as initiated via an API means that the focus
-  // will stay in the omnibox - see https://crbug.com/1085779.
+  // 将导航标记为通过API启动意味着焦点。
+  // 将留在无所不包的盒子中-参见https://crbug.com/1085779.。
   load_params.transition_type = ui::PAGE_TRANSITION_FROM_API;
 
   web_contents_->GetController().LoadURLWithParams(load_params);
@@ -480,9 +480,9 @@ ExtensionFunction::ResponseValue TabsUpdateFunction::GetResult() {
   auto* api_web_contents = electron::api::WebContents::From(web_contents_);
   tab.id =
       std::make_unique<int>(api_web_contents ? api_web_contents->ID() : -1);
-  // TODO(nornagon): in Chrome, the tab URL is only available to extensions
-  // that have the "tabs" (or "activeTab") permission. We should do the same
-  // permission check here.
+  // TODO(Nornagon)：在Chrome中，选项卡URL仅对扩展模块可用。
+  // 具有“选项卡”(或“activeTab”)权限的。我们也应该这么做。
+  // 许可检查在这里。
   tab.url = std::make_unique<std::string>(
       web_contents_->GetLastCommittedURL().spec());
 
@@ -501,4 +501,4 @@ void TabsUpdateFunction::OnExecuteCodeFinished(
   return Respond(GetResult());
 }
 
-}  // namespace extensions
+}  // 命名空间扩展

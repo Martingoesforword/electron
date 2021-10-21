@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "chrome/browser/certificate_manager_model.h"
 
@@ -29,46 +29,46 @@ net::NSSCertDatabase* g_nss_cert_database = nullptr;
 net::NSSCertDatabase* GetNSSCertDatabaseForResourceContext(
     content::ResourceContext* context,
     base::OnceCallback<void(net::NSSCertDatabase*)> callback) {
-  // This initialization is not thread safe. This CHECK ensures that this code
-  // is only run on a single thread.
+  // 此初始化不是线程安全的。此检查确保此代码。
+  // 仅在单个线程上运行。
   CHECK(content::BrowserThread::CurrentlyOn(content::BrowserThread::IO));
   if (!g_nss_cert_database) {
-    // Linux has only a single persistent slot compared to ChromeOS's separate
-    // public and private slot.
-    // Redirect any slot usage to this persistent slot on Linux.
+    // 与ChromeOS的独立插槽相比，Linux只有一个持久插槽。
+    // 公共和私人插槽。
+    // 将所有插槽使用情况重定向到Linux上的此永久插槽。
     crypto::EnsureNSSInit();
     g_nss_cert_database = new net::NSSCertDatabase(
-        crypto::ScopedPK11Slot(PK11_GetInternalKeySlot()) /* public slot */,
-        crypto::ScopedPK11Slot(PK11_GetInternalKeySlot()) /* private slot */);
+        crypto::ScopedPK11Slot(PK11_GetInternalKeySlot()) /* 公共插槽。*/,
+        crypto::ScopedPK11Slot(PK11_GetInternalKeySlot()) /* 专用插槽。*/);
   }
   return g_nss_cert_database;
 }
 
-}  // namespace
+}  // 命名空间。
 
-// CertificateManagerModel is created on the UI thread. It needs a
-// NSSCertDatabase handle (and on ChromeOS it needs to get the TPM status) which
-// needs to be done on the IO thread.
-//
-// The initialization flow is roughly:
-//
-//               UI thread                              IO Thread
-//
-//   CertificateManagerModel::Create
-//                  \--------------------------------------v
-//                                CertificateManagerModel::GetCertDBOnIOThread
-//                                                         |
-//                                     GetNSSCertDatabaseForResourceContext
-//                                                         |
-//                               CertificateManagerModel::DidGetCertDBOnIOThread
-//                  v--------------------------------------/
-// CertificateManagerModel::DidGetCertDBOnUIThread
-//                  |
-//     new CertificateManagerModel
-//                  |
-//               callback
+// CertificateManagerModel是在UI线程上创建的。它需要一个。
+// NSSCertDatabase句柄(在ChromeOS上，它需要获取TPM状态)。
+// 需要在IO线程上完成。
+// 
+// 初始化流程大致为：
+// 
+// UI线程IO线程。
+// 
+// CertificateManagerModel：：Create。
+// \。
+// CertificateManagerModel：：GetCertDBOnIOThread。
+// |。
+// GetNSSCertDatabaseForResourceContext。
+// |。
+// CertificateManagerModel：：DidGetCertDBOnIOThread。
+// V-/。
+// CertificateManagerModel：：DidGetCertDBOnUIThread。
+// |。
+// 新的CertificateManagerModel。
+// |。
+// 回调。
 
-// static
+// 静电。
 void CertificateManagerModel::Create(content::BrowserContext* browser_context,
                                      CreationCallback callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
@@ -126,7 +126,7 @@ bool CertificateManagerModel::Delete(CERTCertificate* cert) {
   return cert_db_->DeleteCertAndKey(cert);
 }
 
-// static
+// 静电。
 void CertificateManagerModel::DidGetCertDBOnUIThread(
     net::NSSCertDatabase* cert_db,
     bool is_user_db_available,
@@ -138,7 +138,7 @@ void CertificateManagerModel::DidGetCertDBOnUIThread(
   std::move(callback).Run(std::move(model));
 }
 
-// static
+// 静电。
 void CertificateManagerModel::DidGetCertDBOnIOThread(
     CreationCallback callback,
     net::NSSCertDatabase* cert_db) {
@@ -151,7 +151,7 @@ void CertificateManagerModel::DidGetCertDBOnIOThread(
                      is_user_db_available, std::move(callback)));
 }
 
-// static
+// 静电。
 void CertificateManagerModel::GetCertDBOnIOThread(
     content::ResourceContext* context,
     CreationCallback callback) {
@@ -163,8 +163,8 @@ void CertificateManagerModel::GetCertDBOnIOThread(
   net::NSSCertDatabase* cert_db = GetNSSCertDatabaseForResourceContext(
       context, std::move(split_callback.first));
 
-  // If the NSS database was already available, |cert_db| is non-null and
-  // |did_get_cert_db_callback| has not been called. Call it explicitly.
+  // 如果NSS数据库已可用，|cert_db|为非空，
+  // |DID_GET_CERT_db_CALLBACK|未调用。明确地说。
   if (cert_db)
     std::move(split_callback.second).Run(cert_db);
 }

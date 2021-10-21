@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/electron_browser_context_keyed_service_factories.h"
 
@@ -11,12 +11,12 @@ namespace extensions {
 namespace electron {
 
 void EnsureBrowserContextKeyedServiceFactoriesBuilt() {
-  // TODO(rockot): Remove this once UpdateService is supported across all
-  // extensions embedders (and namely chrome.)
+  // TODO(Rockot)：一旦所有用户都支持UpdateService，就将其删除。
+  // 扩展嵌入器(即Chrome。)。
   UpdateServiceFactory::GetInstance();
 
   ElectronExtensionSystemFactory::GetInstance();
 }
 
-}  // namespace electron
-}  // namespace extensions
+}  // 命名空间电子。
+}  // 命名空间扩展

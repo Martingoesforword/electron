@@ -1,8 +1,8 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
-// Most code came from: chrome/browser/chrome_browser_main_posix.cc.
+// 大多数代码来自：Chrome/Browser/Chrome_Browser_main_posx.cc。
 
 #include "shell/browser/electron_browser_main_parts.h"
 
@@ -24,22 +24,22 @@ namespace electron {
 
 namespace {
 
-// See comment in |PreEarlyInitialization()|, where sigaction is called.
+// 请参阅|PreEarlyInitialization()|中的注释，其中调用sigaction。
 void SIGCHLDHandler(int signal) {}
 
-// The OSX fork() implementation can crash in the child process before
-// fork() returns.  In that case, the shutdown pipe will still be
-// shared with the parent process.  To prevent child crashes from
-// causing parent shutdowns, |g_pipe_pid| is the pid for the process
-// which registered |g_shutdown_pipe_write_fd|.
-// See <http://crbug.com/175341>.
+// 在此之前，OSX fork()实现可能会在子进程中崩溃。
+// Fork()返回。在这种情况下，关闭的管道仍将是。
+// 与父进程共享。要防止儿童撞车，请执行以下操作。
+// 导致父进程关闭，|g_PIPE_PID|是进程的PID。
+// 它注册了|g_SHUTDOWN_PIPE_WRITE_FD|。
+// 请参见&lt;http://crbug.com/175341&gt;.。
 pid_t g_pipe_pid = -1;
 int g_shutdown_pipe_write_fd = -1;
 int g_shutdown_pipe_read_fd = -1;
 
-// Common code between SIG{HUP, INT, TERM}Handler.
+// SIG{HUP，INT，TERM}处理程序之间的通用代码。
 void GracefulShutdownHandler(int signal) {
-  // Reinstall the default handler.  We had one shot at graceful shutdown.
+  // 重新安装默认处理程序。我们只有一次机会优雅地关门。
   struct sigaction action;
   memset(&action, 0, sizeof(action));
   action.sa_handler = SIG_DFL;
@@ -59,19 +59,19 @@ void GracefulShutdownHandler(int signal) {
   } while (bytes_written < sizeof(signal));
 }
 
-// See comment in |PostCreateMainMessageLoop()|, where sigaction is called.
+// 参见|PostCreateMainMessageLoop()|中的注释，其中调用sigaction。
 void SIGHUPHandler(int signal) {
   RAW_CHECK(signal == SIGHUP);
   GracefulShutdownHandler(signal);
 }
 
-// See comment in |PostCreateMainMessageLoop()|, where sigaction is called.
+// 参见|PostCreateMainMessageLoop()|中的注释，其中调用sigaction。
 void SIGINTHandler(int signal) {
   RAW_CHECK(signal == SIGINT);
   GracefulShutdownHandler(signal);
 }
 
-// See comment in |PostCreateMainMessageLoop()|, where sigaction is called.
+// 参见|PostCreateMainMessageLoop()|中的注释，其中调用sigaction。
 void SIGTERMHandler(int signal) {
   RAW_CHECK(signal == SIGTERM);
   GracefulShutdownHandler(signal);
@@ -84,7 +84,7 @@ class ShutdownDetector : public base::PlatformThread::Delegate {
       base::OnceCallback<void()> shutdown_callback,
       const scoped_refptr<base::SingleThreadTaskRunner>& task_runner);
 
-  // base::PlatformThread::Delegate:
+  // Base：：PlatformThread：：Delegate：
   void ThreadMain() override;
 
  private:
@@ -107,22 +107,22 @@ ShutdownDetector::ShutdownDetector(
   CHECK(task_runner_);
 }
 
-// These functions are used to help us diagnose crash dumps that happen
-// during the shutdown process.
+// 这些函数用于帮助我们诊断发生的崩溃转储。
+// 在关闭过程中。
 NOINLINE void ShutdownFDReadError() {
-  // Ensure function isn't optimized away.
+  // 确保功能不会被优化。
   asm("");
   sleep(UINT_MAX);
 }
 
 NOINLINE void ShutdownFDClosedError() {
-  // Ensure function isn't optimized away.
+  // 确保功能不会被优化。
   asm("");
   sleep(UINT_MAX);
 }
 
 NOINLINE void ExitPosted() {
-  // Ensure function isn't optimized away.
+  // 确保功能不会被优化。
   asm("");
   sleep(UINT_MAX);
 }
@@ -151,33 +151,33 @@ void ShutdownDetector::ThreadMain() {
 
   if (!task_runner_->PostTask(FROM_HERE,
                               base::BindOnce(std::move(shutdown_callback_)))) {
-    // Without a valid task runner to post the exit task to, there aren't many
-    // options. Raise the signal again. The default handler will pick it up
-    // and cause an ungraceful exit.
+    // 如果没有有效的任务运行者来发布退出任务，就不会有太多的任务运行者。
+    // 选择。再次发出信号。默认处理程序将获取它。
+    // 导致一个不体面的退场。
     RAW_LOG(WARNING, "No valid task runner, exiting ungracefully.");
     kill(getpid(), signal);
 
-    // The signal may be handled on another thread.  Give that a chance to
-    // happen.
+    // 该信号可以在另一个线程上处理。给他一个机会。
+    // 会发生的。
     sleep(3);
 
-    // We really should be dead by now.  For whatever reason, we're not. Exit
-    // immediately, with the exit status set to the signal number with bit 8
-    // set.  On the systems that we care about, this exit status is what is
-    // normally used to indicate an exit by this signal's default handler.
-    // This mechanism isn't a de jure standard, but even in the worst case, it
-    // should at least result in an immediate exit.
+    // 我们现在真的应该已经死了。不管出于什么原因，我们都不是。出口。
+    // 立即，将退出状态设置为具有位8的信号号。
+    // 准备好了。在我们关心的系统上，此退出状态是。
+    // 通常用于指示此信号的默认处理程序退出。
+    // 这种机制不是法律上的标准，但即使在最坏的情况下，它也。
+    // 至少应该会导致立即退出。
     RAW_LOG(WARNING, "Still here, exiting really ungracefully.");
     _exit(signal | (1 << 7));
   }
   ExitPosted();
 }
 
-}  // namespace
+}  // 命名空间。
 
 void ElectronBrowserMainParts::HandleSIGCHLD() {
-  // We need to accept SIGCHLD, even though our handler is a no-op because
-  // otherwise we cannot wait on children. (According to POSIX 2001.)
+  // 我们需要接受SIGCHLD，即使我们的处理程序是无操作的，因为。
+  // 否则我们就不能伺候孩子了。(根据POSIX2001。)。
   struct sigaction action;
   memset(&action, 0, sizeof(action));
   action.sa_handler = SIGCHLDHandler;
@@ -199,42 +199,42 @@ void ElectronBrowserMainParts::InstallShutdownSignalHandlers(
 #if !defined(ADDRESS_SANITIZER)
   const size_t kShutdownDetectorThreadStackSize = PTHREAD_STACK_MIN * 2;
 #else
-  // ASan instrumentation bloats the stack frames, so we need to increase the
-  // stack size to avoid hitting the guard page.
+  // ASAN检测会使堆栈帧膨胀，因此我们需要增加。
+  // 堆栈大小以避免命中保护页。
   const size_t kShutdownDetectorThreadStackSize = PTHREAD_STACK_MIN * 4;
 #endif
   ShutdownDetector* detector = new ShutdownDetector(
       g_shutdown_pipe_read_fd, std::move(shutdown_callback), task_runner);
 
-  // PlatformThread does not delete its delegate.
+  // PlatformThread不删除其委托。
   ANNOTATE_LEAKING_OBJECT_PTR(detector);
   if (!base::PlatformThread::CreateNonJoinable(kShutdownDetectorThreadStackSize,
                                                detector)) {
     LOG(DFATAL) << "Failed to create shutdown detector task.";
   }
-  // Setup signal handlers for shutdown AFTER shutdown pipe is setup because
-  // it may be called right away after handler is set.
+  // 设置关闭管道后用于关闭的设置信号处理程序，因为。
+  // 可以在设置处理程序后立即调用它。
 
-  // If adding to this list of signal handlers, note the new signal probably
-  // needs to be reset in child processes. See
-  // base/process_util_posix.cc:LaunchProcess.
+  // 如果添加到此信号处理程序列表中，请注意新信号可能。
+  // 需要在子进程中重置。看见。
+  // Base/process_util_position x.cc：LaunchProcess。
 
-  // We need to handle SIGTERM, because that is how many POSIX-based distros
-  // ask processes to quit gracefully at shutdown time.
+  // 我们需要处理SIGTERM，因为这就是多少基于POSIX的发行版。
+  // 要求进程在关闭时正常退出。
   struct sigaction action;
   memset(&action, 0, sizeof(action));
   action.sa_handler = SIGTERMHandler;
   CHECK_EQ(sigaction(SIGTERM, &action, nullptr), 0);
 
-  // Also handle SIGINT - when the user terminates the browser via Ctrl+C. If
-  // the browser process is being debugged, GDB will catch the SIGINT first.
+  // 还可以处理SIGINT-当用户通过Ctrl+C终止浏览器时。如果。
+  // 正在调试浏览器进程，gdb将首先捕获SIGINT。
   action.sa_handler = SIGINTHandler;
   CHECK_EQ(sigaction(SIGINT, &action, nullptr), 0);
 
-  // And SIGHUP, for when the terminal disappears. On shutdown, many Linux
-  // distros send SIGHUP, SIGTERM, and then SIGKILL.
+  // 和SIGHUP，用于终端消失时。在关机时，许多Linux。
+  // 发行版发送SIGHUP、SIGTERM，然后发送SIGKILL。
   action.sa_handler = SIGHUPHandler;
   CHECK_EQ(sigaction(SIGHUP, &action, nullptr), 0);
 }
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_auto_updater.h"
 
@@ -40,7 +40,7 @@ void AutoUpdater::OnError(const std::string& message) {
     gin_helper::EmitEvent(
         isolate, wrapper, "error",
         error->ToObject(isolate->GetCurrentContext()).ToLocalChecked(),
-        // Message is also emitted to keep compatibility with old code.
+        // 还会发出消息以保持与旧代码的兼容性。
         message);
   }
 }
@@ -59,7 +59,7 @@ void AutoUpdater::OnError(const std::string& message,
 
     auto context = isolate->GetCurrentContext();
 
-    // add two new params for better error handling
+    // 添加两个新参数以更好地处理错误。
     errorObject
         ->Set(context, gin::StringToV8(isolate, "code"),
               v8::Integer::New(isolate, code))
@@ -90,7 +90,7 @@ void AutoUpdater::OnUpdateDownloaded(const std::string& release_notes,
                                      const base::Time& release_date,
                                      const std::string& url) {
   Emit("update-downloaded", release_notes, release_name, release_date, url,
-       // Keep compatibility with old APIs.
+       // 保持与旧API的兼容性。
        base::BindRepeating(&AutoUpdater::QuitAndInstall,
                            base::Unretained(this)));
 }
@@ -106,18 +106,18 @@ void AutoUpdater::SetFeedURL(gin::Arguments* args) {
 void AutoUpdater::QuitAndInstall() {
   Emit("before-quit-for-update");
 
-  // If we don't have any window then quitAndInstall immediately.
+  // 如果我们没有任何窗口，则立即退出并安装。
   if (WindowList::IsEmpty()) {
     auto_updater::AutoUpdater::QuitAndInstall();
     return;
   }
 
-  // Otherwise do the restart after all windows have been closed.
+  // 否则，请在关闭所有窗口后重新启动。
   WindowList::AddObserver(this);
   WindowList::CloseAllWindows();
 }
 
-// static
+// 静电。
 gin::Handle<AutoUpdater> AutoUpdater::Create(v8::Isolate* isolate) {
   return gin::CreateHandle(isolate, new AutoUpdater());
 }
@@ -136,9 +136,9 @@ const char* AutoUpdater::GetTypeName() {
   return "AutoUpdater";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -153,6 +153,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("autoUpdater", AutoUpdater::Create(isolate));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_auto_updater, Initialize)

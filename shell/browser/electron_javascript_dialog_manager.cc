@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/electron_javascript_dialog_manager.h"
 
@@ -25,7 +25,7 @@ namespace {
 
 constexpr int kUserWantsNoMoreDialogs = -1;
 
-}  // namespace
+}  // 命名空间。
 
 ElectronJavaScriptDialogManager::ElectronJavaScriptDialogManager() = default;
 ElectronJavaScriptDialogManager::~ElectronJavaScriptDialogManager() = default;
@@ -41,8 +41,8 @@ void ElectronJavaScriptDialogManager::RunJavaScriptDialog(
   auto origin_url = rfh->GetLastCommittedURL();
 
   std::string origin;
-  // For file:// URLs we do the alert filtering by the
-  // file path currently loaded
+  // 对于file：//URL，我们按。
+  // 当前加载的文件路径。
   if (origin_url.SchemeIsFile()) {
     origin = origin_url.path();
   } else {
@@ -65,14 +65,14 @@ void ElectronJavaScriptDialogManager::RunJavaScriptDialog(
     return std::move(callback).Run(false, std::u16string());
   }
 
-  // No default button
+  // 无默认按钮。
   int default_id = -1;
   int cancel_id = 0;
 
   std::vector<std::string> buttons = {"OK"};
   if (dialog_type == JavaScriptDialogType::JAVASCRIPT_DIALOG_TYPE_CONFIRM) {
     buttons.emplace_back("Cancel");
-    // First button is default, second button is cancel
+    // 第一个按钮为默认按钮，第二个按钮为取消。
     default_id = 0;
     cancel_id = 1;
   }
@@ -86,7 +86,7 @@ void ElectronJavaScriptDialogManager::RunJavaScriptDialog(
     checkbox = "Prevent this app from creating additional dialogs";
   }
 
-  // Don't set parent for offscreen window.
+  // 不要为离屏窗口设置父窗口。
   NativeWindow* window = nullptr;
   if (web_preferences && !web_preferences->IsOffscreen()) {
     auto* relay = NativeWindowRelay::FromWebContents(web_contents);
@@ -134,4 +134,4 @@ void ElectronJavaScriptDialogManager::OnMessageBoxCallback(
   std::move(callback).Run(code == 0, std::u16string());
 }
 
-}  // namespace electron
+}  // 命名空间电子

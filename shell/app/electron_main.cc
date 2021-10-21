@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/app/electron_main.h"
 
@@ -16,9 +16,9 @@
 #endif
 
 #if defined(OS_WIN)
-#include <windows.h>  // windows.h must be included first
+#include <windows.h>  // 必须先包含windows.h。
 
-#include <atlbase.h>  // ensures that ATL statics like `_AtlWinModule` are initialized (it's an issue in static debug build)
+#include <atlbase.h>  // 确保像`_AtlWinModule`这样的ATL静态被初始化(这是静态调试版本中的一个问题)。
 #include <shellapi.h>
 #include <shellscalingapi.h>
 #include <tchar.h>
@@ -36,19 +36,19 @@
 #include "shell/app/electron_main_delegate.h"
 #include "third_party/crashpad/crashpad/util/win/initial_client_data.h"
 
-#elif defined(OS_LINUX)  // defined(OS_WIN)
+#elif defined(OS_LINUX)  // 已定义(OS_WIN)。
 #include <unistd.h>
 #include <cstdio>
 #include "base/base_switches.h"
 #include "base/command_line.h"
 #include "content/public/app/content_main.h"
-#include "shell/app/electron_main_delegate.h"  // NOLINT
-#else                                          // defined(OS_LINUX)
+#include "shell/app/electron_main_delegate.h"  // NOLINT。
+#else                                          // 已定义(OS_Linux)。
 #include <mach-o/dyld.h>
 #include <unistd.h>
 #include <cstdio>
 #include "shell/app/electron_library_main.h"
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 
 #include "base/at_exit.h"
 #include "base/i18n/icu_util.h"
@@ -59,14 +59,14 @@
 #include "shell/common/electron_constants.h"
 
 #if defined(HELPER_EXECUTABLE) && !defined(MAS_BUILD)
-#include "sandbox/mac/seatbelt_exec.h"  // nogncheck
+#include "sandbox/mac/seatbelt_exec.h"  // 点名检查。
 #endif
 
 namespace {
 
 #if defined(OS_WIN)
-// Redefined here so we don't have to introduce a dependency on //content
-// from //electron:electron_app
+// 在这里重新定义，这样我们就不必引入对//内容的依赖。
+// 发信人//电子邮件：ELECTORE_APP。
 const char kUserDataDir[] = "user-data-dir";
 const char kProcessType[] = "type";
 #endif
@@ -84,13 +84,13 @@ ALLOW_UNUSED_TYPE bool IsEnvSet(const char* name) {
 
 #if defined(OS_POSIX)
 void FixStdioStreams() {
-  // libuv may mark stdin/stdout/stderr as close-on-exec, which interferes
-  // with chromium's subprocess spawning. As a workaround, we detect if these
-  // streams are closed on startup, and reopen them as /dev/null if necessary.
-  // Otherwise, an unrelated file descriptor will be assigned as stdout/stderr
-  // which may cause various errors when attempting to write to them.
-  //
-  // For details see https://github.com/libuv/libuv/issues/2062
+  // Libuv可能会将stdin/stdout/stderr标记为执行结束，这会干扰。
+  // 铬的子过程产卵。作为一种解决方法，我们检测到这些。
+  // 流在启动时关闭，如果需要，以/dev/null的身份重新打开它们。
+  // 否则，不相关的文件描述符将被指定为stdout/stderr。
+  // 这在试图写入它们时可能导致各种错误。
+  // 
+  // 有关详细信息，请参阅https://github.com/libuv/libuv/issues/2062。
   struct stat st;
   if (fstat(STDIN_FILENO, &st) < 0 && errno == EBADF)
     ignore_result(freopen("/dev/null", "r", stdin));
@@ -101,7 +101,7 @@ void FixStdioStreams() {
 }
 #endif
 
-}  // namespace
+}  // 命名空间。
 
 #if defined(OS_WIN)
 
@@ -109,74 +109,74 @@ namespace crash_reporter {
 extern const char kCrashpadProcess[];
 }
 
-// In 32-bit builds, the main thread starts with the default (small) stack size.
-// The ARCH_CPU_32_BITS blocks here and below are in support of moving the main
-// thread to a fiber with a larger stack size.
+// 在32位构建中，主线程从默认(小)堆栈大小开始。
+// 此处和下面的ARCH_CPU_32_BITS块支持将Main。
+// 将螺纹连接到堆叠尺寸较大的纤维上。
 #if defined(ARCH_CPU_32_BITS)
-// The information needed to transfer control to the large-stack fiber and later
-// pass the main routine's exit code back to the small-stack fiber prior to
-// termination.
+// 将控制转移到大堆叠光纤及以后所需的信息。
+// 将主例程的退出代码传递回小堆栈纤程。
+// 终止。
 struct FiberState {
   HINSTANCE instance;
   LPVOID original_fiber;
   int fiber_result;
 };
 
-// A PFIBER_START_ROUTINE function run on a large-stack fiber that calls the
-// main routine, stores its return value, and returns control to the small-stack
-// fiber. |params| must be a pointer to a FiberState struct.
+// PFIBER_START_ROUTINE函数在调用。
+// Main例程，存储其返回值，并将控制权返回给小堆栈。
+// 纤维。|params|必须是指向FiberState结构的指针。
 void WINAPI FiberBinder(void* params) {
   auto* fiber_state = static_cast<FiberState*>(params);
-  // Call the wWinMain routine from the fiber. Reusing the entry point minimizes
-  // confusion when examining call stacks in crash reports - seeing wWinMain on
-  // the stack is a handy hint that this is the main thread of the process.
+  // 从纤程调用wWinMain例程。重用入口点可以最小化入口点。
+  // 检查崩溃报告中的调用堆栈时出现混乱-查看wWinMain打开。
+  // 堆栈是一个方便的提示，表明这是进程的主线程。
   fiber_state->fiber_result =
       wWinMain(fiber_state->instance, nullptr, nullptr, 0);
-  // Switch back to the main thread to exit.
+  // 切换回主线程以退出。
   ::SwitchToFiber(fiber_state->original_fiber);
 }
-#endif  // defined(ARCH_CPU_32_BITS)
+#endif  // 已定义(ARCH_CPU_32_BITS)。
 
 int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE, wchar_t* cmd, int) {
 #if defined(ARCH_CPU_32_BITS)
   enum class FiberStatus { kConvertFailed, kCreateFiberFailed, kSuccess };
   FiberStatus fiber_status = FiberStatus::kSuccess;
-  // GetLastError result if fiber conversion failed.
+  // 如果光纤转换失败，则返回GetLastError结果。
   DWORD fiber_error = ERROR_SUCCESS;
   if (!::IsThreadAFiber()) {
-    // Make the main thread's stack size 4 MiB so that it has roughly the same
-    // effective size as the 64-bit build's 8 MiB stack.
-    constexpr size_t kStackSize = 4 * 1024 * 1024;  // 4 MiB
-    // Leak the fiber on exit.
+    // 将主线程的堆栈大小设置为4MiB，以便它具有大致相同的。
+    // 有效大小为64位版本的8MiB堆栈。
+    constexpr size_t kStackSize = 4 * 1024 * 1024;  // 4 MiB。
+    // 出口处的光纤泄漏。
     LPVOID original_fiber =
         ::ConvertThreadToFiberEx(nullptr, FIBER_FLAG_FLOAT_SWITCH);
     if (original_fiber) {
       FiberState fiber_state = {instance, original_fiber};
-      // Create a fiber with a bigger stack and switch to it. Leak the fiber on
-      // exit.
+      // 创建一根堆叠更大的光纤，然后切换到它。把纤维泄漏到。
+      // 出口。
       LPVOID big_stack_fiber = ::CreateFiberEx(
           0, kStackSize, FIBER_FLAG_FLOAT_SWITCH, FiberBinder, &fiber_state);
       if (big_stack_fiber) {
         ::SwitchToFiber(big_stack_fiber);
-        // The fibers must be cleaned up to avoid obscure TLS-related shutdown
-        // crashes.
+        // 必须清理光纤，以避免模糊的TLS相关关闭。
+        // 坠毁。
         ::DeleteFiber(big_stack_fiber);
         ::ConvertFiberToThread();
-        // Control returns here after Chrome has finished running on FiberMain.
+        // Chrome在FiberMain上运行完毕后，控制返回此处。
         return fiber_state.fiber_result;
       }
       fiber_status = FiberStatus::kCreateFiberFailed;
     } else {
       fiber_status = FiberStatus::kConvertFailed;
     }
-    // If we reach here then creating and switching to a fiber has failed. This
-    // probably means we are low on memory and will soon crash. Try to report
-    // this error once crash reporting is initialized.
+    // 如果我们到达这里，那么创建和切换到光纤就失败了。这。
+    // 可能意味着我们内存不足，很快就会崩溃。试着报告。
+    // 一旦崩溃报告被初始化，就会出现此错误。
     fiber_error = ::GetLastError();
     base::debug::Alias(&fiber_error);
   }
-  // If we are already a fiber then continue normal execution.
-#endif  // defined(ARCH_CPU_32_BITS)
+  // 如果我们已经是光纤，那么继续正常执行。
+#endif  // 已定义(ARCH_CPU_32_BITS)。
 
   struct Arguments {
     int argc = 0;
@@ -189,7 +189,7 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE, wchar_t* cmd, int) {
     return -1;
 
 #ifdef _DEBUG
-  // Don't display assert dialog boxes in CI test runs
+  // 在CI测试运行中不显示Assert对话框。
   static const char kCI[] = "CI";
   if (IsEnvSet(kCI)) {
     _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
@@ -209,7 +209,7 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE, wchar_t* cmd, int) {
   bool run_as_node = false;
 #endif
 
-  // Make sure the output is printed to console.
+  // 确保将输出打印到控制台。
   if (run_as_node || !IsEnvSet("ELECTRON_NO_ATTACH_CONSOLE"))
     base::RouteStdioToConsole(false);
 
@@ -234,14 +234,14 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE, wchar_t* cmd, int) {
       command_line->GetSwitchValueASCII(kProcessType);
 
   if (process_type == crash_reporter::switches::kCrashpadHandler) {
-    // Check if we should monitor the exit code of this process
+    // 检查我们是否应该监视此进程的退出代码。
     std::unique_ptr<browser_watcher::ExitCodeWatcher> exit_code_watcher;
 
-    // Retrieve the client process from the command line
+    // 从命令行检索客户端进程。
     crashpad::InitialClientData initial_client_data;
     if (initial_client_data.InitializeFromString(
             command_line->GetSwitchValueASCII("initial-client-data"))) {
-      // Setup exit code watcher to monitor the parent process
+      // 设置退出代码观察器以监视父进程。
       HANDLE duplicate_handle = INVALID_HANDLE_VALUE;
       if (DuplicateHandle(
               ::GetCurrentProcess(), initial_client_data.client_process(),
@@ -256,8 +256,8 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE, wchar_t* cmd, int) {
       }
     }
 
-    // The handler process must always be passed the user data dir on the
-    // command line.
+    // 必须始终向处理程序进程传递。
+    // 命令行。
     DCHECK(command_line->HasSwitch(kUserDataDir));
 
     base::FilePath user_data_dir =
@@ -265,17 +265,17 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE, wchar_t* cmd, int) {
     int crashpad_status = crash_reporter::RunAsCrashpadHandler(
         *command_line, user_data_dir, kProcessType, kUserDataDir);
     if (crashpad_status != 0 && exit_code_watcher) {
-      // Crashpad failed to initialize, explicitly stop the exit code watcher
-      // so the crashpad-handler process can exit with an error
+      // CrashPad无法初始化，请显式停止退出代码监视器。
+      // 因此，CrashPad-Handler进程可以退出并返回错误。
       exit_code_watcher->StopWatching();
     }
     return crashpad_status;
   }
 
 #if defined(ARCH_CPU_32_BITS)
-  // Intentionally crash if converting to a fiber failed.
+  // 如果转换为光纤失败，则故意崩溃。
   CHECK_EQ(fiber_status, FiberStatus::kSuccess);
-#endif  // defined(ARCH_CPU_32_BITS)
+#endif  // 已定义(ARCH_CPU_32_BITS)。
 
   if (!electron::CheckCommandLineArguments(arguments.argc, arguments.argv))
     return -1;
@@ -291,7 +291,7 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE, wchar_t* cmd, int) {
   return content::ContentMain(params);
 }
 
-#elif defined(OS_LINUX)  // defined(OS_WIN)
+#elif defined(OS_LINUX)  // 已定义(OS_WIN)。
 
 int main(int argc, char* argv[]) {
   FixStdioStreams();
@@ -310,14 +310,14 @@ int main(int argc, char* argv[]) {
   params.argc = argc;
   params.argv = const_cast<const char**>(argv);
   base::CommandLine::Init(params.argc, params.argv);
-  // TODO(https://crbug.com/1176772): Remove when Chrome Linux is fully migrated
-  // to Crashpad.
+  // TODO(完全迁移Chrome Linux时删除https://crbug.com/1176772)：
+  // 去Crashpad。
   base::CommandLine::ForCurrentProcess()->AppendSwitch(
       ::switches::kEnableCrashpad);
   return content::ContentMain(params);
 }
 
-#else  // defined(OS_LINUX)
+#else  // 已定义(OS_Linux)。
 
 int main(int argc, char* argv[]) {
   FixStdioStreams();
@@ -355,9 +355,9 @@ int main(int argc, char* argv[]) {
       abort();
     }
   }
-#endif  // defined(HELPER_EXECUTABLE) && !defined(MAS_BUILD)
+#endif  // 已定义(HELPER_EXECUTABLE)&&！已定义(MAS_BUILD)。
 
   return ElectronMain(argc, argv);
 }
 
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)

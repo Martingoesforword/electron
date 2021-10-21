@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <string>
 
@@ -37,7 +37,7 @@ struct ScaleFactorPair {
 };
 
 ScaleFactorPair kScaleFactorPairs[] = {
-    // The "@2x" is put as first one to make scale matching faster.
+    // 为了提高比例尺匹配速度，我们把@2x放在第一位。
     {"@2x", 2.0f},   {"@3x", 3.0f},     {"@1x", 1.0f},     {"@4x", 4.0f},
     {"@5x", 5.0f},   {"@1.25x", 1.25f}, {"@1.33x", 1.33f}, {"@1.4x", 1.4f},
     {"@1.5x", 1.5f}, {"@1.8x", 1.8f},   {"@2.5x", 2.5f},
@@ -46,8 +46,8 @@ ScaleFactorPair kScaleFactorPairs[] = {
 float GetScaleFactorFromPath(const base::FilePath& path) {
   std::string filename(path.BaseName().RemoveExtension().AsUTF8Unsafe());
 
-  // We don't try to convert string to float here because it is very very
-  // expensive.
+  // 我们在这里不尝试将字符串转换为浮点型，因为它非常非常。
+  // 很贵的。
   for (const auto& kScaleFactorPair : kScaleFactorPairs) {
     if (base::EndsWith(filename, kScaleFactorPair.name,
                        base::CompareCase::INSENSITIVE_ASCII))
@@ -77,13 +77,13 @@ bool AddImageSkiaRepFromJPEG(gfx::ImageSkia* image,
   if (!bitmap)
     return false;
 
-  // `JPEGCodec::Decode()` doesn't tell `SkBitmap` instance it creates
-  // that all of its pixels are opaque, that's why the bitmap gets
-  // an alpha type `kPremul_SkAlphaType` instead of `kOpaque_SkAlphaType`.
-  // Let's fix it here.
-  // TODO(alexeykuzmin): This workaround should be removed
-  // when the `JPEGCodec::Decode()` code is fixed.
-  // See https://github.com/electron/electron/issues/11294.
+  // `JPEGCodec：：Decode()`不告诉它创建的`SkBitmap`实例。
+  // 它的所有像素都是不透明的，这就是为什么位图。
+  // Alpha类型为`kPremul_SkAlphaType`，而不是`kOpaque_SkAlphaType`。
+  // 我们就在这里修吧。
+  // TODO(Alexeykuzmin)：应删除此解决方法。
+  // 当`JPEGCodec：：Decode()`代码固定时。
+  // 请参阅https://github.com/electron/electron/issues/11294.。
   bitmap->setAlphaType(SkAlphaType::kOpaque_SkAlphaType);
 
   image->AddRepresentation(gfx::ImageSkiaRep(*bitmap, scale_factor));
@@ -96,11 +96,11 @@ bool AddImageSkiaRepFromBuffer(gfx::ImageSkia* image,
                                int width,
                                int height,
                                double scale_factor) {
-  // Try PNG first.
+  // 先试试PNG。
   if (AddImageSkiaRepFromPNG(image, data, size, scale_factor))
     return true;
 
-  // Try JPEG second.
+  // 第二次尝试JPEG。
   if (AddImageSkiaRepFromJPEG(image, data, size, scale_factor))
     return true;
 
@@ -141,7 +141,7 @@ bool PopulateImageSkiaRepsFromPath(gfx::ImageSkia* image,
   bool succeed = false;
   std::string filename(path.BaseName().RemoveExtension().AsUTF8Unsafe());
   if (base::MatchPattern(filename, "*@*x"))
-    // Don't search for other representations if the DPI has been specified.
+    // 如果已指定DPI，则不要搜索其他表示形式。
     return AddImageSkiaRepFromPath(image, path, GetScaleFactorFromPath(path));
   else
     succeed |= AddImageSkiaRepFromPath(image, path, 1.0f);
@@ -153,7 +153,7 @@ bool PopulateImageSkiaRepsFromPath(gfx::ImageSkia* image,
 }
 #if defined(OS_WIN)
 bool ReadImageSkiaFromICO(gfx::ImageSkia* image, HICON icon) {
-  // Convert the icon from the Windows specific HICON to gfx::ImageSkia.
+  // 将图标从Windows特定的Hicon转换为gfx：：ImageSkia。
   SkBitmap bitmap = IconUtil::CreateSkBitmapFromHICON(icon);
   if (bitmap.isNull())
     return false;
@@ -163,6 +163,6 @@ bool ReadImageSkiaFromICO(gfx::ImageSkia* image, HICON icon) {
 }
 #endif
 
-}  // namespace util
+}  // 命名空间实用程序。
 
-}  // namespace electron
+}  // 命名空间电子

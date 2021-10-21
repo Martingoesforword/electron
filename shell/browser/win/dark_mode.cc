@@ -1,10 +1,10 @@
-// Copyright (c) 2020 Microsoft Inc. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2020 Microsoft Inc.保留所有权利。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/win/dark_mode.h"
 
-#include <dwmapi.h>  // DwmSetWindowAttribute()
+#include <dwmapi.h>  // DwmSetWindowAttribute()。
 
 #include "base/files/file_path.h"
 #include "base/scoped_native_library.h"
@@ -12,12 +12,12 @@
 #include "base/win/win_util.h"
 #include "base/win/windows_version.h"
 
-// This namespace contains code originally from
-// https://github.com/ysc3839/win32-darkmode/
-// governed by the MIT license and (c) Richard Yu
+// 此命名空间包含最初来自。
+// Https://github.com/ysc3839/win32-darkmode/。
+// 由麻省理工学院执照和(C)Richard Yu管辖。
 namespace {
 
-// 1903 18362
+// 1903年18362。
 enum PreferredAppMode { Default, AllowDark, ForceDark, ForceLight, Max };
 
 bool g_darkModeSupported = false;
@@ -25,7 +25,7 @@ bool g_darkModeEnabled = false;
 DWORD g_buildNumber = 0;
 
 enum WINDOWCOMPOSITIONATTRIB {
-  WCA_USEDARKMODECOLORS = 26  // build 18875+
+  WCA_USEDARKMODECOLORS = 26  // 内部版本超过18875。
 };
 struct WINDOWCOMPOSITIONATTRIBDATA {
   WINDOWCOMPOSITIONATTRIB Attrib;
@@ -48,7 +48,7 @@ bool IsHighContrast() {
 void RefreshTitleBarThemeColor(HWND hWnd, bool dark) {
   LONG ldark = dark;
   if (g_buildNumber >= 20161) {
-    // DWMA_USE_IMMERSIVE_DARK_MODE = 20
+    // DWMA_USE_IMERSIVE_DUSING_MODE=20。
     DwmSetWindowAttribute(hWnd, 20, &ldark, sizeof dark);
     return;
   }
@@ -62,8 +62,8 @@ void RefreshTitleBarThemeColor(HWND hWnd, bool dark) {
 }
 
 void InitDarkMode() {
-  // confirm that we're running on a version of Windows
-  // where the Dark Mode API is known
+  // 确认我们正在Windows的某个版本上运行。
+  // 已知黑暗模式API的位置。
   auto* os_info = base::win::OSInfo::GetInstance();
   g_buildNumber = os_info->version_number().build;
   auto const version = os_info->version();
@@ -72,7 +72,7 @@ void InitDarkMode() {
     return;
   }
 
-  // load "SetWindowCompositionAttribute", used in RefreshTitleBarThemeColor()
+  // 加载“SetWindowCompostionAttribute”，用于刷新TitleBarThemeColor()。
   _SetWindowCompositionAttribute =
       reinterpret_cast<decltype(_SetWindowCompositionAttribute)>(
           base::win::GetUser32FunctionPointer("SetWindowCompositionAttribute"));
@@ -80,13 +80,13 @@ void InitDarkMode() {
     return;
   }
 
-  // load the dark mode functions from uxtheme.dll
-  // * RefreshImmersiveColorPolicyState()
-  // * ShouldAppsUseDarkMode()
-  // * AllowDarkModeForApp()
-  // * SetPreferredAppMode()
-  // * AllowDarkModeForApp() (build < 18362)
-  // * SetPreferredAppMode() (build >= 18362)
+  // 从uxheme.dll加载暗模式函数。
+  // *刷新ImmersiveColorPolicyState()。
+  // *ShouldAppsUseDarkMode()。
+  // *AllowDarkModeForApp()。
+  // *SetPferredAppMode()。
+  // *AllowDarkModeForApp()(内部版本&lt;18362)。
+  // *SetPferredAppMode()(Build&gt;=18362)。
 
   base::NativeLibrary uxtheme =
       base::PinSystemLibrary(FILE_PATH_LITERAL("uxtheme.dll"));
@@ -99,21 +99,21 @@ void InitDarkMode() {
     *setme = reinterpret_cast<decltype(*setme)>(proc);
   };
 
-  // ordinal 104
+  // 序数104。
   using fnRefreshImmersiveColorPolicyState = VOID(WINAPI*)();
   fnRefreshImmersiveColorPolicyState _RefreshImmersiveColorPolicyState = {};
   get_ux_proc_from_ordinal(104, &_RefreshImmersiveColorPolicyState);
 
-  // ordinal 132
+  // 序数132。
   using fnShouldAppsUseDarkMode = BOOL(WINAPI*)();
   fnShouldAppsUseDarkMode _ShouldAppsUseDarkMode = {};
   get_ux_proc_from_ordinal(132, &_ShouldAppsUseDarkMode);
 
-  // ordinal 135, in 1809
+  // 第135号，1809年。
   using fnAllowDarkModeForApp = BOOL(WINAPI*)(BOOL allow);
   fnAllowDarkModeForApp _AllowDarkModeForApp = {};
 
-  // ordinal 135, in 1903
+  // 第135号，1903年。
   typedef PreferredAppMode(WINAPI *
                            fnSetPreferredAppMode)(PreferredAppMode appMode);
   fnSetPreferredAppMode _SetPreferredAppMode = {};
@@ -124,7 +124,7 @@ void InitDarkMode() {
     get_ux_proc_from_ordinal(135, &_SetPreferredAppMode);
   }
 
-  // dark mode is supported iff we found the functions
+  // 仅当我们找到函数时才支持暗模式。
   g_darkModeSupported = _RefreshImmersiveColorPolicyState &&
                         _ShouldAppsUseDarkMode &&
                         (_AllowDarkModeForApp || _SetPreferredAppMode);
@@ -132,7 +132,7 @@ void InitDarkMode() {
     return;
   }
 
-  // initial setup: allow dark mode to be used
+  // 初始设置：允许使用暗模式。
   if (_AllowDarkModeForApp) {
     _AllowDarkModeForApp(true);
   } else if (_SetPreferredAppMode) {
@@ -140,11 +140,11 @@ void InitDarkMode() {
   }
   _RefreshImmersiveColorPolicyState();
 
-  // check to see if dark mode is currently enabled
+  // 检查以查看当前是否启用了暗模式。
   g_darkModeEnabled = _ShouldAppsUseDarkMode() && !IsHighContrast();
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -175,6 +175,6 @@ void SetDarkModeForWindow(HWND hWnd,
   RefreshTitleBarThemeColor(hWnd, IsDarkPreferred(theme_source));
 }
 
-}  // namespace win
+}  // 命名空间制胜。
 
-}  // namespace electron
+}  // 命名空间电子

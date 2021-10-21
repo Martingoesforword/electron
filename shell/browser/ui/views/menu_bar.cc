@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/views/menu_bar.h"
 
@@ -24,10 +24,10 @@ namespace electron {
 
 namespace {
 
-// Default color of the menu bar.
+// 菜单栏的默认颜色。
 const SkColor kDefaultColor = SkColorSetARGB(255, 233, 233, 233);
 
-}  // namespace
+}  // 命名空间。
 
 const char MenuBar::kViewClassName[] = "ElectronMenuBar";
 
@@ -123,7 +123,7 @@ void MenuBar::OnWindowFocus() {
 }
 
 bool MenuBar::AcceleratorPressed(const ui::Accelerator& accelerator) {
-  // Treat pressing Alt the same as pressing Esc.
+  // 按Alt键与按Esc键相同。
   const ui::Accelerator& translated =
       accelerator.key_code() == ui::VKEY_MENU
           ? ui::Accelerator(ui::VKEY_ESCAPE, accelerator.modifiers(),
@@ -138,8 +138,8 @@ bool MenuBar::AcceleratorPressed(const ui::Accelerator& accelerator) {
 bool MenuBar::SetPaneFocusAndFocusDefault() {
   bool result = views::AccessiblePaneView::SetPaneFocusAndFocusDefault();
   if (result && !accelerator_installed_) {
-    // Listen to Alt key events.
-    // Note that there is no need to unregister the accelerator.
+    // 收听Alt Key事件。
+    // 请注意，无需取消注册加速器。
     accelerator_installed_ = true;
     focus_manager()->RegisterAccelerator(
         ui::Accelerator(ui::VKEY_MENU, ui::EF_ALT_DOWN),
@@ -169,7 +169,7 @@ const char* MenuBar::GetClassName() const {
 }
 
 void MenuBar::ButtonPressed(int id, const ui::Event& event) {
-  // Hide the accelerator when a submenu is activated.
+  // 激活子菜单时隐藏快捷键。
   SetAcceleratorVisibility(pane_has_focus());
 
   if (!menu_model_)
@@ -194,7 +194,7 @@ void MenuBar::ButtonPressed(int id, const ui::Event& event) {
   }
   DCHECK(source);
 
-  // Deleted in MenuDelegate::OnMenuClosed
+  // 在MenuDelegate：：OnMenuClosed中删除。
   auto* menu_delegate = new MenuDelegate(this);
   menu_delegate->RunMenu(
       menu_model_->GetSubmenuModelAt(id), source,
@@ -230,10 +230,10 @@ void MenuBar::RebuildChildren() {
 }
 
 void MenuBar::UpdateViewColors() {
-  // set menubar background color
+  // 设置菜单栏背景颜色。
   SetBackground(views::CreateSolidBackground(background_color_));
 
-  // set child colors
+  // 设置子颜色。
   if (menu_model_ == nullptr)
     return;
 #if defined(OS_LINUX)
@@ -255,4 +255,4 @@ void MenuBar::UpdateViewColors() {
 #endif
 }
 
-}  // namespace electron
+}  // 命名空间电子

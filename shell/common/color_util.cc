@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/color_util.h"
 
@@ -13,18 +13,18 @@
 namespace electron {
 
 SkColor ParseHexColor(const std::string& color_string) {
-  // Check the string for incorrect formatting.
+  // 检查字符串的格式是否不正确。
   if (color_string.empty() || color_string[0] != '#')
     return SK_ColorWHITE;
 
-  // Prepend FF if alpha channel is not specified.
+  // 如果未指定Alpha通道，则前置FF。
   std::string source = color_string.substr(1);
   if (source.size() == 3)
     source.insert(0, "F");
   else if (source.size() == 6)
     source.insert(0, "FF");
 
-  // Convert the string from #FFF format to #FFFFFF format.
+  // 将字符串从#FFF格式转换为#FFFFFF格式。
   std::string formatted_color;
   if (source.size() == 4) {
     for (size_t i = 0; i < 4; ++i) {
@@ -37,8 +37,8 @@ SkColor ParseHexColor(const std::string& color_string) {
     return SK_ColorWHITE;
   }
 
-  // Convert the string to an integer and make sure it is in the correct value
-  // range.
+  // 将字符串转换为整数并确保其值正确。
+  // 射程。
   std::vector<uint8_t> bytes;
   if (!base::HexStringToBytes(formatted_color, &bytes))
     return SK_ColorWHITE;
@@ -61,4 +61,4 @@ std::string ToRGBAHex(SkColor color, bool include_hash) {
   return color_str;
 }
 
-}  // namespace electron
+}  // 命名空间电子

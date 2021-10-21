@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/web_contents_preferences.h"
 
@@ -84,7 +84,7 @@ struct Converter<blink::mojom::V8CacheOptions> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -93,7 +93,7 @@ std::vector<WebContentsPreferences*>& Instances() {
   static base::NoDestructor<std::vector<WebContentsPreferences*>> g_instances;
   return *g_instances;
 }
-}  // namespace
+}  // 命名空间。
 
 WebContentsPreferences::WebContentsPreferences(
     content::WebContents* web_contents,
@@ -103,8 +103,8 @@ WebContentsPreferences::WebContentsPreferences(
   Instances().push_back(this);
   SetFromDictionary(web_preferences);
 
-  // If this is a <webview> tag, and the embedder is offscreen-rendered, then
-  // this WebContents is also offscreen-rendered.
+  // 如果这是一个&lt;webview&gt;标记，并且嵌入器是屏幕外呈现的，那么。
+  // 此WebContents也是屏幕外呈现的。
   if (auto* api_web_contents = api::WebContents::From(web_contents_)) {
     if (electron::api::WebContents* embedder = api_web_contents->embedder()) {
       auto* embedder_preferences =
@@ -251,13 +251,13 @@ void WebContentsPreferences::SetFromDictionary(
       LOG(ERROR) << "preload script must have absolute path.";
     }
   } else if (web_preferences.Get(options::kPreloadURL, &preload_url_str)) {
-    // Translate to file path if there is "preload-url" option.
+    // 如果有“preload-url”选项，则转换为文件路径。
     base::FilePath preload;
     GURL preload_url(preload_url_str);
     if (net::FileURLToFilePath(preload_url, &preload)) {
       preload_path_ = preload;
     } else {
-      LOG(ERROR) << "preload url must be file:// protocol.";
+      LOG(ERROR) << "preload url must be file:// 协议。“；
     }
   }
 
@@ -323,7 +323,7 @@ bool WebContentsPreferences::IsSandboxed() const {
   return !sandbox_disabled_by_default;
 }
 
-// static
+// 静电。
 content::WebContents* WebContentsPreferences::GetWebContentsFromProcessID(
     int process_id) {
   for (WebContentsPreferences* preferences : Instances()) {
@@ -334,7 +334,7 @@ content::WebContents* WebContentsPreferences::GetWebContentsFromProcessID(
   return nullptr;
 }
 
-// static
+// 静电。
 WebContentsPreferences* WebContentsPreferences::From(
     content::WebContents* web_contents) {
   if (!web_contents)
@@ -345,13 +345,13 @@ WebContentsPreferences* WebContentsPreferences::From(
 void WebContentsPreferences::AppendCommandLineSwitches(
     base::CommandLine* command_line,
     bool is_subframe) {
-  // Experimental flags.
+  // 实验旗帜。
   if (experimental_features_)
     command_line->AppendSwitch(
         ::switches::kEnableExperimentalWebPlatformFeatures);
 
-  // Sandbox can be enabled for renderer processes hosting cross-origin frames
-  // unless nodeIntegrationInSubFrames is enabled
+  // 可以为托管跨源帧的渲染器进程启用沙箱。
+  // 除非启用了nodeIntegrationInSubFrames。
   bool can_sandbox_frame = is_subframe && !node_integration_in_sub_frames_;
 
   if (IsSandboxed() || can_sandbox_frame) {
@@ -362,17 +362,17 @@ void WebContentsPreferences::AppendCommandLineSwitches(
   }
 
 #if defined(OS_MAC)
-  // Enable scroll bounce.
+  // 启用滚动反弹。
   if (scroll_bounce_)
     command_line->AppendSwitch(switches::kScrollBounce);
 #endif
 
-  // Custom args for renderer process
+  // 渲染器进程的自定义参数。
   for (const auto& arg : custom_args_)
     if (!arg.empty())
       command_line->AppendArg(arg);
 
-  // Custom command line switches.
+  // 自定义命令行开关。
   for (const auto& arg : custom_switches_)
     if (!arg.empty())
       command_line->AppendSwitch(arg);
@@ -387,10 +387,10 @@ void WebContentsPreferences::AppendCommandLineSwitches(
   if (node_integration_in_worker_)
     command_line->AppendSwitch(switches::kNodeIntegrationInWorker);
 
-  // We are appending args to a webContents so let's save the current state
-  // of our preferences object so that during the lifetime of the WebContents
-  // we can fetch the options used to initally configure the WebContents
-  // last_preference_ = preference_.Clone();
+  // 我们要将参数附加到webContents，因此让我们保存当前状态。
+  // 这样在WebContents的生命周期内。
+  // 我们可以获取用于初始配置WebContents的选项。
+  // Last_Preference_=Preference_.Clone()；
   SaveLastPreferences();
 }
 
@@ -431,11 +431,11 @@ void WebContentsPreferences::OverrideWebkitPrefs(
   prefs->navigate_on_drag_drop = navigate_on_drag_drop_;
   prefs->autoplay_policy = autoplay_policy_;
 
-  // Check if webgl should be enabled.
+  // 检查是否应启用WebGL。
   prefs->webgl1_enabled = webgl_;
   prefs->webgl2_enabled = webgl_;
 
-  // Check if web security should be enabled.
+  // 检查是否应启用网络安全。
   prefs->web_security_enabled = web_security_;
   prefs->allow_running_insecure_content = allow_running_insecure_content_;
 
@@ -467,16 +467,16 @@ void WebContentsPreferences::OverrideWebkitPrefs(
   if (default_encoding_)
     prefs->default_encoding = *default_encoding_;
 
-  // Pass the opener's window id.
+  // 传递打开程序的窗口ID。
   prefs->opener_id = opener_id_;
 
-  // Run Electron APIs and preload script in isolated world
+  // 在与世隔绝的世界中运行Electron API和预加载脚本。
   prefs->context_isolation = context_isolation_;
   prefs->is_webview = is_webview_;
 
   prefs->hidden_page = false;
-  // Webview `document.visibilityState` tracks window visibility so we need
-  // to let it know if the window happens to be hidden right now.
+  // WebView`Docent.visibilityState`跟踪窗口可见性，因此我们需要。
+  // 让它知道如果窗户现在恰好被隐藏了。
   if (auto* api_web_contents = api::WebContents::From(web_contents_)) {
     if (electron::api::WebContents* embedder = api_web_contents->embedder()) {
       if (auto* relay =
@@ -493,7 +493,7 @@ void WebContentsPreferences::OverrideWebkitPrefs(
 
   prefs->offscreen = offscreen_;
 
-  // The preload script.
+  // 预加载脚本。
   if (preload_path_)
     prefs->preload = *preload_path_;
 
@@ -515,4 +515,4 @@ void WebContentsPreferences::OverrideWebkitPrefs(
 
 WEB_CONTENTS_USER_DATA_KEY_IMPL(WebContentsPreferences)
 
-}  // namespace electron
+}  // 命名空间电子

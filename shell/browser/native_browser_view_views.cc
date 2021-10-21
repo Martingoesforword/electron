@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/native_browser_view_views.h"
 
@@ -27,13 +27,13 @@ void NativeBrowserViewViews::SetAutoResizeFlags(uint8_t flags) {
 
 void NativeBrowserViewViews::UpdateDraggableRegions(
     const std::vector<mojom::DraggableRegionPtr>& regions) {
-  // We need to snap the regions to the bounds of the current BrowserView.
-  // For example, if an attached BrowserView is draggable but its bounds are
-  // { x: 200,  y: 100, width: 300, height: 300 }
-  // then we need to add 200 to the x-value and 100 to the
-  // y-value of each of the passed regions or it will be incorrectly
-  // assumed that the regions begin in the top left corner as they
-  // would for the main client window.
+  // 我们需要将区域捕捉到当前BrowserView的边界。
+  // 例如，如果附加的BrowserView是可拖动的，但其边界是。
+  // {x：200，y：100，宽：300，高：300}。
+  // 然后我们需要把200加到x值上，把100加到。
+  // 每个传递的区域的Y值，否则将不正确。
+  // 假设区域从左上角开始，因为它们。
+  // 将用于主客户端窗口。
   auto const offset = GetBounds().OffsetFromOrigin();
   auto snapped_regions = mojo::Clone(regions);
   for (auto& snapped_region : snapped_regions) {
@@ -152,10 +152,10 @@ void NativeBrowserViewViews::SetBackgroundColor(SkColor color) {
   view->SchedulePaint();
 }
 
-// static
+// 静电。
 NativeBrowserView* NativeBrowserView::Create(
     InspectableWebContents* inspectable_web_contents) {
   return new NativeBrowserViewViews(inspectable_web_contents);
 }
 
-}  // namespace electron
+}  // 命名空间电子

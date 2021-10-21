@@ -1,6 +1,6 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2018年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/badging/badge_manager_factory.h"
 
@@ -14,14 +14,14 @@
 
 namespace badging {
 
-// static
+// 静电。
 BadgeManager* BadgeManagerFactory::GetForBrowserContext(
     content::BrowserContext* context) {
   return static_cast<badging::BadgeManager*>(
       GetInstance()->GetServiceForBrowserContext(context, true));
 }
 
-// static
+// 静电。
 BadgeManagerFactory* BadgeManagerFactory::GetInstance() {
   return base::Singleton<BadgeManagerFactory>::get();
 }
@@ -38,4 +38,4 @@ KeyedService* BadgeManagerFactory::BuildServiceInstanceFor(
   return new BadgeManager();
 }
 
-}  // namespace badging
+}  // 命名空间标记

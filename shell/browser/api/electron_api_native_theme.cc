@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_native_theme.h"
 
@@ -48,11 +48,11 @@ void NativeTheme::SetThemeSource(ui::NativeTheme::ThemeSource override) {
   ui_theme_->set_theme_source(override);
   web_theme_->set_theme_source(override);
 #if defined(OS_MAC)
-  // Update the macOS appearance setting for this new override value
+  // 更新此新替代值的MacOS外观设置。
   UpdateMacOSAppearanceForOverrideValue(override);
 #endif
-  // TODO(MarshallOfSound): Update all existing browsers windows to use GTK dark
-  // theme
+  // TODO(MarshallOfSound)：更新所有现有浏览器窗口以使用GTK暗色。
+  // 主旋律。
 }
 
 ui::NativeTheme::ThemeSource NativeTheme::GetThemeSource() const {
@@ -72,7 +72,7 @@ const CFStringRef WhiteOnBlack = CFSTR("whiteOnBlack");
 const CFStringRef UniversalAccessDomain = CFSTR("com.apple.universalaccess");
 #endif
 
-// TODO(MarshallOfSound): Implement for Linux
+// TODO(MarshallOfSound)：Linux实现。
 bool NativeTheme::ShouldUseInvertedColorScheme() {
 #if defined(OS_MAC)
   CFPreferencesAppSynchronize(UniversalAccessDomain);
@@ -88,7 +88,7 @@ bool NativeTheme::ShouldUseInvertedColorScheme() {
 #endif
 }
 
-// static
+// 静电。
 gin::Handle<NativeTheme> NativeTheme::Create(v8::Isolate* isolate) {
   ui::NativeTheme* ui_theme = ui::NativeTheme::GetInstanceForNativeUi();
   ui::NativeTheme* web_theme = ui::NativeTheme::GetInstanceForWeb();
@@ -113,9 +113,9 @@ const char* NativeTheme::GetTypeName() {
   return "NativeTheme";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -130,7 +130,7 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("nativeTheme", NativeTheme::Create(isolate));
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace gin {
 
@@ -168,6 +168,6 @@ bool Converter<ui::NativeTheme::ThemeSource>::FromV8(
   return false;
 }
 
-}  // namespace gin
+}  // 命名空间杜松子酒
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_common_native_theme, Initialize)

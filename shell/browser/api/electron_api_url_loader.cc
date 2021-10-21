@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_url_loader.h"
 
@@ -59,15 +59,15 @@ struct Converter<network::mojom::CredentialsMode> {
     else if (mode == "include")
       *out = network::mojom::CredentialsMode::kInclude;
     else
-      // "same-origin" is technically a member of this enum as well, but it
-      // doesn't make sense in the context of `net.request()`, so don't convert
-      // it.
+      // 从技术上讲，“同源”也是这个枚举的成员，但它。
+      // 在`net.request()`的上下文中没有意义，因此不要转换。
+      // 它。
       return false;
     return true;
   }
-};  // namespace gin
+};  // 命名空间杜松子酒。
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -84,7 +84,7 @@ class BufferDataSource : public mojo::DataPipeProducer::DataSource {
   ~BufferDataSource() override = default;
 
  private:
-  // mojo::DataPipeProducer::DataSource:
+  // MOJO：：DataPipeProducer：：DataSource：
   uint64_t GetLength() const override { return buffer_.size(); }
   ReadResult Read(uint64_t offset, base::span<char> buffer) override {
     ReadResult result;
@@ -119,7 +119,7 @@ class JSChunkedDataPipeGetter : public gin::Wrappable<JSChunkedDataPipeGetter>,
                      isolate, body_func, std::move(chunked_data_pipe_getter)));
   }
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override {
     return gin::Wrappable<JSChunkedDataPipeGetter>::GetObjectTemplateBuilder(
@@ -141,7 +141,7 @@ class JSChunkedDataPipeGetter : public gin::Wrappable<JSChunkedDataPipeGetter>,
     receiver_.Bind(std::move(chunked_data_pipe_getter));
   }
 
-  // network::mojom::ChunkedDataPipeGetter:
+  // Network：：mojom：：ChunkedDataPipeGetter：
   void GetSize(GetSizeCallback callback) override {
     size_callback_ = std::move(callback);
   }
@@ -151,7 +151,7 @@ class JSChunkedDataPipeGetter : public gin::Wrappable<JSChunkedDataPipeGetter>,
 
     if (body_func_.IsEmpty()) {
       LOG(ERROR) << "Tried to read twice from a JSChunkedDataPipeGetter";
-      // Drop the handle on the floor.
+      // 把手柄放在地板上。
       return;
     }
     data_producer_ = std::make_unique<mojo::DataPipeProducer>(std::move(pipe));
@@ -195,8 +195,8 @@ class JSChunkedDataPipeGetter : public gin::Wrappable<JSChunkedDataPipeGetter>,
     data_producer_->Write(
         std::move(buffer_source),
         base::BindOnce(&JSChunkedDataPipeGetter::OnWriteChunkComplete,
-                       // We're OK to use Unretained here because we own
-                       // |data_producer_|.
+                       // 我们可以在这里使用Unreposed，因为我们拥有。
+                       // |Data_Producer_|。
                        base::Unretained(this), std::move(promise)));
     return handle;
   }
@@ -214,8 +214,8 @@ class JSChunkedDataPipeGetter : public gin::Wrappable<JSChunkedDataPipeGetter>,
     }
   }
 
-  // TODO(nornagon): accept a net error here to allow the data provider to
-  // cancel the request with an error.
+  // TODO(Nornagon)：此处接受净错误，以允许数据提供程序。
+  // 取消请求，但出现错误。
   void Done() {
     if (size_callback_) {
       std::move(size_callback_).Run(net::OK, bytes_written_);
@@ -260,7 +260,7 @@ const net::NetworkTrafficAnnotationTag kTrafficAnnotation =
           setting: "This feature cannot be disabled."
         })");
 
-}  // namespace
+}  // 命名空间。
 
 gin::WrapperInfo SimpleURLLoaderWrapper::kWrapperInfo = {
     gin::kEmbedderNativeGin};
@@ -278,12 +278,12 @@ SimpleURLLoaderWrapper::SimpleURLLoaderWrapper(
       url_loader_network_observer_remote.InitWithNewPipeAndPassReceiver());
   request->trusted_params->url_loader_network_observer =
       std::move(url_loader_network_observer_remote);
-  // Chromium filters headers using browser rules, while for net module we have
-  // every header passed. The following setting will allow us to capture the
-  // raw headers in the URLLoader.
+  // Chrome使用浏览器规则过滤标题，而对于net模块，我们有。
+  // 每个头都通过了。下面的设置将允许我们捕获。
+  // URLLoader中的原始标头。
   request->report_raw_headers = true;
-  // SimpleURLLoader wants to control the request body itself. We have other
-  // ideas.
+  // SimpleURLLoader希望控制请求主体本身。我们还有其他的。
+  // 想法。
   auto request_body = std::move(request->request_body);
   auto* request_ref = request.get();
   loader_ =
@@ -307,8 +307,8 @@ SimpleURLLoaderWrapper::SimpleURLLoaderWrapper(
 }
 
 void SimpleURLLoaderWrapper::Pin() {
-  // Prevent ourselves from being GC'd until the request is complete.  Must be
-  // called after gin::CreateHandle, otherwise the wrapper isn't initialized.
+  // 在请求完成之前防止我们自己被GC。一定是。
+  // 在gin：：CreateHandle之后调用，否则包装不会初始化。
   v8::Isolate* isolate = JavascriptEnvironment::GetIsolate();
   pinned_wrapper_.Reset(isolate, GetWrapper(isolate).ToLocalChecked());
 }
@@ -332,9 +332,9 @@ void SimpleURLLoaderWrapper::OnAuthRequired(
   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
   mojo::Remote<network::mojom::AuthChallengeResponder> auth_responder(
       std::move(auth_challenge_responder));
-  // WeakPtr because if we're Cancel()ed while waiting for auth, and the
-  // network service also decides to cancel at the same time and kill this
-  // pipe, we might end up trying to call Cancel again on dead memory.
+  // WeakPtr，因为如果我们在等待身份验证时被取消()，并且。
+  // 网络服务也决定同时取消并终止此服务。
+  // 管道，我们可能会在内存死掉的情况下再次尝试调用Cancel。
   auth_responder.set_disconnect_handler(base::BindOnce(
       &SimpleURLLoaderWrapper::Cancel, weak_factory_.GetWeakPtr()));
   auto cb = base::BindOnce(
@@ -383,11 +383,11 @@ void SimpleURLLoaderWrapper::Cancel() {
   loader_.reset();
   pinned_wrapper_.Reset();
   pinned_chunk_pipe_getter_.Reset();
-  // This ensures that no further callbacks will be called, so there's no need
-  // for additional guards.
+  // 这样可以确保不会调用更多的回调，因此不需要。
+  // 需要额外的警卫。
 }
 
-// static
+// 静电。
 gin::Handle<SimpleURLLoaderWrapper> SimpleURLLoaderWrapper::Create(
     gin::Arguments* args) {
   gin_helper::Dictionary opts;
@@ -487,9 +487,9 @@ gin::Handle<SimpleURLLoaderWrapper> SimpleURLLoaderWrapper::Create(
   opts.Get("useSessionCookies", &use_session_cookies);
   int options = 0;
   if (!credentials_specified && !use_session_cookies) {
-    // This is the default case, as well as the case when credentials is not
-    // specified and useSessionCoookies is false. credentials_mode will be
-    // kInclude, but cookies will be blocked.
+    // 这是默认情况，也是凭据未设置时的情况。
+    // Specified and useSessionCoookies为false。Credentials_mode将为。
+    // K包含，但Cookie将被阻止。
     request->credentials_mode = network::mojom::CredentialsMode::kInclude;
     options |= network::mojom::kURLLoadOptionBlockAllCookies;
   }
@@ -525,7 +525,7 @@ gin::Handle<SimpleURLLoaderWrapper> SimpleURLLoaderWrapper::Create(
   if (!opts.Get("session", &session)) {
     if (opts.Get("partition", &partition))
       session = Session::FromPartition(args->isolate(), partition);
-    else  // default session
+    else  // 默认会话。
       session = Session::FromPartition(args->isolate(), "");
   }
 
@@ -576,8 +576,8 @@ void SimpleURLLoaderWrapper::OnResponseStarted(
   dict.Set("statusCode", response_head.headers->response_code());
   dict.Set("statusMessage", response_head.headers->GetStatusText());
   dict.Set("httpVersion", response_head.headers->GetHttpVersion());
-  // Note that |response_head.headers| are filtered by Chromium and should not
-  // be used here.
+  // 请注意，|RESPONSE_Head.Headers|由Chromium过滤，不应。
+  // 在这里使用。
   DCHECK(!response_head.raw_response_headers.empty());
   dict.Set("rawHeaders", response_head.raw_response_headers);
   Emit("response-started", final_url, dict);
@@ -599,7 +599,7 @@ void SimpleURLLoaderWrapper::OnDownloadProgress(uint64_t current) {
   Emit("download-progress", current);
 }
 
-// static
+// 静电。
 gin::ObjectTemplateBuilder SimpleURLLoaderWrapper::GetObjectTemplateBuilder(
     v8::Isolate* isolate) {
   return gin_helper::EventEmitterMixin<
@@ -611,6 +611,6 @@ const char* SimpleURLLoaderWrapper::GetTypeName() {
   return "SimpleURLLoaderWrapper";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

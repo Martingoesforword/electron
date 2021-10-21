@@ -1,6 +1,6 @@
-// Copyright 2014 Cheng Zhao. All rights reserved.
-// Use of this source code is governed by MIT license that can be found in the
-// LICENSE file.
+// 版权所有2014程昭。版权所有。
+// 此源代码的使用受麻省理工学院许可管理，该许可可在。
+// 许可证文件。
 
 #include "shell/common/gin_helper/persistent_dictionary.h"
 
@@ -29,4 +29,4 @@ v8::Local<v8::Object> PersistentDictionary::GetHandle() const {
   return v8::Local<v8::Object>::New(isolate_, handle_);
 }
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper

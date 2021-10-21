@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/platform_util.h"
 
@@ -66,7 +66,7 @@ class ShowItemHelper {
 
   void ShowItemInFolder(const base::FilePath& full_path) {
     if (!bus_) {
-      // Sets up the D-Bus connection.
+      // 设置D-BUS连接。
       dbus::Bus::Options bus_options;
       bus_options.bus_type = dbus::Bus::SESSION;
       bus_options.connection_type = dbus::Bus::PRIVATE;
@@ -178,7 +178,7 @@ class ShowItemHelper {
     if (!fd.is_valid()) {
       LOG(ERROR) << "Failed to open " << full_path << " for URI portal";
 
-      // If the call fails, at least open the parent folder.
+      // 如果调用失败，至少打开父文件夹。
       platform_util::OpenFolder(full_path.DirName());
 
       return;
@@ -190,8 +190,8 @@ class ShowItemHelper {
 
     writer.AppendString("");
 
-    // Note that AppendFileDescriptor() duplicates the fd, so we shouldn't
-    // release ownership of it here.
+    // 请注意，AppendFileDescriptor()复制了FD，所以我们不应该。
+    // 在这里释放它的所有权。
     writer.AppendFileDescriptor(fd.get());
 
     dbus::MessageWriter options_writer(nullptr);
@@ -213,8 +213,8 @@ class ShowItemHelper {
     dbus::MessageWriter writer(&show_items_call);
 
     writer.AppendArrayOfStrings(
-        {"file://" + full_path.value()});  // List of file(s) to highlight.
-    writer.AppendString({});               // startup-id
+        {"file:// “+full_path.value()})；//要突出显示的文件列表。
+    writer.AppendString({});               // 启动ID。
 
     ShowItemUsingBusCall(&show_items_call, full_path);
   }
@@ -234,7 +234,7 @@ class ShowItemHelper {
       return;
 
     LOG(ERROR) << "Error calling " << method;
-    // If the bus call fails, at least open the parent folder.
+    // 如果总线调用失败，至少打开父文件夹。
     platform_util::OpenFolder(full_path.DirName());
   }
 
@@ -245,7 +245,7 @@ class ShowItemHelper {
   absl::optional<bool> prefer_filemanager_interface_;
 };
 
-// Descriptions pulled from https://linux.die.net/man/1/xdg-open
+// 描述取自https://linux.die.net/man/1/xdg-open。
 std::string GetErrorDescription(int error_code) {
   switch (error_code) {
     case 1:
@@ -268,10 +268,10 @@ bool XDGUtil(const std::vector<std::string>& argv,
   base::LaunchOptions options;
   options.current_directory = working_directory;
   options.allow_new_privs = true;
-  // xdg-open can fall back on mailcap which eventually might plumb through
-  // to a command that needs a terminal.  Set the environment variable telling
-  // it that we definitely don't have a terminal available and that it should
-  // bring up a new terminal if necessary.  See "man mailcap".
+  // XDG-OPEN可以依靠邮件盖，而邮件盖最终可能会通过。
+  // 一个需要终端的命令。设置环境变量Tell。
+  // 如果我们肯定没有可用的终端，而它应该。
+  // 如有必要，请调出一个新的航站楼。请参阅“手动邮件帽”。
   options.environment["MM_NOTTTY"] = "1";
 
   base::Process process = base::LaunchProcess(argv, options);
@@ -280,7 +280,7 @@ bool XDGUtil(const std::vector<std::string>& argv,
 
   if (wait_for_exit) {
     base::ScopedAllowBaseSyncPrimitivesForTesting
-        allow_sync;  // required by WaitForExit
+        allow_sync;  // WaitForExit需要。
     int exit_code = -1;
     bool success = process.WaitForExit(&exit_code);
     if (!callback.is_null())
@@ -305,7 +305,7 @@ bool XDGEmail(const std::string& email, const bool wait_for_exit) {
                  platform_util::OpenCallback());
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace platform_util {
 
@@ -315,7 +315,7 @@ void ShowItemInFolder(const base::FilePath& full_path) {
 }
 
 void OpenPath(const base::FilePath& full_path, OpenCallback callback) {
-  // This is async, so we don't care about the return value.
+  // 这是异步的，所以我们不关心返回值。
   XDGOpen(full_path.DirName(), full_path.value(), true, std::move(callback));
 }
 
@@ -329,8 +329,8 @@ void OpenFolder(const base::FilePath& full_path) {
 void OpenExternal(const GURL& url,
                   const OpenExternalOptions& options,
                   OpenCallback callback) {
-  // Don't wait for exit, since we don't want to wait for the browser/email
-  // client window to close before returning
+  // 不要等待退出，因为我们不想等待浏览器/电子邮件。
+  // 返回前要关闭的客户端窗口。
   if (url.SchemeIs("mailto")) {
     bool success = XDGEmail(url.spec(), false);
     std::move(callback).Run(success ? "" : "Failed to open path");
@@ -344,10 +344,10 @@ void OpenExternal(const GURL& url,
 bool MoveItemToTrash(const base::FilePath& full_path, bool delete_on_fail) {
   auto env = base::Environment::Create();
 
-  // find the trash method
+  // 找到垃圾桶方法。
   std::string trash;
   if (!env->GetVar(ELECTRON_TRASH, &trash)) {
-    // Determine desktop environment and set accordingly.
+    // 确定桌面环境并进行相应设置。
     const auto desktop_env(base::nix::GetDesktopEnvironment(env.get()));
     if (desktop_env == base::nix::DESKTOP_ENVIRONMENT_KDE4 ||
         desktop_env == base::nix::DESKTOP_ENVIRONMENT_KDE5) {
@@ -357,7 +357,7 @@ bool MoveItemToTrash(const base::FilePath& full_path, bool delete_on_fail) {
     }
   }
 
-  // build the invocation
+  // 构建调用。
   std::vector<std::string> argv;
   const auto& filename = full_path.value();
   if (trash == "kioclient5" || trash == "kioclient") {
@@ -365,7 +365,7 @@ bool MoveItemToTrash(const base::FilePath& full_path, bool delete_on_fail) {
   } else if (trash == "trash-cli") {
     argv = {"trash-put", filename};
   } else if (trash == "gvfs-trash") {
-    argv = {"gvfs-trash", filename};  // deprecated, but still exists
+    argv = {"gvfs-trash", filename};  // 已弃用，但仍存在。
   } else {
     argv = {"gio", "trash", filename};
   }
@@ -377,17 +377,17 @@ namespace internal {
 
 bool PlatformTrashItem(const base::FilePath& full_path, std::string* error) {
   if (!MoveItemToTrash(full_path, false)) {
-    // TODO(nornagon): at least include the exit code?
+    // TODO(Nornagon)：至少包括退出代码？
     *error = "Failed to move item to trash";
     return false;
   }
   return true;
 }
 
-}  // namespace internal
+}  // 命名空间内部。
 
 void Beep() {
-  // echo '\a' > /dev/console
+  // ECHO‘\a’&gt;/dev/console。
   FILE* fp = fopen("/dev/console", "a");
   if (fp == nullptr) {
     fp = fopen("/dev/tty", "a");
@@ -402,4 +402,4 @@ bool GetDesktopName(std::string* setme) {
   return base::Environment::Create()->GetVar("CHROME_DESKTOP", setme);
 }
 
-}  // namespace platform_util
+}  // 命名空间Platform_util

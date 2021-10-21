@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/child_web_contents_tracker.h"
 
@@ -13,4 +13,4 @@ ChildWebContentsTracker::~ChildWebContentsTracker() = default;
 
 WEB_CONTENTS_USER_DATA_KEY_IMPL(ChildWebContentsTracker)
 
-}  // namespace electron
+}  // 命名空间电子

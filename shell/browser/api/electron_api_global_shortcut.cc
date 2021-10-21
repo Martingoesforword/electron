@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_global_shortcut.h"
 
@@ -46,7 +46,7 @@ bool RegisteringMediaKeyForUntrustedClient(const ui::Accelerator& accelerator) {
 }
 #endif
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -63,8 +63,8 @@ GlobalShortcut::~GlobalShortcut() {
 void GlobalShortcut::OnKeyPressed(const ui::Accelerator& accelerator) {
   if (accelerator_callback_map_.find(accelerator) ==
       accelerator_callback_map_.end()) {
-    // This should never occur, because if it does, GlobalShortcutListener
-    // notifies us with wrong accelerator.
+    // 这应该永远不会发生，因为如果发生这种情况，GlobalShortcutListener。
+    // 用错误的加速器通知我们。
     NOTREACHED();
     return;
   }
@@ -83,7 +83,7 @@ bool GlobalShortcut::RegisterAll(
 
   for (auto& accelerator : accelerators) {
     if (!Register(accelerator, callback)) {
-      // unregister all shortcuts if any failed
+      // 如果有任何快捷键失败，则取消注册所有快捷键。
       UnregisterSome(registered);
       return false;
     }
@@ -148,12 +148,12 @@ void GlobalShortcut::UnregisterAll() {
   GlobalShortcutListener::GetInstance()->UnregisterAccelerators(this);
 }
 
-// static
+// 静电。
 gin::Handle<GlobalShortcut> GlobalShortcut::Create(v8::Isolate* isolate) {
   return gin::CreateHandle(isolate, new GlobalShortcut(isolate));
 }
 
-// static
+// 静电。
 gin::ObjectTemplateBuilder GlobalShortcut::GetObjectTemplateBuilder(
     v8::Isolate* isolate) {
   return gin::Wrappable<GlobalShortcut>::GetObjectTemplateBuilder(isolate)
@@ -168,9 +168,9 @@ const char* GlobalShortcut::GetTypeName() {
   return "GlobalShortcut";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -183,6 +183,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("globalShortcut", electron::api::GlobalShortcut::Create(isolate));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_global_shortcut, Initialize)

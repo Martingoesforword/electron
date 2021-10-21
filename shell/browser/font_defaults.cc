@@ -1,6 +1,6 @@
-// Copyright (c) 2018 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/font_defaults.h"
 
@@ -17,23 +17,23 @@
 
 namespace {
 
-// The following list of font defaults was copied from
-// https://chromium.googlesource.com/chromium/src/+/69.0.3497.106/chrome/browser/ui/prefs/prefs_tab_helper.cc#152
-//
-// The only updates that should be made to this list are copying updates that
-// were made in Chromium.
-//
-// vvvvv DO NOT EDIT vvvvv
+// 以下字体默认列表是从。
+// Https://chromium.googlesource.com/chromium/src/+/69.0.3497.106/chrome/browser/ui/prefs/prefs_tab_helper.cc#152。
+// 
+// 应该对此列表进行的唯一更新是复制。
+// 都是铬合金做的。
+// 
+// Vvvvv请勿编辑vvvvv。
 
 struct FontDefault {
   const char* pref_name;
   int resource_id;
 };
 
-// Font pref defaults.  The prefs that have defaults vary by platform, since not
-// all platforms have fonts for all scripts for all generic families.
-// TODO(falken): add proper defaults when possible for all
-// platforms/scripts/generic families.
+// 字体首选项默认值。具有默认值的首选项因平台不同而不同，因为。
+// 所有平台都有适用于所有通用族的所有脚本的字体。
+// TODO(Falken)：尽可能为所有人添加适当的默认值。
+// 平台/脚本/类属系列。
 const FontDefault kFontDefaults[] = {
     {prefs::kWebKitStandardFontFamily, IDS_STANDARD_FONT_FAMILY},
     {prefs::kWebKitFixedFontFamily, IDS_FIXED_FONT_FAMILY},
@@ -106,7 +106,7 @@ const FontDefault kFontDefaults[] = {
 };
 const size_t kFontDefaultsLength = base::size(kFontDefaults);
 
-// ^^^^^ DO NOT EDIT ^^^^^
+// ^请勿编辑^。
 
 std::string GetDefaultFontForPref(const char* pref_name) {
   for (size_t i = 0; i < kFontDefaultsLength; ++i) {
@@ -118,16 +118,16 @@ std::string GetDefaultFontForPref(const char* pref_name) {
   return std::string();
 }
 
-// Map from script to font.
-// Key comparison uses pointer equality.
+// 从脚本映射到字体。
+// 键比较使用指针相等。
 using ScriptFontMap = std::unordered_map<const char*, std::u16string>;
 
-// Map from font family to ScriptFontMap.
-// Key comparison uses pointer equality.
+// 从字体系列映射到ScriptFontMap。
+// 键比较使用指针相等。
 using FontFamilyMap = std::unordered_map<const char*, ScriptFontMap>;
 
-// A lookup table mapping (font-family, script) -> font-name
-// e.g. ("sans-serif", "Zyyy") -> "Arial"
+// 查找表映射(字体系列、脚本)-&gt;字体名称。
+// 例如(“sans-serif”，“zyyy”)-&gt;“Arial”
 FontFamilyMap g_font_cache;
 
 std::u16string FetchFont(const char* script, const char* map_name) {
@@ -158,7 +158,7 @@ void FillFontFamilyMap(const char* map_name,
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -179,4 +179,4 @@ void SetFontDefaults(blink::web_pref::WebPreferences* prefs) {
                     &prefs->pictograph_font_family_map);
 }
 
-}  // namespace electron
+}  // 命名空间电子

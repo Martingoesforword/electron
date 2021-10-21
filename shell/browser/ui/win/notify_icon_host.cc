@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/win/notify_icon_host.h"
 
@@ -26,7 +26,7 @@ namespace {
 
 const UINT kNotifyIconMessage = WM_APP + 1;
 
-// |kBaseIconId| is 2 to avoid conflicts with plugins that hard-code id 1.
+// |kBaseIconId|为2，避免与硬编码id为1的插件冲突。
 const UINT kBaseIconId = 2;
 
 const wchar_t kNotifyIconHostWindowClass[] = L"Electron_NotifyIconHostWindow";
@@ -49,10 +49,10 @@ int GetKeyboardModifiers() {
   return modifiers;
 }
 
-}  // namespace
+}  // 命名空间。
 
 NotifyIconHost::NotifyIconHost() {
-  // Register our window class
+  // 注册我们的窗口类。
   WNDCLASSEX window_class;
   base::win::InitializeWindowClass(
       kNotifyIconHostWindowClass,
@@ -62,14 +62,14 @@ NotifyIconHost::NotifyIconHost() {
   atom_ = RegisterClassEx(&window_class);
   CHECK(atom_);
 
-  // If the taskbar is re-created after we start up, we have to rebuild all of
-  // our icons.
+  // 如果在启动后重新创建任务栏，则必须重新构建所有。
+  // 我们的偶像。
   taskbar_created_message_ = RegisterWindowMessage(TEXT("TaskbarCreated"));
 
-  // Create an offscreen window for handling messages for the status icons. We
-  // create a hidden WS_POPUP window instead of an HWND_MESSAGE window, because
-  // only top-level windows such as popups can receive broadcast messages like
-  // "TaskbarCreated".
+  // 创建一个离屏窗口，用于处理状态图标的消息。我们。
+  // 创建隐藏的WS_POPUP窗口而不是HWND_MESSAGE窗口，因为。
+  // 只有顶级窗口(如弹出窗口)才能接收广播消息，如。
+  // “任务栏已创建”。
   window_ = CreateWindow(MAKEINTATOM(atom_), 0, WS_POPUP, 0, 0, 0, 0, 0, 0,
                          instance_, 0);
   gfx::CheckWindowCreated(window_, ::GetLastError());
@@ -136,7 +136,7 @@ LRESULT CALLBACK NotifyIconHost::WndProc(HWND hwnd,
                                          WPARAM wparam,
                                          LPARAM lparam) {
   if (message == taskbar_created_message_) {
-    // We need to reset all of our icons because the taskbar went away.
+    // 我们需要重置所有图标，因为任务栏消失了。
     for (NotifyIcons::const_iterator i(notify_icons_.begin());
          i != notify_icons_.end(); ++i) {
       auto* win_icon = static_cast<NotifyIcon*>(*i);
@@ -146,7 +146,7 @@ LRESULT CALLBACK NotifyIconHost::WndProc(HWND hwnd,
   } else if (message == kNotifyIconMessage) {
     NotifyIcon* win_icon = NULL;
 
-    // Find the selected status icon.
+    // 查找选定的状态图标。
     for (NotifyIcons::const_iterator i(notify_icons_.begin());
          i != notify_icons_.end(); ++i) {
       auto* current_win_icon = static_cast<NotifyIcon*>(*i);
@@ -156,16 +156,16 @@ LRESULT CALLBACK NotifyIconHost::WndProc(HWND hwnd,
       }
     }
 
-    // It is possible for this procedure to be called with an obsolete icon
-    // id.  In that case we should just return early before handling any
-    // actions.
+    // 可以使用过时图标调用此过程。
+    // 身份证。那样的话，我们应该在处理任何。
+    // 行为。
     if (!win_icon)
       return TRUE;
 
-    // We use a WeakPtr factory for NotifyIcons here so
-    // that the callback is aware if the NotifyIcon gets
-    // garbage-collected. This occurs when the tray gets
-    // GC'd, and the BALLOON events below will not emit.
+    // 我们在这里对NotifyIcons使用WeakPtr工厂，因此。
+    // 如果NotifyIcon获得。
+    // 垃圾收集。当托盘到达时，就会发生这种情况。
+    // GC，下面的气球事件将不会发射。
     base::WeakPtr<NotifyIcon> win_icon_weak = win_icon->GetWeakPtr();
 
     switch (lparam) {
@@ -192,8 +192,8 @@ LRESULT CALLBACK NotifyIconHost::WndProc(HWND hwnd,
       case WM_LBUTTONDBLCLK:
       case WM_RBUTTONDBLCLK:
       case WM_CONTEXTMENU:
-        // Walk our icons, find which one was clicked on, and invoke its
-        // HandleClickEvent() method.
+        // 浏览我们的图标，找到被点击的图标，并调用其。
+        // HandleClickEvent()方法。
         content::GetUIThreadTaskRunner({})->PostTask(
             FROM_HERE,
             base::BindOnce(
@@ -219,4 +219,4 @@ UINT NotifyIconHost::NextIconId() {
   return kBaseIconId + icon_id;
 }
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Microsoft. All rights reserved.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Microsoft。版权所有。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/file_select_helper.h"
 
@@ -58,7 +58,7 @@ void DeleteFiles(std::vector<base::FilePath> paths) {
     base::DeleteFile(file_path);
 }
 
-}  // namespace
+}  // 命名空间。
 
 struct FileSelectHelper::ActiveDirectoryEnumeration {
   explicit ActiveDirectoryEnumeration(const base::FilePath& path)
@@ -78,8 +78,8 @@ FileSelectHelper::FileSelectHelper()
       dialog_mode_(FileChooserParams::Mode::kOpen) {}
 
 FileSelectHelper::~FileSelectHelper() {
-  // There may be pending file dialogs, we need to tell them that we've gone
-  // away so they don't try and call back to us.
+  // 可能有挂起的文件对话框，我们需要告诉他们我们已离开。
+  // 这样他们就不会试图回电给我们了。
   if (select_file_dialog_.get())
     select_file_dialog_->ListenerDestroyed();
 }
@@ -115,7 +115,7 @@ void FileSelectHelper::FileSelectedWithExtraInfo(
       base::BindOnce(&FileSelectHelper::ProcessSelectedFilesMac, this, files));
 #else
   ConvertToFileChooserFileInfoList(files);
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 }
 
 void FileSelectHelper::MultiFilesSelected(
@@ -137,7 +137,7 @@ void FileSelectHelper::MultiFilesSelectedWithExtraInfo(
       base::BindOnce(&FileSelectHelper::ProcessSelectedFilesMac, this, files));
 #else
   ConvertToFileChooserFileInfoList(files);
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 }
 
 void FileSelectHelper::FileSelectionCanceled(void* params) {
@@ -155,7 +155,7 @@ void FileSelectHelper::StartNewEnumeration(const base::FilePath& path) {
 
 void FileSelectHelper::OnListFile(
     const net::DirectoryLister::DirectoryListerData& data) {
-  // Directory upload only cares about files.
+  // 目录上传只关心文件。
   if (data.info.IsDirectory())
     return;
 
@@ -173,14 +173,14 @@ void FileSelectHelper::LaunchConfirmationDialog(
 
 void FileSelectHelper::OnListDone(int error) {
   if (!web_contents_) {
-    // Web contents was destroyed under us (probably by closing the tab). We
-    // must notify |listener_| and release our reference to
-    // ourself. RunFileChooserEnd() performs this.
+    // 在我们的控制下，Web内容已被销毁(可能是通过关闭选项卡)。我们。
+    // 必须通知|Listener_|并释放对。
+    // 我们自己。RunFileChooserEnd()执行此操作。
     RunFileChooserEnd();
     return;
   }
 
-  // This entry needs to be cleaned up when this function is done.
+  // 完成此功能后，需要清除此条目。
   std::unique_ptr<ActiveDirectoryEnumeration> entry =
       std::move(directory_enumeration_);
   if (error) {
@@ -236,7 +236,7 @@ void FileSelectHelper::NotifyListenerAndEnd(
   listener_->FileSelected(std::move(list), base_dir_, dialog_mode_);
   listener_.reset();
 
-  // No members should be accessed from here on.
+  // 从现在开始不应访问任何成员。
   RunFileChooserEnd();
 }
 
@@ -252,8 +252,8 @@ void FileSelectHelper::CleanUp() {
   if (!temporary_files_.empty()) {
     DeleteTemporaryFiles();
 
-    // Now that the temporary files have been scheduled for deletion, there
-    // is no longer any reason to keep this instance around.
+    // 现在，临时文件已被安排删除，
+    // 不再有任何理由保留这个实例。
     Release();
   }
 }
@@ -282,7 +282,7 @@ FileSelectHelper::GetFileTypesFromAcceptType(
   if (accept_types.empty())
     return base_file_type;
 
-  // Create FileTypeInfo and pre-allocate for the first extension list.
+  // 创建FileTypeInfo并为第一个扩展名列表预分配。
   std::unique_ptr<ui::SelectFileDialog::FileTypeInfo> file_type(
       new ui::SelectFileDialog::FileTypeInfo(*base_file_type));
   file_type->include_all_files = true;
@@ -290,14 +290,14 @@ FileSelectHelper::GetFileTypesFromAcceptType(
   std::vector<base::FilePath::StringType>* extensions =
       &file_type->extensions.back();
 
-  // Find the corresponding extensions.
+  // 查找相应的分机。
   int valid_type_count = 0;
   int description_id = 0;
   for (const auto& accept_type : accept_types) {
     size_t old_extension_size = extensions->size();
     if (accept_type[0] == '.') {
-      // If the type starts with a period it is assumed to be a file extension
-      // so we just have to add it to the list.
+      // 如果类型以句点开头，则假定为文件扩展名。
+      // 所以我们只要把它加到清单上就行了。
       base::FilePath::StringType ext =
           base::FilePath::FromUTF16Unsafe(accept_type).value();
       extensions->push_back(ext.substr(1));
@@ -319,17 +319,17 @@ FileSelectHelper::GetFileTypesFromAcceptType(
       valid_type_count++;
   }
 
-  // If no valid extension is added, bail out.
+  // 如果没有添加有效的延期，则退出。
   if (valid_type_count == 0)
     return base_file_type;
 
-  // Use a generic description "Custom Files" if either of the following is
-  // true:
-  // 1) There're multiple types specified, like "audio/*,video/*"
-  // 2) There're multiple extensions for a MIME type without parameter, like
-  //    "ehtml,shtml,htm,html" for "text/html". On Windows, the select file
-  //    dialog uses the first extension in the list to form the description,
-  //    like "EHTML Files". This is not what we want.
+  // 如果符合以下任一条件，请使用通用描述“自定义文件”
+  // 正确：
+  // 1)指定多种类型，如“音频/*、视频/*”
+  // 2)没有参数的MIME类型有多个扩展，例如。
+  // “ehtml，shtml，htm，html”代表“text/html”。在Windows上，选择的文件。
+  // 对话框使用列表中的第一个扩展名来形成描述，
+  // 比如“EHTML文件”。这不是我们想要的。
   if (valid_type_count > 1 ||
       (valid_type_count == 1 && description_id == 0 && extensions->size() > 1))
     description_id = IDS_CUSTOM_FILES;
@@ -342,25 +342,25 @@ FileSelectHelper::GetFileTypesFromAcceptType(
   return file_type;
 }
 
-// static
+// 静电。
 void FileSelectHelper::RunFileChooser(
     content::RenderFrameHost* render_frame_host,
     scoped_refptr<content::FileSelectListener> listener,
     const FileChooserParams& params) {
-  // FileSelectHelper will keep itself alive until it sends the result
-  // message.
+  // FileSelectHelper将使自身保持活动状态，直到它发送结果。
+  // 留言。
   scoped_refptr<FileSelectHelper> file_select_helper(new FileSelectHelper());
   file_select_helper->RunFileChooser(render_frame_host, std::move(listener),
                                      params.Clone());
 }
 
-// static
+// 静电。
 void FileSelectHelper::EnumerateDirectory(
     content::WebContents* tab,
     scoped_refptr<content::FileSelectListener> listener,
     const base::FilePath& path) {
-  // FileSelectHelper will keep itself alive until it sends the result
-  // message.
+  // FileSelectHelper将使自身保持活动状态，直到它发送结果。
+  // 留言。
   scoped_refptr<FileSelectHelper> file_select_helper(new FileSelectHelper());
   file_select_helper->EnumerateDirectoryImpl(tab, std::move(listener), path);
 }
@@ -392,11 +392,11 @@ void FileSelectHelper::RunFileChooser(
       base::BindOnce(&FileSelectHelper::GetFileTypesInThreadPool, this,
                      std::move(params)));
 
-  // Because this class returns notifications to the RenderViewHost, it is
-  // difficult for callers to know how long to keep a reference to this
-  // instance. We AddRef() here to keep the instance alive after we return
-  // to the caller, until the last callback is received from the file dialog.
-  // At that point, we must call RunFileChooserEnd().
+  // 因为该类将通知返回给RenderViewHost，所以它。
+  // 呼叫者很难知道这个引用要保留多长时间。
+  // 举个例子。我们在这里添加Ref()，以便在返回后保持实例处于活动状态。
+  // 直到从文件对话框接收到最后一个回调。
+  // 此时，我们必须调用RunFileChooserEnd()。
   AddRef();
 }
 
@@ -451,7 +451,7 @@ void FileSelectHelper::RunFileChooserOnUIThread(
       dialog_type_ = ui::SelectFileDialog::SELECT_SAVEAS_FILE;
       break;
     default:
-      // Prevent warning.
+      // 防止警告。
       dialog_type_ = ui::SelectFileDialog::SELECT_OPEN_FILE;
       NOTREACHED();
   }
@@ -461,29 +461,29 @@ void FileSelectHelper::RunFileChooserOnUIThread(
   if (!web_contents || !web_contents->owner_window())
     return;
 
-  // Never consider the current scope as hung. The hang watching deadline (if
-  // any) is not valid since the user can take unbounded time to choose the
-  // file.
+  // 切勿将当前作用域视为挂起。挂起观看截止日期(如果。
+  // 任何)是无效的，因为用户可能会花费无限的时间来选择。
+  // 档案。
   base::HangWatcher::InvalidateActiveExpectations();
 
   select_file_dialog_->SelectFile(
       dialog_type_, params->title, default_file_path, select_file_types_.get(),
       select_file_types_.get() && !select_file_types_->extensions.empty()
           ? 1
-          : 0,  // 1-based index of default extension to show.
+          : 0,  // 要显示的默认扩展名的从1开始的索引。
       base::FilePath::StringType(),
       web_contents->owner_window()->GetNativeWindow(), NULL);
 
   select_file_types_.reset();
 }
 
-// This method is called when we receive the last callback from the file chooser
-// dialog or if the renderer was destroyed. Perform any cleanup and release the
-// reference we added in RunFileChooser().
+// 当我们收到来自文件选择器的最后一个回调时，将调用此方法。
+// 对话框，或者渲染器是否被销毁。执行任何清理并释放。
+// 我们在RunFileChooser()中添加的引用。
 void FileSelectHelper::RunFileChooserEnd() {
-  // If there are temporary files, then this instance needs to stick around
-  // until web_contents_ is destroyed, so that this instance can delete the
-  // temporary files.
+  // 如果有临时文件，则此实例需要保留。
+  // 直到销毁web_content_，以便此实例可以删除。
+  // 临时文件。
   if (!temporary_files_.empty())
     return;
 
@@ -503,18 +503,18 @@ void FileSelectHelper::EnumerateDirectoryImpl(
   dialog_type_ = ui::SelectFileDialog::SELECT_NONE;
   web_contents_ = tab;
   listener_ = std::move(listener);
-  // Because this class returns notifications to the RenderViewHost, it is
-  // difficult for callers to know how long to keep a reference to this
-  // instance. We AddRef() here to keep the instance alive after we return
-  // to the caller, until the last callback is received from the enumeration
-  // code. At that point, we must call EnumerateDirectoryEnd().
+  // 因为该类将通知返回给RenderViewHost，所以它。
+  // 呼叫者很难知道这个引用要保留多长时间。
+  // 举个例子。我们在这里添加Ref()，以便在返回后保持实例处于活动状态。
+  // 直到从枚举接收到最后一个回调为止。
+  // 密码。此时，我们必须调用EnumerateDirectoryEnd()。
   AddRef();
   StartNewEnumeration(path);
 }
 
-// This method is called when we receive the last callback from the enumeration
-// code. Perform any cleanup and release the reference we added in
-// EnumerateDirectoryImpl().
+// 当我们从枚举接收到最后一个回调时，将调用此方法。
+// 密码。执行任何清理并释放我们在中添加的引用。
+// EnumerateDirectoryImpl()。
 void FileSelectHelper::EnumerateDirectoryEnd() {
   Release();
 }
@@ -531,8 +531,8 @@ void FileSelectHelper::RenderFrameHostChanged(
     content::RenderFrameHost* new_host) {
   if (!render_frame_host_)
     return;
-  // The |old_host| and its children are now pending deletion. Do not give them
-  // file access past this point.
+  // 现在，|old_host|及其子项正在等待删除。不要给他们。
+  // 文件访问超过此点。
   for (content::RenderFrameHost* host = render_frame_host_; host;
        host = host->GetParentOrOuterDocument()) {
     if (host == old_host) {
@@ -554,11 +554,11 @@ void FileSelectHelper::WebContentsDestroyed() {
   CleanUp();
 }
 
-// static
+// 静电。
 bool FileSelectHelper::IsAcceptTypeValid(const std::string& accept_type) {
-  // TODO(raymes): This only does some basic checks, extend to test more cases.
-  // A 1 character accept type will always be invalid (either a "." in the case
-  // of an extension or a "/" in the case of a MIME type).
+  // TODO(Raymes)：这只做一些基本的检查，扩展到测试更多的案例。
+  // 1个字符的接受类型将始终无效(可以是“.”在这种情况下。
+  // 在MIME类型的情况下是扩展名或“/”)。
   std::string unused;
   if (accept_type.length() <= 1 ||
       base::ToLowerASCII(accept_type) != accept_type ||
@@ -569,7 +569,7 @@ bool FileSelectHelper::IsAcceptTypeValid(const std::string& accept_type) {
   return true;
 }
 
-// static
+// 静电
 base::FilePath FileSelectHelper::GetSanitizedFileName(
     const base::FilePath& suggested_filename) {
   if (suggested_filename.empty())

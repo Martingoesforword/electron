@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_screen.h"
 
@@ -32,7 +32,7 @@ gin::WrapperInfo Screen::kWrapperInfo = {gin::kEmbedderNativeGin};
 
 namespace {
 
-// Convert the changed_metrics bitmask to string array.
+// 将CHANGED_METRICS位掩码转换为字符串数组。
 std::vector<std::string> MetricsToArray(uint32_t metrics) {
   std::vector<std::string> array;
   if (metrics & display::DisplayObserver::DISPLAY_METRIC_BOUNDS)
@@ -59,7 +59,7 @@ void DelayEmitWithMetrics(Screen* screen,
   screen->Emit(name, display, metrics);
 }
 
-}  // namespace
+}  // 命名空间。
 
 Screen::Screen(v8::Isolate* isolate, display::Screen* screen)
     : screen_(screen) {
@@ -126,7 +126,7 @@ void Screen::OnDisplayMetricsChanged(const display::Display& display,
                                 MetricsToArray(changed_metrics)));
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Screen::Create(gin_helper::ErrorThrower error_thrower) {
   if (!Browser::Get()->is_ready()) {
     error_thrower.ThrowError(
@@ -166,9 +166,9 @@ const char* Screen::GetTypeName() {
   return "Screen";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -183,6 +183,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("createScreen", base::BindRepeating(&Screen::Create));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_common_screen, Initialize)

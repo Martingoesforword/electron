@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/net/network_context_service.h"
 
@@ -53,16 +53,16 @@ void NetworkContextService::ConfigureNetworkContextParams(
       net::HttpUtil::GenerateAcceptLanguageHeader(
           ElectronBrowserClient::Get()->GetApplicationLocale());
 
-  // Enable the HTTP cache.
+  // 启用HTTP缓存。
   network_context_params->http_cache_enabled =
       browser_context_->CanUseHttpCache();
 
   network_context_params->cookie_manager_params =
       network::mojom::CookieManagerParams::New();
 
-  // Configure on-disk storage for persistent sessions.
+  // 为持久会话配置磁盘存储。
   if (!in_memory) {
-    // Configure the HTTP cache path and size.
+    // 配置HTTP缓存路径和大小。
     network_context_params->http_cache_path =
         path.Append(chrome::kCacheDirname);
     network_context_params->http_cache_max_size =
@@ -72,11 +72,11 @@ void NetworkContextService::ConfigureNetworkContextParams(
         network::mojom::NetworkContextFilePaths::New();
     network_context_params->file_paths->data_path = path;
 
-    // Currently this just contains HttpServerProperties
+    // 目前，它只包含HttpServerProperties。
     network_context_params->file_paths->http_server_properties_file_name =
         base::FilePath(chrome::kNetworkPersistentStateFilename);
 
-    // Configure persistent cookie path.
+    // 配置永久Cookie路径。
     network_context_params->file_paths->cookie_database_name =
         base::FilePath(chrome::kCookieFilename);
 
@@ -96,4 +96,4 @@ void NetworkContextService::ConfigureNetworkContextParams(
       browser_context_->in_memory_pref_store());
 }
 
-}  // namespace electron
+}  // 命名空间电子

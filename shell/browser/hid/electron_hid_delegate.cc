@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/hid/electron_hid_delegate.h"
 
@@ -23,7 +23,7 @@ electron::HidChooserContext* GetChooserContext(
       browser_context);
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -47,10 +47,10 @@ std::unique_ptr<content::HidChooser> ElectronHidDelegate::RunChooser(
   AddControllerForFrame(render_frame_host, std::move(filters),
                         std::move(callback));
 
-  // Return a nullptr because the return value isn't used for anything, eg
-  // there is no mechanism to cancel navigator.hid.requestDevice(). The return
-  // value is simply used in Chromium to cleanup the chooser UI once the serial
-  // service is destroyed.
+  // 返回nullptr，因为返回值没有任何用途，例如。
+  // 没有取消Navigator.id.requestDevice()的机制。回报。
+  // 值只是在Chromium中用来清理选择器UI，一旦序列。
+  // 服务被毁了。
   return nullptr;
 }
 
@@ -160,4 +160,4 @@ void ElectronHidDelegate::DeleteControllerForFrame(
   controller_map_.erase(render_frame_host);
 }
 
-}  // namespace electron
+}  // 命名空间电子

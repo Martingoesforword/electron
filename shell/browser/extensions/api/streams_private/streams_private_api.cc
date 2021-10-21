@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "electron/shell/browser/extensions/api/streams_private/streams_private_api.h"
 
@@ -53,8 +53,8 @@ void StreamsPrivateAPI::SendExecuteMimeTypeHandlerEvent(
   if (!handler->HasPlugin())
     return;
 
-  // If the mime handler uses MimeHandlerViewGuest, the MimeHandlerViewGuest
-  // will take ownership of the stream.
+  // 如果MIME处理程序使用MimeHandlerViewGuest，则MimeHandlerViewGuest。
+  // 将拥有这条流的所有权。
   GURL handler_url(
       extensions::Extension::GetBaseURLFromExtensionId(extension_id).spec() +
       handler->handler_url());
@@ -70,4 +70,4 @@ void StreamsPrivateAPI::SendExecuteMimeTypeHandlerEvent(
                   render_process_id, render_frame_id);
 }
 
-}  // namespace extensions
+}  // 命名空间扩展

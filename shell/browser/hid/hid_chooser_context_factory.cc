@@ -1,6 +1,6 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2019年Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/hid/hid_chooser_context_factory.h"
 
@@ -10,24 +10,24 @@
 
 namespace electron {
 
-// static
+// 静电。
 HidChooserContextFactory* HidChooserContextFactory::GetInstance() {
   static base::NoDestructor<HidChooserContextFactory> factory;
   return factory.get();
 }
 
-// static
+// 静电。
 HidChooserContext* HidChooserContextFactory::GetForBrowserContext(
     content::BrowserContext* context) {
   return static_cast<HidChooserContext*>(
       GetInstance()->GetServiceForBrowserContext(context, true));
 }
 
-// static
+// 静电。
 HidChooserContext* HidChooserContextFactory::GetForBrowserContextIfExists(
     content::BrowserContext* context) {
   return static_cast<HidChooserContext*>(
-      GetInstance()->GetServiceForBrowserContext(context, /*create=*/false));
+      GetInstance()->GetServiceForBrowserContext(context, /* 创建=。*/false));
 }
 
 HidChooserContextFactory::HidChooserContextFactory()
@@ -52,4 +52,4 @@ content::BrowserContext* HidChooserContextFactory::GetBrowserContextToUse(
 void HidChooserContextFactory::BrowserContextShutdown(
     content::BrowserContext* context) {}
 
-}  // namespace electron
+}  // 命名空间电子

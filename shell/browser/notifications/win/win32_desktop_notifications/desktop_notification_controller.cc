@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -48,12 +48,12 @@ const TCHAR DesktopNotificationController::class_name_[] =
     TEXT("DesktopNotificationController");
 
 HINSTANCE DesktopNotificationController::RegisterWndClasses() {
-  // We keep a static `module` variable which serves a dual purpose:
-  // 1. Stores the HINSTANCE where the window classes are registered,
-  //    which can be passed to `CreateWindow`
-  // 2. Indicates whether we already attempted the registration so that
-  //    we don't do it twice (we don't retry even if registration fails,
-  //    as there is no point).
+  // 我们保留了一个静态的‘module’变量，它具有双重用途：
+  // 1.存储注册窗口类的HINSTANCE。
+  // 可以传递给`CreateWindow`。
+  // 2.指示我们是否已尝试注册，以便。
+  // 我们不会重复两次(即使注册失败，我们也不会重试，
+  // 因为这是没有意义的)。
   static HMODULE module = NULL;
 
   if (!module) {
@@ -125,9 +125,9 @@ void DesktopNotificationController::StartAnimation() {
   DCHECK(hwnd_controller_);
 
   if (!is_animating_ && hwnd_controller_) {
-    // NOTE: 15ms is shorter than what we'd need for 60 fps, but since
-    //       the timer is not accurate we must request a higher frame rate
-    //       to get at least 60
+    // 注意：15ms比我们需要的60fps要短，但是因为。
+    // 计时器不准确，我们必须要求更高的帧速率。
+    // 至少要拿到60。
 
     SetTimer(hwnd_controller_, TimerID_Animate, 15, nullptr);
     is_animating_ = true;
@@ -181,9 +181,9 @@ void DesktopNotificationController::ClearAssets() {
 }
 
 void DesktopNotificationController::AnimateAll() {
-  // NOTE: This function refreshes position and size of all toasts according
-  // to all current conditions. Animation time is only one of the variables
-  // influencing them. Screen resolution is another.
+  // 注意：此功能可刷新所有吐司的位置和大小。
+  // 所有目前的状况。动画时间只是其中一个变量。
+  // 影响着他们。屏幕分辨率是另一个原因。
 
   bool keep_animating = false;
 
@@ -219,8 +219,8 @@ void DesktopNotificationController::AnimateAll() {
     is_animating_ = false;
   }
 
-  // Purge dismissed notifications and collapse the stack between
-  // items which are highlighted
+  // 清除已取消的通知并折叠堆栈。
+  // 突出显示的项目。
   if (!instances_.empty()) {
     auto is_alive = [](ToastInstance& inst) {
       return inst.hwnd && IsWindowVisible(inst.hwnd);
@@ -231,13 +231,13 @@ void DesktopNotificationController::AnimateAll() {
     };
 
     for (auto it = instances_.begin();; ++it) {
-      // find next highlighted item
+      // 查找下一个突出显示的项目。
       auto it2 = find_if(it, instances_.end(), is_highlighted);
 
-      // collapse the stack in front of the highlighted item
+      // 折叠突出显示项目前面的堆栈。
       it = stable_partition(it, it2, is_alive);
 
-      // purge the dead items
+      // 清除已死的物品。
       for_each(it, it2, [this](auto&& inst) { DestroyToast(&inst); });
 
       if (it2 == instances_.end()) {
@@ -249,7 +249,7 @@ void DesktopNotificationController::AnimateAll() {
     }
   }
 
-  // Set new toast positions
+  // 设置新的烤面包位置。
   if (!instances_.empty()) {
     ScreenMetrics metrics;
     auto margin = metrics.Y(toast_margin_);
@@ -269,7 +269,7 @@ void DesktopNotificationController::AnimateAll() {
     }
   }
 
-  // Create new toasts from the queue
+  // 从队列中创建新的祝酒词。
   CheckQueue();
 }
 
@@ -283,7 +283,7 @@ DesktopNotificationController::AddNotification(std::u16string caption,
   data->body_text = move(body_text);
   data->image = CopyBitmap(image);
 
-  // Enqueue new notification
+  // 将新通知入队。
   Notification ret{*queue_.insert(queue_.end(), move(data))};
   CheckQueue();
   return ret;
@@ -291,7 +291,7 @@ DesktopNotificationController::AddNotification(std::u16string caption,
 
 void DesktopNotificationController::CloseNotification(
     const Notification& notification) {
-  // Remove it from the queue
+  // 将其从队列中删除。
   auto it = find(queue_.begin(), queue_.end(), notification.data_);
   if (it != queue_.end()) {
     (*it)->controller = nullptr;
@@ -300,7 +300,7 @@ void DesktopNotificationController::CloseNotification(
     return;
   }
 
-  // Dismiss active toast
+  // 取消活动吐司。
   auto* hwnd = GetToast(notification.data_.get());
   if (hwnd) {
     auto* toast = Toast::Get(hwnd);
@@ -334,8 +334,8 @@ void DesktopNotificationController::CreateToast(
     instances_.push_back({hwnd, std::move(data)});
 
     if (!hwnd_controller_) {
-      // NOTE: We cannot use a message-only window because we need to
-      //       receive system notifications
+      // 注意：我们不能使用仅消息窗口，因为我们需要。
+      // 接收系统通知。
       hwnd_controller_ = CreateWindow(class_name_, nullptr, 0, 0, 0, 0, 0, NULL,
                                       NULL, hinstance, this);
     }
@@ -388,7 +388,7 @@ bool DesktopNotificationController::Notification::operator==(
 }
 
 void DesktopNotificationController::Notification::Close() {
-  // No business calling this when not pointing to a valid instance
+  // 当不指向有效实例时，没有必要调用此函数。
   DCHECK(data_);
 
   if (data_->controller)
@@ -398,10 +398,10 @@ void DesktopNotificationController::Notification::Close() {
 void DesktopNotificationController::Notification::Set(std::u16string caption,
                                                       std::u16string body_text,
                                                       HBITMAP image) {
-  // No business calling this when not pointing to a valid instance
+  // 当不指向有效实例时，没有必要调用此函数。
   DCHECK(data_);
 
-  // Do nothing when the notification has been closed
+  // 通知已关闭时不执行任何操作。
   if (!data_->controller)
     return;
 
@@ -418,7 +418,7 @@ void DesktopNotificationController::Notification::Set(std::u16string caption,
     toast->ResetContents();
   }
 
-  // Change of contents can affect size and position of all toasts
+  // 内容的更改会影响所有吐司的大小和位置。
   data_->controller->StartAnimation();
 }
 
@@ -432,4 +432,4 @@ DesktopNotificationController::ToastInstance::~ToastInstance() = default;
 DesktopNotificationController::ToastInstance::ToastInstance(ToastInstance&&) =
     default;
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/drag_util.h"
 
@@ -10,8 +10,8 @@
 
 namespace electron {
 
-// Return a vector of non-draggable regions that fill a window of size
-// |width| by |height|, but leave gaps where the window should be draggable.
+// 返回填充一定大小的窗口的不可拖动区域的向量。
+// |Width|by|Height|，但在窗口应该可以拖动的位置留有空隙。
 std::vector<gfx::Rect> CalculateNonDraggableRegions(
     std::unique_ptr<SkRegion> draggable,
     int width,
@@ -26,7 +26,7 @@ std::vector<gfx::Rect> CalculateNonDraggableRegions(
   return result;
 }
 
-// Convert draggable regions in raw format to SkRegion format.
+// 将RAW格式的可拖动区域转换为SkRegion格式。
 std::unique_ptr<SkRegion> DraggableRegionsToSkRegion(
     const std::vector<mojom::DraggableRegionPtr>& regions) {
   auto sk_region = std::make_unique<SkRegion>();
@@ -39,4 +39,4 @@ std::unique_ptr<SkRegion> DraggableRegionsToSkRegion(
   return sk_region;
 }
 
-}  // namespace electron
+}  // 命名空间电子

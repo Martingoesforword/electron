@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/electron_extensions_api_client.h"
 
@@ -24,7 +24,7 @@
 #endif
 
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
-#include "components/pdf/browser/pdf_web_contents_helper.h"  // nogncheck
+#include "components/pdf/browser/pdf_web_contents_helper.h"  // 点名检查。
 #include "shell/browser/electron_pdf_web_contents_helper_client.h"
 #endif
 
@@ -37,7 +37,7 @@ class ElectronGuestViewManagerDelegate
       : ExtensionsGuestViewManagerDelegate(context) {}
   ~ElectronGuestViewManagerDelegate() override = default;
 
-  // GuestViewManagerDelegate:
+  // GuestViewManagerDelegate：
   void OnGuestAdded(content::WebContents* guest_web_contents) const override {
     v8::Isolate* isolate = v8::Isolate::GetCurrent();
     v8::HandleScope scope(isolate);
@@ -54,10 +54,10 @@ class ElectronMimeHandlerViewGuestDelegate
   ElectronMimeHandlerViewGuestDelegate() = default;
   ~ElectronMimeHandlerViewGuestDelegate() override = default;
 
-  // MimeHandlerViewGuestDelegate.
+  // MimeHandlerViewGuestDelegate。
   bool HandleContextMenu(content::WebContents* web_contents,
                          const content::ContextMenuParams& params) override {
-    // TODO(nornagon): surface this event to JS
+    // TODO(正方形)：将此事件表面到JS。
     LOG(INFO) << "HCM";
     return true;
   }
@@ -110,4 +110,4 @@ ElectronExtensionsAPIClient::CreateGuestViewManagerDelegate(
   return std::make_unique<ElectronGuestViewManagerDelegate>(context);
 }
 
-}  // namespace extensions
+}  // 命名空间扩展

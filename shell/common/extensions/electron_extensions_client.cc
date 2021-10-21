@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/extensions/electron_extensions_client.h"
 
@@ -25,15 +25,15 @@ namespace electron {
 
 namespace {
 
-// TODO(jamescook): Refactor ChromePermissionsMessageProvider so we can share
-// code. For now, this implementation does nothing.
+// TODO(JamesCook)：重构ChromePermissionsMessageProvider，以便我们可以共享。
+// 密码。目前，此实现什么也不做。
 class ElectronPermissionMessageProvider
     : public extensions::PermissionMessageProvider {
  public:
   ElectronPermissionMessageProvider() = default;
   ~ElectronPermissionMessageProvider() override = default;
 
-  // PermissionMessageProvider implementation.
+  // PermissionMessageProvider实现。
   extensions::PermissionMessages GetPermissionMessages(
       const extensions::PermissionIDSet& permissions) const override {
     return extensions::PermissionMessages();
@@ -43,7 +43,7 @@ class ElectronPermissionMessageProvider
       const extensions::PermissionSet& granted_permissions,
       const extensions::PermissionSet& requested_permissions,
       extensions::Manifest::Type extension_type) const override {
-    // Ensure we implement this before shipping.
+    // 确保我们在发货前实施这一点。
     CHECK(false);
     return false;
   }
@@ -61,7 +61,7 @@ class ElectronPermissionMessageProvider
 base::LazyInstance<ElectronPermissionMessageProvider>::DestructorAtExit
     g_permission_message_provider = LAZY_INSTANCE_INITIALIZER;
 
-}  // namespace
+}  // 命名空间。
 
 ElectronExtensionsClient::ElectronExtensionsClient()
     : webstore_base_url_(extension_urls::kChromeWebstoreBaseURL),
@@ -73,7 +73,7 @@ ElectronExtensionsClient::ElectronExtensionsClient()
 ElectronExtensionsClient::~ElectronExtensionsClient() = default;
 
 void ElectronExtensionsClient::Initialize() {
-  // TODO(jamescook): Do we need to whitelist any extensions?
+  // TODO(詹姆斯库克)：我们需要把任何分机列入白名单吗？
 }
 
 void ElectronExtensionsClient::InitializeWebStoreUrls(
@@ -86,7 +86,7 @@ ElectronExtensionsClient::GetPermissionMessageProvider() const {
 }
 
 const std::string ElectronExtensionsClient::GetProductName() {
-  // TODO(samuelmaddock):
+  // TODO(Samuelmaddock)：
   return "app_shell";
 }
 
@@ -104,7 +104,7 @@ void ElectronExtensionsClient::SetScriptingAllowlist(
 
 const ExtensionsClient::ScriptingAllowlist&
 ElectronExtensionsClient::GetScriptingAllowlist() const {
-  // TODO(jamescook): Real whitelist.
+  // 托多(詹姆斯库克)：真正的白名单。
   return scripting_allowlist_;
 }
 
@@ -117,7 +117,7 @@ ElectronExtensionsClient::GetPermittedChromeSchemeHosts(
 
 bool ElectronExtensionsClient::IsScriptableURL(const GURL& url,
                                                std::string* error) const {
-  // No restrictions on URLs.
+  // 对URL没有限制。
   return true;
 }
 
@@ -133,4 +133,4 @@ bool ElectronExtensionsClient::IsBlacklistUpdateURL(const GURL& url) const {
   return false;
 }
 
-}  // namespace electron
+}  // 命名空间电子

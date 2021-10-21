@@ -1,6 +1,6 @@
-// Copyright (c) 2015 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2015年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/notifications/platform_notification_service.h"
 
@@ -69,7 +69,7 @@ class NotificationDelegateImpl final : public electron::NotificationDelegate {
   DISALLOW_COPY_AND_ASSIGN(NotificationDelegateImpl);
 };
 
-}  // namespace
+}  // 命名空间。
 
 PlatformNotificationService::PlatformNotificationService(
     ElectronBrowserClient* browser_client)
@@ -88,13 +88,13 @@ void PlatformNotificationService::DisplayNotification(
   if (!presenter)
     return;
 
-  // If a new notification is created with the same tag as an
-  // existing one, replace the old notification with the new one.
-  // The notification_id is generated from the tag, so the only way a
-  // notification will be closed as a result of this call is if one with
-  // the same tag is already extant.
-  //
-  // See: https://notifications.spec.whatwg.org/#showing-a-notification
+  // 如果创建的新通知的标签与。
+  // 现有通知，请用新通知替换旧通知。
+  // NOTIFICATION_ID是从标记生成的，因此。
+  // 通知将因此呼叫而关闭，如果存在以下情况。
+  // 相同的标签已经存在。
+  // 
+  // 请参阅：https://notifications.spec.whatwg.org/#showing-a-notification。
   presenter->CloseNotificationWithId(notification_id);
 
   auto* delegate = new NotificationDelegateImpl(notification_id);
@@ -131,7 +131,7 @@ void PlatformNotificationService::GetDisplayedNotifications(
     DisplayedNotificationsCallback callback) {}
 
 int64_t PlatformNotificationService::ReadNextPersistentNotificationId() {
-  // Electron doesn't support persistent notifications.
+  // 电子邮件不支持持久通知。
   return 0;
 }
 
@@ -144,4 +144,4 @@ base::Time PlatformNotificationService::ReadNextTriggerTimestamp() {
   return base::Time::Max();
 }
 
-}  // namespace electron
+}  // 命名空间电子

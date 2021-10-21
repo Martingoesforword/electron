@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc. All rights reserved.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.保留所有权利。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_helper/callback.h"
 
@@ -32,19 +32,19 @@ struct TranslaterHolder {
   Translater translater;
 };
 
-// Cached JavaScript version of |CallTranslater|.
+// 缓存的|CallTranslate|的JavaScript版本。
 v8::Persistent<v8::FunctionTemplate> g_call_translater;
 
 void CallTranslater(v8::Local<v8::External> external,
                     v8::Local<v8::Object> state,
                     gin::Arguments* args) {
-  // Whether the callback should only be called once.
+  // 回调是否只调用一次。
   v8::Isolate* isolate = args->isolate();
   auto context = isolate->GetCurrentContext();
   bool one_time =
       state->Has(context, gin::StringToSymbol(isolate, "oneTime")).ToChecked();
 
-  // Check if the callback has already been called.
+  // 检查回调是否已被调用。
   if (one_time) {
     auto called_symbol = gin::StringToSymbol(isolate, "called");
     if (state->Has(context, called_symbol).ToChecked()) {
@@ -59,14 +59,14 @@ void CallTranslater(v8::Local<v8::External> external,
   auto* holder = static_cast<TranslaterHolder*>(external->Value());
   holder->translater.Run(args);
 
-  // Free immediately for one-time callback.
+  // 立即免费，一次性回拨。
   if (one_time)
     delete holder;
 }
 
-}  // namespace
+}  // 命名空间。
 
-// Destroy the class on UI thread when possible.
+// 尽可能销毁UI线程上的类。
 struct DeleteOnUIThread {
   template <typename T>
   static void Destruct(const T* x) {
@@ -80,7 +80,7 @@ struct DeleteOnUIThread {
   }
 };
 
-// Like v8::Global, but ref-counted.
+// 就像V8：：GLOBAL，但引用计数。
 template <typename T>
 class RefCountedGlobal
     : public base::RefCountedThreadSafe<RefCountedGlobal<T>, DeleteOnUIThread> {
@@ -118,7 +118,7 @@ v8::Local<v8::Function> SafeV8Function::NewHandle(v8::Isolate* isolate) const {
 v8::Local<v8::Value> CreateFunctionFromTranslater(v8::Isolate* isolate,
                                                   const Translater& translater,
                                                   bool one_time) {
-  // The FunctionTemplate is cached.
+  // 缓存FunctionTemplate。
   if (g_call_translater.IsEmpty())
     g_call_translater.Reset(
         isolate,
@@ -137,8 +137,8 @@ v8::Local<v8::Value> CreateFunctionFromTranslater(v8::Isolate* isolate,
       holder->handle.Get(isolate), gin::ConvertToV8(isolate, state));
 }
 
-// func.bind(func, arg1).
-// NB(zcbenz): Using C++11 version crashes VS.
+// Func.bind(func，arg1)。
+// 注意(Zcbenz)：使用C++11版本与.。
 v8::Local<v8::Value> BindFunctionWith(v8::Isolate* isolate,
                                       v8::Local<v8::Context> context,
                                       v8::Local<v8::Function> func,
@@ -153,4 +153,4 @@ v8::Local<v8::Value> BindFunctionWith(v8::Isolate* isolate,
       .ToLocalChecked();
 }
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper

@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/electron_component_extension_resource_manager.h"
 
@@ -18,7 +18,7 @@
 #include "electron/buildflags/buildflags.h"
 
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
-#include "chrome/browser/pdf/pdf_extension_util.h"  // nogncheck
+#include "chrome/browser/pdf/pdf_extension_util.h"  // 点名检查。
 #include "chrome/grit/pdf_resources_map.h"
 #include "extensions/common/constants.h"
 #endif
@@ -32,7 +32,7 @@ ElectronComponentExtensionResourceManager::
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
   AddComponentResourceEntries(kPdfResources, kPdfResourcesSize);
 
-  // Register strings for the PDF viewer, so that $i18n{} replacements work.
+  // 为PDF查看器注册字符串，以便$i18n{}替换起作用。
   base::Value pdf_strings(base::Value::Type::DICTIONARY);
   pdf_extension_util::AddStrings(
       pdf_extension_util::PdfViewerContext::kPdfViewer, &pdf_strings);
@@ -98,9 +98,9 @@ void ElectronComponentExtensionResourceManager::AddComponentResourceEntries(
       DCHECK(!base::Contains(path_to_resource_id_, resource_path));
       path_to_resource_id_[resource_path] = entries[i].id;
     } else {
-      // If the resource is a generated file, strip the generated folder's path,
-      // so that it can be served from a normal URL (as if it were not
-      // generated).
+      // 如果资源是生成的文件，请剥离生成的文件夹的路径。
+      // 以便可以从普通URL提供它(就像它不是。
+      // 生成)。
       base::FilePath effective_path =
           base::FilePath().AppendASCII(resource_path.AsUTF8Unsafe().substr(
               gen_folder_path.value().length()));
@@ -110,4 +110,4 @@ void ElectronComponentExtensionResourceManager::AddComponentResourceEntries(
   }
 }
 
-}  // namespace extensions
+}  // 命名空间扩展

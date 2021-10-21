@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/app/electron_crash_reporter_client.h"
 
@@ -44,14 +44,14 @@ ElectronCrashReporterClient* Instance() {
   return crash_client.get();
 }
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 void ElectronCrashReporterClient::Create() {
   crash_reporter::SetCrashReporterClient(Instance());
 
-  // By setting the BREAKPAD_DUMP_LOCATION environment variable, an alternate
-  // location to write crash dumps can be set.
+  // 通过设置BREAKPAD_DUMP_LOCATION环境变量，替代。
+  // 可以设置写入崩溃转储的位置。
   auto env = base::Environment::Create();
   std::string alternate_crash_dump_location;
   base::FilePath crash_dumps_dir_path;
@@ -66,7 +66,7 @@ void ElectronCrashReporterClient::Create() {
   }
 }
 
-// static
+// 静电。
 ElectronCrashReporterClient* ElectronCrashReporterClient::Get() {
   return Instance();
 }
@@ -153,9 +153,9 @@ bool ElectronCrashReporterClient::GetCrashDumpLocation(
     base::FilePath* crash_dir) {
   bool result = base::PathService::Get(electron::DIR_CRASH_DUMPS, crash_dir);
   {
-    // If the DIR_CRASH_DUMPS path is overridden with
-    // app.setPath('crashDumps', ...) then the directory might not have been
-    // created.
+    // 如果使用覆盖DIR_CRASH_DUMP路径。
+    // App.setPath(‘crashDumps’，...)。则该目录可能不是。
+    // 已创建。
     base::ThreadRestrictions::ScopedAllowIO allow_io;
     if (result && !base::PathExists(*crash_dir)) {
       return base::CreateDirectory(*crash_dir);
@@ -199,7 +199,7 @@ void ElectronCrashReporterClient::GetProcessSimpleAnnotations(
 bool ElectronCrashReporterClient::ShouldMonitorCrashHandlerExpensively() {
   return false;
 }
-#endif  // OS_LINUX
+#endif  // OS_Linux
 
 std::string ElectronCrashReporterClient::GetUploadUrl() {
   return upload_url_;

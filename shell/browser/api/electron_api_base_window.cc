@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_base_window.h"
 
@@ -55,7 +55,7 @@ struct Converter<electron::TaskbarHost::ThumbarButton> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 #endif
 
 namespace electron {
@@ -64,7 +64,7 @@ namespace api {
 
 namespace {
 
-// Converts binary data to Buffer.
+// 将二进制数据转换为缓冲区。
 v8::Local<v8::Value> ToBuffer(v8::Isolate* isolate, void* val, int size) {
   auto buffer = node::Buffer::Copy(isolate, static_cast<char*>(val), size);
   if (buffer.IsEmpty())
@@ -73,17 +73,17 @@ v8::Local<v8::Value> ToBuffer(v8::Isolate* isolate, void* val, int size) {
     return buffer.ToLocalChecked();
 }
 
-}  // namespace
+}  // 命名空间。
 
 BaseWindow::BaseWindow(v8::Isolate* isolate,
                        const gin_helper::Dictionary& options) {
-  // The parent window.
+  // 父窗口。
   gin::Handle<BaseWindow> parent;
   if (options.Get("parent", &parent) && !parent.IsEmpty())
     parent_window_.Reset(isolate, parent.ToV8());
 
 #if BUILDFLAG(ENABLE_OSR)
-  // Offscreen windows are always created frameless.
+  // 屏幕外窗口始终是无边框创建的。
   gin_helper::Dictionary web_preferences;
   bool offscreen;
   if (options.Get(options::kWebPreferences, &web_preferences) &&
@@ -92,7 +92,7 @@ BaseWindow::BaseWindow(v8::Isolate* isolate,
   }
 #endif
 
-  // Creates NativeWindow.
+  // 创建NativeWindow。
   window_.reset(NativeWindow::Create(
       options, parent.IsEmpty() ? nullptr : parent->window_.get()));
   window_->AddObserver(this);
@@ -109,18 +109,18 @@ BaseWindow::BaseWindow(gin_helper::Arguments* args,
                        const gin_helper::Dictionary& options)
     : BaseWindow(args->isolate(), options) {
   InitWithArgs(args);
-  // Init window after everything has been setup.
+  // 一切设置完成后初始化窗口。
   window()->InitFromOptions(options);
 }
 
 BaseWindow::~BaseWindow() {
   CloseImmediately();
 
-  // Destroy the native window in next tick because the native code might be
-  // iterating all windows.
+  // 在下一步中销毁本机窗口，因为本机代码可能是。
+  // 迭代所有窗口。
   base::ThreadTaskRunnerHandle::Get()->DeleteSoon(FROM_HERE, window_.release());
 
-  // Remove global reference so the JS object can be garbage collected.
+  // 删除全局引用，以便可以对JS对象进行垃圾回收。
   self_ref_.Reset();
 }
 
@@ -128,8 +128,8 @@ void BaseWindow::InitWith(v8::Isolate* isolate, v8::Local<v8::Object> wrapper) {
   AttachAsUserData(window_.get());
   gin_helper::TrackableObject<BaseWindow>::InitWith(isolate, wrapper);
 
-  // We can only append this window to parent window's child windows after this
-  // window's JS wrapper gets initialized.
+  // 在此之后，我们只能将此窗口追加到父窗口的子窗口。
+  // Windows的JS包装器被初始化。
   if (!parent_window_.IsEmpty()) {
     gin::Handle<BaseWindow> parent;
     gin::ConvertFromV8(isolate, GetParentWindow(), &parent);
@@ -137,7 +137,7 @@ void BaseWindow::InitWith(v8::Isolate* isolate, v8::Local<v8::Object> wrapper) {
     parent->child_windows_.Set(isolate, weak_map_id(), wrapper);
   }
 
-  // Reference this object in case it got garbage collected.
+  // 引用此对象，以防它被垃圾回收。
   self_ref_.Reset(isolate, wrapper);
 }
 
@@ -148,16 +148,16 @@ void BaseWindow::WillCloseWindow(bool* prevent_default) {
 }
 
 void BaseWindow::OnWindowClosed() {
-  // Invalidate weak ptrs before the Javascript object is destroyed,
-  // there might be some delayed emit events which shouldn't be
-  // triggered after this.
+  // 在销毁Javascript对象之前使弱PTR无效，
+  // 可能会有一些不应该延迟的发射事件。
+  // 在这之后触发的。
   weak_factory_.InvalidateWeakPtrs();
 
   RemoveFromWeakMap();
   window_->RemoveObserver(this);
 
-  // We can not call Destroy here because we need to call Emit first, but we
-  // also do not want any method to be used, so just mark as destroyed here.
+  // 我们在这里不能调用销毁，因为我们需要先调用emit，但是我们。
+  // 也不想使用任何方法，所以只需在这里标记为销毁即可。
   MarkDestroyed();
 
   Emit("closed");
@@ -165,7 +165,7 @@ void BaseWindow::OnWindowClosed() {
   RemoveFromParentChildWindows();
   BaseWindow::ResetBrowserViews();
 
-  // Destroy the native class when window is closed.
+  // 在窗口关闭时销毁本机类。
   base::ThreadTaskRunnerHandle::Get()->PostTask(FROM_HERE, GetDestroyClosure());
 }
 
@@ -350,7 +350,7 @@ void BaseWindow::Show() {
 }
 
 void BaseWindow::ShowInactive() {
-  // This method doesn't make sense for modal window.
+  // 此方法对模式窗口没有意义。
   if (IsModal())
     return;
   window_->ShowInactive();
@@ -715,8 +715,8 @@ void BaseWindow::SetMenu(v8::Isolate* isolate, v8::Local<v8::Value> value) {
       gin::ConvertFromV8(isolate, value, &menu) && !menu.IsEmpty()) {
     menu_.Reset(isolate, menu.ToV8());
 
-    // We only want to update the menu if the menu has a non-zero item count,
-    // or we risk crashes.
+    // 我们只想在菜单具有非零项目计数时更新菜单，
+    // 否则我们就有坠机的危险。
     if (menu->model()->GetItemCount() == 0) {
       RemoveMenu();
     } else {
@@ -769,8 +769,8 @@ void BaseWindow::AddBrowserView(v8::Local<v8::Value> value) {
     auto get_that_view = browser_views_.find(browser_view->ID());
     if (get_that_view == browser_views_.end()) {
       if (browser_view->web_contents()) {
-        // If we're reparenting a BrowserView, ensure that it's detached from
-        // its previous owner window.
+        // 如果我们要重新设置BrowserView的父对象，请确保它与。
+        // 它以前的所有者窗口。
         auto* owner_window = browser_view->web_contents()->owner_window();
         if (owner_window && owner_window != window_.get()) {
           owner_window->RemoveBrowserView(browser_view->view());
@@ -825,9 +825,9 @@ std::string BaseWindow::GetMediaSourceId() const {
 }
 
 v8::Local<v8::Value> BaseWindow::GetNativeWindowHandle() {
-  // TODO(MarshallOfSound): Replace once
-  // https://chromium-review.googlesource.com/c/chromium/src/+/1253094/ has
-  // landed
+  // TODO(MarshallOfSound)：替换一次。
+  // Https://chromium-review.googlesource.com/c/chromium/src/+/1253094/有。
+  // 落地。
   NativeWindowHandle handle = window_->GetNativeWindowHandle();
   return ToBuffer(isolate(), &handle, sizeof(handle));
 }
@@ -895,7 +895,7 @@ bool BaseWindow::GetWindowButtonVisibility() const {
 }
 
 void BaseWindow::SetTrafficLightPosition(const gfx::Point& position) {
-  // For backward compatibility we treat (0, 0) as resetting to default.
+  // 为了向后兼容，我们将(0，0)视为重置为默认值。
   if (position.IsOrigin())
     window_->SetTrafficLightPosition(absl::nullopt);
   else
@@ -903,7 +903,7 @@ void BaseWindow::SetTrafficLightPosition(const gfx::Point& position) {
 }
 
 gfx::Point BaseWindow::GetTrafficLightPosition() const {
-  // For backward compatibility we treat default value as (0, 0).
+  // 为了向后兼容，我们将默认值视为(0，0)。
   return window_->GetTrafficLightPosition().value_or(gfx::Point());
 }
 #endif
@@ -1135,8 +1135,8 @@ void BaseWindow::ResetBrowserViews() {
                            v8::Local<v8::Value>::New(isolate(), item.second),
                            &browser_view) &&
         !browser_view.IsEmpty()) {
-      // There's a chance that the BrowserView may have been reparented - only
-      // reset if the owner window is *this* window.
+      // 有可能BrowserView可能是仅为父级的。
+      // 如果所有者窗口是*此*窗口，则重置。
       if (browser_view->web_contents()) {
         auto* owner_window = browser_view->web_contents()->owner_window();
         if (owner_window && owner_window == window_.get()) {
@@ -1165,7 +1165,7 @@ void BaseWindow::RemoveFromParentChildWindows() {
   parent->child_windows_.Remove(weak_map_id());
 }
 
-// static
+// 静电。
 gin_helper::WrappableBase* BaseWindow::New(gin_helper::Arguments* args) {
   gin_helper::Dictionary options =
       gin::Dictionary::CreateEmpty(args->isolate());
@@ -1174,7 +1174,7 @@ gin_helper::WrappableBase* BaseWindow::New(gin_helper::Arguments* args) {
   return new BaseWindow(args, options);
 }
 
-// static
+// 静电。
 void BaseWindow::BuildPrototype(v8::Isolate* isolate,
                                 v8::Local<v8::FunctionTemplate> prototype) {
   prototype->SetClassName(gin::StringToV8(isolate, "BaseWindow"));
@@ -1333,9 +1333,9 @@ void BaseWindow::BuildPrototype(v8::Isolate* isolate,
       .SetProperty("id", &BaseWindow::GetID);
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -1359,6 +1359,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("BaseWindow", constructor);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_base_window, Initialize)

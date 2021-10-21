@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/views/global_menu_bar_registrar_x11.h"
 
@@ -19,9 +19,9 @@ namespace {
 const char kAppMenuRegistrarName[] = "com.canonical.AppMenu.Registrar";
 const char kAppMenuRegistrarPath[] = "/com/canonical/AppMenu/Registrar";
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 GlobalMenuBarRegistrarX11* GlobalMenuBarRegistrarX11::GetInstance() {
   return base::Singleton<GlobalMenuBarRegistrarX11>::get();
 }
@@ -41,9 +41,9 @@ void GlobalMenuBarRegistrarX11::OnWindowUnmapped(x11::Window window) {
 }
 
 GlobalMenuBarRegistrarX11::GlobalMenuBarRegistrarX11() {
-  // libdbusmenu uses the gio version of dbus; I tried using the code in dbus/,
-  // but it looks like that's isn't sharing the bus name with the gio version,
-  // even when |connection_type| is set to SHARED.
+  // LibdbusMenu使用的是dbus的gio版本；我尝试使用dbus/中的代码，
+  // 但看起来它并没有和gio版本共享公交车的名字，
+  // 即使在|CONNECTION_TYPE|设置为SHARED时也是如此。
   g_dbus_proxy_new_for_bus(
       G_BUS_TYPE_SESSION,
       static_cast<GDBusProxyFlags>(G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
@@ -51,7 +51,7 @@ GlobalMenuBarRegistrarX11::GlobalMenuBarRegistrarX11() {
                                    G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START),
       nullptr, kAppMenuRegistrarName, kAppMenuRegistrarPath,
       kAppMenuRegistrarName,
-      nullptr,  // Probably want a real cancelable.
+      nullptr,  // 可能想要一个真正的可取消的。
       static_cast<GAsyncReadyCallback>(OnProxyCreatedThunk), this);
 }
 
@@ -68,14 +68,14 @@ void GlobalMenuBarRegistrarX11::RegisterXWindow(x11::Window window) {
   DCHECK(registrar_proxy_);
   std::string path = electron::GlobalMenuBarX11::GetPathForWindow(window);
 
-  ANNOTATE_SCOPED_MEMORY_LEAK;  // http://crbug.com/314087
-  // TODO(erg): The mozilla implementation goes to a lot of callback trouble
-  // just to make sure that they react to make sure there's some sort of
-  // cancelable object; including making a whole callback just to handle the
-  // cancelable.
-  //
-  // I don't see any reason why we should care if "RegisterWindow" completes or
-  // not.
+  ANNOTATE_SCOPED_MEMORY_LEAK;  // Http://crbug.com/314087。
+  // TODO(Erg)：Mozilla实现遇到了很多回调麻烦。
+  // 只是为了确保他们做出反应，确保有某种。
+  // 对象；包括进行整个回调来处理。
+  // 可以取消的。
+  // 
+  // 我看不出我们为什么要关心“RegisterWindow”是否完成或。
+  // 不。
   g_dbus_proxy_call(registrar_proxy_, "RegisterWindow",
                     g_variant_new("(uo)", window, path.c_str()),
                     G_DBUS_CALL_FLAGS_NONE, -1, nullptr, nullptr, nullptr);
@@ -85,14 +85,14 @@ void GlobalMenuBarRegistrarX11::UnregisterXWindow(x11::Window window) {
   DCHECK(registrar_proxy_);
   std::string path = electron::GlobalMenuBarX11::GetPathForWindow(window);
 
-  ANNOTATE_SCOPED_MEMORY_LEAK;  // http://crbug.com/314087
-  // TODO(erg): The mozilla implementation goes to a lot of callback trouble
-  // just to make sure that they react to make sure there's some sort of
-  // cancelable object; including making a whole callback just to handle the
-  // cancelable.
-  //
-  // I don't see any reason why we should care if "UnregisterWindow" completes
-  // or not.
+  ANNOTATE_SCOPED_MEMORY_LEAK;  // Http://crbug.com/314087。
+  // TODO(Erg)：Mozilla实现遇到了很多回调麻烦。
+  // 只是为了确保他们做出反应，确保有某种。
+  // 对象；包括进行整个回调来处理。
+  // 可以取消的。
+  // 
+  // 我看不出我们为什么要关心“UnregisterWindow”是否完成。
+  // 或者不去。
   g_dbus_proxy_call(registrar_proxy_, "UnregisterWindow",
                     g_variant_new("(u)", window), G_DBUS_CALL_FLAGS_NONE, -1,
                     nullptr, nullptr, nullptr);
@@ -107,9 +107,9 @@ void GlobalMenuBarRegistrarX11::OnProxyCreated(GObject* source,
     return;
   }
 
-  // TODO(erg): Mozilla's implementation has a workaround for GDBus
-  // cancellation here. However, it's marked as fixed. If there's weird
-  // problems with cancelation, look at how they fixed their issues.
+  // TODO(Erg)：Mozilla的实现可以解决GDBus问题。
+  // 在这里取消。但是，它被标记为已修复。如果有什么奇怪的。
+  // 取消的问题，看看他们是如何解决问题的。
 
   registrar_proxy_ = proxy;
 
@@ -119,10 +119,10 @@ void GlobalMenuBarRegistrarX11::OnProxyCreated(GObject* source,
   OnNameOwnerChanged(nullptr, nullptr);
 }
 
-void GlobalMenuBarRegistrarX11::OnNameOwnerChanged(GObject* /* ignored */,
-                                                   GParamSpec* /* ignored */) {
-  // If the name owner changed, we need to reregister all the live x11::Window
-  // with the system.
+void GlobalMenuBarRegistrarX11::OnNameOwnerChanged(GObject* /* 忽略。*/,
+                                                   GParamSpec* /* 忽略。*/) {
+  // 如果名称Owner更改，我们需要重新注册所有活动的x11：：Window。
+  // 与这个系统的关系。
   for (const auto& window : live_windows_) {
     RegisterXWindow(window);
   }

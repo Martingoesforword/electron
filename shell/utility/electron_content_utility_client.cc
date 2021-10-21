@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/utility/electron_content_utility_client.h"
 
@@ -19,12 +19,12 @@
 #if defined(OS_WIN)
 #include "chrome/services/util_win/public/mojom/util_read_icon.mojom.h"
 #include "chrome/services/util_win/util_read_icon.h"
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 
 #if BUILDFLAG(ENABLE_PRINTING)
 #include "components/services/print_compositor/print_compositor_impl.h"
-#include "components/services/print_compositor/public/mojom/print_compositor.mojom.h"  // nogncheck
-#endif  // BUILDFLAG(ENABLE_PRINTING)
+#include "components/services/print_compositor/public/mojom/print_compositor.mojom.h"  // 点名检查。
+#endif  // BUILDFLAG(ENABLE_PRINTING)。
 
 #if BUILDFLAG(ENABLE_PRINTING) && defined(OS_WIN)
 #include "chrome/services/printing/pdf_to_emf_converter_factory.h"
@@ -63,7 +63,7 @@ auto RunWindowsIconReader(
 auto RunPrintCompositor(
     mojo::PendingReceiver<printing::mojom::PrintCompositor> receiver) {
   return std::make_unique<printing::PrintCompositorImpl>(
-      std::move(receiver), true /* initialize_environment */,
+      std::move(receiver), true /* 初始化_环境。*/,
       content::UtilityThread::Get()->GetIOTaskRunner());
 }
 #endif
@@ -75,7 +75,7 @@ auto RunProxyResolver(
       std::move(receiver));
 }
 
-}  // namespace
+}  // 命名空间。
 
 ElectronContentUtilityClient::ElectronContentUtilityClient() {
 #if BUILDFLAG(ENABLE_PRINT_PREVIEW) && defined(OS_WIN)
@@ -85,9 +85,9 @@ ElectronContentUtilityClient::ElectronContentUtilityClient() {
 
 ElectronContentUtilityClient::~ElectronContentUtilityClient() = default;
 
-// The guts of this came from the chromium implementation
-// https://cs.chromium.org/chromium/src/chrome/utility/
-// chrome_content_utility_client.cc?sq=package:chromium&dr=CSs&g=0&l=142
+// 这一点的核心来自于铬的实现。
+// Https://cs.chromium.org/chromium/src/chrome/utility/。
+// Chrome_content_utility_client.cc?sq=package:chromium&dr=CSs&g=0&l=142。
 void ElectronContentUtilityClient::ExposeInterfacesToBrowser(
     mojo::BinderMap* binders) {
 #if defined(OS_WIN)
@@ -96,8 +96,8 @@ void ElectronContentUtilityClient::ExposeInterfacesToBrowser(
       sandbox::policy::switches::kNoSandboxAndElevatedPrivileges);
 #endif
 
-  // If our process runs with elevated privileges, only add elevated Mojo
-  // interfaces to the BinderMap.
+  // 如果我们的进程以提升的权限运行，则仅添加提升的Mojo。
+  // 到BinderMap的接口。
   if (!utility_process_running_elevated_) {
 #if BUILDFLAG(ENABLE_PRINTING) && defined(OS_WIN)
     binders->Add(
@@ -128,4 +128,4 @@ void ElectronContentUtilityClient::RegisterIOThreadServices(
   services.Add(RunProxyResolver);
 }
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,8 +1,8 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Copyright (c) 2015 Felix Rieseberg <feriese@microsoft.com> and
-// Jason Poon <jason.poon@microsoft.com>. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 版权所有(C)2015 Felix Rieseberg&lt;feriese@microsoft.com&gt;和。
+// Jason Poon&lt;jason.poon@microsoft.com&gt;。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/notifications/win/notification_presenter_win.h"
 
@@ -43,9 +43,9 @@ bool SaveIconToPath(const SkBitmap& bitmap, const base::FilePath& path) {
   return base::WriteFile(path, data, size) == size;
 }
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 NotificationPresenter* NotificationPresenter::Create() {
   auto version = base::win::GetVersion();
   if (version < base::win::Version::WIN8)
@@ -97,4 +97,4 @@ Notification* NotificationPresenterWin::CreateNotificationObject(
   return new WindowsToastNotification(delegate, this);
 }
 
-}  // namespace electron
+}  // 命名空间电子

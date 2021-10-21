@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_event_emitter.h"
 
@@ -35,7 +35,7 @@ void Initialize(v8::Local<v8::Object> exports,
            base::BindRepeating(&SetEventEmitterPrototype));
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -44,6 +44,6 @@ v8::Local<v8::Object> GetEventEmitterPrototype(v8::Isolate* isolate) {
   return GetEventEmitterPrototypeReference()->Get(isolate);
 }
 
-}  // namespace electron
+}  // 命名空间电子
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_event_emitter, Initialize)

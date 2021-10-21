@@ -1,6 +1,6 @@
-// Copyright 2020 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2020年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/views/win_caption_button_container.h"
 
@@ -32,7 +32,7 @@ bool HitTestCaptionButton(WinCaptionButton* button, const gfx::Point& point) {
   return button && button->GetVisible() && button->bounds().Contains(point);
 }
 
-}  // anonymous namespace
+}  // 匿名命名空间。
 
 WinCaptionButtonContainer::WinCaptionButtonContainer(WinFrameView* frame_view)
     : frame_view_(frame_view),
@@ -61,8 +61,8 @@ WinCaptionButtonContainer::WinCaptionButtonContainer(WinFrameView* frame_view)
           frame_view_,
           VIEW_ID_CLOSE_BUTTON,
           IDS_APP_ACCNAME_CLOSE))) {
-  // Layout is horizontal, with buttons placed at the trailing end of the view.
-  // This allows the container to expand to become a faux titlebar/drag handle.
+  // 布局是水平的，按钮放置在视图的后端。
+  // 这允许容器扩展为人造标题栏/拖动手柄。
   auto* const layout = SetLayoutManager(std::make_unique<views::FlexLayout>());
   layout->SetOrientation(views::LayoutOrientation::kHorizontal)
       .SetMainAxisAlignment(views::LayoutAlignment::kEnd)
@@ -72,7 +72,7 @@ WinCaptionButtonContainer::WinCaptionButtonContainer(WinFrameView* frame_view)
           views::FlexSpecification(views::LayoutOrientation::kHorizontal,
                                    views::MinimumFlexSizeRule::kPreferred,
                                    views::MaximumFlexSizeRule::kPreferred,
-                                   /* adjust_width_for_height */ false,
+                                   /* 为高度调整宽度。*/ false,
                                    views::MinimumFlexSizeRule::kScaleToZero));
 }
 
@@ -133,11 +133,11 @@ void WinCaptionButtonContainer::UpdateButtons() {
   restore_button_->SetVisible(is_maximized);
   maximize_button_->SetVisible(!is_maximized);
 
-  // In touch mode, windows cannot be taken out of fullscreen or tiled mode, so
-  // the maximize/restore button should be disabled.
+  // 在触摸模式下，窗口无法退出全屏或平铺模式，因此。
+  // 应禁用最大化/恢复按钮。
   const bool is_touch = ui::TouchUiController::Get()->touch_ui();
   restore_button_->SetEnabled(!is_touch);
   maximize_button_->SetEnabled(!is_touch);
   InvalidateLayout();
 }
-}  // namespace electron
+}  // 命名空间电子

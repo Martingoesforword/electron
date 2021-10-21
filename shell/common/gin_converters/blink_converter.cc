@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_converters/blink_converter.h"
 
@@ -39,7 +39,7 @@ int VectorToBitArray(const std::vector<T>& vec) {
   return bits;
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace gin {
 
@@ -144,7 +144,7 @@ struct Converter<blink::WebInputEvent::Modifiers> {
       *out = blink::WebInputEvent::Modifiers::kIsLeft;
     else if (modifier == "right")
       *out = blink::WebInputEvent::Modifiers::kIsRight;
-    // TODO(nornagon): the rest of the modifiers
+    // TODO(正方形)：其余修改器。
     return true;
   }
 };
@@ -178,7 +178,7 @@ std::vector<std::string> ModifiersToArray(int modifiers) {
     modifier_strings.push_back("left");
   if (modifiers & Modifiers::kIsRight)
     modifier_strings.push_back("right");
-  // TODO(nornagon): the rest of the modifiers
+  // TODO(正方形)：其余修改器。
   return modifier_strings;
 }
 
@@ -238,8 +238,8 @@ bool Converter<blink::WebKeyboardEvent>::FromV8(v8::Isolate* isolate,
 
   if ((out->GetType() == blink::WebInputEvent::Type::kChar ||
        out->GetType() == blink::WebInputEvent::Type::kRawKeyDown)) {
-    // Make sure to not read beyond the buffer in case some bad code doesn't
-    // NULL-terminate it (this is called from plugins).
+    // 确保不超出缓冲区读取，以防某些坏代码无法读取。
+    // NULL-终止它(这是从插件调用的)。
     size_t text_length_cap = blink::WebKeyboardEvent::kTextLengthCap;
     std::u16string text16 = base::UTF8ToUTF16(str);
 
@@ -254,7 +254,7 @@ bool Converter<blink::WebKeyboardEvent>::FromV8(v8::Isolate* isolate,
 }
 
 int GetKeyLocationCode(const blink::WebInputEvent& key) {
-  // https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/core/events/keyboard_event.h;l=46;drc=1ff6437e65b183e673b7b4f25060b74dc2ba5c37
+  // Https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/core/events/keyboard_event.h；l=46；drc=1ff6437e65b183e673b7b4f25060b74dc2ba5c37。
   enum KeyLocationCode {
     kDomKeyLocationStandard = 0x00,
     kDomKeyLocationLeft = 0x01,
@@ -353,7 +353,7 @@ bool Converter<blink::WebMouseWheelEvent>::FromV8(
   }
 
 #if defined(USE_AURA)
-  // Matches the behavior of ui/events/blink/web_input_event_traits.cc:
+  // 匹配UI/events/blink/web_input_event_traits.cc的行为：
   bool can_scroll = true;
   if (dict.Get("canScroll", &can_scroll) && !can_scroll) {
     out->delta_units = ui::ScrollGranularity::kScrollByPage;
@@ -394,7 +394,7 @@ bool Converter<blink::DeviceEmulationParams>::FromV8(
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<blink::mojom::ContextMenuDataMediaType>::ToV8(
     v8::Isolate* isolate,
     const blink::mojom::ContextMenuDataMediaType& in) {
@@ -416,7 +416,7 @@ v8::Local<v8::Value> Converter<blink::mojom::ContextMenuDataMediaType>::ToV8(
   }
 }
 
-// static
+// 静电。
 v8::Local<v8::Value>
 Converter<blink::mojom::ContextMenuDataInputFieldType>::ToV8(
     v8::Isolate* isolate,
@@ -447,7 +447,7 @@ v8::Local<v8::Value> EditFlagsToV8(v8::Isolate* isolate, int editFlags) {
   if (editFlags & blink::ContextMenuDataEditFlags::kCanPaste) {
     std::vector<std::u16string> types;
     ui::Clipboard::GetForCurrentThread()->ReadAvailableTypes(
-        ui::ClipboardBuffer::kCopyPaste, /* data_dst = */ nullptr, &types);
+        ui::ClipboardBuffer::kCopyPaste, /* DATA_DST=。*/ nullptr, &types);
     pasteFlag = !types.empty();
   }
   dict.Set("canPaste", pasteFlag);
@@ -508,7 +508,7 @@ v8::Local<v8::Value> Converter<blink::WebCacheResourceTypeStats>::ToV8(
   return dict.GetHandle();
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<network::mojom::ReferrerPolicy>::ToV8(
     v8::Isolate* isolate,
     const network::mojom::ReferrerPolicy& in) {
@@ -534,7 +534,7 @@ v8::Local<v8::Value> Converter<network::mojom::ReferrerPolicy>::ToV8(
   }
 }
 
-// static
+// 静电。
 bool Converter<network::mojom::ReferrerPolicy>::FromV8(
     v8::Isolate* isolate,
     v8::Handle<v8::Value> val,
@@ -561,7 +561,7 @@ bool Converter<network::mojom::ReferrerPolicy>::FromV8(
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<blink::mojom::Referrer>::ToV8(
     v8::Isolate* isolate,
     const blink::mojom::Referrer& val) {
@@ -570,8 +570,8 @@ v8::Local<v8::Value> Converter<blink::mojom::Referrer>::ToV8(
   dict.Set("policy", ConvertToV8(isolate, val.policy));
   return gin::ConvertToV8(isolate, dict);
 }
-//
-// static
+// 
+// 静电。
 bool Converter<blink::mojom::Referrer>::FromV8(v8::Isolate* isolate,
                                                v8::Local<v8::Value> val,
                                                blink::mojom::Referrer* out) {
@@ -600,4 +600,4 @@ bool Converter<blink::CloneableMessage>::FromV8(v8::Isolate* isolate,
   return electron::SerializeV8Value(isolate, val, out);
 }
 
-}  // namespace gin
+}  // 命名空间杜松子酒

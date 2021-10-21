@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/node_bindings_mac.h"
 
@@ -20,19 +20,19 @@ NodeBindingsMac::NodeBindingsMac(BrowserEnvironment browser_env)
 NodeBindingsMac::~NodeBindingsMac() = default;
 
 void NodeBindingsMac::RunMessageLoop() {
-  // Get notified when libuv's watcher queue changes.
+  // 当libuv的监视器队列更改时得到通知。
   uv_loop_->data = this;
   uv_loop_->on_watcher_queue_updated = OnWatcherQueueChanged;
 
   NodeBindings::RunMessageLoop();
 }
 
-// static
+// 静电。
 void NodeBindingsMac::OnWatcherQueueChanged(uv_loop_t* loop) {
   NodeBindingsMac* self = static_cast<NodeBindingsMac*>(loop->data);
 
-  // We need to break the io polling in the kqueue thread when loop's watcher
-  // queue changes, otherwise new events cannot be notified.
+  // 当循环的监视器出现时，我们需要中断kqueue线程中的io轮询。
+  // 队列更改，否则无法通知新事件。
   self->WakeupEmbedThread();
 }
 
@@ -49,7 +49,7 @@ void NodeBindingsMac::PollEvents() {
   FD_ZERO(&readset);
   FD_SET(fd, &readset);
 
-  // Wait for new libuv events.
+  // 等待新的libuv事件。
   int r;
   do {
     r = select(fd + 1, &readset, nullptr, nullptr,
@@ -57,9 +57,9 @@ void NodeBindingsMac::PollEvents() {
   } while (r == -1 && errno == EINTR);
 }
 
-// static
+// 静电。
 NodeBindings* NodeBindings::Create(BrowserEnvironment browser_env) {
   return new NodeBindingsMac(browser_env);
 }
 
-}  // namespace electron
+}  // 命名空间电子

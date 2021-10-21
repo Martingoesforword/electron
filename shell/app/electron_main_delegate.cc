@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/app/electron_main_delegate.h"
 
@@ -59,8 +59,8 @@
 #endif
 
 #if !defined(MAS_BUILD)
-#include "components/crash/core/app/crash_switches.h"  // nogncheck
-#include "components/crash/core/app/crashpad.h"        // nogncheck
+#include "components/crash/core/app/crash_switches.h"  // 点名检查。
+#include "components/crash/core/app/crashpad.h"        // 点名检查。
 #include "components/crash/core/common/crash_key.h"
 #include "components/crash/core/common/crash_keys.h"
 #include "shell/app/electron_crash_reporter_client.h"
@@ -83,17 +83,17 @@ bool IsBrowserProcess(base::CommandLine* cmd) {
   return process_type.empty();
 }
 
-// Returns true if this subprocess type needs the ResourceBundle initialized
-// and resources loaded.
+// 如果此子进程类型需要初始化ResourceBundle，则返回TRUE。
+// 并加载资源。
 bool SubprocessNeedsResourceBundle(const std::string& process_type) {
   return
 #if defined(OS_LINUX)
-      // The zygote process opens the resources for the renderers.
+      // 受精卵过程为渲染器打开资源。
       process_type == ::switches::kZygoteProcess ||
 #endif
 #if defined(OS_MAC)
-      // Mac needs them too for scrollbar related images and for sandbox
-      // profiles.
+      // Mac也需要它们来处理与滚动条相关的图像和沙盒。
+      // 侧写。
       process_type == ::switches::kGpuProcess ||
 #endif
       process_type == ::switches::kPpapiPluginProcess ||
@@ -107,12 +107,12 @@ void InvalidParameterHandler(const wchar_t*,
                              const wchar_t*,
                              unsigned int,
                              uintptr_t) {
-  // noop.
+  // 没有。
 }
 #endif
 
-// TODO(nornagon): move path provider overriding to its own file in
-// shell/common
+// TODO(Nornagon)：将路径提供程序覆盖移动到中其自己的文件。
+// 外壳/公共。
 bool ElectronPathProvider(int key, base::FilePath* result) {
   bool create_dir = false;
   base::FilePath cur;
@@ -135,7 +135,7 @@ bool ElectronPathProvider(int key, base::FilePath* result) {
       create_dir = true;
       break;
     case chrome::DIR_APP_DICTIONARIES:
-      // TODO(nornagon): can we just default to using Chrome's logic here?
+      // TODO(Nornagon)：我们可以默认使用Chrome的逻辑吗？
       if (!base::PathService::Get(chrome::DIR_USER_DATA, &cur))
         return false;
       cur = cur.Append(base::FilePath::FromUTF8Unsafe("Dictionaries"));
@@ -145,8 +145,8 @@ bool ElectronPathProvider(int key, base::FilePath* result) {
 #if defined(OS_POSIX)
       int parent_key = base::DIR_CACHE;
 #else
-      // On Windows, there's no OS-level centralized location for caches, so
-      // store the cache in the app data directory.
+      // 在Windows上，没有操作系统级别的集中缓存位置，因此。
+      // 将缓存存储在应用程序数据目录中。
       int parent_key = base::DIR_APP_DATA;
 #endif
       if (!base::PathService::Get(parent_key, &cur))
@@ -190,7 +190,7 @@ bool ElectronPathProvider(int key, base::FilePath* result) {
       return false;
   }
 
-  // TODO(bauerb): http://crbug.com/259796
+  // TODO(鲍尔伯)：http://crbug.com/259796。
   base::ThreadRestrictions::ScopedAllowIO allow_io;
   if (create_dir && !base::PathExists(cur) && !base::CreateDirectory(cur)) {
     return false;
@@ -206,13 +206,13 @@ void RegisterPathProvider() {
                                       PATH_END);
 }
 
-}  // namespace
+}  // 命名空间。
 
 std::string LoadResourceBundle(const std::string& locale) {
   const bool initialized = ui::ResourceBundle::HasSharedInstance();
   DCHECK(!initialized);
 
-  // Load other resource files.
+  // 加载其他资源文件。
   base::FilePath pak_dir;
 #if defined(OS_MAC)
   pak_dir =
@@ -244,16 +244,16 @@ bool ElectronMainDelegate::BasicStartupComplete(int* exit_code) {
 #if defined(OS_WIN)
   v8_crashpad_support::SetUp();
 
-  // On Windows the terminal returns immediately, so we add a new line to
-  // prevent output in the same line as the prompt.
+  // 在Windows上，终端会立即返回，因此我们在。
+  // 防止输出与提示符在同一行。
   if (IsBrowserProcess(command_line))
     std::wcout << std::endl;
-#endif  // !defined(OS_WIN)
+#endif  // ！已定义(OS_WIN)。
 
   auto env = base::Environment::Create();
 
-  // Enable convenient stack printing. This is enabled by default in
-  // non-official builds.
+  // 支持方便的堆叠打印。默认情况下，在中启用此功能。
+  // 非官方建筑。
   if (env->HasVar(kElectronEnableStackDumping))
     base::debug::EnableInProcessStackDumping();
 
@@ -278,10 +278,10 @@ bool ElectronMainDelegate::BasicStartupComplete(int* exit_code) {
 #endif
 
 #if defined(OS_WIN)
-  // Ignore invalid parameter errors.
+  // 忽略无效参数错误。
   _set_invalid_parameter_handler(InvalidParameterHandler);
-  // Disable the ActiveVerifier, which is used by Chrome to track possible
-  // bugs, but no use in Electron.
+  // 禁用ActiveVerizer，Chrome使用它来跟踪可能的。
+  // 虫子，但在电子学上没用。
   base::win::DisableHandleVerifier();
 
   if (IsBrowserProcess(command_line))
@@ -289,24 +289,24 @@ bool ElectronMainDelegate::BasicStartupComplete(int* exit_code) {
 #endif
 
 #if defined(OS_LINUX)
-  // Check for --no-sandbox parameter when running as root.
+  // 以root身份运行时检查--no-sandbox参数。
   if (getuid() == 0 && IsSandboxEnabled(command_line))
     LOG(FATAL) << "Running as root without --"
                << sandbox::policy::switches::kNoSandbox
-               << " is not supported. See https://crbug.com/638180.";
+               << " is not supported. See https:// Crbug.com/638180。“；
 #endif
 
 #if defined(MAS_BUILD)
-  // In MAS build we are using --disable-remote-core-animation.
-  //
-  // According to ccameron:
-  // If you're running with --disable-remote-core-animation, you may want to
-  // also run with --disable-gpu-memory-buffer-compositor-resources as well.
-  // That flag makes it so we use regular GL textures instead of IOSurfaces
-  // for compositor resources. IOSurfaces are very heavyweight to
-  // create/destroy, but they can be displayed directly by CoreAnimation (and
-  // --disable-remote-core-animation makes it so we don't use this property,
-  // so they're just heavyweight with no upside).
+  // 在MAS构建中，我们使用--Disable-Remote-core-Animation。
+  // 
+  // 根据卡卡梅隆的说法：
+  // 如果您使用--Disable-remote-core-Animation运行，您可能需要。
+  // 也可以与--disable-gpu-memory-buffer-compositor-resources一起运行。
+  // 该标志使我们可以使用常规GL纹理，而不是IOSurfaces。
+  // 用于合成器资源。IOSurfaces是非常重量级的。
+  // 创建/销毁，但它们可以由CoreAnimation直接显示(和。
+  // --DISABLE-REMOTE-CORE-动画，所以我们不使用此属性，
+  // 因此，他们只是重量级的，没有上行空间)。
   command_line->AppendSwitch(
       ::switches::kDisableGpuMemoryBufferCompositorResources);
 #endif
@@ -331,15 +331,15 @@ void ElectronMainDelegate::PreSandboxStartup() {
   }
 
 #if !defined(OS_WIN)
-  // For windows we call InitLogging later, after the sandbox is initialized.
-  //
-  // On Linux, we force a "preinit" in the zygote (i.e. never log to a default
-  // log file), because the zygote is booted prior to JS running, so it can't
-  // know the correct user-data directory. (And, further, accessing the
-  // application name on Linux can cause glib calls that end up spawning
-  // threads, which if done before the zygote is booted, causes a CHECK().)
+  // 对于窗口，我们稍后在沙箱初始化之后调用InitLogging。
+  // 
+  // 在Linux上，我们在zygote中强制使用“preinit”(即从不登录到默认设置。
+  // 日志文件)，因为zygote是在JS运行之前引导的，所以它不能。
+  // 知道正确的用户数据目录。(此外，还可以访问。
+  // Linux上的应用程序名称可能导致Glib调用，最终产生。
+  // 线程(如果在启动受精卵之前完成)会导致检查()。)。
   logging::InitElectronLogging(*command_line,
-                               /* is_preinit = */ process_type.empty() ||
+                               /* IS_PREINIT=。*/ process_type.empty() ||
                                    process_type == ::switches::kZygoteProcess);
 #endif
 
@@ -347,18 +347,18 @@ void ElectronMainDelegate::PreSandboxStartup() {
   crash_reporter::InitializeCrashKeys();
 #endif
 
-  // Initialize ResourceBundle which handles files loaded from external
-  // sources. The language should have been passed in to us from the
-  // browser process as a command line flag.
+  // Initialize ResourceBundle处理从外部加载的文件。
+  // 消息来源。语言应该是从。
+  // 浏览器进程作为命令行标志。
   if (SubprocessNeedsResourceBundle(process_type)) {
     std::string locale = command_line->GetSwitchValueASCII(::switches::kLang);
     LoadResourceBundle(locale);
   }
 
 #if defined(OS_WIN) || (defined(OS_MAC) && !defined(MAS_BUILD))
-  // In the main process, we wait for JS to call crashReporter.start() before
-  // initializing crashpad. If we're in the renderer, we want to initialize it
-  // immediately at boot.
+  // 在主流程中，我们等待JS在调用crashReporter.start()之前。
+  // 正在初始化撞击板。如果我们在渲染器中，我们希望对其进行初始化。
+  // 马上开机。
   if (!process_type.empty()) {
     ElectronCrashReporterClient::Create();
     crash_reporter::InitializeCrashpad(false, process_type);
@@ -366,7 +366,7 @@ void ElectronMainDelegate::PreSandboxStartup() {
 #endif
 
 #if defined(OS_LINUX)
-  // Zygote needs to call InitCrashReporter() in RunZygote().
+  // Zygote需要在RunZygote()中调用InitCrashReporter()。
   if (process_type != ::switches::kZygoteProcess && !process_type.empty()) {
     ElectronCrashReporterClient::Create();
     if (crash_reporter::IsCrashpadEnabled()) {
@@ -388,13 +388,13 @@ void ElectronMainDelegate::PreSandboxStartup() {
 #endif
 
   if (IsBrowserProcess(command_line)) {
-    // Only append arguments for browser process.
+    // 仅追加浏览器进程的参数。
 
-    // Allow file:// URIs to read other file:// URIs by default.
+    // 默认情况下，允许file：//URI读取其他file：//URI。
     command_line->AppendSwitch(::switches::kAllowFileAccessFromFiles);
 
 #if defined(OS_MAC)
-    // Enable AVFoundation.
+    // 启用AVFoundation。
     command_line->AppendSwitch("enable-avfoundation");
 #endif
   }
@@ -403,14 +403,14 @@ void ElectronMainDelegate::PreSandboxStartup() {
 void ElectronMainDelegate::SandboxInitialized(const std::string& process_type) {
 #if defined(OS_WIN)
   logging::InitElectronLogging(*base::CommandLine::ForCurrentProcess(),
-                               /* is_preinit = */ process_type.empty());
+                               /* IS_PREINIT=。*/ process_type.empty());
 #endif
 }
 
 void ElectronMainDelegate::PreBrowserMain() {
-  // This is initialized early because the service manager reads some feature
-  // flags and we need to make sure the feature list is initialized before the
-  // service manager reads the features.
+  // 这是提前初始化的，因为服务管理器读取了一些要素。
+  // 标志，我们需要确保功能列表在。
+  // 服务经理读取这些功能。
   InitializeFeatureList();
 #if defined(OS_MAC)
   RegisterAtomCrApp();
@@ -466,8 +466,8 @@ bool ElectronMainDelegate::ShouldLockSchemeRegistry() {
 
 #if defined(OS_LINUX)
 void ElectronMainDelegate::ZygoteForked() {
-  // Needs to be called after we have DIR_USER_DATA.  BrowserMain sets
-  // this up for the browser process in a different manner.
+  // 需要在拥有DIR_USER_DATA之后调用。BrowserMain集。
+  // 这为浏览器进程提供了一种不同的方式。
   ElectronCrashReporterClient::Create();
   const base::CommandLine* command_line =
       base::CommandLine::ForCurrentProcess();
@@ -484,9 +484,9 @@ void ElectronMainDelegate::ZygoteForked() {
     breakpad::InitCrashReporter(process_type);
   }
 
-  // Reset the command line for the newly spawned process.
+  // 重置新派生的进程的命令行。
   crash_keys::SetCrashKeysFromCommandLine(*command_line);
 }
-#endif  // defined(OS_LINUX)
+#endif  // 已定义(OS_Linux)。
 
-}  // namespace electron
+}  // 命名空间电子

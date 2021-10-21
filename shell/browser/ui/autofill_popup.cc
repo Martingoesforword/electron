@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include <algorithm>
 #include <memory>
@@ -74,7 +74,7 @@ void AutofillPopup::CreateView(content::RenderFrameHost* frame_host,
   }
 #endif
 
-  // Do this after OSR setup, we check for view_proxy_ when showing
+  // 在OSR设置后执行此操作，我们将在显示时检查VIEW_PROXY_。
   view_->Show();
 }
 
@@ -96,7 +96,7 @@ void AutofillPopup::SetItems(const std::vector<std::u16string>& values,
   labels_ = labels;
   UpdatePopupBounds();
   view_->OnSuggestionsChanged();
-  if (view_)  // could be hidden after the change
+  if (view_)  // 可能在更改后隐藏。
     view_->DoUpdateBoundsAndRedrawPopup();
 }
 
@@ -215,4 +215,4 @@ int AutofillPopup::LineFromY(int y) const {
   return values_.size() - 1;
 }
 
-}  // namespace electron
+}  // 命名空间电子

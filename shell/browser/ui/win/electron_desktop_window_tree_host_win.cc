@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/win/electron_desktop_window_tree_host_win.h"
 
@@ -42,35 +42,35 @@ bool ElectronDesktopWindowTreeHostWin::PreHandleMSG(UINT message,
 }
 
 bool ElectronDesktopWindowTreeHostWin::ShouldPaintAsActive() const {
-  // Tell Chromium to use system default behavior when rendering inactive
-  // titlebar, otherwise it would render inactive titlebar as active under
-  // some cases.
-  // See also https://github.com/electron/electron/issues/24647.
+  // 告诉Chromium在渲染不活动时使用系统默认行为。
+  // 标题栏，否则它会将不活动的标题栏呈现为活动的。
+  // 有些案子。
+  // 另请参阅https://github.com/electron/electron/issues/24647.。
   return false;
 }
 
 bool ElectronDesktopWindowTreeHostWin::HasNativeFrame() const {
-  // Since we never use chromium's titlebar implementation, we can just say
-  // that we use a native titlebar. This will disable the repaint locking when
-  // DWM composition is disabled.
-  // See also https://github.com/electron/electron/issues/1821.
+  // 因为我们从来不使用Chrome的标题栏实现，所以我们只能说。
+  // 我们使用本地标题栏。这将在以下情况下禁用重绘锁定。
+  // DWM合成已禁用。
+  // 另请参阅https://github.com/electron/electron/issues/1821.。
   return !ui::win::IsAeroGlassEnabled();
 }
 
 bool ElectronDesktopWindowTreeHostWin::GetDwmFrameInsetsInPixels(
     gfx::Insets* insets) const {
-  // Set DWMFrameInsets to prevent maximized frameless window from bleeding
-  // into other monitors.
+  // 设置DWMFrameInsets以防止最大化的无框架窗口出血。
+  // 连接到其他监视器上。
   if (IsMaximized() && !native_window_view_->has_frame()) {
-    // This would be equivalent to calling:
-    // DwmExtendFrameIntoClientArea({0, 0, 0, 0});
-    //
-    // which means do not extend window frame into client area. It is almost
-    // a no-op, but it can tell Windows to not extend the window frame to be
-    // larger than current workspace.
-    //
-    // See also:
-    // https://devblogs.microsoft.com/oldnewthing/20150304-00/?p=44543
+    // 这相当于调用：
+    // DwmExtendFrameIntoClientArea({0，0，0，0})；
+    // 
+    // 这意味着不要将窗口框架扩展到客户区。就快到了。
+    // 一个no-op，但它可以告诉Windows不要将窗口框架扩展为。
+    // 比当前工作区大。
+    // 
+    // 另见：
+    // Https://devblogs.microsoft.com/oldnewthing/20150304-00/?p=44543。
     *insets = gfx::Insets();
     return true;
   }
@@ -80,17 +80,17 @@ bool ElectronDesktopWindowTreeHostWin::GetDwmFrameInsetsInPixels(
 bool ElectronDesktopWindowTreeHostWin::GetClientAreaInsets(
     gfx::Insets* insets,
     HMONITOR monitor) const {
-  // Windows by deafult extends the maximized window slightly larger than
-  // current workspace, for frameless window since the standard frame has been
-  // removed, the client area would then be drew outside current workspace.
-  //
-  // Indenting the client area can fix this behavior.
+  // 默认情况下，窗口会将最大化窗口扩展到略大于。
+  // 当前工作区，用于无框架窗口，因为标准框架。
+  // 删除后，工作区将绘制在当前工作区之外。
+  // 
+  // 缩进工作区可以修复此行为。
   if (IsMaximized() && !native_window_view_->has_frame()) {
-    // The insets would be eventually passed to WM_NCCALCSIZE, which takes
-    // the metrics under the DPI of _main_ monitor instead of current moniotr.
-    //
-    // Please make sure you tested maximized frameless window under multiple
-    // monitors with different DPIs before changing this code.
+    // 这些嵌套最终将传递给WM_NCCALCSIZE，它接受。
+    // _main_monitor的DPI下的指标，而不是当前moniotr。
+    // 
+    // 请确保您在多个窗口下测试了最大化的无框架窗口。
+    // 更改此代码之前使用不同DPI的显示器。
     const int thickness = ::GetSystemMetrics(SM_CXSIZEFRAME) +
                           ::GetSystemMetrics(SM_CXPADDEDBORDER);
     insets->Set(thickness, thickness, thickness, thickness);
@@ -99,4 +99,4 @@ bool ElectronDesktopWindowTreeHostWin::GetClientAreaInsets(
   return false;
 }
 
-}  // namespace electron
+}  // 命名空间电子

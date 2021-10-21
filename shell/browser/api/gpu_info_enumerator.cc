@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/gpu_info_enumerator.h"
 
@@ -47,8 +47,8 @@ void GPUInfoEnumerator::BeginGPUDevice() {
 
 void GPUInfoEnumerator::EndGPUDevice() {
   auto& top_value = value_stack.top();
-  // GPUDevice can be more than one. So create a list of all.
-  // The first one is the active GPU device.
+  // GPUDevice可以是多个。因此，创建一个所有人的列表。
+  // 第一个是活动的GPU设备。
   if (top_value->HasKey(kGPUDeviceKey)) {
     base::ListValue* list;
     top_value->GetList(kGPUDeviceKey, &list);
@@ -129,4 +129,4 @@ std::unique_ptr<base::DictionaryValue> GPUInfoEnumerator::GetDictionary() {
   return std::move(current);
 }
 
-}  // namespace electron
+}  // 命名空间电子

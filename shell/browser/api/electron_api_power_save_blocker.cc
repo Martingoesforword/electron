@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_power_save_blocker.h"
 
@@ -36,7 +36,7 @@ struct Converter<device::mojom::WakeLockType> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -58,12 +58,12 @@ void PowerSaveBlocker::UpdatePowerSaveBlocker() {
     return;
   }
 
-  // |WakeLockType::kPreventAppSuspension| keeps system active, but allows
-  // screen to be turned off.
-  // |WakeLockType::kPreventDisplaySleep| keeps system and screen active, has a
-  // higher precedence level than |WakeLockType::kPreventAppSuspension|.
-  //
-  // Only the highest-precedence blocker type takes effect.
+  // |WakeLockType：：kPreventAppSusending|保持系统活动，但允许。
+  // 要关闭的屏幕。
+  // |WakeLockType：：kPreventDisplaySept|保持系统和屏幕处于活动状态，有。
+  // 优先级高于|WakeLockType：：kPreventAppSusounding|。
+  // 
+  // 只有优先级最高的拦截器类型才有效。
   device::mojom::WakeLockType new_lock_type =
       device::mojom::WakeLockType::kPreventAppSuspension;
   for (const auto& element : wake_lock_types_) {
@@ -114,7 +114,7 @@ bool PowerSaveBlocker::IsStarted(int id) {
   return wake_lock_types_.find(id) != wake_lock_types_.end();
 }
 
-// static
+// 静电。
 gin::Handle<PowerSaveBlocker> PowerSaveBlocker::Create(v8::Isolate* isolate) {
   return gin::CreateHandle(isolate, new PowerSaveBlocker(isolate));
 }
@@ -127,9 +127,9 @@ gin::ObjectTemplateBuilder PowerSaveBlocker::GetObjectTemplateBuilder(
       .SetMethod("isStarted", &PowerSaveBlocker::IsStarted);
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -143,7 +143,7 @@ void Initialize(v8::Local<v8::Object> exports,
            electron::api::PowerSaveBlocker::Create(isolate));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_power_save_blocker,
                                  Initialize)

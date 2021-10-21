@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/node_bindings_win.h"
 
@@ -13,11 +13,11 @@ namespace electron {
 
 NodeBindingsWin::NodeBindingsWin(BrowserEnvironment browser_env)
     : NodeBindings(browser_env) {
-  // on single-core the io comp port NumberOfConcurrentThreads needs to be 2
-  // to avoid cpu pegging likely caused by a busy loop in PollEvents
+  // 在单核上，io组件端口NumberOfConcurrentThread需要为2。
+  // 避免PollEvents中的繁忙循环可能导致的CPU锁定。
   if (base::SysInfo::NumberOfProcessors() == 1) {
-    // the expectation is the uv_loop_ has just been initialized
-    // which makes iocp replacement safe
+    // 预期是uv_loop_刚刚被初始化。
+    // 这使得IOCP置换术变得安全。
     CHECK_EQ(0u, uv_loop_->active_handles);
     CHECK_EQ(0u, uv_loop_->active_reqs.count);
 
@@ -30,8 +30,8 @@ NodeBindingsWin::NodeBindingsWin(BrowserEnvironment browser_env)
 NodeBindingsWin::~NodeBindingsWin() = default;
 
 void NodeBindingsWin::PollEvents() {
-  // If there are other kinds of events pending, uv_backend_timeout will
-  // instruct us not to wait.
+  // 如果有其他类型的事件挂起，UV_BACKEND_TIMEOUT将。
+  // 告诉我们不要再等了。
   DWORD bytes, timeout;
   ULONG_PTR key;
   OVERLAPPED* overlapped;
@@ -40,14 +40,14 @@ void NodeBindingsWin::PollEvents() {
 
   GetQueuedCompletionStatus(uv_loop_->iocp, &bytes, &key, &overlapped, timeout);
 
-  // Give the event back so libuv can deal with it.
+  // 把活动还给我，这样利布就可以处理了。
   if (overlapped != NULL)
     PostQueuedCompletionStatus(uv_loop_->iocp, bytes, key, overlapped);
 }
 
-// static
+// 静电。
 NodeBindings* NodeBindings::Create(BrowserEnvironment browser_env) {
   return new NodeBindingsWin(browser_env);
 }
 
-}  // namespace electron
+}  // 命名空间电子

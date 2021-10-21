@@ -1,8 +1,8 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
-// TODO(sentialx): emit relevant events in Electron's session?
+// TODO(Sentialx)：在Electron的会话中发出相关事件？
 #include "shell/browser/extensions/api/management/electron_management_api_delegate.h"
 
 #include <memory>
@@ -40,7 +40,7 @@ class ManagementSetEnabledFunctionInstallPromptDelegate
       content::BrowserContext* browser_context,
       const extensions::Extension* extension,
       base::OnceCallback<void(bool)> callback) {
-    // TODO(sentialx): emit event
+    // TODO(Sentialx)：发射事件。
   }
   ~ManagementSetEnabledFunctionInstallPromptDelegate() override = default;
 
@@ -58,7 +58,7 @@ class ManagementUninstallFunctionUninstallDialogDelegate
       extensions::ManagementUninstallFunctionBase* function,
       const extensions::Extension* target_extension,
       bool show_programmatic_uninstall_ui) {
-    // TODO(sentialx): emit event
+    // TODO(Sentialx)：发射事件。
   }
 
   ~ManagementUninstallFunctionUninstallDialogDelegate() override = default;
@@ -67,7 +67,7 @@ class ManagementUninstallFunctionUninstallDialogDelegate
   DISALLOW_COPY_AND_ASSIGN(ManagementUninstallFunctionUninstallDialogDelegate);
 };
 
-}  // namespace
+}  // 命名空间。
 
 ElectronManagementAPIDelegate::ElectronManagementAPIDelegate() = default;
 
@@ -76,7 +76,7 @@ ElectronManagementAPIDelegate::~ElectronManagementAPIDelegate() = default;
 void ElectronManagementAPIDelegate::LaunchAppFunctionDelegate(
     const extensions::Extension* extension,
     content::BrowserContext* context) const {
-  // TODO(sentialx): emit event
+  // TODO(Sentialx)：发射事件。
   extensions::RecordAppLaunchType(extension_misc::APP_LAUNCH_EXTENSION_API,
                                   extension->GetType());
 }
@@ -89,7 +89,7 @@ GURL ElectronManagementAPIDelegate::GetFullLaunchURL(
 extensions::LaunchType ElectronManagementAPIDelegate::GetLaunchType(
     const extensions::ExtensionPrefs* prefs,
     const extensions::Extension* extension) const {
-  // TODO(sentialx)
+  // 待办事项(伤感)。
   return extensions::LAUNCH_TYPE_DEFAULT;
 }
 
@@ -128,7 +128,7 @@ bool ElectronManagementAPIDelegate::CreateAppShortcutFunctionDelegate(
     extensions::ManagementCreateAppShortcutFunction* function,
     const extensions::Extension* extension,
     std::string* error) const {
-  return false;  // TODO(sentialx): route event and return true
+  return false;  // TODO(Sentialx)：路由事件并返回true。
 }
 
 std::unique_ptr<extensions::AppForLinkDelegate>
@@ -137,13 +137,13 @@ ElectronManagementAPIDelegate::GenerateAppForLinkFunctionDelegate(
     content::BrowserContext* context,
     const std::string& title,
     const GURL& launch_url) const {
-  // TODO(sentialx)
+  // 待办事项(伤感)。
   return nullptr;
 }
 
 bool ElectronManagementAPIDelegate::CanContextInstallWebApps(
     content::BrowserContext* context) const {
-  // TODO(sentialx)
+  // 待办事项(伤感)。
   return false;
 }
 
@@ -151,7 +151,7 @@ void ElectronManagementAPIDelegate::InstallOrLaunchReplacementWebApp(
     content::BrowserContext* context,
     const GURL& web_app_url,
     InstallOrLaunchWebAppCallback callback) const {
-  // TODO(sentialx)
+  // 待办事项(伤感)。
 }
 
 bool ElectronManagementAPIDelegate::CanContextInstallAndroidApps(
@@ -174,17 +174,17 @@ void ElectronManagementAPIDelegate::InstallReplacementAndroidApp(
 void ElectronManagementAPIDelegate::EnableExtension(
     content::BrowserContext* context,
     const std::string& extension_id) const {
-  // const extensions::Extension* extension =
-  //     extensions::ExtensionRegistry::Get(context)->GetExtensionById(
-  //         extension_id, extensions::ExtensionRegistry::EVERYTHING);
+  // Const Extensions：：Extension*Extension=。
+  // Extensions：：ExtensionRegistry：：Get(context)-&gt;GetExtensionById(。
+  // Extension_id，Extensions：：ExtensionRegistry：：Everything)；
 
-  // TODO(sentialx): we don't have ExtensionService
-  // If the extension was disabled for a permissions increase, the Management
-  // API will have displayed a re-enable prompt to the user, so we know it's
-  // safe to grant permissions here.
-  // extensions::ExtensionSystem::Get(context)
-  //     ->extension_service()
-  //     ->GrantPermissionsAndEnableExtension(extension);
+  // TODO(Sentialx)：我们没有扩展服务。
+  // 如果扩展因权限增加而被禁用，则管理。
+  // API将向用户显示重新启用提示，因此我们知道。
+  // 在此授予权限是安全的。
+  // Extensions：：ExtensionSystem：：Get(Context)。
+  // -&gt;EXTENSION_SERVICE()。
+  // -&gt;GrantPermissionsAndEnableExtension(extension)；
 }
 
 void ElectronManagementAPIDelegate::DisableExtension(
@@ -192,11 +192,11 @@ void ElectronManagementAPIDelegate::DisableExtension(
     const extensions::Extension* source_extension,
     const std::string& extension_id,
     extensions::disable_reason::DisableReason disable_reason) const {
-  // TODO(sentialx): we don't have ExtensionService
-  // extensions::ExtensionSystem::Get(context)
-  //     ->extension_service()
-  //     ->DisableExtensionWithSource(source_extension, extension_id,
-  //                                  disable_reason);
+  // TODO(Sentialx)：我们没有扩展服务。
+  // Extensions：：ExtensionSystem：：Get(Context)。
+  // -&gt;EXTENSION_SERVICE()。
+  // -&gt;DisableExtensionWithSource(source_extension，扩展ID，
+  // DISABLE_REASON)；
 }
 
 bool ElectronManagementAPIDelegate::UninstallExtension(
@@ -204,10 +204,10 @@ bool ElectronManagementAPIDelegate::UninstallExtension(
     const std::string& transient_extension_id,
     extensions::UninstallReason reason,
     std::u16string* error) const {
-  // TODO(sentialx): we don't have ExtensionService
-  // return extensions::ExtensionSystem::Get(context)
-  //     ->extension_service()
-  //     ->UninstallExtension(transient_extension_id, reason, error);
+  // TODO(Sentialx)：我们没有扩展服务。
+  // 返回Extensions：：ExtensionSystem：：Get(Context)。
+  // -&gt;EXTENSION_SERVICE()。
+  // -&gt;UninstallExtension(瞬态_扩展_id，原因，错误)；
   return false;
 }
 
@@ -215,8 +215,8 @@ void ElectronManagementAPIDelegate::SetLaunchType(
     content::BrowserContext* context,
     const std::string& extension_id,
     extensions::LaunchType launch_type) const {
-  // TODO(sentialx)
-  // extensions::SetLaunchType(context, extension_id, launch_type);
+  // 待办事项(伤感)。
+  // Extensions：：SetLaunchType(Context，Extension_id，Launch_type)；
 }
 
 GURL ElectronManagementAPIDelegate::GetIconURL(
@@ -235,6 +235,6 @@ GURL ElectronManagementAPIDelegate::GetIconURL(
 GURL ElectronManagementAPIDelegate::GetEffectiveUpdateURL(
     const extensions::Extension& extension,
     content::BrowserContext* context) const {
-  // TODO(codebytere): we do not currently support ExtensionManagement.
+  // TODO(Codebytere)：我们当前不支持ExtensionManagement。
   return GURL::EmptyGURL();
 }

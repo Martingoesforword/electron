@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/message_box.h"
 
@@ -42,7 +42,7 @@ MessageBoxSettings::~MessageBoxSettings() = default;
 
 namespace {
 
-// <ID, messageBox> map
+// &lt;ID，messageBox&gt;地图。
 std::map<int, GtkWidget*>& GetDialogsMap() {
   static base::NoDestructor<std::map<int, GtkWidget*>> dialogs;
   return *dialogs;
@@ -54,12 +54,12 @@ class GtkMessageBox : public NativeWindowObserver {
       : id_(settings.id),
         cancel_id_(settings.cancel_id),
         parent_(static_cast<NativeWindow*>(settings.parent_window)) {
-    // Create dialog.
+    // 创建对话框。
     dialog_ =
-        gtk_message_dialog_new(nullptr,                         // parent
-                               static_cast<GtkDialogFlags>(0),  // no flags
-                               GetMessageType(settings.type),   // type
-                               GTK_BUTTONS_NONE,                // no buttons
+        gtk_message_dialog_new(nullptr,                         // 亲本。
+                               static_cast<GtkDialogFlags>(0),  // 没有旗帜。
+                               GetMessageType(settings.type),   // 类型。
+                               GTK_BUTTONS_NONE,                // 没有按钮。
                                "%s", settings.message.c_str());
     if (id_)
       GetDialogsMap()[*id_] = dialog_;
@@ -70,8 +70,8 @@ class GtkMessageBox : public NativeWindowObserver {
       gtk_window_set_title(GTK_WINDOW(dialog_), settings.title.c_str());
 
     if (!settings.icon.isNull()) {
-      // No easy way to obtain this programmatically, but GTK+'s docs
-      // define GTK_ICON_SIZE_DIALOG to be 48 pixels
+      // 这不是通过编程获得的简单方法，但是GTK+的文档。
+      // 将GTK_ICON_SIZE_DIALOG定义为48像素。
       static constexpr int pixel_width = 48;
       static constexpr int pixel_height = 48;
       GdkPixbuf* pixbuf =
@@ -98,7 +98,7 @@ class GtkMessageBox : public NativeWindowObserver {
       gtk_widget_show(check_button);
     }
 
-    // Add buttons.
+    // 添加按钮。
     GtkDialog* dialog = GTK_DIALOG(dialog_);
     if (settings.buttons.size() == 0) {
       gtk_dialog_add_button(dialog, TranslateToStock(0, "OK"), 0);
@@ -110,7 +110,7 @@ class GtkMessageBox : public NativeWindowObserver {
     }
     gtk_dialog_set_default_response(dialog, settings.default_id);
 
-    // Parent window.
+    // 父窗口。
     if (parent_) {
       parent_->AddObserver(this);
       static_cast<NativeWindowViews*>(parent_)->SetEnabled(false);
@@ -159,8 +159,8 @@ class GtkMessageBox : public NativeWindowObserver {
     gtk_widget_show(dialog_);
 
 #if defined(USE_X11)
-    // We need to call gtk_window_present after making the widgets visible to
-    // make sure window gets correctly raised and gets focus.
+    // 在使小部件可见之后，我们需要调用gtk_Window_Present。
+    // 确保窗口被正确抬高并获得焦点。
     x11::Time time = ui::X11EventSource::GetInstance()->GetTimestamp();
     gtk_window_present_with_time(GTK_WINDOW(dialog_),
                                  static_cast<uint32_t>(time));
@@ -194,10 +194,10 @@ class GtkMessageBox : public NativeWindowObserver {
  private:
   electron::UnresponsiveSuppressor unresponsive_suppressor_;
 
-  // The id of the dialog.
+  // 对话框的ID。
   absl::optional<int> id_;
 
-  // The id to return when the dialog is closed without pressing buttons.
+  // 在未按下按钮的情况下关闭对话框时返回的id。
   int cancel_id_ = 0;
 
   bool checkbox_checked_ = false;
@@ -225,7 +225,7 @@ void GtkMessageBox::OnCheckboxToggled(GtkWidget* widget) {
   checkbox_checked_ = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 }
 
-}  // namespace
+}  // 命名空间。
 
 int ShowMessageBoxSync(const MessageBoxSettings& settings) {
   return GtkMessageBox(settings).RunSynchronous();
@@ -266,4 +266,4 @@ void ShowErrorBox(const std::u16string& title, const std::u16string& content) {
   }
 }
 
-}  // namespace electron
+}  // 命名空间电子

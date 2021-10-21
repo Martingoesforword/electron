@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "base/threading/thread_restrictions.h"
 #include "chrome/browser/browser_process.h"
@@ -32,7 +32,7 @@ struct Converter<printing::PrinterBasicInfo> {
 };
 #endif
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -44,8 +44,8 @@ printing::PrinterList GetPrinterList() {
   auto print_backend = printing::PrintBackend::CreateInstance(
       g_browser_process->GetApplicationLocale());
   {
-    // TODO(deepak1556): Deprecate this api in favor of an
-    // async version and post a non blocing task call.
+    // TODO(Deepak1556)：不推荐使用此API，而支持。
+    // 异步版本并发布非阻塞任务调用。
     base::ThreadRestrictions::ScopedAllowIO allow_io;
     printing::mojom::ResultCode code =
         print_backend->EnumeratePrinters(&printers);
@@ -56,9 +56,9 @@ printing::PrinterList GetPrinterList() {
 }
 #endif
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -77,6 +77,6 @@ void Initialize(v8::Local<v8::Object> exports,
 #endif
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_printing, Initialize)

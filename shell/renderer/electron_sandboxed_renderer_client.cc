@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/electron_sandboxed_renderer_client.h"
 
@@ -58,7 +58,7 @@ v8::Local<v8::Object> GetModuleCache(v8::Isolate* isolate) {
   return cache->ToObject(context).ToLocalChecked();
 }
 
-// adapted from node.cc
+// 改编自node.cc。
 v8::Local<v8::Value> GetBinding(v8::Isolate* isolate,
                                 v8::Local<v8::String> key,
                                 gin_helper::Arguments* margs) {
@@ -121,15 +121,15 @@ void InvokeHiddenCallback(v8::Handle<v8::Context> context,
                           ->ToString(context)
                           .ToLocalChecked();
   auto callback_value = binding->Get(context, callback_key).ToLocalChecked();
-  DCHECK(callback_value->IsFunction());  // set by sandboxed_renderer/init.js
+  DCHECK(callback_value->IsFunction());  // 由沙盒渲染器/init.js设置。
   auto callback = callback_value.As<v8::Function>();
   ignore_result(callback->Call(context, binding, 0, nullptr));
 }
 
-}  // namespace
+}  // 命名空间。
 
 ElectronSandboxedRendererClient::ElectronSandboxedRendererClient() {
-  // Explicitly register electron's builtin modules.
+  // 明确注册电子的内置模块。
   NodeBindings::RegisterBuiltinModules();
   metrics_ = base::ProcessMetrics::CreateCurrentProcessMetrics();
 }
@@ -203,9 +203,9 @@ void ElectronSandboxedRendererClient::RunScriptsAtDocumentEnd(
 void ElectronSandboxedRendererClient::DidCreateScriptContext(
     v8::Handle<v8::Context> context,
     content::RenderFrame* render_frame) {
-  // Only allow preload for the main frame or
-  // For devtools we still want to run the preload_bundle script
-  // Or when nodeSupport is explicitly enabled in sub frames
+  // 仅允许对主机进行预加载，或者。
+  // 对于DevTools，我们仍然希望运行preload_Bundle脚本。
+  // 或者在子帧中显式启用nodeSupport时。
   bool is_main_frame = render_frame->IsMainFrame();
   bool is_devtools =
       IsDevTools(render_frame) || IsDevToolsExtension(render_frame);
@@ -221,8 +221,8 @@ void ElectronSandboxedRendererClient::DidCreateScriptContext(
 
   injected_frames_.insert(render_frame);
 
-  // Wrap the bundle into a function that receives the binding object as
-  // argument.
+  // 将捆绑包包装到一个函数中，该函数将绑定对象接收为。
+  // 争论。
   auto* isolate = context->GetIsolate();
   auto binding = v8::Object::New(isolate);
   InitializeBindings(binding, context, render_frame);
@@ -255,4 +255,4 @@ void ElectronSandboxedRendererClient::WillReleaseScriptContext(
   InvokeHiddenCallback(context, kLifecycleKey, "onExit");
 }
 
-}  // namespace electron
+}  // 命名空间电子

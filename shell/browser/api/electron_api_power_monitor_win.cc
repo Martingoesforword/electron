@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_power_monitor.h"
 
@@ -19,7 +19,7 @@ namespace {
 
 const wchar_t kPowerMonitorWindowClass[] = L"Electron_PowerMonitorHostWindow";
 
-}  // namespace
+}  // 命名空间。
 
 namespace api {
 
@@ -32,18 +32,18 @@ void PowerMonitor::InitPlatformSpecificMonitors() {
   instance_ = window_class.hInstance;
   atom_ = RegisterClassEx(&window_class);
 
-  // Create an offscreen window for receiving broadcast messages for the
-  // session lock and unlock events.
+  // 为接收广播消息创建离屏窗口。
+  // 会话锁定和解锁事件。
   window_ = CreateWindow(MAKEINTATOM(atom_), 0, 0, 0, 0, 0, 0, HWND_MESSAGE, 0,
                          instance_, 0);
   gfx::CheckWindowCreated(window_, ::GetLastError());
   gfx::SetWindowUserData(window_, this);
 
-  // Tel windows we want to be notified with session events
+  // 通知窗口我们希望收到会话事件通知。
   WTSRegisterSessionNotification(window_, NOTIFY_FOR_THIS_SESSION);
 
-  // For Windows 8 and later, a new "connected standy" mode has been added and
-  // we must explicitly register for its notifications.
+  // 对于Windows8和更高版本，增加了一个新的“连接待机”模式，
+  // 我们必须明确注册它的通知。
   auto RegisterSuspendResumeNotification =
       reinterpret_cast<decltype(&::RegisterSuspendResumeNotification)>(
           GetProcAddress(GetModuleHandle(L"user32.dll"),
@@ -82,7 +82,7 @@ LRESULT CALLBACK PowerMonitor::WndProc(HWND hwnd,
     }
     if (should_treat_as_current_session) {
       if (wparam == WTS_SESSION_LOCK) {
-        // Unretained is OK because this object is eternally pinned.
+        // 取消保留是可以的，因为此对象是永久固定的。
         content::GetUIThreadTaskRunner({})->PostTask(
             FROM_HERE,
             base::BindOnce([](PowerMonitor* pm) { pm->Emit("lock-screen"); },
@@ -110,6 +110,6 @@ LRESULT CALLBACK PowerMonitor::WndProc(HWND hwnd,
   return ::DefWindowProc(hwnd, message, wparam, lparam);
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

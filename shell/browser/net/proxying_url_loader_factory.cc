@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/net/proxying_url_loader_factory.h"
 
@@ -58,11 +58,11 @@ ProxyingURLLoaderFactory::InProgressRequest::InProgressRequest(
       proxied_loader_receiver_(this, std::move(loader_receiver)),
       target_client_(std::move(client)),
       current_response_(network::mojom::URLResponseHead::New()),
-      // Always use "extraHeaders" mode to be compatible with old APIs, except
-      // when the |request_id_| is zero, which is not supported in Chromium and
-      // only happens in Electron when the request is started from net module.
+      // 请始终使用Extra Headers模式，以兼容旧的接口，除非。
+      // 当|request_id_|为零时，Chromium和。
+      // 仅当请求从Net模块启动时，才会在Electron中发生。
       has_any_extra_headers_listeners_(network_service_request_id != 0) {
-  // If there is a client error, clean up the request.
+  // 如果存在客户端错误，请清理请求。
   target_client_.set_disconnect_handler(base::BindOnce(
       &ProxyingURLLoaderFactory::InProgressRequest::OnRequestError,
       weak_factory_.GetWeakPtr(),
@@ -88,8 +88,8 @@ ProxyingURLLoaderFactory::InProgressRequest::InProgressRequest(
       has_any_extra_headers_listeners_(true) {}
 
 ProxyingURLLoaderFactory::InProgressRequest::~InProgressRequest() {
-  // This is important to ensure that no outstanding blocking requests continue
-  // to reference state owned by this object.
+  // 这对于确保没有未完成的阻塞请求继续存在非常重要。
+  // 引用此对象拥有的状态。
   if (info_) {
     factory_->web_request_api()->OnRequestWillBeDestroyed(&info_.value());
   }
@@ -109,11 +109,11 @@ void ProxyingURLLoaderFactory::InProgressRequest::Restart() {
 }
 
 void ProxyingURLLoaderFactory::InProgressRequest::UpdateRequestInfo() {
-  // Derive a new WebRequestInfo value any time |Restart()| is called, because
-  // the details in |request_| may have changed e.g. if we've been redirected.
-  // |request_initiator| can be modified on redirects, but we keep the original
-  // for |initiator| in the event. See also
-  // https://developer.chrome.com/extensions/webRequest#event-onBeforeRequest.
+  // 随时调用|Restart()|时派生新的WebRequestInfo值，因为。
+  // |REQUEST_|中的详细信息可能已更改，例如，如果我们已被重定向。
+  // |REQUEST_INITIATOR|重定向时可以修改，但我们会保留原来的。
+  // 对于|启动器|(在事件中)。另请参阅。
+  // Https://developer.chrome.com/extensions/webRequest#event-onBeforeRequest.。
   network::ResourceRequest request_for_info = request_;
   request_for_info.request_initiator = original_initiator_;
   info_.emplace(extensions::WebRequestInfoInitParams(
@@ -135,15 +135,15 @@ void ProxyingURLLoaderFactory::InProgressRequest::RestartInternal() {
   DCHECK_EQ(info_->url, request_.url)
       << "UpdateRequestInfo must have been called first";
 
-  // If the header client will be used, we start the request immediately, and
-  // OnBeforeSendHeaders and OnSendHeaders will be handled there. Otherwise,
-  // send these events before the request starts.
+  // 如果将使用头客户端，我们将立即启动请求，并且。
+  // OnBeforeSendHeaders和OnSendHeaders将在那里处理。否则，
+  // 在请求开始之前发送这些事件。
   base::RepeatingCallback<void(int)> continuation;
   if (current_request_uses_header_client_) {
     continuation = base::BindRepeating(
         &InProgressRequest::ContinueToStartRequest, weak_factory_.GetWeakPtr());
   } else if (for_cors_preflight_) {
-    // In this case we do nothing because extensions should see nothing.
+    // 在本例中，我们什么也不做，因为扩展应该什么也看不到。
     return;
   } else {
     continuation =
@@ -154,24 +154,24 @@ void ProxyingURLLoaderFactory::InProgressRequest::RestartInternal() {
   int result = factory_->web_request_api()->OnBeforeRequest(
       &info_.value(), request_, continuation, &redirect_url_);
   if (result == net::ERR_BLOCKED_BY_CLIENT) {
-    // The request was cancelled synchronously. Dispatch an error notification
-    // and terminate the request.
+    // 请求已同步取消。发送错误通知。
+    // 并终止该请求。
     network::URLLoaderCompletionStatus status(result);
     OnRequestError(status);
     return;
   }
 
   if (result == net::ERR_IO_PENDING) {
-    // One or more listeners is blocking, so the request must be paused until
-    // they respond. |continuation| above will be invoked asynchronously to
-    // continue or cancel the request.
-    //
-    // We pause the receiver here to prevent further client message processing.
+    // 一个或多个监听器正在阻塞，因此请求必须暂停到。
+    // 他们会做出回应。|Continuation|以上将被异步调用。
+    // 继续或取消请求。
+    // 
+    // 我们在这里暂停接收器，以防止进一步的客户端消息处理。
     if (proxied_client_receiver_.is_bound())
       proxied_client_receiver_.Pause();
 
-    // Pause the header client, since we want to wait until OnBeforeRequest has
-    // finished before processing any future events.
+    // 暂停头客户端，因为我们希望等到OnBeforeRequest。
+    // 在处理任何未来事件之前完成。
     if (header_client_receiver_.is_bound())
       header_client_receiver_.Pause();
     return;
@@ -193,16 +193,16 @@ void ProxyingURLLoaderFactory::InProgressRequest::FollowRedirect(
     request_.headers.RemoveHeader(header);
   request_.headers.MergeFrom(modified_headers);
 
-  // Call this before checking |current_request_uses_header_client_| as it
-  // calculates it.
+  // 在选中|CURRENT_REQUEST_USES_HEADER_CLIENT_|之前调用此函数。
+  // 计算出来的。
   UpdateRequestInfo();
 
   if (target_loader_.is_bound()) {
-    // If header_client_ is used, then we have to call FollowRedirect now as
-    // that's what triggers the network service calling back to
-    // OnBeforeSendHeaders(). Otherwise, don't call FollowRedirect now. Wait for
-    // the onBeforeSendHeaders callback(s) to run as these may modify request
-    // headers and if so we'll pass these modifications to FollowRedirect.
+    // 如果使用HEADER_CLIENT_，那么我们现在必须将FollowRedirect调用为。
+    // 这就是触发网络服务回调的原因。
+    // OnBeforeSendHeaders()。否则，现在不要调用FollowRedirect。等待。
+    // 要运行onBeforeSendHeaders回调，因为这些回调可能会修改请求。
+    // 标头，如果是这样，我们将把这些修改传递给FollowRedirect。
     if (current_request_uses_header_client_) {
       target_loader_->FollowRedirect(removed_headers, modified_headers,
                                      modified_cors_exempt_headers, new_url);
@@ -244,8 +244,8 @@ void ProxyingURLLoaderFactory::InProgressRequest::OnReceiveEarlyHints(
 void ProxyingURLLoaderFactory::InProgressRequest::OnReceiveResponse(
     network::mojom::URLResponseHeadPtr head) {
   if (current_request_uses_header_client_) {
-    // Use the headers we got from OnHeadersReceived as that'll contain
-    // Set-Cookie if it existed.
+    // 使用我们从OnHeadersReceived获得的标头，因为它将包含
+    // Set-Cookie(如果存在)。
     auto saved_headers = current_response_->headers;
     current_response_ = std::move(head);
     current_response_->headers = saved_headers;
@@ -261,16 +261,16 @@ void ProxyingURLLoaderFactory::InProgressRequest::OnReceiveResponse(
 void ProxyingURLLoaderFactory::InProgressRequest::OnReceiveRedirect(
     const net::RedirectInfo& redirect_info,
     network::mojom::URLResponseHeadPtr head) {
-  // Note: In Electron we don't check IsRedirectSafe.
+  // 注意：在Electron中，我们不选中IsRedirectSafe。
 
   if (current_request_uses_header_client_) {
-    // Use the headers we got from OnHeadersReceived as that'll contain
-    // Set-Cookie if it existed.
+    // 使用我们从OnHeadersReceived获得的标头，因为它将包含。
+    // Set-Cookie(如果存在)。
     auto saved_headers = current_response_->headers;
     current_response_ = std::move(head);
-    // If this redirect is from an HSTS upgrade, OnHeadersReceived will not be
-    // called before OnReceiveRedirect, so make sure the saved headers exist
-    // before setting them.
+    // 如果此重定向来自HSTS升级，则OnHeadersReceived将不会。
+    // 在OnReceiveRedirect之前调用，因此请确保保存的标头存在。
+    // 在设置它们之前。
     if (saved_headers)
       current_response_->headers = saved_headers;
     ContinueToBeforeRedirect(redirect_info, net::OK);
@@ -316,7 +316,7 @@ void ProxyingURLLoaderFactory::InProgressRequest::OnComplete(
   factory_->web_request_api()->OnCompleted(&info_.value(), request_,
                                            status.error_code);
 
-  // Deletes |this|.
+  // 删除|此|。
   factory_->RemoveRequest(network_service_request_id_, request_id_);
 }
 
@@ -327,19 +327,19 @@ bool ProxyingURLLoaderFactory::IsForServiceWorkerScript() const {
 
 void ProxyingURLLoaderFactory::InProgressRequest::OnLoaderCreated(
     mojo::PendingReceiver<network::mojom::TrustedHeaderClient> receiver) {
-  // When CORS is involved there may be multiple network::URLLoader associated
-  // with this InProgressRequest, because CorsURLLoader may create a new
-  // network::URLLoader for the same request id in redirect handling - see
-  // CorsURLLoader::FollowRedirect. In such a case the old network::URLLoader
-  // is going to be detached fairly soon, so we don't need to take care of it.
-  // We need this explicit reset to avoid a DCHECK failure in mojo::Receiver.
+  // 涉及CORS时，可能有多个网络：：URLLoader关联。
+  // 使用此InProgressRequest，因为CorsURLLoader可能会创建一个新的。
+  // 重定向处理中相同请求ID的Network：：URLLoader-请参见。
+  // CorsURLLoader：：FollowRedirect。在这种情况下，旧的Network：：URLLoader。
+  // 很快就会分离，所以我们不需要处理它。
+  // 我们需要这种显式重置，以避免mojo：：Receiver中的DCHECK失败。
   header_client_receiver_.reset();
 
   header_client_receiver_.Bind(std::move(receiver));
   if (for_cors_preflight_) {
-    // In this case we don't have |target_loader_| and
-    // |proxied_client_receiver_|, and |receiver| is the only connection to the
-    // network service, so we observe mojo connection errors.
+    // 在本例中，我们没有|target_loader_|和。
+    // |PROXED_CLIENT_RECEIVER_|，和|RECEIVER|是唯一连接到。
+    // 网络服务，因此我们观察到MOJO连接错误。
     header_client_receiver_.set_disconnect_handler(base::BindOnce(
         &ProxyingURLLoaderFactory::InProgressRequest::OnRequestError,
         weak_factory_.GetWeakPtr(),
@@ -368,8 +368,8 @@ void ProxyingURLLoaderFactory::InProgressRequest::OnHeadersReceived(
     std::move(callback).Run(net::OK, absl::nullopt, GURL());
 
     if (for_cors_preflight_) {
-      // CORS preflight is supported only when "extraHeaders" is specified.
-      // Deletes |this|.
+      // 仅当指定ExtraHeaders时，才支持CORS预检。
+      // 删除|此|。
       factory_->RemoveRequest(network_service_request_id_, request_id_);
     }
     return;
@@ -387,15 +387,15 @@ void ProxyingURLLoaderFactory::InProgressRequest::OnHeadersReceived(
 
 void ProxyingURLLoaderFactory::InProgressRequest::
     HandleBeforeRequestRedirect() {
-  // The extension requested a redirect. Close the connection with the current
-  // URLLoader and inform the URLLoaderClient the WebRequest API generated a
-  // redirect. To load |redirect_url_|, a new URLLoader will be recreated
-  // after receiving FollowRedirect().
+  // 扩展请求重定向。关闭与当前。
+  // URLLoader并通知URLLoaderClient WebRequest API生成了。
+  // 重定向。要加载|redirect_url_|，将重新创建一个新的URLLoader。
+  // 收到FollowRedirect()后。
 
-  // Forgetting to close the connection with the current URLLoader caused
-  // bugs. The latter doesn't know anything about the redirect. Continuing
-  // the load with it gives unexpected results. See
-  // https://crbug.com/882661#c72.
+  // 忘记关闭与当前URLLoader的连接导致。
+  // 虫子。后者对重定向一无所知。持续。
+  // 它的负载产生了意想不到的结果。看见。
+  // Https://crbug.com/882661#c72.。
   proxied_client_receiver_.reset();
   header_client_receiver_.reset();
   target_loader_.reset();
@@ -411,23 +411,23 @@ void ProxyingURLLoaderFactory::InProgressRequest::
 
   auto head = network::mojom::URLResponseHead::New();
   std::string headers = base::StringPrintf(
-      "HTTP/1.1 %i Internal Redirect\n"
+      "HTTP/1.1 NaN Internal Redirect\n"
       "Location: %s\n"
       "Non-Authoritative-Reason: WebRequest API\n\n",
       kInternalRedirectStatusCode, redirect_url_.spec().c_str());
 
-  // Cross-origin requests need to modify the Origin header to 'null'. Since
-  // CorsURLLoader sets |request_initiator| to the Origin request header in
-  // NetworkService, we need to modify |request_initiator| here to craft the
-  // Origin header indirectly.
-  // Following checks implement the step 10 of "4.4. HTTP-redirect fetch",
-  // https://fetch.spec.whatwg.org/#http-redirect-fetch
+  // CorsURLLoader将|REQUEST_INITIATOR|设置为中的源请求头。
+  // NetworkService，我们需要在此处修改|REQUEST_INITIATOR|以创建。
+  // 间接来源标头。
+  // 下面的检查实现了步骤10的“4.4.HTTP-重定向获取(REDIREDIRECT FETCH)”，
+  // Https://fetch.spec.whatwg.org/#http-redirect-fetch。
+  // 重置启动器以假装已设置规范的受污染来源标志。
   if (request_.request_initiator &&
       (!url::Origin::Create(redirect_url_)
             .IsSameOriginWith(url::Origin::Create(request_.url)) &&
        !request_.request_initiator->IsSameOriginWith(
            url::Origin::Create(request_.url)))) {
-    // Reset the initiator to pretend tainted origin flag of the spec is set.
+    // CORS印前检查不支持重定向。
     request_.request_initiator = url::Origin();
   }
   head->headers = base::MakeRefCounted<net::HttpResponseHeaders>(
@@ -447,7 +447,7 @@ void ProxyingURLLoaderFactory::InProgressRequest::ContinueToBeforeSendHeaders(
 
   if (!current_request_uses_header_client_ && !redirect_url_.is_empty()) {
     if (for_cors_preflight_) {
-      // CORS preflight doesn't support redirect.
+      // 注意：在电子中，所有协议都调用onBeforeSendHeaders。
       OnRequestError(network::URLLoaderCompletionStatus(net::ERR_FAILED));
       return;
     }
@@ -460,23 +460,23 @@ void ProxyingURLLoaderFactory::InProgressRequest::ContinueToBeforeSendHeaders(
 
   auto continuation = base::BindRepeating(
       &InProgressRequest::ContinueToSendHeaders, weak_factory_.GetWeakPtr());
-  // Note: In Electron onBeforeSendHeaders is called for all protocols.
+  // 请求已同步取消。发送错误通知。
   int result = factory_->web_request_api()->OnBeforeSendHeaders(
       &info_.value(), request_, continuation, &request_.headers);
 
   if (result == net::ERR_BLOCKED_BY_CLIENT) {
-    // The request was cancelled synchronously. Dispatch an error notification
-    // and terminate the request.
+    // 并终止该请求。
+    // 一个或多个监听器正在阻塞，因此请求必须暂停到。
     OnRequestError(network::URLLoaderCompletionStatus(result));
     return;
   }
 
   if (result == net::ERR_IO_PENDING) {
-    // One or more listeners is blocking, so the request must be paused until
-    // they respond. |continuation| above will be invoked asynchronously to
-    // continue or cancel the request.
-    //
-    // We pause the receiver here to prevent further client message processing.
+    // 他们会做出回应。|Continuation|以上将被异步调用。
+    // 继续或取消请求。
+    // 
+    // 我们在这里暂停接收器，以防止进一步的客户端消息处理。
+    // 对于CORS印前检查请求，我们已经在。
     if (proxied_client_receiver_.is_bound())
       proxied_client_receiver_.Resume();
     return;
@@ -506,18 +506,18 @@ void ProxyingURLLoaderFactory::InProgressRequest::ContinueToStartRequest(
     header_client_receiver_.Resume();
 
   if (for_cors_preflight_) {
-    // For CORS preflight requests, we have already started the request in
-    // the network service. We did block the request by blocking
-    // |header_client_receiver_|, which we unblocked right above.
+    // 网络服务。我们确实通过阻止请求阻止了该请求。
+    // |HEADER_CLIENT_RECEIVER_|，我们在上面解封。
+    // 到目前为止还没有延期取消，所以现在可以。
     return;
   }
 
   if (!target_loader_.is_bound() && factory_->target_factory_.is_bound()) {
-    // No extensions have cancelled us up to this point, so it's now OK to
-    // initiate the real network request.
+    // 发起真实网络请求。
+    // 即使此请求不使用头客户端，将来也会重定向。
     uint32_t options = options_;
-    // Even if this request does not use the header client, future redirects
-    // might, so we need to set the option on the loader.
+    // 可能，所以我们需要在装载机上设置选项。
+    // 从这里开始，此请求的生命周期由。
     if (has_any_extra_headers_listeners_)
       options |= network::mojom::kURLLoadOptionUseHeaderClient;
     factory_->target_factory_->CreateLoaderAndStart(
@@ -526,9 +526,9 @@ void ProxyingURLLoaderFactory::InProgressRequest::ContinueToStartRequest(
         traffic_annotation_);
   }
 
-  // From here the lifecycle of this request is driven by subsequent events on
-  // either |proxied_loader_receiver_|, |proxied_client_receiver_|, or
-  // |header_client_receiver_|.
+  // |PROXED_LOADER_RECEIVER_|、|PROXED_CLIENT_RECEIVER_|或。
+  // |Header_Client_Receiver_|。
+  // 注意：在电子中，所有协议都调用onSendHeaders。
 }
 
 void ProxyingURLLoaderFactory::InProgressRequest::ContinueToSendHeaders(
@@ -573,7 +573,7 @@ void ProxyingURLLoaderFactory::InProgressRequest::ContinueToSendHeaders(
   if (proxied_client_receiver_.is_bound())
     proxied_client_receiver_.Resume();
 
-  // Note: In Electron onSendHeaders is called for all protocols.
+  // 确保更新CURRENT_RESPONSE_，因为当OnReceiveResponse。
   factory_->web_request_api()->OnSendHeaders(&info_.value(), request_,
                                              request_.headers);
 
@@ -593,9 +593,9 @@ void ProxyingURLLoaderFactory::InProgressRequest::
   if (override_headers_) {
     headers = override_headers_->raw_headers();
     if (current_request_uses_header_client_) {
-      // Make sure to update current_response_,  since when OnReceiveResponse
-      // is called we will not use its headers as it might be missing the
-      // Set-Cookie line (as that gets stripped over IPC).
+      // 调用时，我们将不使用它的标头，因为它可能会丢失。
+      // Set-Cookie行(因为它在IPC上被剥离)。
+      // 如果这是CORS印前检查，则没有关联的客户端。
       current_response_->headers = override_headers_;
     }
   }
@@ -609,14 +609,14 @@ void ProxyingURLLoaderFactory::InProgressRequest::
   override_headers_ = nullptr;
 
   if (for_cors_preflight_) {
-    // If this is for CORS preflight, there is no associated client.
+    // 请勿完成需要代理身份验证的代理印前检查请求。
     info_->AddResponseInfoFromResourceResponse(*current_response_);
-    // Do not finish proxied preflight requests that require proxy auth.
-    // The request is not finished yet, give control back to network service
-    // which will start authentication process.
+    // 请求尚未完成，请将控制权交还给网络服务。
+    // 这将启动身份验证过程。
+    // 我们在此通知完成，并删除|this|。
     if (info_->response_code == net::HTTP_PROXY_AUTHENTICATION_REQUIRED)
       return;
-    // We notify the completion here, and delete |this|.
+    // 响应标头可能已被|onHeadersReceired|覆盖。
     factory_->web_request_api()->OnResponseStarted(&info_.value(), request_);
     factory_->web_request_api()->OnCompleted(&info_.value(), request_, net::OK);
 
@@ -642,14 +642,14 @@ void ProxyingURLLoaderFactory::InProgressRequest::ContinueToResponseStarted(
 
   std::string redirect_location;
   if (override_headers_ && override_headers_->IsRedirect(&redirect_location)) {
-    // The response headers may have been overridden by an |onHeadersReceived|
-    // handler and may have been changed to a redirect. We handle that here
-    // instead of acting like regular request completion.
-    //
-    // Note that we can't actually change how the Network Service handles the
-    // original request at this point, so our "redirect" is really just
-    // generating an artificial |onBeforeRedirect| event and starting a new
-    // request to the Network Service. Our client shouldn't know the difference.
+    // 处理程序，并且可能已更改为重定向。我们在这里处理这件事。
+    // 而不是表现为常规的请求完成。
+    // 
+    // 请注意，我们实际上不能更改网络服务处理。
+    // 在这一点上的原始请求，所以我们的“重定向”实际上只是。
+    // 生成人工|onBeforeRedirect|事件并启动新的。
+    // 请求网络服务。我们的客户不应该知道有什么不同。
+    // 如果由发起新请求，这些将重新绑定。
     GURL new_url(redirect_location);
 
     net::RedirectInfo redirect_info;
@@ -658,8 +658,8 @@ void ProxyingURLLoaderFactory::InProgressRequest::ContinueToResponseStarted(
     redirect_info.new_url = new_url;
     redirect_info.new_site_for_cookies = net::SiteForCookies::FromUrl(new_url);
 
-    // These will get re-bound if a new request is initiated by
-    // |FollowRedirect()|.
+    // |FollowRedirect()。
+    // 请求方法可以修改为GET。在这种情况下，我们需要。
     proxied_client_receiver_.reset();
     header_client_receiver_.reset();
     target_loader_.reset();
@@ -698,8 +698,8 @@ void ProxyingURLLoaderFactory::InProgressRequest::ContinueToBeforeRedirect(
   request_.referrer = GURL(redirect_info.new_referrer);
   request_.referrer_policy = redirect_info.new_referrer_policy;
 
-  // The request method can be changed to "GET". In this case we need to
-  // reset the request body manually.
+  // 手动重置请求正文。
+  // 一个或多个监听器正在阻塞，因此请求必须暂停到。
   if (request_.method == net::HttpRequestHeaders::kGetMethod)
     request_.request_body = nullptr;
 }
@@ -722,11 +722,11 @@ void ProxyingURLLoaderFactory::InProgressRequest::
   }
 
   if (result == net::ERR_IO_PENDING) {
-    // One or more listeners is blocking, so the request must be paused until
-    // they respond. |continuation| above will be invoked asynchronously to
-    // continue or cancel the request.
-    //
-    // We pause the receiver here to prevent further client message processing.
+    // 他们会做出回应。|Continuation|以上将被异步调用。
+    // 继续或取消请求。
+    // 
+    // 我们在这里暂停接收器，以防止进一步的客户端消息处理。
+    // 删除|此|。
     if (proxied_client_receiver_.is_bound())
       proxied_client_receiver_.Pause();
     return;
@@ -744,7 +744,7 @@ void ProxyingURLLoaderFactory::InProgressRequest::OnRequestError(
   factory_->web_request_api()->OnErrorOccurred(&info_.value(), request_,
                                                status.error_code);
 
-  // Deletes |this|.
+  // 拿一份复印件，这样我们就可以改变要求了。
   factory_->RemoveRequest(network_service_request_id_, request_id_);
 }
 
@@ -804,7 +804,7 @@ void ProxyingURLLoaderFactory::CreateLoaderAndStart(
     const network::ResourceRequest& original_request,
     mojo::PendingRemote<network::mojom::URLLoaderClient> client,
     const net::MutableNetworkTrafficAnnotationTag& traffic_annotation) {
-  // Take a copy so we can mutate the request.
+  // 检查用户是否已拦截此方案。
   network::ResourceRequest request = original_request;
 
   if (ShouldIgnoreConnectionsLimit(request)) {
@@ -812,13 +812,13 @@ void ProxyingURLLoaderFactory::CreateLoaderAndStart(
     request.load_flags |= net::LOAD_IGNORE_LIMITS;
   }
 
-  // Check if user has intercepted this scheme.
+  // &lt;方案，&lt;类型，处理程序&gt;&gt;。
   auto it = intercepted_handlers_.find(request.url.scheme());
   if (it != intercepted_handlers_.end()) {
     mojo::PendingRemote<network::mojom::URLLoaderFactory> loader_remote;
     this->Clone(loader_remote.InitWithNewPipeAndPassReceiver());
 
-    // <scheme, <type, handler>>
+    // ServiceWorker的加载器禁止从file：//urls加载脚本，并且。
     it->second.second.Run(
         request, base::BindOnce(&ElectronURLLoaderFactory::StartLoading,
                                 std::move(loader), request_id, options, request,
@@ -827,10 +827,10 @@ void ProxyingURLLoaderFactory::CreateLoaderAndStart(
     return;
   }
 
-  // The loader of ServiceWorker forbids loading scripts from file:// URLs, and
-  // Chromium does not provide a way to override this behavior. So in order to
-  // make ServiceWorker work with file:// URLs, we have to intercept its
-  // requests here.
+  // 铬不提供覆盖此行为的方法。所以为了。
+  // 要使ServiceWorker使用file：//URL，我们必须拦截其。
+  // 这里有要求。
+  // 通向原来的工厂。
   if (IsForServiceWorkerScript() && request.url.SchemeIsFile()) {
     asar::CreateAsarURLLoader(
         request, std::move(loader), std::move(client),
@@ -839,23 +839,23 @@ void ProxyingURLLoaderFactory::CreateLoaderAndStart(
   }
 
   if (!web_request_api()->HasListener()) {
-    // Pass-through to the original factory.
+    // 请求ID实际上并不重要。它只需要是独一无二的。
     target_factory_->CreateLoaderAndStart(std::move(loader), request_id,
                                           options, request, std::move(client),
                                           traffic_annotation);
     return;
   }
 
-  // The request ID doesn't really matter. It just needs to be unique
-  // per-BrowserContext so extensions can make sense of it.  Note that
-  // |network_service_request_id_| by contrast is not necessarily unique, so we
-  // don't use it for identity here.
+  // 每个BrowserContext，以便扩展可以理解它。请注意。
+  // |network_service_request_id_|相比之下，不一定是唯一的，所以我们。
+  // 在这里不要用它来证明身份。
+  // 注意：Chrome假设ID为零的请求永远不会使用。
   const uint64_t web_request_id = ++(*request_id_generator_);
 
-  // Notes: Chromium assumes that requests with zero-ID would never use the
-  // "extraHeaders" code path, however in Electron requests started from
-  // the net module would have zero-ID because they do not have renderer process
-  // associated.
+  // “Extra Headers”代码路径，但在电子请求中开始于。
+  // Net模块将具有零ID，因为它们没有渲染器进程。
+  // 关联。
+  // 请注意，URLLoader现在正在启动，不需要等待。
   if (request_id)
     network_request_id_to_web_request_id_.emplace(request_id, web_request_id);
 
@@ -888,14 +888,14 @@ void ProxyingURLLoaderFactory::OnLoaderCreated(
 void ProxyingURLLoaderFactory::OnLoaderForCorsPreflightCreated(
     const network::ResourceRequest& request,
     mojo::PendingReceiver<network::mojom::TrustedHeaderClient> receiver) {
-  // Please note that the URLLoader is now starting, without waiting for
-  // additional signals from here. The URLLoader will be blocked before
-  // sending HTTP request headers (TrustedHeaderClient.OnBeforeSendHeaders),
-  // but the connection set up will be done before that. This is acceptable from
-  // Web Request API because the extension has already allowed to set up
-  // a connection to the same URL (i.e., the actual request), and distinguishing
-  // two connections for the actual request and the preflight request before
-  // sending request headers is very difficult.
+  // 从这里发来的附加信号。URLLoader在此之前将被阻止。
+  // 发送HTTP请求头(Trust dHeaderClient.OnBeforeSendHeaders)，
+  // 但连接设置将在此之前完成。从以下方面来看，这是可以接受的。
+  // Web请求API，因为扩展已允许设置。
+  // 连接到相同的URL(即，实际请求)，并区分。
+  // 实际请求和之前的印前检查请求的两个连接。
+  // 发送请求头非常困难。
+  // 即使连接到此对象的所有URLLoaderFactory管道。
   const uint64_t web_request_id = ++(*request_id_generator_);
 
   auto result = requests_.insert(std::make_pair(
@@ -931,8 +931,8 @@ void ProxyingURLLoaderFactory::RemoveRequest(int32_t network_service_request_id,
 }
 
 void ProxyingURLLoaderFactory::MaybeDeleteThis() {
-  // Even if all URLLoaderFactory pipes connected to this object have been
-  // closed it has to stay alive until all active requests have completed.
+  // 关闭它必须保持活动状态，直到所有活动请求都完成。
+  // 命名空间电子
   if (target_factory_.is_bound() || !requests_.empty() ||
       !proxy_receivers_.empty())
     return;
@@ -940,4 +940,4 @@ void ProxyingURLLoaderFactory::MaybeDeleteThis() {
   delete this;
 }
 
-}  // namespace electron
+}  //%s

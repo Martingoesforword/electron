@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/net/asar/asar_url_loader.h"
 
@@ -52,13 +52,13 @@ net::Error ConvertMojoResultToNetError(MojoResult result) {
 
 constexpr size_t kDefaultFileUrlPipeSize = 65536;
 
-// Because this makes things simpler.
+// 因为这让事情变得简单了。
 static_assert(kDefaultFileUrlPipeSize >= net::kMaxBytesToSniff,
               "Default file data pipe size must be at least as large as a MIME-"
               "type sniffing buffer.");
 
-// Modified from the |FileURLLoader| in |file_url_loader_factory.cc|, to serve
-// asar files instead of normal files.
+// 从|file_url_loader_factory.cc|中的|FileURLLoader|修改，以提供。
+// ASAR文件，而不是普通文件。
 class AsarURLLoader : public network::mojom::URLLoader {
  public:
   static void CreateAndStart(
@@ -66,15 +66,15 @@ class AsarURLLoader : public network::mojom::URLLoader {
       network::mojom::URLLoaderRequest loader,
       mojo::PendingRemote<network::mojom::URLLoaderClient> client,
       scoped_refptr<net::HttpResponseHeaders> extra_response_headers) {
-    // Owns itself. Will live as long as its URLLoader and URLLoaderClientPtr
-    // bindings are alive - essentially until either the client gives up or all
-    // file data has been sent to it.
+    // 拥有自己。将与其URLLoader和URLLoaderClientPtr一样生存。
+    // 绑定是活动的-本质上直到客户端放弃或全部放弃。
+    // 已向其发送文件数据。
     auto* asar_url_loader = new AsarURLLoader;
     asar_url_loader->Start(request, std::move(loader), std::move(client),
                            std::move(extra_response_headers));
   }
 
-  // network::mojom::URLLoader:
+  // Network：：mojom：：URLLoader：
   void FollowRedirect(
       const std::vector<std::string>& removed_headers,
       const net::HttpRequestHeaders& modified_headers,
@@ -108,7 +108,7 @@ class AsarURLLoader : public network::mojom::URLLoader {
       return;
     }
 
-    // Determine whether it is an asar file.
+    // 确定它是否为asar文件。
     base::FilePath asar_path, relative_path;
     if (!GetAsarArchivePath(path, &asar_path, &relative_path)) {
       content::CreateFileURLLoaderBypassingSecurityChecks(
@@ -123,7 +123,7 @@ class AsarURLLoader : public network::mojom::URLLoader {
     receiver_.set_disconnect_handler(base::BindOnce(
         &AsarURLLoader::OnConnectionError, base::Unretained(this)));
 
-    // Parse asar archive.
+    // 解析asar存档。
     std::shared_ptr<Archive> archive = GetOrCreateAsarArchive(asar_path);
     Archive::FileInfo info;
     if (!archive || !archive->GetFileInfo(relative_path, &info)) {
@@ -132,7 +132,7 @@ class AsarURLLoader : public network::mojom::URLLoader {
     }
     bool is_verifying_file = info.integrity.has_value();
 
-    // For unpacked path, read like normal file.
+    // 对于解压缩路径，读起来要像普通文件一样。
     base::FilePath real_path;
     if (info.unpacked) {
       archive->CopyFileOut(relative_path, &real_path);
@@ -147,9 +147,9 @@ class AsarURLLoader : public network::mojom::URLLoader {
       return;
     }
 
-    // Note that while the |Archive| already opens a |base::File|, we still need
-    // to create a new |base::File| here, as it might be accessed by multiple
-    // requests at the same time.
+    // 请注意，虽然|Archive|已打开|base：：file|，但我们仍需要。
+    // 要在此处创建新的|base：：file|，因为它可能被多个。
+    // 同时发出请求。
     base::File file(info.unpacked ? real_path : archive->path(),
                     base::File::FLAG_OPEN | base::File::FLAG_READ);
     auto file_data_source =
@@ -182,7 +182,7 @@ class AsarURLLoader : public network::mojom::URLLoader {
     net::HttpByteRange byte_range;
     if (request.headers.GetHeader(net::HttpRequestHeaders::kRange,
                                   &range_header)) {
-      // Handle a simple Range header for a single range.
+      // 处理单个范围的简单范围标题。
       std::vector<net::HttpByteRange> ranges;
       bool fail = false;
       if (net::HttpUtil::ParseRangeHeader(range_header, &ranges) &&
@@ -215,9 +215,9 @@ class AsarURLLoader : public network::mojom::URLLoader {
     head->content_length = base::saturated_cast<int64_t>(total_bytes_to_send);
 
     if (first_byte_to_send < read_result.bytes_read) {
-      // Write any data we read for MIME sniffing, constraining by range where
-      // applicable. This will always fit in the pipe (see assertion near
-      // |kDefaultFileUrlPipeSize| definition).
+      // 写入我们读取的用于MIME嗅探的任何数据，并按范围WHERE进行约束。
+      // 适用。这将始终适合管道(请参见下面的断言。
+      // |kDefaultFileUrlPipeSize|定义)。
       uint32_t write_size = std::min(
           static_cast<uint32_t>(read_result.bytes_read - first_byte_to_send),
           static_cast<uint32_t>(total_bytes_to_send));
@@ -230,16 +230,16 @@ class AsarURLLoader : public network::mojom::URLLoader {
         return;
       }
 
-      // Discount the bytes we just sent from the total range.
+      // 将我们刚刚发送的字节从总范围中打折。
       first_byte_to_send = read_result.bytes_read;
       total_bytes_to_send -= write_size;
     } else if (is_verifying_file &&
                first_byte_to_send >= static_cast<uint64_t>(block_size)) {
-      // If validation is active and the range of bytes the request wants starts
-      // beyond the first block we need to read the next 4MB-1KB to validate
-      // that block. Then we can skip ahead to the target block in the SetRange
-      // call below If we hit this case it is assumed that none of the data read
-      // will be needed by the producer
+      // 如果验证处于活动状态并且请求所需的字节范围开始。
+      // 在第一个数据块之后，我们需要读取下一个4MB-1KB以进行验证。
+      // 那个街区。然后我们可以跳到SetRange中的目标块。
+      // 如果我们遇到这种情况，假设没有读取的数据，请调用下面的。
+      // 将是制片人所需要的。
       uint64_t bytes_to_drop = block_size - net::kMaxBytesToSniff;
       total_bytes_dropped_from_head += bytes_to_drop;
       std::vector<char> abandoned_buffer(bytes_to_drop);
@@ -270,9 +270,9 @@ class AsarURLLoader : public network::mojom::URLLoader {
     client_->OnStartLoadingResponseBody(std::move(consumer_handle));
 
     if (total_bytes_to_send == 0) {
-      // There's definitely no more data, so we're already done.
-      // We provide the range data to the file validator so that
-      // it can validate the tiny amount of data we did send
+      // 肯定没有更多的数据了，所以我们已经完成了。
+      // 我们将范围数据提供给文件验证器，以便。
+      // 它可以验证我们发送的少量数据。
       if (file_validator_raw)
         file_validator_raw->SetRange(info.offset + first_byte_to_send,
                                      total_bytes_dropped_from_head,
@@ -284,14 +284,14 @@ class AsarURLLoader : public network::mojom::URLLoader {
     if (is_verifying_file) {
       int start_block = first_byte_to_send / block_size;
 
-      // If we're starting from the first block, we might not be starting from
-      // where we sniffed. We might be a few KB into a file so we need to read
-      // the data in the middle so it gets hashed.
-      //
-      // If we're starting from a later block we might be starting half-way
-      // through the block regardless of what was sniffed.  We need to read the
-      // data from the start of our initial block up to the start of our actual
-      // read point so it gets hashed.
+      // 如果我们从第一个街区开始，我们可能不会从。
+      // 在那里我们闻了闻。我们可能在一个文件中有几个KB，所以我们需要读取。
+      // 将数据放在中间，这样它就会被散列。
+      // 
+      // 如果我们从较晚的街区出发，我们可能会走到一半。
+      // 穿过街区，不管闻到了什么。我们需要读一读。
+      // 从初始数据块开始到实际数据块开始的数据。
+      // 读取点，这样它就会被散列。
       uint64_t bytes_to_drop =
           start_block == 0 ? first_byte_to_send - net::kMaxBytesToSniff
                            : first_byte_to_send - (start_block * block_size);
@@ -315,11 +315,11 @@ class AsarURLLoader : public network::mojom::URLLoader {
       }
     }
 
-    // In case of a range request, seek to the appropriate position before
-    // sending the remaining bytes asynchronously. Under normal conditions
-    // (i.e., no range request) this Seek is effectively a no-op.
-    //
-    // Note that in Electron we also need to add file offset.
+    // 如果是范围请求，请在以下位置之前找到合适的位置。
+    // 异步发送剩余字节。在正常情况下。
+    // (即，无范围请求)该寻道实际上是无操作。
+    // 
+    // 请注意，在Electron中，我们还需要添加文件偏移量。
     file_data_source_raw->SetRange(
         first_byte_to_send + info.offset,
         first_byte_to_send + info.offset + total_bytes_to_send);
@@ -352,8 +352,8 @@ class AsarURLLoader : public network::mojom::URLLoader {
   }
 
   void OnFileWritten(MojoResult result) {
-    // All the data has been written now. Close the data pipe. The consumer will
-    // be notified that there will be no more data to read from now.
+    // 现在所有数据都已写入。关闭数据管道。消费者会。
+    // 请注意，现在将没有更多数据可供读取。
     data_producer_.reset();
 
     if (result == MOJO_RESULT_OK) {
@@ -373,17 +373,17 @@ class AsarURLLoader : public network::mojom::URLLoader {
   mojo::Receiver<network::mojom::URLLoader> receiver_{this};
   mojo::Remote<network::mojom::URLLoaderClient> client_;
 
-  // In case of successful loads, this holds the total number of bytes written
-  // to the response (this may be smaller than the total size of the file when
-  // a byte range was requested).
-  // It is used to set some of the URLLoaderCompletionStatus data passed back
-  // to the URLLoaderClients (eg SimpleURLLoader).
+  // 在加载成功的情况下，它保存写入的总字节数。
+  // 响应(在以下情况下，此大小可能小于文件的总大小。
+  // 请求了字节范围)。
+  // 它用于设置传回的一些URLLoaderCompletionStatus数据。
+  // 发送到URLLoaderClients(例如SimpleURLLoader)。
   size_t total_bytes_written_ = 0;
 
   DISALLOW_COPY_AND_ASSIGN(AsarURLLoader);
 };
 
-}  // namespace
+}  // 命名空间。
 
 void CreateAsarURLLoader(
     const network::ResourceRequest& request,
@@ -399,4 +399,4 @@ void CreateAsarURLLoader(
                      std::move(client), std::move(extra_response_headers)));
 }
 
-}  // namespace asar
+}  // 命名空间asar

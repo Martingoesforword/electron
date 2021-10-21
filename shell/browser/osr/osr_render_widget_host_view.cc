@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/osr/osr_render_widget_host_view.h"
 
@@ -20,10 +20,10 @@
 #include "components/viz/common/frame_sinks/copy_output_request.h"
 #include "components/viz/common/frame_sinks/delay_based_time_source.h"
 #include "components/viz/common/quads/compositor_render_pass.h"
-#include "content/browser/renderer_host/cursor_manager.h"  // nogncheck
-#include "content/browser/renderer_host/input/synthetic_gesture_target.h"  // nogncheck
-#include "content/browser/renderer_host/render_widget_host_delegate.h"  // nogncheck
-#include "content/browser/renderer_host/render_widget_host_owner_delegate.h"  // nogncheck
+#include "content/browser/renderer_host/cursor_manager.h"  // 点名检查。
+#include "content/browser/renderer_host/input/synthetic_gesture_target.h"  // 点名检查。
+#include "content/browser/renderer_host/render_widget_host_delegate.h"  // 点名检查。
+#include "content/browser/renderer_host/render_widget_host_owner_delegate.h"  // 点名检查。
 #include "content/public/browser/browser_task_traits.h"
 #include "content/public/browser/browser_thread.h"
 #include "content/public/browser/context_factory.h"
@@ -120,7 +120,7 @@ ui::MouseWheelEvent UiMouseWheelEventFromWebMouseEvent(
                              std::floor(event.delta_y));
 }
 
-}  // namespace
+}  // 命名空间。
 
 class ElectronDelegatedFrameHostClient
     : public content::DelegatedFrameHostClient {
@@ -189,7 +189,7 @@ OffScreenRenderWidgetHostView::OffScreenRenderWidgetHostView(
   DCHECK(render_widget_host_);
   DCHECK(!render_widget_host_->GetView());
 
-  // Initialize a display struct as needed, to cache the scale factor.
+  // 根据需要初始化显示结构，以缓存比例因子。
   if (display_list_.displays().empty()) {
     display_list_ = display::DisplayList(
         {display::Display(display::kDefaultDisplayId)},
@@ -209,7 +209,7 @@ OffScreenRenderWidgetHostView::OffScreenRenderWidgetHostView(
       std::make_unique<ElectronDelegatedFrameHostClient>(this);
   delegated_frame_host_ = std::make_unique<content::DelegatedFrameHost>(
       AllocateFrameSinkId(), delegated_frame_host_client_.get(),
-      true /* should_register_frame_sink_id */);
+      true /* 应该寄存器帧接收器ID。*/);
 
   root_layer_ = std::make_unique<ui::Layer>(ui::LAYER_SOLID_COLOR);
 
@@ -220,8 +220,8 @@ OffScreenRenderWidgetHostView::OffScreenRenderWidgetHostView(
   ui::ContextFactory* context_factory = content::GetContextFactory();
   compositor_ = std::make_unique<ui::Compositor>(
       context_factory->AllocateFrameSinkId(), context_factory,
-      base::ThreadTaskRunnerHandle::Get(), false /* enable_pixel_canvas */,
-      false /* use_external_begin_frame_control */);
+      base::ThreadTaskRunnerHandle::Get(), false /* 启用像素画布。*/,
+      false /* Use_External_Begin_Frame_Control。*/);
   compositor_->SetAcceleratedWidget(gfx::kNullAcceleratedWidget);
   compositor_->SetDelegate(this);
   compositor_->SetRootLayer(root_layer_.get());
@@ -239,8 +239,8 @@ OffScreenRenderWidgetHostView::OffScreenRenderWidgetHostView(
 }
 
 OffScreenRenderWidgetHostView::~OffScreenRenderWidgetHostView() {
-  // Marking the DelegatedFrameHost as removed from the window hierarchy is
-  // necessary to remove all connections to its old ui::Compositor.
+  // 将DelegatedFrameHost标记为从窗口层次结构中删除。
+  // 需要移除与其旧UI：：Compositor的所有连接。
   if (is_showing_)
     delegated_frame_host_->WasHidden(
         content::DelegatedFrameHost::HiddenCause::kOther);
@@ -318,7 +318,7 @@ void OffScreenRenderWidgetHostView::Hide() {
   if (render_widget_host_)
     render_widget_host_->WasHidden();
 
-  // TODO(deermichel): correct or kOther?
+  // TODO(Deermichel)：对还是Kther？
   GetDelegatedFrameHost()->WasHidden(
       content::DelegatedFrameHost::HiddenCause::kOccluded);
   GetDelegatedFrameHost()->DetachFromCompositor();
@@ -343,8 +343,8 @@ gfx::Rect OffScreenRenderWidgetHostView::GetViewBounds() {
 }
 
 void OffScreenRenderWidgetHostView::SetBackgroundColor(SkColor color) {
-  // The renderer will feed its color back to us with the first CompositorFrame.
-  // We short-cut here to show a sensible color before that happens.
+  // 渲染器将用第一个CompositorFrame将其颜色反馈给我们。
+  // 我们在此走捷径，以便在此之前显示出一种合理的颜色。
   UpdateBackgroundColorFromRenderer(color);
 
   if (render_widget_host_ && render_widget_host_->owner_delegate()) {
@@ -449,9 +449,9 @@ void OffScreenRenderWidgetHostView::Destroy() {
       if (child_host_view_)
         child_host_view_->CancelWidget();
       if (!guest_host_views_.empty()) {
-        // Guest RWHVs will be destroyed when the associated RWHVGuest is
-        // destroyed. This parent RWHV may be destroyed first, so disassociate
-        // the guest RWHVs here without destroying them.
+        // 当关联的RWHVGuest。
+        // 被毁了。此父RWHV可能会先被销毁，因此请取消关联。
+        // 客人们在不破坏他们的情况下来到这里。
         for (auto* guest_host_view : guest_host_views_)
           guest_host_view->parent_host_view_ = nullptr;
         guest_host_views_.clear();
@@ -594,7 +594,7 @@ void OffScreenRenderWidgetHostView::CancelWidget() {
 
   if (render_widget_host_ && !is_destroyed_) {
     is_destroyed_ = true;
-    // Results in a call to Destroy().
+    // 导致调用Destroy()。
     render_widget_host_->ShutdownAndDestroyWidget(true);
   }
 }
@@ -703,7 +703,7 @@ void OffScreenRenderWidgetHostView::CompositeFrame(
 
   SkBitmap frame;
 
-  // Optimize for the case when there is no popup
+  // 针对没有弹出窗口的情况进行优化。
   if (proxy_views_.empty() && !popup_host_view_) {
     frame = GetBacking();
   } else {
@@ -865,9 +865,9 @@ void OffScreenRenderWidgetHostView::SendMouseWheelEvent(
         popup_host_view_->SendMouseWheelEvent(popup_mouse_wheel_event);
         return;
       } else {
-        // Scrolling outside of the popup widget so destroy it.
-        // Execute asynchronously to avoid deleting the widget from inside some
-        // other callback.
+        // 在弹出窗口小工具之外滚动，因此请将其销毁。
+        // 异步执行以避免从某些内部删除小部件。
+        // 其他回拨。
         base::PostTask(
             FROM_HERE, {content::BrowserThread::UI},
             base::BindOnce(&OffScreenRenderWidgetHostView::CancelWidget,
@@ -996,7 +996,7 @@ void OffScreenRenderWidgetHostView::ResizeRootLayer(bool force) {
   float sf = GetCurrentDeviceScaleFactor();
   const bool scaleFactorDidChange = scaleFactor != sf;
 
-  // Initialize a display struct as needed, to cache the scale factor.
+  // 根据需要初始化显示结构，以缓存比例因子。
   if (display_list_.displays().empty()) {
     display_list_ = display::DisplayList(
         {display::Display(display::kDefaultDisplayId)},
@@ -1035,9 +1035,9 @@ void OffScreenRenderWidgetHostView::ResizeRootLayer(bool force) {
       delegated_frame_host_surface_id_, size,
       cc::DeadlinePolicy::UseDefaultDeadline());
 
-  // Note that |render_widget_host_| will retrieve resize parameters from the
-  // DelegatedFrameHost, so it must have SynchronizeVisualProperties called
-  // after.
+  // 请注意，|RENDER_WIDGET_HOST_|将从。
+  // DelegatedFrameHost，因此它必须具有名为SynchronizeVisualProperties的。
+  // 之后。
   if (render_widget_host_) {
     render_widget_host_->SynchronizeVisualProperties();
   }
@@ -1060,4 +1060,4 @@ void OffScreenRenderWidgetHostView::UpdateBackgroundColorFromRenderer(
   GetRootLayer()->SetColor(color);
 }
 
-}  // namespace electron
+}  // 命名空间电子

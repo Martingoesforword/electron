@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/logging.h"
 
@@ -36,7 +36,7 @@ base::FilePath GetLogFileName(const base::CommandLine& command_line) {
     log_path = log_path.Append(log_filename);
     return log_path;
   } else {
-    // error with path service, just use some default file somewhere
+    // 路径服务出错，仅在某处使用某个默认文件。
     return log_filename;
   }
 }
@@ -67,19 +67,19 @@ LoggingDestination DetermineLoggingDestination(
   if (!enable_logging)
     return LOG_NONE;
 
-  // --enable-logging logs to stderr, --enable-logging=file logs to a file.
-  // NB. this differs from Chromium, in which --enable-logging logs to a file
-  // and --enable-logging=stderr logs to stderr, because that's how Electron
-  // used to work, so in order to not break anyone who was depending on
-  // --enable-logging logging to stderr, we preserve the old behavior by
-  // default.
-  // If --log-file or ELECTRON_LOG_FILE is specified along with
-  // --enable-logging, return LOG_TO_FILE.
-  // If we're in the pre-init phase, before JS has run, we want to avoid
-  // logging to the default log file, which is inside the user data directory,
-  // because we aren't able to accurately determine the user data directory
-  // before JS runs. Instead, log to stderr unless there's an explicit filename
-  // given.
+  // --enable-将日志记录到stderr，--enable-log=将文件日志记录到文件。
+  // 注意：这与Chromium不同，Chromium使用--enable-log将日志记录到一个文件中。
+  // 和--enable-log=stderr记录到stderr，因为这就是Electron。
+  // 曾经工作过，所以为了不让任何依赖于。
+  // --Enable-Logging Logging to stderr，我们通过以下方式保留旧行为。
+  // 默认设置。
+  // 如果将--log-file或Electronics_log_file与一起指定。
+  // --ENABLE-LOGGING，返回log_to_file。
+  // 如果我们处于初始化前阶段，在JS运行之前，我们希望避免。
+  // 记录到用户数据目录中的默认日志文件，
+  // 因为我们无法准确确定用户数据目录。
+  // 在JS运行之前。相反，除非有明确的文件名，否则应登录到stderr。
+  // 给你的。
   if (HasExplicitLogFile(command_line) ||
       (logging_destination == "file" && !is_preinit))
     return LOG_TO_FILE;
@@ -108,24 +108,24 @@ void InitElectronLogging(const base::CommandLine& command_line,
     }
   }
 
-  // Don't resolve the log path unless we need to. Otherwise we leave an open
-  // ALPC handle after sandbox lockdown on Windows.
+  // 除非我们需要，否则不要解析日志路径。否则我们会留下一个空档。
+  // Windows上沙箱锁定后的ALPC句柄。
   if ((logging_dest & LOG_TO_FILE) != 0) {
     log_path = GetLogFileName(command_line);
   } else {
     log_locking_state = DONT_LOCK_LOG_FILE;
   }
 
-  // On Windows, having non canonical forward slashes in log file name causes
-  // problems with sandbox filters, see https://crbug.com/859676
+  // 在Windows上，日志文件名中包含非规范正斜杠会导致。
+  // 有关沙盒过滤器的问题，请参阅https://crbug.com/859676。
   log_path = log_path.NormalizePathSeparators();
 
   LoggingSettings settings;
   settings.logging_dest = logging_dest;
   settings.log_file_path = log_path.value().c_str();
   settings.lock_log = log_locking_state;
-  // If we're logging to an explicit file passed with --log-file, we don't want
-  // to delete the log file on our second initialization.
+  // 如果我们记录到与--log-file一起传递的显式文件，我们不希望。
+  // 在第二次初始化时删除日志文件。
   settings.delete_old =
       process_type.empty() && (is_preinit || !HasExplicitLogFile(command_line))
           ? DELETE_OLD_LOG_FILE
@@ -135,7 +135,7 @@ void InitElectronLogging(const base::CommandLine& command_line,
     PLOG(FATAL) << "Failed to init logging";
   }
 
-  SetLogItems(true /* pid */, false, true /* timestamp */, false);
+  SetLogItems(true /* PID。*/, false, true /* 时间戳。*/, false);
 }
 
-}  // namespace logging
+}  // 命名空间日志记录

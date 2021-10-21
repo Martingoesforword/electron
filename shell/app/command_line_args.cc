@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/app/command_line_args.h"
 
@@ -12,22 +12,22 @@
 namespace {
 
 bool IsUrlArg(const base::CommandLine::CharType* arg) {
-  // the first character must be a letter for this to be a URL
+  // 第一个字符必须是字母，这才是URL。
   auto c = *arg;
   if (std::isalpha(c, std::locale::classic())) {
     for (auto* p = arg + 1; *p; ++p) {
       c = *p;
 
-      // colon indicates that the argument starts with a URI scheme
+      // 冒号表示参数以URI方案开头。
       if (c == ':') {
-        // it could also be a Windows filesystem path
+        // 它也可以是Windows文件系统路径。
         if (p == arg + 1)
           break;
 
         return true;
       }
 
-      // white-space before a colon means it's not a URL
+      // 冒号前的空格表示它不是URL。
       if (std::isspace(c, std::locale::classic()))
         break;
     }
@@ -36,7 +36,7 @@ bool IsUrlArg(const base::CommandLine::CharType* arg) {
   return false;
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -60,4 +60,4 @@ bool IsSandboxEnabled(base::CommandLine* command_line) {
          !command_line->HasSwitch(sandbox::policy::switches::kNoSandbox);
 }
 
-}  // namespace electron
+}  // 命名空间电子

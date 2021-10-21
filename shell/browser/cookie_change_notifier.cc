@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/cookie_change_notifier.h"
 
@@ -39,9 +39,9 @@ void CookieChangeNotifier::StartListening() {
       browser_context_->GetDefaultStoragePartition()
           ->GetCookieManagerForBrowserProcess();
 
-  // Cookie manager should be created whenever network context is created,
-  // if this fails then there is something wrong with our context creation
-  // cycle.
+  // 每当创建网络上下文时都应该创建Cookie管理器，
+  // 如果此操作失败，则说明我们的上下文创建有问题。
+  // 周而复始。
   CHECK(cookie_manager);
 
   cookie_manager->AddGlobalChangeListener(receiver_.BindNewPipeAndPassRemote());
@@ -62,4 +62,4 @@ void CookieChangeNotifier::OnCookieChange(const net::CookieChangeInfo& change) {
   cookie_change_sub_list_.Notify(change);
 }
 
-}  // namespace electron
+}  // 命名空间电子

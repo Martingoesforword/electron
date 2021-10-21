@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/win/taskbar_host.h"
 
@@ -19,17 +19,17 @@ namespace electron {
 
 namespace {
 
-// From MSDN:
-// https://msdn.microsoft.com/en-us/library/windows/desktop/dd378460(v=vs.85).aspx#thumbbars
-// The thumbnail toolbar has a maximum of seven buttons due to the limited room.
+// 来自MSDN：
+// Https://msdn.microsoft.com/en-us/library/windows/desktop/dd378460(v=vs.85).aspx#thumbbars。
+// 由于空间有限，缩略图工具栏最多有七个按钮。
 const size_t kMaxButtonsCount = 7;
 
-// The base id of Thumbar button.
+// 拇指条按钮的基本ID。
 const int kButtonIdBase = 40001;
 
 bool GetThumbarButtonFlags(const std::vector<std::string>& flags,
                            THUMBBUTTONFLAGS* out) {
-  THUMBBUTTONFLAGS result = THBF_ENABLED;  // THBF_ENABLED == 0
+  THUMBBUTTONFLAGS result = THBF_ENABLED;  // THBF_ENABLED==0。
   for (const auto& flag : flags) {
     if (flag == "disabled")
       result |= THBF_DISABLED;
@@ -48,7 +48,7 @@ bool GetThumbarButtonFlags(const std::vector<std::string>& flags,
   return true;
 }
 
-}  // namespace
+}  // 命名空间。
 
 TaskbarHost::ThumbarButton::ThumbarButton() = default;
 TaskbarHost::ThumbarButton::ThumbarButton(const TaskbarHost::ThumbarButton&) =
@@ -66,53 +66,53 @@ bool TaskbarHost::SetThumbarButtons(HWND window,
 
   callback_map_.clear();
 
-  // The number of buttons in thumbar can not be changed once it is created,
-  // so we have to claim kMaxButtonsCount buttons initially in case users add
-  // more buttons later.
+  // Thumbar中的按钮数量一旦创建就不能更改，
+  // 所以我们必须首先声明kMaxButtonsCount按钮，以防用户添加。
+  // 稍后会有更多按钮。
   base::win::ScopedHICON icons[kMaxButtonsCount] = {};
   THUMBBUTTON thumb_buttons[kMaxButtonsCount] = {};
 
   for (size_t i = 0; i < kMaxButtonsCount; ++i) {
     THUMBBUTTON& thumb_button = thumb_buttons[i];
 
-    // Set ID.
+    // 设置ID。
     thumb_button.iId = kButtonIdBase + i;
     thumb_button.dwMask = THB_FLAGS;
 
     if (i >= buttons.size()) {
-      // This button is used to occupy the place in toolbar, and it does not
-      // show.
+      // 此按钮用于占据工具栏中的位置，而不是。
+      // 秀出来。
       thumb_button.dwFlags = THBF_HIDDEN;
       continue;
     }
 
-    // This button is user's button.
+    // 此按钮是用户的按钮。
     const ThumbarButton& button = buttons[i];
 
-    // Generate flags.
+    // 生成标志。
     thumb_button.dwFlags = THBF_ENABLED;
     if (!GetThumbarButtonFlags(button.flags, &thumb_button.dwFlags))
       return false;
 
-    // Set icon.
+    // 设置图标。
     if (!button.icon.IsEmpty()) {
       thumb_button.dwMask |= THB_ICON;
       icons[i] = IconUtil::CreateHICONFromSkBitmap(button.icon.AsBitmap());
       thumb_button.hIcon = icons[i].get();
     }
 
-    // Set tooltip.
+    // 设置工具提示。
     if (!button.tooltip.empty()) {
       thumb_button.dwMask |= THB_TOOLTIP;
       wcsncpy_s(thumb_button.szTip, base::UTF8ToWide(button.tooltip).c_str(),
                 _TRUNCATE);
     }
 
-    // Save callback.
+    // 保存回调。
     callback_map_[thumb_button.iId] = button.clicked_callback;
   }
 
-  // Finally add them to taskbar.
+  // 最后，将它们添加到任务栏中。
   HRESULT r;
   if (thumbar_buttons_added_) {
     r = taskbar_->ThumbBarUpdateButtons(window, kMaxButtonsCount,
@@ -145,10 +145,10 @@ bool TaskbarHost::SetProgressBar(HWND window,
   } else if (value < 0 || state == NativeWindow::ProgressState::kNone) {
     success = SUCCEEDED(taskbar_->SetProgressState(window, TBPF_NOPROGRESS));
   } else {
-    // Unless SetProgressState set a blocking state (TBPF_ERROR, TBPF_PAUSED)
-    // for the window, a call to SetProgressValue assumes the TBPF_NORMAL
-    // state even if it is not explicitly set.
-    // SetProgressValue overrides and clears the TBPF_INDETERMINATE state.
+    // 除非SetProgressState设置阻塞状态(TBPF_ERROR、TBPF_PAUSED)。
+    // 对于窗口，对SetProgressValue的调用假定为TBPF_NORMAL。
+    // 状态，即使未显式设置也是如此。
+    // SetProgressValue覆盖并清除TBPF_INDIFIENTATE状态。
     if (state == NativeWindow::ProgressState::kError) {
       success = SUCCEEDED(taskbar_->SetProgressState(window, TBPF_ERROR));
     } else if (state == NativeWindow::ProgressState::kPaused) {
@@ -224,4 +224,4 @@ bool TaskbarHost::InitializeTaskbar() {
   }
 }
 
-}  // namespace electron
+}  // 命名空间电子

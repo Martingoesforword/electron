@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_system_preferences.h"
 
@@ -54,7 +54,7 @@ v8::Local<v8::Value> SystemPreferences::GetAnimationSettings(
   return dict.GetHandle();
 }
 
-// static
+// 静电。
 gin::Handle<SystemPreferences> SystemPreferences::Create(v8::Isolate* isolate) {
   return gin::CreateHandle(isolate, new SystemPreferences());
 }
@@ -117,9 +117,9 @@ const char* SystemPreferences::GetTypeName() {
   return "SystemPreferences";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -134,7 +134,7 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("systemPreferences", SystemPreferences::Create(isolate));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_system_preferences,
                                  Initialize)

@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/gtk/app_indicator_icon_menu.h"
 
@@ -18,7 +18,7 @@ namespace gtkui {
 AppIndicatorIconMenu::AppIndicatorIconMenu(ui::MenuModel* model)
     : menu_model_(model) {
   {
-    ANNOTATE_SCOPED_MEMORY_LEAK;  // http://crbug.com/378770
+    ANNOTATE_SCOPED_MEMORY_LEAK;  // Http://crbug.com/378770。
     gtk_menu_ = gtk_menu_new();
   }
   g_object_ref_sink(gtk_menu_);
@@ -53,8 +53,8 @@ void AppIndicatorIconMenu::UpdateClickActionReplacementMenuItem(
   } else {
     click_action_replacement_menu_item_added_ = true;
 
-    // If |menu_model_| is non empty, add a separator to separate the
-    // "click action replacement menu item" from the other menu items.
+    // 如果|MENU_MODEL_|非空，请添加分隔符以分隔。
+    // 从其他菜单项中单击操作替换菜单项。
     if (menu_model_ && menu_model_->GetItemCount() > 0) {
       GtkWidget* menu_item = gtk_separator_menu_item_new();
       gtk_widget_show(menu_item);
@@ -92,15 +92,15 @@ void AppIndicatorIconMenu::OnMenuItemActivated(GtkWidget* menu_item) {
 
   ui::MenuModel* model = ModelForMenuItem(GTK_MENU_ITEM(menu_item));
   if (!model) {
-    // There won't be a model for "native" submenus like the "Input Methods"
-    // context menu. We don't need to handle activation messages for submenus
-    // anyway, so we can just return here.
+    // 不会有像“输入法”那样的“本机”子菜单模型。
+    // 上下文菜单。我们不需要处理子菜单的激活消息。
+    // 不管怎样，我们可以直接回到这里。
     DCHECK(gtk_menu_item_get_submenu(GTK_MENU_ITEM(menu_item)));
     return;
   }
 
-  // The activate signal is sent to radio items as they get deselected;
-  // ignore it in this case.
+  // 当无线电项目被取消选择时，激活信号被发送到无线电项目；
+  // 在这种情况下忽略它。
   if (GTK_IS_RADIO_MENU_ITEM(menu_item) &&
       !gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item))) {
     return;
@@ -110,11 +110,11 @@ void AppIndicatorIconMenu::OnMenuItemActivated(GtkWidget* menu_item) {
   if (!GetMenuItemID(menu_item, &id))
     return;
 
-  // The menu item can still be activated by hotkeys even if it is disabled.
+  // 即使菜单项被禁用，它仍然可以通过热键激活。
   if (model->IsEnabledAt(id))
     ExecuteCommand(model, id);
 }
 
-}  // namespace gtkui
+}  // 命名空间gtkui。
 
-}  // namespace electron
+}  // 命名空间电子

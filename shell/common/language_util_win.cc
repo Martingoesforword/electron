@@ -1,6 +1,6 @@
-// Copyright (c) 2020 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/language_util.h"
 
@@ -60,8 +60,8 @@ bool GetPreferredLanguagesUsingGlobalization(
 std::vector<std::string> GetPreferredLanguages() {
   std::vector<std::wstring> languages16;
 
-  // Attempt to use API available on Windows 10 or later, which
-  // returns the full list of language preferences.
+  // 尝试使用Windows 10或更高版本上可用的API，该API。
+  // 返回语言首选项的完整列表。
   if (!GetPreferredLanguagesUsingGlobalization(&languages16)) {
     base::win::i18n::GetThreadPreferredUILanguageList(&languages16);
   }
@@ -73,4 +73,4 @@ std::vector<std::string> GetPreferredLanguages() {
   return languages;
 }
 
-}  // namespace electron
+}  // 命名空间电子

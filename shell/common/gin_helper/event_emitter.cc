@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_helper/event_emitter.h"
 
@@ -24,7 +24,7 @@ void PreventDefault(gin_helper::Arguments* args) {
     self.Set("defaultPrevented", true);
 }
 
-}  // namespace
+}  // 命名空间。
 
 v8::Local<v8::Object> CreateCustomEvent(v8::Isolate* isolate,
                                         v8::Local<v8::Object> sender,
@@ -61,13 +61,13 @@ v8::Local<v8::Object> CreateNativeEvent(
     native_event->SetCallback(std::move(callback));
     event = native_event.ToV8().As<v8::Object>();
   } else {
-    // No need to create native event if we do not need to send reply.
+    // 如果我们不需要发送回复，则不需要创建本地事件。
     event = CreateCustomEvent(isolate);
   }
 
   Dictionary dict(isolate, event);
   dict.Set("sender", sender);
-  // Should always set frameId even when callback is null.
+  // 即使回调为空，也应始终设置frame ID。
   if (frame) {
     dict.Set("frameId", frame->GetRoutingID());
     dict.Set("processId", frame->GetProcess()->GetID());
@@ -75,6 +75,6 @@ v8::Local<v8::Object> CreateNativeEvent(
   return event;
 }
 
-}  // namespace internal
+}  // 命名空间内部。
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper

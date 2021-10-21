@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Samuel Maddock <sam@samuelmaddock.com>.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Samuel Maddock&lt;Sam@samuelmaddock.com&gt;。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_web_frame_main.h"
 
@@ -11,7 +11,7 @@
 
 #include "base/logging.h"
 #include "base/no_destructor.h"
-#include "content/browser/renderer_host/frame_tree_node.h"  // nogncheck
+#include "content/browser/renderer_host/frame_tree_node.h"  // 点名检查。
 #include "content/public/browser/render_frame_host.h"
 #include "electron/shell/common/api/api.mojom.h"
 #include "gin/object_template_builder.h"
@@ -50,7 +50,7 @@ struct Converter<blink::mojom::PageVisibilityState> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -63,7 +63,7 @@ WebFrameMainIdMap& GetWebFrameMainMap() {
   return *instance;
 }
 
-// static
+// 静电。
 WebFrameMain* WebFrameMain::FromFrameTreeNodeId(int frame_tree_node_id) {
   WebFrameMainIdMap& frame_map = GetWebFrameMainMap();
   auto iter = frame_map.find(frame_tree_node_id);
@@ -71,7 +71,7 @@ WebFrameMain* WebFrameMain::FromFrameTreeNodeId(int frame_tree_node_id) {
   return web_frame;
 }
 
-// static
+// 静电。
 WebFrameMain* WebFrameMain::FromRenderFrameHost(content::RenderFrameHost* rfh) {
   return rfh ? FromFrameTreeNodeId(rfh->GetFrameTreeNodeId()) : nullptr;
 }
@@ -99,7 +99,7 @@ void WebFrameMain::MarkRenderFrameDisposed() {
 }
 
 void WebFrameMain::UpdateRenderFrameHost(content::RenderFrameHost* rfh) {
-  // Should only be called when swapping frames.
+  // 应该仅在交换帧时调用。
   render_frame_disposed_ = false;
   render_frame_ = rfh;
   renderer_api_.reset();
@@ -123,7 +123,7 @@ v8::Local<v8::Promise> WebFrameMain::ExecuteJavaScript(
   gin_helper::Promise<base::Value> promise(args->isolate());
   v8::Local<v8::Promise> handle = promise.GetHandle();
 
-  // Optional userGesture parameter
+  // 可选的userGesture参数。
   bool user_gesture;
   if (!args->PeekNext().IsEmpty()) {
     if (args->PeekNext()->IsBoolean()) {
@@ -178,7 +178,7 @@ void WebFrameMain::Send(v8::Isolate* isolate,
     return;
 
   GetRendererApi()->Message(internal, channel, std::move(message),
-                            0 /* sender_id */);
+                            0 /* 发件人ID。*/);
 }
 
 const mojo::Remote<mojom::ElectronRenderer>& WebFrameMain::GetRendererApi() {
@@ -205,7 +205,7 @@ void WebFrameMain::PostMessage(v8::Isolate* isolate,
   blink::TransferableMessage transferable_message;
   if (!electron::SerializeV8Value(isolate, message_value,
                                   &transferable_message)) {
-    // SerializeV8Value sets an exception.
+    // SerializeV8Value设置异常。
     return;
   }
 
@@ -326,12 +326,12 @@ void WebFrameMain::DOMContentLoaded() {
   Emit("dom-ready");
 }
 
-// static
+// 静电。
 gin::Handle<WebFrameMain> WebFrameMain::New(v8::Isolate* isolate) {
   return gin::Handle<WebFrameMain>();
 }
 
-// static
+// 静电。
 gin::Handle<WebFrameMain> WebFrameMain::From(v8::Isolate* isolate,
                                              content::RenderFrameHost* rfh) {
   if (rfh == nullptr)
@@ -342,13 +342,13 @@ gin::Handle<WebFrameMain> WebFrameMain::From(v8::Isolate* isolate,
 
   auto handle = gin::CreateHandle(isolate, new WebFrameMain(rfh));
 
-  // Prevent garbage collection of frame until it has been deleted internally.
+  // 在内部删除帧之前，防止帧的垃圾收集。
   handle->Pin(isolate);
 
   return handle;
 }
 
-// static
+// 静电。
 v8::Local<v8::ObjectTemplate> WebFrameMain::FillObjectTemplate(
     v8::Isolate* isolate,
     v8::Local<v8::ObjectTemplate> templ) {
@@ -375,9 +375,9 @@ const char* WebFrameMain::GetTypeName() {
   return "WebFrameMain";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -407,6 +407,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("fromId", &FromID);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_web_frame_main, Initialize)

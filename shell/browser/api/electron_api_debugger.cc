@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_debugger.h"
 
@@ -188,7 +188,7 @@ void Debugger::ClearPendingRequests() {
   pending_requests_.clear();
 }
 
-// static
+// 静电。
 gin::Handle<Debugger> Debugger::Create(v8::Isolate* isolate,
                                        content::WebContents* web_contents) {
   return gin::CreateHandle(isolate, new Debugger(isolate, web_contents));
@@ -208,6 +208,6 @@ const char* Debugger::GetTypeName() {
   return "Debugger";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

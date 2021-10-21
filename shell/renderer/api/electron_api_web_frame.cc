@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <limits>
 #include <memory>
@@ -49,7 +49,7 @@
 #include "third_party/blink/public/web/web_script_execution_callback.h"
 #include "third_party/blink/public/web/web_script_source.h"
 #include "third_party/blink/public/web/web_view.h"
-#include "third_party/blink/renderer/platform/bindings/dom_wrapper_world.h"  // nogncheck
+#include "third_party/blink/renderer/platform/bindings/dom_wrapper_world.h"  // 点名检查。
 #include "ui/base/ime/ime_text_span.h"
 #include "url/url_util.h"
 
@@ -95,7 +95,7 @@ struct Converter<blink::WebDocument::CSSOrigin> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -133,7 +133,7 @@ bool SpellCheckWord(content::RenderFrame* render_frame,
 
 class ScriptExecutionCallback : public blink::WebScriptExecutionCallback {
  public:
-  // for compatibility with the older version of this, error is after result
+  // 为了与此版本的旧版本兼容，错误在RESULT之后。
   using CompletionCallback =
       base::OnceCallback<void(const v8::Local<v8::Value>& result,
                               const v8::Local<v8::Value>& error)>;
@@ -170,7 +170,7 @@ class ScriptExecutionCallback : public blink::WebScriptExecutionCallback {
       }
     }
     if (!success) {
-      // Failed convert so we send undefined everywhere
+      // 转换失败，因此我们将未定义的内容发送到所有地方。
       if (callback_)
         std::move(callback_).Run(
             v8::Undefined(isolate),
@@ -194,9 +194,9 @@ class ScriptExecutionCallback : public blink::WebScriptExecutionCallback {
     if (!result.empty()) {
       if (!result[0].IsEmpty()) {
         v8::Local<v8::Value> value = result[0];
-        // Either the result was created in the same world as the caller
-        // or the result is not an object and therefore does not have a
-        // prototype chain to protect
+        // 要么结果是在与调用方相同的环境中创建的。
+        // 或者结果不是对象，因此没有。
+        // 要保护的原型链。
         bool should_clone_value =
             !(value->IsObject() &&
               promise_.GetContext() ==
@@ -206,7 +206,7 @@ class ScriptExecutionCallback : public blink::WebScriptExecutionCallback {
           CopyResultToCallingContextAndFinalize(isolate,
                                                 value.As<v8::Object>());
         } else {
-          // Right now only single results per frame is supported.
+          // 目前，每帧只支持单个结果。
           if (callback_)
             std::move(callback_).Run(value, v8::Undefined(isolate));
           promise_.Resolve(value);
@@ -276,7 +276,7 @@ class FrameSetSpellChecker : public content::RenderFrameVisitor {
 
 class SpellCheckerHolder final : public content::RenderFrameObserver {
  public:
-  // Find existing holder for the |render_frame|.
+  // 查找|RENDER_FRAME|的现有持有者。
   static SpellCheckerHolder* FromRenderFrame(
       content::RenderFrame* render_frame) {
     for (auto* holder : instances_) {
@@ -301,25 +301,25 @@ class SpellCheckerHolder final : public content::RenderFrameObserver {
     delete this;
   }
 
-  // RenderFrameObserver implementation.
+  // RenderFrameWatch实现。
   void OnDestruct() final {
-    // Since we delete this in WillReleaseScriptContext, this method is unlikely
-    // to be called, but override anyway since I'm not sure if there are some
-    // corner cases.
-    //
-    // Note that while there are two "delete this", it is totally fine as the
-    // observer unsubscribes automatically in destructor and the other one won't
-    // be called.
-    //
-    // Also note that we should not call UnsetAndDestroy here, as the render
-    // frame is going to be destroyed.
+    // 由于我们在WillReleaseScriptContext中将其删除，因此此方法不太可能。
+    // 要调用，但无论如何都要覆盖，因为我不确定是否有一些。
+    // 角落里的箱子。
+    // 
+    // 请注意，虽然有两个“delete this”，但它完全可以作为。
+    // 观察者在析构函数中自动取消订阅，而另一个不会。
+    // 被召唤。
+    // 
+    // 还要注意，我们不应该在这里调用UnsetAndDestroy，因为。
+    // 相框就要被毁了。
     delete this;
   }
 
   void WillReleaseScriptContext(v8::Local<v8::Context> context,
                                 int world_id) final {
-    // Unset spell checker when the script context is going to be released, as
-    // the spell check implementation lives there.
+    // 在要释放脚本上下文时取消设置拼写检查器，因为。
+    // 拼写检查实现位于那里。
     UnsetAndDestroy();
   }
 
@@ -329,7 +329,7 @@ class SpellCheckerHolder final : public content::RenderFrameObserver {
   std::unique_ptr<SpellCheckClient> spell_check_client_;
 };
 
-}  // namespace
+}  // 命名空间。
 
 class WebFrameRenderer : public gin::Wrappable<WebFrameRenderer>,
                          public content::RenderFrameObserver {
@@ -347,7 +347,7 @@ class WebFrameRenderer : public gin::Wrappable<WebFrameRenderer>,
     DCHECK(render_frame);
   }
 
-  // gin::Wrappable:
+  // 杜松子酒：：可包装的：
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override {
     return gin::Wrappable<WebFrameRenderer>::GetObjectTemplateBuilder(isolate)
@@ -378,7 +378,7 @@ class WebFrameRenderer : public gin::Wrappable<WebFrameRenderer>,
         .SetMethod("clearCache", &WebFrameRenderer::ClearCache)
         .SetMethod("setSpellCheckProvider",
                    &WebFrameRenderer::SetSpellCheckProvider)
-        // Frame navigators
+        // 框架导航器。
         .SetMethod("findFrameByRoutingId",
                    &WebFrameRenderer::FindFrameByRoutingId)
         .SetMethod("getFrameForSelector",
@@ -490,14 +490,14 @@ class WebFrameRenderer : public gin::Wrappable<WebFrameRenderer>,
     if (pref_name == options::kPreloadScripts) {
       return gin::ConvertToV8(isolate, prefs.preloads);
     } else if (pref_name == options::kOpenerID) {
-      // NOTE: openerId is internal-only.
+      // 注意：openerId仅限内部使用。
       return gin::ConvertToV8(isolate, prefs.opener_id);
     } else if (pref_name == options::kContextIsolation) {
       return gin::ConvertToV8(isolate, prefs.context_isolation);
     } else if (pref_name == "isWebView") {
       return gin::ConvertToV8(isolate, prefs.is_webview);
     } else if (pref_name == options::kHiddenPage) {
-      // NOTE: hiddenPage is internal-only.
+      // 注意：HiddenPage仅供内部使用。
       return gin::ConvertToV8(isolate, prefs.hidden_page);
     } else if (pref_name == options::kOffscreen) {
       return gin::ConvertToV8(isolate, prefs.offscreen);
@@ -538,15 +538,15 @@ class WebFrameRenderer : public gin::Wrappable<WebFrameRenderer>,
   }
 
   static int GetWebFrameId(v8::Local<v8::Object> content_window) {
-    // Get the WebLocalFrame before (possibly) executing any user-space JS while
-    // getting the |params|. We track the status of the RenderFrame via an
-    // observer in case it is deleted during user code execution.
+    // 在执行任何用户空间JS之前(可能)获取WebLocalFrame。
+    // 正在获取|params|。我们通过一个。
+    // 观察器，以防在用户代码执行期间被删除。
     content::RenderFrame* render_frame = GetRenderFrame(content_window);
     if (!render_frame)
       return -1;
 
     blink::WebLocalFrame* frame = render_frame->GetWebFrame();
-    // Parent must exist.
+    // 父级必须存在。
     blink::WebFrame* parent_frame = frame->Parent();
     DCHECK(parent_frame);
     DCHECK(parent_frame->IsWebLocalFrame());
@@ -565,7 +565,7 @@ class WebFrameRenderer : public gin::Wrappable<WebFrameRenderer>,
       return;
     }
 
-    // Remove the old client.
+    // 删除旧客户端。
     content::RenderFrame* render_frame;
     if (!MaybeGetRenderFrame(isolate, "setSpellCheckProvider", &render_frame))
       return;
@@ -574,13 +574,13 @@ class WebFrameRenderer : public gin::Wrappable<WebFrameRenderer>,
     if (existing)
       existing->UnsetAndDestroy();
 
-    // Set spellchecker for all live frames in the same process or
-    // in the sandbox mode for all live sub frames to this WebFrame.
+    // 为同一进程中的所有实时帧设置拼写检查器，或者。
+    // 在此WebFrame的所有活动子帧的沙箱模式中。
     auto spell_check_client =
         std::make_unique<SpellCheckClient>(language, isolate, provider);
     FrameSetSpellChecker spell_checker(spell_check_client.get(), render_frame);
 
-    // Attach the spell checker to RenderFrame.
+    // 将拼写检查器附加到RenderFrame。
     new SpellCheckerHolder(render_frame, std::move(spell_check_client));
   }
 
@@ -814,7 +814,7 @@ class WebFrameRenderer : public gin::Wrappable<WebFrameRenderer>,
     return CreateWebFrameRenderer(isolate, frame);
   }
 
-  // Don't name it as GetParent, Windows has API with same name.
+  // 不要把它命名为GetParent，Windows有同名的API。
   v8::Local<v8::Value> GetFrameParent(v8::Isolate* isolate) {
     content::RenderFrame* render_frame;
     if (!MaybeGetRenderFrame(isolate, "parent", &render_frame))
@@ -860,7 +860,7 @@ class WebFrameRenderer : public gin::Wrappable<WebFrameRenderer>,
     blink::WebElement element =
         render_frame->GetWebFrame()->GetDocument().QuerySelector(
             blink::WebString::FromUTF8(selector));
-    if (element.IsNull())  // not found
+    if (element.IsNull())  // 未找到。
       return v8::Null(isolate);
 
     blink::WebFrame* frame = blink::WebFrame::FromFrameOwnerElement(element);
@@ -889,12 +889,12 @@ class WebFrameRenderer : public gin::Wrappable<WebFrameRenderer>,
 
 gin::WrapperInfo WebFrameRenderer::kWrapperInfo = {gin::kEmbedderNativeGin};
 
-// static
+// 静电。
 std::set<SpellCheckerHolder*> SpellCheckerHolder::instances_;
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -902,7 +902,7 @@ void Initialize(v8::Local<v8::Object> exports,
                 v8::Local<v8::Value> unused,
                 v8::Local<v8::Context> context,
                 void* priv) {
-  using namespace electron::api;  // NOLINT(build/namespaces)
+  using namespace electron::api;  // NOLINT(生成/命名空间)。
 
   v8::Isolate* isolate = context->GetIsolate();
   gin_helper::Dictionary dict(isolate, exports);
@@ -910,6 +910,6 @@ void Initialize(v8::Local<v8::Object> exports,
                             isolate, electron::GetRenderFrame(exports)));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_renderer_web_frame, Initialize)

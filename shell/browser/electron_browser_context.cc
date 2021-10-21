@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/electron_browser_context.h"
 
@@ -28,7 +28,7 @@
 #include "components/prefs/value_map_pref_store.h"
 #include "components/proxy_config/pref_proxy_config_tracker_impl.h"
 #include "components/proxy_config/proxy_config_pref_names.h"
-#include "content/browser/blob_storage/chrome_blob_storage_context.h"  // nogncheck
+#include "content/browser/blob_storage/chrome_blob_storage_context.h"  // 点名检查。
 #include "content/public/browser/browser_thread.h"
 #include "content/public/browser/cors_origin_pattern_setter.h"
 #include "content/public/browser/shared_cors_origin_access_list.h"
@@ -65,7 +65,7 @@
 #include "shell/browser/extensions/electron_extension_system_factory.h"
 #include "shell/browser/extensions/electron_extensions_browser_client.h"
 #include "shell/common/extensions/electron_extensions_client.h"
-#endif  // BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
+#endif  // BUILDFLAG(启用电子扩展)。
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS) || \
     BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
@@ -86,14 +86,14 @@ namespace electron {
 
 namespace {
 
-// Convert string to lower case and escape it.
+// 将字符串转换为小写并对其进行转义。
 std::string MakePartitionName(const std::string& input) {
   return net::EscapePath(base::ToLowerASCII(input));
 }
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 ElectronBrowserContext::BrowserContextMap&
 ElectronBrowserContext::browser_context_map() {
   static base::NoDestructor<ElectronBrowserContext::BrowserContextMap>
@@ -110,7 +110,7 @@ ElectronBrowserContext::ElectronBrowserContext(const std::string& partition,
       ssl_config_(network::mojom::SSLConfig::New()) {
   user_agent_ = ElectronBrowserClient::Get()->GetUserAgent();
 
-  // Read options.
+  // 读取选项。
   base::CommandLine* command_line = base::CommandLine::ForCurrentProcess();
   use_cache_ = !command_line->HasSwitch(switches::kDisableHttpCache);
   options.GetBoolean("cache", &use_cache_);
@@ -127,7 +127,7 @@ ElectronBrowserContext::ElectronBrowserContext(const std::string& partition,
 
   BrowserContextDependencyManager::GetInstance()->MarkBrowserContextLive(this);
 
-  // Initialize Pref Registry.
+  // 初始化前缀注册表。
   InitPrefs();
 
   cookie_change_notifier_ = std::make_unique<CookieChangeNotifier>(this);
@@ -139,7 +139,7 @@ ElectronBrowserContext::ElectronBrowserContext(const std::string& partition,
 
     extension_system_ = static_cast<extensions::ElectronExtensionSystem*>(
         extensions::ExtensionSystem::Get(this));
-    extension_system_->InitForRegularProfile(true /* extensions_enabled */);
+    extension_system_->InitForRegularProfile(true /* 扩展已启用(_E)。*/);
     extension_system_->FinishInitialization();
   }
 #endif
@@ -148,7 +148,7 @@ ElectronBrowserContext::ElectronBrowserContext(const std::string& partition,
 ElectronBrowserContext::~ElectronBrowserContext() {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
   NotifyWillBeDestroyed();
-  // Notify any keyed services of browser context destruction.
+  // 通知任何键控服务浏览器上下文被破坏。
   BrowserContextDependencyManager::GetInstance()->DestroyBrowserContextServices(
       this);
   ShutdownStoragePartitions();
@@ -163,7 +163,7 @@ void ElectronBrowserContext::InitPrefs() {
   PrefServiceFactory prefs_factory;
   scoped_refptr<JsonPrefStore> pref_store =
       base::MakeRefCounted<JsonPrefStore>(prefs_path);
-  pref_store->ReadPrefs();  // Synchronous.
+  pref_store->ReadPrefs();  // 同步的。
   prefs_factory.set_user_prefs(pref_store);
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
@@ -217,7 +217,7 @@ void ElectronBrowserContext::InitPrefs() {
 #if BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
   auto* current_dictionaries =
       prefs()->Get(spellcheck::prefs::kSpellCheckDictionaries);
-  // No configured dictionaries, the default will be en-US
+  // 没有配置词典，默认为en-US。
   if (current_dictionaries->GetList().empty()) {
     std::string default_code = spellcheck::GetCorrespondingSpellCheckLanguage(
         base::i18n::GetConfiguredLocale());
@@ -325,7 +325,7 @@ ElectronBrowserContext::GetURLLoaderFactory() {
   mojo::PendingReceiver<network::mojom::URLLoaderFactory> factory_receiver =
       network_factory_remote.InitWithNewPipeAndPassReceiver();
 
-  // Consult the embedder.
+  // 请咨询嵌入器。
   mojo::PendingRemote<network::mojom::TrustedURLLoaderHeaderClient>
       header_client;
   static_cast<content::ContentBrowserClient*>(ElectronBrowserClient::Get())
@@ -341,8 +341,8 @@ ElectronBrowserContext::GetURLLoaderFactory() {
   params->process_id = network::mojom::kBrowserProcessId;
   params->is_trusted = true;
   params->is_corb_enabled = false;
-  // The tests of net module would fail if this setting is true, it seems that
-  // the non-NetworkService implementation always has web security enabled.
+  // 如果此设置为真，则NET模块的测试将失败，似乎。
+  // 非网络服务实施始终启用网络安全。
   params->disable_web_security = false;
 
   auto* storage_partition = GetDefaultStoragePartition();
@@ -414,7 +414,7 @@ void ElectronBrowserContext::SetSSLConfigClient(
   ssl_config_client_ = std::move(client);
 }
 
-// static
+// 静电。
 ElectronBrowserContext* ElectronBrowserContext::From(
     const std::string& partition,
     bool in_memory,
@@ -432,4 +432,4 @@ ElectronBrowserContext* ElectronBrowserContext::From(
   return new_context;
 }
 
-}  // namespace electron
+}  // 命名空间电子

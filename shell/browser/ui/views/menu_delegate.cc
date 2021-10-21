@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/views/menu_delegate.h"
 
@@ -27,7 +27,7 @@ void MenuDelegate::RunMenu(ElectronMenuModel* model,
                            ui::MenuSourceType source_type) {
   gfx::Point screen_loc;
   views::View::ConvertPointToScreen(button, &screen_loc);
-  // Subtract 1 from the height to make the popup flush with the button border.
+  // 从高度减去1，使弹出窗口与按钮边框齐平。
   gfx::Rect bounds(screen_loc.x(), screen_loc.y(), button->width(),
                    button->height() - 1);
 
@@ -106,7 +106,7 @@ void MenuDelegate::OnMenuClosed(views::MenuItemView* menu) {
   for (Observer& obs : observers_)
     obs.OnMenuClosed();
 
-  // Only switch to new menu when current menu is closed.
+  // 仅在当前菜单关闭时切换到新菜单。
   if (button_to_open_)
     button_to_open_->Activate(nullptr);
   delete this;
@@ -123,16 +123,16 @@ views::MenuItemView* MenuDelegate::GetSiblingMenu(
     return nullptr;
   }
 
-  // TODO(zcbenz): We should follow Chromium's logics on implementing the
-  // sibling menu switches, this code is almost a hack.
+  // TODO(Zcbenz)：我们应该遵循Chromium的逻辑来实现。
+  // 兄弟菜单开关，这个代码几乎是一个黑客。
   views::MenuButton* button;
   ElectronMenuModel* model;
   if (menu_bar_->GetMenuButtonFromScreenPoint(screen_point, &model, &button) &&
       button->tag() != id_) {
     bool switch_in_progress = !!button_to_open_;
-    // Always update target to open.
+    // 始终将目标更新为打开。
     button_to_open_ = button;
-    // Switching menu asynchronously to avoid crash.
+    // 异步切换菜单，避免崩溃。
     if (!switch_in_progress) {
       base::PostTask(FROM_HERE, {content::BrowserThread::UI},
                      base::BindOnce(&views::MenuRunner::Cancel,
@@ -143,4 +143,4 @@ views::MenuItemView* MenuDelegate::GetSiblingMenu(
   return nullptr;
 }
 
-}  // namespace electron
+}  // 命名空间电子

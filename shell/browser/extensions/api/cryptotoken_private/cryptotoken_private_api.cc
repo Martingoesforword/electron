@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/api/cryptotoken_private/cryptotoken_private_api.h"
 
@@ -14,14 +14,14 @@
 #include "base/metrics/histogram_macros.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
-// #include "chrome/browser/extensions/extension_tab_util.h"
-// #include "chrome/browser/permissions/attestation_permission_request.h"
-// #include "chrome/browser/profiles/profile.h"
+// #包含“chrome/browser/extensions/extension_tab_util.h”
+// #包含“chrome/browser/permissions/attestation_permission_request.h”
+// #include“Chrome/Browser/Profiles/profile.h”
 #include "chrome/common/chrome_features.h"
 #include "chrome/common/pref_names.h"
-// #include
-// "components/page_load_metrics/browser/metrics_web_contents_observer.h"
-// #include "components/permissions/permission_request_manager.h"
+// #包括。
+// “components/page_load_metrics/browser/metrics_web_contents_observer.h”
+// #包含“components/permissions/permission_request_manager.h”
 #include "components/pref_registry/pref_registry_syncable.h"
 #include "components/prefs/pref_service.h"
 #include "content/public/browser/render_frame_host.h"
@@ -37,7 +37,7 @@
 #if defined(OS_WIN)
 #include "device/fido/features.h"
 #include "device/fido/win/webauthn_api.h"
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 
 namespace extensions {
 
@@ -47,11 +47,11 @@ namespace {
 
 const char kGoogleDotCom[] = "google.com";
 constexpr const char* kGoogleGstaticAppIds[] = {
-    "https://www.gstatic.com/securitykey/origins.json",
-    "https://www.gstatic.com/securitykey/a/google.com/origins.json"};
+    "https:// Www.gstatic.com/securitykey/Origins.json“，
+    "https:// Www.gstatic.com/securitykey/a/google.com/origins.json“}；
 
-// ContainsAppIdByHash returns true iff the SHA-256 hash of one of the
-// elements of |list| equals |hash|.
+// ContainsAppIdByHash返回TRUE当且仅当。
+// |list|equals|hash|的元素。
 bool ContainsAppIdByHash(const base::ListValue& list,
                          const std::vector<uint8_t>& hash) {
   if (hash.size() != crypto::kSHA256Length) {
@@ -61,7 +61,7 @@ bool ContainsAppIdByHash(const base::ListValue& list,
   for (const auto& i : list.GetList()) {
     const std::string& s = i.GetString();
     if (s.find('/') == std::string::npos) {
-      // No slashes mean that this is a webauthn RP ID, not a U2F AppID.
+      // 没有斜杠表示这是Webauthn RP ID，而不是U2F AppID。
       continue;
     }
 
@@ -88,12 +88,12 @@ content::RenderFrameHost* RenderFrameHostForTabAndFrameId(
       contents->web_contents(), frame_id);
 }
 
-}  // namespace
+}  // 命名空间。
 
-// void CryptotokenRegisterProfilePrefs(
-//     user_prefs::PrefRegistrySyncable* registry) {
-//   registry->RegisterListPref(prefs::kSecurityKeyPermitAttestation);
-// }
+// Void CryptokenRegisterProfilePrefs(。
+// User_prefs：：PrefRegistrySynCable*注册表){。
+// Registry-&gt;RegisterListPref(prefs：：kSecurityKeyPermitAttestation)；
+// }。
 
 CryptotokenPrivateCanOriginAssertAppIdFunction::
     CryptotokenPrivateCanOriginAssertAppIdFunction() = default;
@@ -119,7 +119,7 @@ CryptotokenPrivateCanOriginAssertAppIdFunction::Run() {
     return RespondNow(OneArgument(base::Value(true)));
   }
 
-  // Fetch the eTLD+1 of both.
+  // 获取两者的eTLD+1。
   const std::string origin_etldp1 =
       net::registry_controlled_domains::GetDomainAndRegistry(
           origin_url,
@@ -139,9 +139,9 @@ CryptotokenPrivateCanOriginAssertAppIdFunction::Run() {
   if (origin_etldp1 == app_id_etldp1) {
     return RespondNow(OneArgument(base::Value(true)));
   }
-  // For legacy purposes, allow google.com origins to assert certain
-  // gstatic.com appIds.
-  // TODO(juanlang): remove when legacy constraints are removed.
+  // 出于遗留目的，允许google.com源断言某些。
+  // Gstatic.com应用程序。
+  // TODO(Juanlang)：删除遗留约束时删除。
   if (origin_etldp1 == kGoogleDotCom) {
     for (const char* id : kGoogleGstaticAppIds) {
       if (params->app_id_url == id)
@@ -195,51 +195,51 @@ CryptotokenPrivateCanAppIdGetAttestationFunction::Run() {
 
   const std::string& app_id = params->options.app_id;
 
-  // If the appId is permitted by the enterprise policy then no permission
-  // prompt is shown.
-  // Profile* const profile = Profile::FromBrowserContext(browser_context());
-  // const PrefService* const prefs = profile->GetPrefs();
-  // const base::ListValue* const permit_attestation =
-  //     prefs->GetList(prefs::kSecurityKeyPermitAttestation);
+  // 如果企业策略允许该AppID，则没有权限。
+  // 将显示提示符。
+  // 配置文件*常量配置文件=Profile：：FromBrowserContext(browser_context())；
+  // Const PrefService*const prefs=Profile-&gt;GetPrefs()；
+  // 常量BASE：：ListValue*常量PERMIT_ATTESTATION=。
+  // Prefs-&gt;GetList(prefs：：kSecurityKeyPermitAttestation)；
 
-  // for (const auto& entry : permit_attestation->GetList()) {
-  //   if (entry.GetString() == app_id)
-  //     return RespondNow(OneArgument(base::Value(true)));
-  // }
+  // 对于(常量自动输入：PERMIT_ATTESTATION-&gt;GetList()){。
+  // If(entry.GetString()==app_id)。
+  // Return RespondNow(OneArgument(base：：value(True)；
+  // }。
 
-  // If the origin is blocked, reject attestation.
+  // 如果原点被阻止，则拒绝认证。
   if (device::fido_filter::Evaluate(
           device::fido_filter::Operation::MAKE_CREDENTIAL, origin.Serialize(),
-          /*device=*/absl::nullopt, /*id=*/absl::nullopt) ==
+          /* 设备=。*/absl::nullopt, /* ID=。*/absl::nullopt) ==
       device::fido_filter::Action::NO_ATTESTATION) {
     return RespondNow(OneArgument(base::Value(false)));
   }
 
-  // If prompting is disabled, allow attestation because that is the historical
-  // behavior.
+  // 如果禁用提示，则允许证明，因为这是历史记录。
+  // 行为。
   if (!base::FeatureList::IsEnabled(
           ::features::kSecurityKeyAttestationPrompt)) {
     return RespondNow(OneArgument(base::Value(true)));
   }
 
 #if defined(OS_WIN)
-  // If the request was handled by the Windows WebAuthn API on a version of
-  // Windows that shows an attestation permission prompt, don't show another
-  // one.
-  //
-  // Note that this does not account for the possibility of the
-  // WinWebAuthnApi having been disabled by a FidoDiscoveryFactory override,
-  // which may be done in tests or via the Virtual Authenticator WebDriver
-  // API.
+  // 如果请求是由某个版本的Windows WebAuthn API处理的。
+  // 显示证明权限提示的窗口，不显示另一个。
+  // 一。
+  // 
+  // 请注意，这没有考虑到。
+  // WinWebAuthnApi已被FidoDiscoveryFactory覆盖禁用，
+  // 这可以在测试中完成，也可以通过虚拟验证器WebDriver完成。
+  // 原料药。
   if (base::FeatureList::IsEnabled(device::kWebAuthUseNativeWinApi) &&
       device::WinWebAuthnApi::GetDefault()->IsAvailable() &&
       device::WinWebAuthnApi::GetDefault()->Version() >=
           WEBAUTHN_API_VERSION_2) {
     return RespondNow(OneArgument(base::Value(true)));
   }
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 
-  // Otherwise, show a permission prompt and pass the user's decision back.
+  // 否则，显示权限提示并传回用户的决定。
   const GURL app_id_url(app_id);
   EXTENSION_FUNCTION_VALIDATE(app_id_url.is_valid());
 
@@ -248,25 +248,25 @@ CryptotokenPrivateCanAppIdGetAttestationFunction::Run() {
     return RespondNow(Error("cannot find specified tab"));
   }
 
-  // permissions::PermissionRequestManager* permission_request_manager =
-  //     permissions::PermissionRequestManager::FromWebContents(web_contents);
-  //     nullptr;
-  // if (!permission_request_manager) {
+  // 权限：：PermissionRequestManager*PERMISSION_REQUEST_MANAGER=。
+  // Permissions：：PermissionRequestManager：：FromWebContents(web_contents)；
+  // Nullptr；
+  // 如果(！Permission_Request_MANAGER){。
   return RespondNow(Error("no PermissionRequestManager"));
-  // }
+  // }。
 
-  // // The created AttestationPermissionRequest deletes itself once complete.
-  // permission_request_manager->AddRequest(
-  //     web_contents->GetMainFrame(),  // Extension API targets a particular
-  //     tab,
-  //                                    // so select the current main frame to
-  //                                    // handle the request.
-  //     NewAttestationPermissionRequest(
-  //         origin,
-  //         base::BindOnce(
-  //             &CryptotokenPrivateCanAppIdGetAttestationFunction::Complete,
-  //             this)));
-  // return RespondLater();
+  // //创建的Attestation PermissionRequest一旦完成就会自行删除。
+  // Permission_Request_Manager-&gt;AddRequest(。
+  // Web_Contents-&gt;GetMainFrame()，//扩展API针对特定的。
+  // 选项卡，
+  // //因此选择当前要。
+  // //处理请求。
+  // NewAttestation PermissionRequest(。
+  // 起源，
+  // Base：：BindOnce(。
+  // &CryptotokenPrivateCanAppIdGetAttestationFunction：：Complete，
+  // 这)；
+  // Return RespondLater()；
 #endif
 }
 
@@ -286,8 +286,8 @@ CryptotokenPrivateRecordRegisterRequestFunction::Run() {
     return RespondNow(Error("cannot find specified tab or frame"));
   }
 
-  // page_load_metrics::MetricsWebContentsObserver::RecordFeatureUsage(
-  //     frame, blink::mojom::WebFeature::kU2FCryptotokenRegister);
+  // Page_load_metrics：：MetricsWebContentsObserver：：RecordFeatureUsage(。
+  // Frame，blink：：mojom：：WebFeature：：kU2FCryptotokenRegister)；
   return RespondNow(NoArguments());
 }
 
@@ -302,10 +302,10 @@ CryptotokenPrivateRecordSignRequestFunction::Run() {
     return RespondNow(Error("cannot find specified tab or frame"));
   }
 
-  // page_load_metrics::MetricsWebContentsObserver::RecordFeatureUsage(
-  //     frame, blink::mojom::WebFeature::kU2FCryptotokenSign);
+  // Page_load_metrics：：MetricsWebContentsObserver：：RecordFeatureUsage(
+  // Frame，blink：：mojom：：WebFeature：：kU2FCryptotokenSign)；
   return RespondNow(NoArguments());
 }
 
-}  // namespace api
-}  // namespace extensions
+}  // 命名空间API。
+}  // 命名空间扩展

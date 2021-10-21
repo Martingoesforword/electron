@@ -1,6 +1,6 @@
-// Copyright (c) 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/ui/views/inspectable_web_contents_view_views.h"
 
@@ -41,7 +41,7 @@ class DevToolsWindowDelegate : public views::ClientView,
   }
   ~DevToolsWindowDelegate() override = default;
 
-  // views::WidgetDelegate:
+  // 视图：：WidgetDelegate：
   views::View* GetInitiallyFocusedView() override { return view_; }
   std::u16string GetWindowTitle() const override { return shell_->GetTitle(); }
   ui::ImageModel GetWindowAppIcon() override { return GetWindowIcon(); }
@@ -53,7 +53,7 @@ class DevToolsWindowDelegate : public views::ClientView,
     return this;
   }
 
-  // views::ClientView:
+  // 视图：：ClientView：
   views::CloseRequestResult OnWindowCloseRequested() override {
     shell_->inspectable_web_contents()->CloseDevTools();
     return views::CloseRequestResult::kCannotClose;
@@ -68,7 +68,7 @@ class DevToolsWindowDelegate : public views::ClientView,
   DISALLOW_COPY_AND_ASSIGN(DevToolsWindowDelegate);
 };
 
-}  // namespace
+}  // 命名空间。
 
 InspectableWebContentsView* CreateInspectableContentsView(
     InspectableWebContents* inspectable_web_contents) {
@@ -125,7 +125,7 @@ void InspectableWebContentsViewViews::ShowDevTools(bool activate) {
       devtools_window_->ShowInactive();
     }
 
-    // Update draggable regions to account for the new dock position.
+    // 更新可拖动区域以适应新的停靠位置。
     if (GetDelegate())
       GetDelegate()->DevToolsResized();
   } else {
@@ -222,8 +222,8 @@ void InspectableWebContentsViewViews::Layout() {
   ApplyDevToolsContentsResizingStrategy(
       strategy_, container_size, &new_devtools_bounds, &new_contents_bounds);
 
-  // DevTools cares about the specific position, so we have to compensate RTL
-  // layout here.
+  // DevTools关心的是具体位置，所以我们必须补偿RTL。
+  // 布局在这里。
   new_devtools_bounds.set_x(GetMirroredXForRect(new_devtools_bounds));
   new_contents_bounds.set_x(GetMirroredXForRect(new_contents_bounds));
 
@@ -234,4 +234,4 @@ void InspectableWebContentsViewViews::Layout() {
     GetDelegate()->DevToolsResized();
 }
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Samuel Maddock <sam@samuelmaddock.com>.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Samuel Maddock&lt;Sam@samuelmaddock.com&gt;。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_converters/frame_converter.h"
 
@@ -15,9 +15,9 @@ namespace {
 
 v8::Persistent<v8::ObjectTemplate> rfh_templ;
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 v8::Local<v8::Value> Converter<content::RenderFrameHost*>::ToV8(
     v8::Isolate* isolate,
     content::RenderFrameHost* val) {
@@ -26,7 +26,7 @@ v8::Local<v8::Value> Converter<content::RenderFrameHost*>::ToV8(
   return electron::api::WebFrameMain::From(isolate, val).ToV8();
 }
 
-// static
+// 静电。
 v8::Local<v8::Value>
 Converter<gin_helper::AccessorValue<content::RenderFrameHost*>>::ToV8(
     v8::Isolate* isolate,
@@ -56,7 +56,7 @@ Converter<gin_helper::AccessorValue<content::RenderFrameHost*>>::ToV8(
   return rfh_obj;
 }
 
-// static
+// 静电。
 bool Converter<gin_helper::AccessorValue<content::RenderFrameHost*>>::FromV8(
     v8::Isolate* isolate,
     v8::Local<v8::Value> val,
@@ -86,4 +86,4 @@ bool Converter<gin_helper::AccessorValue<content::RenderFrameHost*>>::FromV8(
   return true;
 }
 
-}  // namespace gin
+}  // 命名空间杜松子酒

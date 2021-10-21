@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/views/native_frame_view.h"
 
@@ -19,8 +19,8 @@ gfx::Size NativeFrameView::GetMinimumSize() const {
 
 gfx::Size NativeFrameView::GetMaximumSize() const {
   gfx::Size size = window_->GetMaximumSize();
-  // Electron public APIs returns (0, 0) when maximum size is not set, but it
-  // would break internal window APIs like HWNDMessageHandler::SetAspectRatio.
+  // 电子公共API在未设置最大大小时返回(0，0)，但它。
+  // 会破坏内部窗口API，如HWNDMessageHandler：：SetAspectRatio。
   return size.IsEmpty() ? gfx::Size(INT_MAX, INT_MAX) : size;
 }
 
@@ -28,4 +28,4 @@ const char* NativeFrameView::GetClassName() const {
   return kViewClassName;
 }
 
-}  // namespace electron
+}  // 命名空间电子

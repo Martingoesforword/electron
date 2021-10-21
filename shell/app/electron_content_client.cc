@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/app/electron_content_client.h"
 
@@ -24,26 +24,26 @@
 #include "ui/base/l10n/l10n_util.h"
 #include "ui/base/resource/resource_bundle.h"
 #include "url/url_constants.h"
-// In SHARED_INTERMEDIATE_DIR.
-#include "widevine_cdm_version.h"  // NOLINT(build/include_directory)
+// 在SHARED_MIDENTAL_DIR中。
+#include "widevine_cdm_version.h"  // NOLINT(BUILD/INCLUDE_DIRECTORY)。
 
 #if defined(WIDEVINE_CDM_AVAILABLE)
 #include "base/native_library.h"
 #include "content/public/common/cdm_info.h"
 #include "media/base/video_codecs.h"
-#endif  // defined(WIDEVINE_CDM_AVAILABLE)
+#endif  // 已定义(WideVine_CDM_Available)。
 
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
-#include "pdf/pdf.h"        // nogncheck
-#include "pdf/pdf_ppapi.h"  // nogncheck
+#include "pdf/pdf.h"        // 点名检查。
+#include "pdf/pdf_ppapi.h"  // 点名检查。
 #include "shell/common/electron_constants.h"
-#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)
+#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)。
 
 #if BUILDFLAG(ENABLE_PLUGINS)
 #include "content/public/browser/plugin_service.h"
 #include "content/public/common/pepper_plugin_info.h"
 #include "ppapi/shared_impl/ppapi_permissions.h"
-#endif  // BUILDFLAG(ENABLE_PLUGINS)
+#endif  // BUILDFLAG(ENABLE_Plugin)。
 
 namespace electron {
 
@@ -77,20 +77,20 @@ bool IsWidevineAvailable(
   }
 
   if (widevine_cdm_file_check == WidevineCdmFileCheck::kFound) {
-    // Add the supported codecs as if they came from the component manifest.
-    // This list must match the CDM that is being bundled with Chrome.
+    // 添加支持的编解码器，就像它们来自组件清单一样。
+    // 此列表必须与Chrome捆绑的CDM相匹配。
     codecs_supported->push_back(media::VideoCodec::kCodecVP8);
     codecs_supported->push_back(media::VideoCodec::kCodecVP9);
 #if BUILDFLAG(USE_PROPRIETARY_CODECS)
     codecs_supported->push_back(media::VideoCodec::kCodecH264);
-#endif  // BUILDFLAG(USE_PROPRIETARY_CODECS)
+#endif  // BUILDFLAG(USE_PROPERTY_CODECS)。
 
-    // TODO(crbug.com/767941): Push persistent-license support info here once
-    // we check in a new CDM that supports it on Linux.
+    // TODO(crbug.com/767941)：在此处推送永久许可证支持信息一次。
+    // 我们签入了一个新的CDM，它在Linux上支持它。
     session_types_supported->insert(media::CdmSessionType::kTemporary);
 #if defined(OS_CHROMEOS)
     session_types_supported->insert(media::CdmSessionType::kPersistentLicense);
-#endif  // defined(OS_CHROMEOS)
+#endif  // 已定义(OS_ChromeOS)。
 
     modes_supported->insert(media::EncryptionMode::kCenc);
 
@@ -99,7 +99,7 @@ bool IsWidevineAvailable(
 
   return false;
 }
-#endif  // defined(WIDEVINE_CDM_AVAILABLE)
+#endif  // 已定义(WideVine_CDM_Available)。
 
 #if BUILDFLAG(ENABLE_PLUGINS)
 void ComputeBuiltInPlugins(std::vector<content::PepperPluginInfo>* plugins) {
@@ -109,7 +109,7 @@ void ComputeBuiltInPlugins(std::vector<content::PepperPluginInfo>* plugins) {
   pdf_info.is_out_of_process = true;
   pdf_info.name = "Chromium PDF Viewer";
   pdf_info.description = "Portable Document Format";
-  // This isn't a real file path; it's just used as a unique identifier.
+  // 这不是真正的文件路径；它只是用作唯一标识符。
   pdf_info.path = base::FilePath(kPdfPluginPath);
   content::WebPluginMimeType pdf_mime_type(kPdfPluginMimeType, "pdf",
                                            "Portable Document Format");
@@ -122,23 +122,23 @@ void ComputeBuiltInPlugins(std::vector<content::PepperPluginInfo>* plugins) {
   pdf_info.permissions = ppapi::PERMISSION_PDF | ppapi::PERMISSION_DEV;
   plugins->push_back(pdf_info);
 
-  // NB. in Chrome, this plugin isn't registered until the PDF extension is
-  // loaded. However, in Electron, we load the PDF extension unconditionally
-  // when it is enabled in the build, so we're OK to load the plugin eagerly
-  // here.
+  // 注意：在Chrome中，此插件只有在PDF扩展名为。
+  // 装好了。但是，在Electron中，我们无条件地加载PDF扩展。
+  // 当它在构建中被启用时，所以我们可以急切地加载插件。
+  // 这里。
   content::WebPluginInfo info;
   info.type = content::WebPluginInfo::PLUGIN_TYPE_BROWSER_PLUGIN;
   info.name = u"Chromium PDF Viewer";
-  // This isn't a real file path; it's just used as a unique identifier.
+  // 这不是真正的文件路径；它只是用作唯一标识符。
   info.path = base::FilePath::FromUTF8Unsafe(extension_misc::kPdfExtensionId);
   info.background_color = content::WebPluginInfo::kDefaultBackgroundColor;
   info.mime_types.emplace_back("application/pdf", "pdf",
                                "Portable Document Format");
   content::PluginService::GetInstance()->RefreshPlugins();
   content::PluginService::GetInstance()->RegisterInternalPlugin(info, true);
-#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)
+#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)。
 }
-#endif  // BUILDFLAG(ENABLE_PLUGINS)
+#endif  // BUILDFLAG(ENABLE_Plugin)。
 
 void AppendDelimitedSwitchToVector(const base::StringPiece cmd_switch,
                                    std::vector<std::string>* append_me) {
@@ -155,7 +155,7 @@ void AppendDelimitedSwitchToVector(const base::StringPiece cmd_switch,
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 ElectronContentClient::ElectronContentClient() = default;
 
@@ -187,12 +187,12 @@ void ElectronContentClient::AddAdditionalSchemes(Schemes* schemes) {
   auto* command_line = base::CommandLine::ForCurrentProcess();
   std::string process_type =
       command_line->GetSwitchValueASCII(::switches::kProcessType);
-  // Browser Process registration happens in
-  // `api::Protocol::RegisterSchemesAsPrivileged`
-  //
-  // Renderer Process registration happens in `RendererClientBase`
-  //
-  // We use this for registration to network utility process
+  // 浏览器进程注册发生在。
+  // `API：：Protocol：：RegisterSchemesAsPrivileged`。
+  // 
+  // 渲染器进程注册发生在`RendererClientBase`中。
+  // 
+  // 我们使用它注册到网络实用程序进程。
   if (process_type == ::switches::kUtilityProcess) {
     AppendDelimitedSwitchToVector(switches::kServiceWorkerSchemes,
                                   &schemes->service_worker_schemes);
@@ -222,7 +222,7 @@ void ElectronContentClient::AddPepperPlugins(
     std::vector<content::PepperPluginInfo>* plugins) {
 #if BUILDFLAG(ENABLE_PLUGINS)
   ComputeBuiltInPlugins(plugins);
-#endif  // BUILDFLAG(ENABLE_PLUGINS)
+#endif  // BUILDFLAG(ENABLE_Plugin)。
 }
 
 void ElectronContentClient::AddContentDecryptionModules(
@@ -240,9 +240,9 @@ void ElectronContentClient::AddContentDecryptionModules(
       base::CommandLine* command_line = base::CommandLine::ForCurrentProcess();
       auto cdm_version_string =
           command_line->GetSwitchValueASCII(switches::kWidevineCdmVersion);
-      // CdmInfo needs |path| to be the actual Widevine library,
-      // not the adapter, so adjust as necessary. It will be in the
-      // same directory as the installed adapter.
+      // CdmInfo需要|Path|作为实际的Widevine库。
+      // 不是适配器，因此可以根据需要进行调整。它将会在。
+      // 与安装的适配器相同的目录。
       const base::Version version(cdm_version_string);
       DCHECK(version.IsValid());
 
@@ -254,8 +254,8 @@ void ElectronContentClient::AddContentDecryptionModules(
           kWidevineCdmDisplayName, kWidevineCdmGuid, version, cdm_path,
           kWidevineCdmFileSystemId, capability, kWidevineKeySystem, false));
     }
-#endif  // defined(WIDEVINE_CDM_AVAILABLE)
+#endif  // 已定义(WideVine_CDM_Available)。
   }
 }
 
-}  // namespace electron
+}  // 命名空间电子

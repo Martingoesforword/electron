@@ -1,10 +1,10 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/application_info.h"
 
-#include <windows.h>  // windows.h must be included first
+#include <windows.h>  // 必须先包含windows.h。
 
 #include <VersionHelpers.h>
 #include <appmodel.h>
@@ -72,7 +72,7 @@ bool GetAppUserModelID(ScopedHString* app_id) {
 
 bool IsRunningInDesktopBridgeImpl() {
   if (IsWindows8OrGreater()) {
-    // GetPackageFamilyName is not available on Windows 7
+    // GetPackageFamilyName在Windows 7上不可用。
     using GetPackageFamilyNameFuncPtr = decltype(&GetPackageFamilyName);
 
     static bool initialize_get_package_family_name = true;
@@ -113,4 +113,4 @@ bool IsRunningInDesktopBridge() {
   return result;
 }
 
-}  // namespace electron
+}  // 命名空间电子

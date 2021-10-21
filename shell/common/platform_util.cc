@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/platform_util.h"
 
@@ -27,7 +27,7 @@ TrashItemResult TrashItemOnBlockingThread(const base::FilePath& full_path) {
 
 void TrashItem(const base::FilePath& full_path,
                base::OnceCallback<void(bool, const std::string&)> callback) {
-  // XXX: is continue_on_shutdown right?
+  // XXX：CONTINUE_ON_SHUTDOWN对吗？
   base::ThreadPool::PostTaskAndReplyWithResult(
       FROM_HERE,
       {base::MayBlock(), base::WithBaseSyncPrimitives(),
@@ -42,4 +42,4 @@ void TrashItem(const base::FilePath& full_path,
           std::move(callback)));
 }
 
-}  // namespace platform_util
+}  // 命名空间Platform_util

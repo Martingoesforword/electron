@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/lib/bluetooth_chooser.h"
 
@@ -21,7 +21,7 @@ struct Converter<electron::BluetoothChooser::DeviceInfo> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -38,7 +38,7 @@ void OnDeviceChosen(const content::BluetoothChooser::EventHandler& handler,
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 BluetoothChooser::BluetoothChooser(api::WebContents* contents,
                                    const EventHandler& event_handler)
@@ -52,10 +52,10 @@ void BluetoothChooser::SetAdapterPresence(AdapterPresence presence) {
   switch (presence) {
     case AdapterPresence::ABSENT:
     case AdapterPresence::POWERED_OFF:
-    // Chrome currently directs the user to system preferences
-    // to grant bluetooth permission for this case, should we
-    // do something similar ?
-    // https://chromium-review.googlesource.com/c/chromium/src/+/2617129
+    // Chrome当前将用户定向到系统首选项。
+    // 要授予这种情况下的蓝牙许可，我们是否应该。
+    // 做类似的事吗？
+    // Https://chromium-review.googlesource.com/c/chromium/src/+/2617129。
     case AdapterPresence::UNAUTHORIZED:
       event_handler_.Run(content::BluetoothChooserEvent::CANCELLED, "");
       break;
@@ -91,12 +91,12 @@ void BluetoothChooser::ShowDiscoveryState(DiscoveryState state) {
       }
       break;
     case DiscoveryState::DISCOVERING:
-      // The first time this state fires is due to a rescan triggering so set a
-      // flag to ignore devices
+      // 第一次触发此状态是由于重新扫描触发，因此将。
+      // 忽略设备的标志。
       if (rescan_ && !refreshing_) {
         refreshing_ = true;
       } else {
-        // The second time this state fires we are now safe to pick a device
+        // 第二次触发此状态时，我们现在可以安全地选择设备。
         refreshing_ = false;
       }
       break;
@@ -110,8 +110,8 @@ void BluetoothChooser::AddOrUpdateDevice(const std::string& device_id,
                                          bool is_paired,
                                          int signal_strength_level) {
   if (refreshing_) {
-    // If the list of bluetooth devices is currently being generated don't fire
-    // an event
+    // 如果当前正在生成蓝牙设备列表，则不要触发。
+    // 一件事。
     return;
   }
   bool changed = false;
@@ -125,14 +125,14 @@ void BluetoothChooser::AddOrUpdateDevice(const std::string& device_id,
   }
 
   if (changed) {
-    // Emit a select-bluetooth-device handler to allow for user to listen for
-    // bluetooth device found.
+    // 发出选择蓝牙设备处理程序以允许用户监听。
+    // 找到蓝牙设备。
     bool prevent_default = api_web_contents_->Emit(
         "select-bluetooth-device", GetDeviceList(),
         base::BindOnce(&OnDeviceChosen, event_handler_));
 
-    // If emit not implimented select first device that matches the filters
-    //  provided.
+    // 如果未实现发射，请选择第一个与筛选器匹配的设备。
+    // 如果是这样的话。
     if (!prevent_default) {
       event_handler_.Run(content::BluetoothChooserEvent::SELECTED, device_id);
     }
@@ -151,4 +151,4 @@ BluetoothChooser::GetDeviceList() {
   return vec;
 }
 
-}  // namespace electron
+}  // 命名空间电子

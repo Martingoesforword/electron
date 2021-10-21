@@ -1,7 +1,7 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Copyright (c) 2013 Adam Roben <adam@roben.org>. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 版权所有(C)2013 Adam Roben&lt;adam@roben.org&gt;。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/ui/inspectable_web_contents.h"
 
@@ -73,14 +73,14 @@ const double kPresetZoomFactors[] = {0.25, 0.333, 0.5,  0.666, 0.75, 0.9,
                                      2.5,  3.0,   4.0,  5.0};
 
 const char kChromeUIDevToolsURL[] =
-    "devtools://devtools/bundled/devtools_app.html?"
+    "devtools:// DevTools/bundled/DevTools_app.html？“。
     "remoteBase=%s&"
     "can_dock=%s&"
     "toolbarColor=rgba(223,223,223,1)&"
     "textColor=rgba(0,0,0,1)&"
     "experiments=true";
 const char kChromeUIDevToolsRemoteFrontendBase[] =
-    "https://chrome-devtools-frontend.appspot.com/";
+    "https:// Chrome-DevTools-Frontend.apppot.com/“；
 const char kChromeUIDevToolsRemoteFrontendPath[] = "serve_file";
 
 const char kDevToolsBoundsPref[] = "electron.devtools.bounds";
@@ -94,7 +94,7 @@ const char kTitleFormat[] = "Developer Tools - %s";
 
 const size_t kMaxMessageChunkSize = IPC::Channel::kMaximumMessageSize / 4;
 
-// Stores all instances of InspectableWebContents.
+// 存储InspectableWebContents的所有实例。
 InspectableWebContents::List g_web_contents_instances_;
 
 base::Value RectToDictionary(const gfx::Rect& bounds) {
@@ -172,7 +172,7 @@ constexpr base::TimeDelta kInitialBackoffDelay =
     base::TimeDelta::FromMilliseconds(250);
 constexpr base::TimeDelta kMaxBackoffDelay = base::TimeDelta::FromSeconds(10);
 
-}  // namespace
+}  // 命名空间。
 
 class InspectableWebContents::NetworkResourceLoader
     : public network::SimpleURLLoaderStreamConsumer {
@@ -321,16 +321,16 @@ class InspectableWebContents::NetworkResourceLoader
   base::TimeDelta retry_delay_;
 };
 
-// Implemented separately on each platform.
+// 在每个平台上单独实施。
 InspectableWebContentsView* CreateInspectableContentsView(
     InspectableWebContents* inspectable_web_contents);
 
-// static
+// 静电。
 const InspectableWebContents::List& InspectableWebContents::GetAll() {
   return g_web_contents_instances_;
 }
 
-// static
+// 静电。
 void InspectableWebContents::RegisterPrefs(PrefRegistrySimple* registry) {
   registry->RegisterDictionaryPref(kDevToolsBoundsPref,
                                    RectToDictionary(gfx::Rect(0, 0, 800, 600)));
@@ -349,7 +349,7 @@ InspectableWebContents::InspectableWebContents(
   const base::Value* bounds_dict = pref_service_->Get(kDevToolsBoundsPref);
   if (bounds_dict->is_dict()) {
     devtools_bounds_ = DictionaryToRect(bounds_dict);
-    // Sometimes the devtools window is out of screen or has too small size.
+    // 有时DevTools窗口超出屏幕或太小。
     if (devtools_bounds_.height() < 100 || devtools_bounds_.width() < 100) {
       devtools_bounds_.set_height(600);
       devtools_bounds_.set_width(800);
@@ -375,10 +375,10 @@ InspectableWebContents::InspectableWebContents(
 
 InspectableWebContents::~InspectableWebContents() {
   g_web_contents_instances_.remove(this);
-  // Unsubscribe from devtools and Clean up resources.
+  // 取消订阅DevTools并清理资源。
   if (GetDevToolsWebContents())
     WebContentsDestroyed();
-  // Let destructor destroy managed_devtools_web_contents_.
+  // 让析构函数销毁Managed_DevTools_Web_Contents_。
 }
 
 InspectableWebContentsView* InspectableWebContents::GetView() const {
@@ -444,12 +444,12 @@ void InspectableWebContents::ShowDevTools(bool activate) {
 
   activate_ = activate;
 
-  // Show devtools only after it has done loading, this is to make sure the
-  // SetIsDocked is called *BEFORE* ShowDevTools.
+  // 仅在完成加载后显示DevTools，这是为了确保。
+  // 在*ShowDevTools*之前调用SetIsDocked。
   embedder_message_dispatcher_ =
       DevToolsEmbedderMessageDispatcher::CreateForDevToolsFrontend(this);
 
-  if (!external_devtools_web_contents_) {  // no external devtools
+  if (!external_devtools_web_contents_) {  // 无外部DevTools。
     managed_devtools_web_contents_ = content::WebContents::Create(
         content::WebContents::CreateParams(web_contents_->GetBrowserContext()));
     managed_devtools_web_contents_->SetDelegate(this);
@@ -488,8 +488,8 @@ void InspectableWebContents::AttachTo(
     scoped_refptr<content::DevToolsAgentHost> host) {
   Detach();
   agent_host_ = std::move(host);
-  // We could use ForceAttachClient here if problem arises with
-  // devtools multiple session support.
+  // 如果出现问题，我们可以在这里使用ForceAttachClient。
+  // DevTools多会话支持。
   agent_host_->AttachClient(this);
 }
 
@@ -552,12 +552,12 @@ void InspectableWebContents::UpdateDevToolsZoomLevel(double level) {
 }
 
 void InspectableWebContents::ActivateWindow() {
-  // Set the zoom level.
+  // 设置缩放级别。
   SetZoomLevelForWebContents(GetDevToolsWebContents(), GetDevToolsZoomLevel());
 }
 
 void InspectableWebContents::CloseWindow() {
-  GetDevToolsWebContents()->DispatchBeforeUnload(false /* auto_cancel */);
+  GetDevToolsWebContents()->DispatchBeforeUnload(false /* 自动取消(_C)。*/);
 }
 
 void InspectableWebContents::LoadCompleted() {
@@ -565,7 +565,7 @@ void InspectableWebContents::LoadCompleted() {
   if (managed_devtools_web_contents_)
     view_->ShowDevTools(activate_);
 
-  // If the devtools can dock, "SetIsDocked" will be called by devtools itself.
+  // 如果DevTool可以停靠，则“SetIsDocked”将由DevTools本身调用。
   if (!can_dock_) {
     SetIsDocked(DispatchCallback(), false);
   } else {
@@ -592,7 +592,7 @@ void InspectableWebContents::LoadCompleted() {
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
 void InspectableWebContents::AddDevToolsExtensionsToClient() {
-  // get main browser context
+  // 获取主浏览器上下文。
   auto* browser_context = web_contents_->GetBrowserContext();
   const extensions::ExtensionRegistry* registry =
       extensions::ExtensionRegistry::Get(browser_context);
@@ -606,9 +606,9 @@ void InspectableWebContents::AddDevToolsExtensionsToClient() {
     if (devtools_page_url.is_empty())
       continue;
 
-    // Each devtools extension will need to be able to run in the devtools
-    // process. Grant the devtools process the ability to request URLs from the
-    // extension.
+    // 每个DevTools扩展都需要能够在DevTools中运行。
+    // 进程。授予DevTools进程从。
+    // 分机。
     content::ChildProcessSecurityPolicy::GetInstance()->GrantRequestOrigin(
         web_contents_->GetMainFrame()->GetProcess()->GetID(),
         url::Origin::Create(extension->url()));
@@ -657,7 +657,7 @@ void InspectableWebContents::LoadNetworkResource(DispatchCallback callback,
     return;
   }
 
-  // Create traffic annotation tag.
+  // 创建交通注释标记。
   net::NetworkTrafficAnnotationTag traffic_annotation =
       net::DefineNetworkTrafficAnnotation("devtools_network_resource", R"(
         semantics {
@@ -728,7 +728,7 @@ void InspectableWebContents::ShowItemInFolder(
 
   base::FilePath path = base::FilePath::FromUTF8Unsafe(file_system_path);
 
-  // Pass empty callback here; we can ignore errors
+  // 在此传递空回调；我们可以忽略错误。
   platform_util::OpenPath(path, platform_util::OpenCallback());
 }
 
@@ -832,8 +832,8 @@ void InspectableWebContents::OpenNodeFrontend() {}
 
 void InspectableWebContents::DispatchProtocolMessageFromDevToolsFrontend(
     const std::string& message) {
-  // If the devtools wants to reload the page, hijack the message and handle it
-  // to the delegate.
+  // 如果DevTools想要重新加载页面，可以劫持消息并处理它。
+  // 向代表致敬。
   if (base::MatchPattern(message,
                          "{\"id\":*,"
                          "\"method\":\"Page.reload\","
@@ -885,7 +885,7 @@ void InspectableWebContents::RegisterExtensionsAPI(const std::string& origin,
 
 void InspectableWebContents::HandleMessageFromDevToolsFrontend(
     base::Value message) {
-  // TODO(alexeykuzmin): Should we expect it to exist?
+  // TODO(Alexeykuzmin)：我们应该期待它的存在吗？
   if (!embedder_message_dispatcher_) {
     return;
   }
@@ -979,7 +979,7 @@ bool InspectableWebContents::HandleKeyboardEvent(
 }
 
 void InspectableWebContents::CloseContents(content::WebContents* source) {
-  // This is where the devtools closes itself (by clicking the x button).
+  // 这是DevTools关闭自身的地方(通过单击x按钮)。
   CloseDevTools();
 }
 
@@ -1037,14 +1037,14 @@ void InspectableWebContents::DidFinishNavigation(
   auto it = extensions_api_.find(origin);
   if (it == extensions_api_.end())
     return;
-  // Injected Script from devtools frontend doesn't expose chrome,
-  // most likely bug in chromium.
+  // 从DevTools前端注入的脚本不会暴露Chrome，
+  // 很可能是铬中毒。
   base::ReplaceFirstSubstringAfterOffset(&it->second, 0, "var chrome",
                                          "var chrome = window.chrome ");
   auto script = base::StringPrintf("%s(\"%s\")", it->second.c_str(),
                                    base::GenerateGUID().c_str());
-  // Invoking content::DevToolsFrontendHost::SetupExtensionsAPI(frame, script);
-  // should be enough, but it seems to be a noop currently.
+  // 调用content：：DevToolsFrontendHost：：SetupExtensionsAPI(frame，脚本)；
+  // 应该够了，但目前看来还不够。
   frame->ExecuteJavaScriptForTests(base::UTF8ToUTF16(script),
                                    base::NullCallback());
 }
@@ -1055,4 +1055,4 @@ void InspectableWebContents::SendMessageAck(int request_id,
   CallClientFunction("DevToolsAPI.embedderMessageAck", &id_value, arg, nullptr);
 }
 
-}  // namespace electron
+}  // 命名空间电子

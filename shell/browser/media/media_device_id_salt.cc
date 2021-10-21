@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/media/media_device_id_salt.h"
 
@@ -17,7 +17,7 @@ namespace {
 
 const char kMediaDeviceIdSalt[] = "electron.media.device_id_salt";
 
-}  // namespace
+}  // 命名空间。
 
 MediaDeviceIDSalt::MediaDeviceIDSalt(PrefService* pref_service) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
@@ -39,16 +39,16 @@ std::string MediaDeviceIDSalt::GetSalt() {
   return media_device_id_salt_.GetValue();
 }
 
-// static
+// 静电。
 void MediaDeviceIDSalt::RegisterPrefs(PrefRegistrySimple* registry) {
   registry->RegisterStringPref(kMediaDeviceIdSalt, std::string());
 }
 
-// static
+// 静电。
 void MediaDeviceIDSalt::Reset(PrefService* pref_service) {
   pref_service->SetString(
       kMediaDeviceIdSalt,
       content::BrowserContext::CreateRandomMediaDeviceIDSalt());
 }
 
-}  // namespace electron
+}  // 命名空间电子

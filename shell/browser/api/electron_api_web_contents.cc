@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_web_contents.h"
 
@@ -32,10 +32,10 @@
 #include "components/prefs/scoped_user_pref_update.h"
 #include "components/security_state/content/content_utils.h"
 #include "components/security_state/core/security_state.h"
-#include "content/browser/renderer_host/frame_tree_node.h"  // nogncheck
-#include "content/browser/renderer_host/render_frame_host_manager.h"  // nogncheck
-#include "content/browser/renderer_host/render_widget_host_impl.h"  // nogncheck
-#include "content/browser/renderer_host/render_widget_host_view_base.h"  // nogncheck
+#include "content/browser/renderer_host/frame_tree_node.h"  // 点名检查。
+#include "content/browser/renderer_host/render_frame_host_manager.h"  // 点名检查。
+#include "content/browser/renderer_host/render_widget_host_impl.h"  // 点名检查。
+#include "content/browser/renderer_host/render_widget_host_view_base.h"  // 点名检查。
 #include "content/public/browser/child_process_security_policy.h"
 #include "content/public/browser/context_menu_params.h"
 #include "content/public/browser/download_request_utils.h"
@@ -165,7 +165,7 @@
 
 #if BUILDFLAG(ENABLE_PRINTING)
 #include "components/printing/browser/print_manager_utils.h"
-#include "printing/backend/print_backend.h"  // nogncheck
+#include "printing/backend/print_backend.h"  // 点名检查。
 #include "printing/mojom/print.mojom.h"
 #include "shell/browser/printing/print_preview_message_handler.h"
 #include "shell/browser/printing/print_view_manager_electron.h"
@@ -180,7 +180,7 @@
 #endif
 
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
-#include "components/pdf/browser/pdf_web_contents_helper.h"  // nogncheck
+#include "components/pdf/browser/pdf_web_contents_helper.h"  // 点名检查。
 #include "shell/browser/electron_pdf_web_contents_helper_client.h"
 #endif
 
@@ -189,7 +189,7 @@
 #endif
 
 #ifndef MAS_BUILD
-#include "chrome/browser/hang_monitor/hang_crash_dump.h"  // nogncheck
+#include "chrome/browser/hang_monitor/hang_crash_dump.h"  // 点名检查。
 #endif
 
 namespace gin {
@@ -367,7 +367,7 @@ struct Converter<scoped_refptr<content::DevToolsAgentHost>> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -380,10 +380,10 @@ base::IDMap<WebContents*>& GetAllWebContents() {
   return *s_all_web_contents;
 }
 
-// Called when CapturePage is done.
+// 在CapturePage完成时调用。
 void OnCapturePageDone(gin_helper::Promise<gfx::Image> promise,
                        const SkBitmap& bitmap) {
-  // Hack to enable transparency in captured image
+  // 破解以在捕获的图像中启用透明度。
   promise.Resolve(gfx::Image::CreateFrom1xBitmap(bitmap));
 }
 
@@ -407,9 +407,9 @@ absl::optional<base::TimeDelta> GetCursorBlinkInterval() {
 }
 
 #if BUILDFLAG(ENABLE_PRINTING)
-// This will return false if no printer with the provided device_name can be
-// found on the network. We need to check this because Chromium does not do
-// sanity checking of device_name validity and so will crash on invalid names.
+// 如果不能使用提供的DEVICE_NAME打印，则返回FALSE。
+// 在网络上找到的。我们需要检查这一点，因为铬不能。
+// DEVICE_NAME有效性的健全性检查等将在无效名称上崩溃。
 bool IsDeviceNameValid(const std::u16string& device_name) {
 #if defined(OS_MAC)
   base::ScopedCFTypeRef<CFStringRef> new_printer_id(
@@ -428,8 +428,8 @@ bool IsDeviceNameValid(const std::u16string& device_name) {
 
 std::pair<std::string, std::u16string> GetDefaultPrinterAsync() {
 #if defined(OS_WIN)
-  // Blocking is needed here because Windows printer drivers are oftentimes
-  // not thread-safe and have to be accessed on the UI thread.
+  // 这里需要阻止，因为Windows打印机驱动程序经常。
+  // 不是线程安全的，必须在UI线程上访问。
   base::ThreadRestrictions::ScopedAllowIO allow_io;
 #endif
 
@@ -440,12 +440,12 @@ std::pair<std::string, std::u16string> GetDefaultPrinterAsync() {
   printing::mojom::ResultCode code =
       print_backend->GetDefaultPrinterName(printer_name);
 
-  // We don't want to return if this fails since some devices won't have a
-  // default printer.
+  // 如果此操作失败，我们不想退货，因为某些设备没有
+  // 默认打印机。
   if (code != printing::mojom::ResultCode::kSuccess)
     LOG(ERROR) << "Failed to get default printer name";
 
-  // Check for existing printers and pick the first one should it exist.
+  // 检查现有打印机并选择第一台打印机(如果存在)。
   if (printer_name.empty()) {
     printing::PrinterList printers;
     if (print_backend->EnumeratePrinters(&printers) !=
@@ -458,25 +458,25 @@ std::pair<std::string, std::u16string> GetDefaultPrinterAsync() {
   return std::make_pair(std::string(), base::UTF8ToUTF16(printer_name));
 }
 
-// Copied from
-// chrome/browser/ui/webui/print_preview/local_printer_handler_default.cc:L36-L54
+// 复制自。
+// Chrome/browser/ui/webui/print_preview/local_printer_handler_default.cc:L36-L54。
 scoped_refptr<base::TaskRunner> CreatePrinterHandlerTaskRunner() {
-  // USER_VISIBLE because the result is displayed in the print preview dialog.
+  // USER_VIRED，因为结果显示在打印预览对话框中。
 #if !defined(OS_WIN)
   static constexpr base::TaskTraits kTraits = {
       base::MayBlock(), base::TaskPriority::USER_VISIBLE};
 #endif
 
 #if defined(USE_CUPS)
-  // CUPS is thread safe.
+  // 杯子是线程安全的。
   return base::ThreadPool::CreateTaskRunner(kTraits);
 #elif defined(OS_WIN)
-  // Windows drivers are likely not thread-safe and need to be accessed on the
-  // UI thread.
+  // Windows驱动程序可能不是线程安全的，需要在。
+  // UI线程。
   return content::GetUIThreadTaskRunner(
       {base::MayBlock(), base::TaskPriority::USER_VISIBLE});
 #else
-  // Be conservative on unsupported platforms.
+  // 在不受支持的平台上保持保守。
   return base::ThreadPool::CreateSingleThreadTaskRunner(kTraits);
 #endif
 }
@@ -598,7 +598,7 @@ bool IsDevToolsFileSystemAdded(content::WebContents* web_contents,
   return file_system_paths.find(file_system_path) != file_system_paths.end();
 }
 
-}  // namespace
+}  // 命名空间。
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
 
@@ -636,7 +636,7 @@ WebContents::WebContents(v8::Isolate* isolate,
 #endif
 {
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
-  // WebContents created by extension host will have valid ViewType set.
+  // 扩展主机创建的WebContents将设置有效的ViewType。
   extensions::mojom::ViewType view_type = extensions::GetViewType(web_contents);
   if (view_type != extensions::mojom::ViewType::kInvalid) {
     InitWithExtensionView(isolate, web_contents, view_type);
@@ -693,10 +693,10 @@ WebContents::WebContents(v8::Isolate* isolate,
       print_task_runner_(CreatePrinterHandlerTaskRunner())
 #endif
 {
-  // Read options.
+  // 读取选项。
   options.Get("backgroundThrottling", &background_throttling_);
 
-  // Get type
+  // 获取类型。
   options.Get("type", &type_);
 
 #if BUILDFLAG(ENABLE_OSR)
@@ -705,26 +705,26 @@ WebContents::WebContents(v8::Isolate* isolate,
     type_ = Type::kOffScreen;
 #endif
 
-  // Init embedder earlier
+  // 较早的初始化嵌入器。
   options.Get("embedder", &embedder_);
 
-  // Whether to enable DevTools.
+  // 是否启用DevTools。
   options.Get("devTools", &enable_devtools_);
 
-  // BrowserViews are not attached to a window initially so they should start
-  // off as hidden. This is also important for compositor recycling. See:
-  // https://github.com/electron/electron/pull/21372
+  // BrowserView最初没有附加到窗口，因此它们应该启动。
+  // 隐藏起来。这对于合成器回收也很重要。请参见：
+  // Https://github.com/electron/electron/pull/21372。
   bool initially_shown = type_ != Type::kBrowserView;
   options.Get(options::kShow, &initially_shown);
 
-  // Obtain the session.
+  // 获取会话。
   std::string partition;
   gin::Handle<api::Session> session;
   if (options.Get("session", &session) && !session.IsEmpty()) {
   } else if (options.Get("partition", &partition)) {
     session = Session::FromPartition(isolate, partition);
   } else {
-    // Use the default session if not specified.
+    // 如果未指定，请使用默认会话。
     session = Session::FromPartition(isolate, "");
   }
   session_.Reset(isolate, session.ToV8());
@@ -733,7 +733,7 @@ WebContents::WebContents(v8::Isolate* isolate,
   if (IsGuest()) {
     scoped_refptr<content::SiteInstance> site_instance =
         content::SiteInstance::CreateForURL(session->browser_context(),
-                                            GURL("chrome-guest://fake-host"));
+                                            GURL("chrome-guest:// 假主持人“))；
     content::WebContents::CreateParams params(session->browser_context(),
                                               site_instance);
     guest_delegate_ =
@@ -800,12 +800,12 @@ void WebContents::InitWithSessionAndOptions(
 
   auto* prefs = web_contents()->GetMutableRendererPrefs();
 
-  // Collect preferred languages from OS and browser process. accept_languages
-  // effects HTTP header, navigator.languages, and CJK fallback font selection.
-  //
-  // Note that an application locale set to the browser process might be
-  // different with the one set to the preference list.
-  // (e.g. overridden with --lang)
+  // 从操作系统和浏览器进程收集首选语言。接受语言(_L)。
+  // 影响HTTP标题、导航器、语言和CJK回退字体选择。
+  // 
+  // 请注意，设置为浏览器进程的应用程序区域设置可能为。
+  // 与设置到首选项列表的不同。
+  // (例如，用--lang覆盖)。
   std::string accept_languages =
       g_browser_process->GetApplicationLocale() + ",";
   for (auto const& language : electron::GetPreferredLanguages()) {
@@ -817,7 +817,7 @@ void WebContents::InitWithSessionAndOptions(
   prefs->accept_languages = accept_languages;
 
 #if defined(OS_LINUX) || defined(OS_WIN)
-  // Update font settings.
+  // 更新字体设置。
   static const gfx::FontRenderParams params(
       gfx::GetFontRenderParams(gfx::FontRenderParamsQuery(), nullptr));
   prefs->should_antialias_text = params.antialiasing;
@@ -828,17 +828,17 @@ void WebContents::InitWithSessionAndOptions(
   prefs->subpixel_rendering = params.subpixel_rendering;
 #endif
 
-  // Honor the system's cursor blink rate settings
+  // 遵守系统的光标闪烁速率设置。
   if (auto interval = GetCursorBlinkInterval())
     prefs->caret_blink_interval = *interval;
 
-  // Save the preferences in C++.
-  // If there's already a WebContentsPreferences object, we created it as part
-  // of the webContents.setWindowOpenHandler path, so don't overwrite it.
+  // 用C++保存首选项。
+  // 如果已经有WebContentsPreferences对象，我们将其创建为。
+  // 使用webContents.setWindowOpenHandler路径，所以不要覆盖它。
   if (!WebContentsPreferences::From(web_contents())) {
     new WebContentsPreferences(web_contents(), options);
   }
-  // Trigger re-calculation of webkit prefs.
+  // 触发Webkit首选项的重新计算。
   web_contents()->NotifyPreferencesChanged();
 
   WebContentsPermissionHelper::CreateForWebContents(web_contents());
@@ -859,7 +859,7 @@ void WebContents::InitWithSessionAndOptions(
   if (IsGuest()) {
     NativeWindow* owner_window = nullptr;
     if (embedder_) {
-      // New WebContents's owner_window is the embedder's owner_window.
+      // 新WebContents的Owner_Window是嵌入器的Owner_Window。
       auto* relay =
           NativeWindowRelay::FromWebContents(embedder_->web_contents());
       if (relay)
@@ -877,18 +877,18 @@ void WebContents::InitWithSessionAndOptions(
 void WebContents::InitWithExtensionView(v8::Isolate* isolate,
                                         content::WebContents* web_contents,
                                         extensions::mojom::ViewType view_type) {
-  // Must reassign type prior to calling `Init`.
+  // 在调用`Init`之前必须重新分配类型。
   type_ = GetTypeFromViewType(view_type);
   if (type_ == Type::kRemote)
     return;
   if (type_ == Type::kBackgroundPage)
-    // non-background-page WebContents are retained by other classes. We need
-    // to pin here to prevent background-page WebContents from being GC'd.
-    // The background page api::WebContents will live until the underlying
-    // content::WebContents is destroyed.
+    // 非背景页WebContents由其他类保留。我们需要。
+    // 锁定此处以防止背景页WebContents被GC。
+    // 后台页面API：：WebContents将一直存在到基础。
+    // 内容：：WebContents被销毁。
     Pin(isolate);
 
-  // Allow toggling DevTools for background pages
+  // 允许切换背景页的DevTools
   Observe(web_contents);
   InitWithWebContents(std::unique_ptr<content::WebContents>(web_contents),
                       GetBrowserContext(), IsGuest());
@@ -916,21 +916,21 @@ void WebContents::InitWithWebContents(
       std::make_unique<ElectronPDFWebContentsHelperClient>());
 #endif
 
-  // Determine whether the WebContents is offscreen.
+  // 确定WebContents是否在屏幕外。
   auto* web_preferences = WebContentsPreferences::From(web_contents.get());
   offscreen_ = web_preferences && web_preferences->IsOffscreen();
 
-  // Create InspectableWebContents.
+  // 创建InspectableWebContents。
   inspectable_web_contents_ = std::make_unique<InspectableWebContents>(
       std::move(web_contents), browser_context->prefs(), is_guest);
   inspectable_web_contents_->SetDelegate(this);
 }
 
 WebContents::~WebContents() {
-  // clear out objects that have been granted permissions so that when
-  // WebContents::RenderFrameDeleted is called as a result of WebContents
-  // destruction it doesn't try to clear out a granted_devices_
-  // on a destructed object.
+  // 清除已授予权限的对象，以便在。
+  // WebContents：：RenderFrameDeleted作为WebContents的结果被调用。
+  // 销毁它不会尝试清除GRANT_DEVICES_。
+  // 在一个被破坏的物体上。
   granted_devices_.clear();
 
   if (!inspectable_web_contents_) {
@@ -940,15 +940,15 @@ WebContents::~WebContents() {
 
   inspectable_web_contents_->GetView()->SetDelegate(nullptr);
 
-  // This event is only for internal use, which is emitted when WebContents is
-  // being destroyed.
+  // 此事件仅供内部使用，当WebContents为。
+  // 被摧毁了。
   Emit("will-destroy");
 
-  // For guest view based on OOPIF, the WebContents is released by the embedder
-  // frame, and we need to clear the reference to the memory.
+  // 对于基于OOPIF的访客视图，WebContents由嵌入器发布。
+  // 帧，我们需要清除对内存的引用。
   bool not_owned_by_this = IsGuest() && attached_;
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
-  // And background pages are owned by extensions::ExtensionHost.
+  // 后台页面归Extensions：：ExtensionHost所有。
   if (type_ == Type::kBackgroundPage)
     not_owned_by_this = true;
 #endif
@@ -957,14 +957,14 @@ WebContents::~WebContents() {
     WebContentsDestroyed();
   }
 
-  // InspectableWebContents will be automatically destroyed.
+  // InspectableWebContents将自动销毁。
 }
 
 void WebContents::DeleteThisIfAlive() {
-  // It is possible that the FirstWeakCallback has been called but the
-  // SecondWeakCallback has not, in this case the garbage collection of
-  // WebContents has already started and we should not |delete this|.
-  // Calling |GetWrapper| can detect this corner case.
+  // 可能已经调用了FirstWeakCallback，但。
+  // Second WeakCallback没有，在本例中是垃圾回收。
+  // WebContents已启动，我们不应|删除此|。
+  // 调用|GetWrapper|可以检测到这种角落大小写。
   auto* isolate = JavascriptEnvironment::GetIsolate();
   v8::HandleScope scope(isolate);
   v8::Local<v8::Object> wrapper;
@@ -974,8 +974,8 @@ void WebContents::DeleteThisIfAlive() {
 }
 
 void WebContents::Destroy() {
-  // The content::WebContents should be destroyed asyncronously when possible
-  // as user may choose to destroy WebContents during an event of it.
+  // 如果可能，应该异步销毁Content：：WebContents。
+  // 因为用户可以选择在WebContents事件期间销毁WebContents。
   if (Browser::Get()->is_shutting_down() || IsGuest() ||
       type_ == Type::kBrowserView) {
     DeleteThisIfAlive();
@@ -1034,10 +1034,10 @@ void WebContents::WebContentsCreatedWithFullParams(
                      &dict);
   pending_child_web_preferences_.Reset();
 
-  // Associate the preferences passed in via `setWindowOpenHandler` with the
-  // content::WebContents that was just created for the child window. These
-  // preferences will be picked up by the RenderWidgetHost via its call to the
-  // delegate's OverrideWebkitPrefs.
+  // 将通过`setWindowOpenHandler`传入的首选项与。
+  // 刚刚为子窗口创建的Content：：WebContents。这些
+  // 首选项将由RenderWidgetHost通过调用。
+  // 委托的OverrideWebkitPrefs。
   new WebContentsPreferences(new_contents, dict);
 }
 
@@ -1049,9 +1049,9 @@ bool WebContents::IsWebContentsCreationOverridden(
   bool default_prevented = Emit(
       "-will-add-new-contents", params.target_url, params.frame_name,
       params.raw_features, params.disposition, *params.referrer, params.body);
-  // If the app prevented the default, redirect to CreateCustomWebContents,
-  // which always returns nullptr, which will result in the window open being
-  // prevented (window.open() will return null in the renderer).
+  // 如果应用程序阻止默认设置，请重定向到CreateCustomWebContents。
+  // 它总是返回nullptr，这将导致窗口打开。
+  // 已阻止(window.open()将在渲染器中返回NULL)。
   return default_prevented;
 }
 
@@ -1060,8 +1060,8 @@ void WebContents::SetNextChildWebPreferences(
   v8::Isolate* isolate = JavascriptEnvironment::GetIsolate();
   v8::Locker locker(isolate);
   v8::HandleScope handle_scope(isolate);
-  // Store these prefs for when Chrome calls WebContentsCreatedWithFullParams
-  // with the new child contents.
+  // 在Chrome调用WebContentsCreatedWithFullParams时存储这些首选项。
+  // 包含新的子项内容。
   pending_child_web_preferences_.Reset(isolate, preferences.GetHandle());
 }
 
@@ -1095,10 +1095,10 @@ void WebContents::AddNewContents(
   auto api_web_contents =
       CreateAndTake(isolate, std::move(new_contents), Type::kBrowserWindow);
 
-  // We call RenderFrameCreated here as at this point the empty "about:blank"
-  // render frame has already been created.  If the window never navigates again
-  // RenderFrameCreated won't be called and certain prefs like
-  // "kBackgroundColor" will not be applied.
+  // 我们在此处将RenderFrameCreated称为空的“About：Blank”
+  // 渲染帧已创建。如果窗口再也不能导航。
+  // RenderFrameCreated不会被调用，并且某些首选项，如。
+  // 不会应用“kBackround Color”。
   auto* frame = api_web_contents->MainFrame();
   if (frame) {
     api_web_contents->HandleNewRenderFrame(frame);
@@ -1160,7 +1160,7 @@ void WebContents::BeforeUnloadFired(content::WebContents* tab,
     *proceed_to_fire_unload = proceed;
   else
     *proceed_to_fire_unload = true;
-  // Note that Chromium does not emit this for navigations.
+  // 请注意，Chromium在导航时不会发出此消息。
   Emit("before-unload-fired", proceed);
 }
 
@@ -1197,7 +1197,7 @@ bool WebContents::HandleKeyboardEvent(
     content::WebContents* source,
     const content::NativeWebKeyboardEvent& event) {
   if (type_ == Type::kWebView && embedder_) {
-    // Send the unhandled keyboard events back to the embedder.
+    // 将未处理的键盘事件发送回嵌入器。
     return embedder_->HandleKeyboardEvent(source, event);
   } else {
     return PlatformHandleKeyboardEvent(source, event);
@@ -1205,24 +1205,24 @@ bool WebContents::HandleKeyboardEvent(
 }
 
 #if !defined(OS_MAC)
-// NOTE: The macOS version of this function is found in
-// electron_api_web_contents_mac.mm, as it requires calling into objective-C
-// code.
+// 注意：此函数的MacOS版本位于。
+// Electronics_API_web_Contents_mac.mm，因为它需要调用Objective-C。
+// 密码。
 bool WebContents::PlatformHandleKeyboardEvent(
     content::WebContents* source,
     const content::NativeWebKeyboardEvent& event) {
-  // Escape exits tabbed fullscreen mode.
+  // 退出退出选项卡式全屏模式。
   if (event.windows_key_code == ui::VKEY_ESCAPE && is_html_fullscreen()) {
     ExitFullscreenModeForTab(source);
     return true;
   }
 
-  // Check if the webContents has preferences and to ignore shortcuts
+  // 检查webContents是否具有首选项并忽略快捷方式。
   auto* web_preferences = WebContentsPreferences::From(source);
   if (web_preferences && web_preferences->ShouldIgnoreMenuShortcuts())
     return false;
 
-  // Let the NativeWindow handle other parts.
+  // 让NativeWindow处理其他部分。
   if (owner_window()) {
     owner_window()->HandleKeyboardEvent(source, event);
     return true;
@@ -1278,8 +1278,8 @@ void WebContents::OnEnterFullscreenModeForTab(
   SetHtmlApiFullscreen(true);
 
   if (native_fullscreen_) {
-    // Explicitly trigger a view resize, as the size is not actually changing if
-    // the browser is fullscreened, too.
+    // 显式触发视图大小调整，因为如果
+    // 浏览器也是全屏显示的。
     source->GetRenderViewHost()->GetWidget()->SynchronizeVisualProperties();
   }
 }
@@ -1291,9 +1291,9 @@ void WebContents::ExitFullscreenModeForTab(content::WebContents* source) {
   SetHtmlApiFullscreen(false);
 
   if (native_fullscreen_) {
-    // Explicitly trigger a view resize, as the size is not actually changing if
-    // the browser is fullscreened, too. Chrome does this indirectly from
-    // `chrome/browser/ui/exclusive_access/fullscreen_controller.cc`.
+    // 显式触发视图大小调整，因为如果。
+    // 浏览器也是全屏显示的。Chrome通过以下方式间接地做到了这一点。
+    // `chrome/browser/ui/exclusive_access/fullscreen_controller.cc`.。
     source->GetRenderViewHost()->GetWidget()->SynchronizeVisualProperties();
   }
 }
@@ -1340,7 +1340,7 @@ void WebContents::FindReply(content::WebContents* web_contents,
   result.Set("matches", number_of_matches);
   result.Set("selectionArea", selection_rect);
   result.Set("activeMatchOrdinal", active_match_ordinal);
-  result.Set("finalUpdate", final_update);  // Deprecate after 2.0
+  result.Set("finalUpdate", final_update);  // 2.0之后不推荐使用。
   Emit("found-in-page", result.GetHandle());
 }
 
@@ -1386,8 +1386,8 @@ void WebContents::OnAudioStateChanged(bool audible) {
 
 void WebContents::BeforeUnloadFired(bool proceed,
                                     const base::TimeTicks& proceed_time) {
-  // Do nothing, we override this method just to avoid compilation error since
-  // there are two virtual functions named BeforeUnloadFired.
+  // 什么都不做，我们重写此方法只是为了避免编译错误，因为。
+  // 有两个名为BeforeUnloadFired的虚拟函数。
 }
 
 void WebContents::HandleNewRenderFrame(
@@ -1396,7 +1396,7 @@ void WebContents::HandleNewRenderFrame(
   if (!rwhv)
     return;
 
-  // Set the background color of RenderWidgetHostView.
+  // 设置RenderWidgetHostView的背景色。
   auto* web_preferences = WebContentsPreferences::From(web_contents());
   if (web_preferences) {
     absl::optional<SkColor> color = web_preferences->GetBackgroundColor();
@@ -1421,11 +1421,11 @@ void WebContents::RenderFrameCreated(
     content::RenderFrameHost* render_frame_host) {
   HandleNewRenderFrame(render_frame_host);
 
-  // RenderFrameCreated is called for speculative frames which may not be
-  // used in certain cross-origin navigations. Invoking
-  // RenderFrameHost::GetLifecycleState currently crashes when called for
-  // speculative frames so we need to filter it out for now. Check
-  // https://crbug.com/1183639 for details on when this can be removed.
+  // 为推测帧调用RenderFrameCreated，这些帧可能不是。
+  // 用于某些跨地域航行。正在调用。
+  // RenderFrameHost：：GetLifecycleState当前在调用时崩溃。
+  // 投机性的帧，所以我们现在需要把它过滤掉。检查。
+  // Https://crbug.com/1183639，了解何时可以删除此文件的详细信息。
   auto* rfh_impl =
       static_cast<content::RenderFrameHostImpl*>(render_frame_host);
   if (rfh_impl->lifecycle_state() ==
@@ -1447,23 +1447,23 @@ void WebContents::RenderFrameCreated(
 
 void WebContents::RenderFrameDeleted(
     content::RenderFrameHost* render_frame_host) {
-  // A RenderFrameHost can be deleted when:
-  // - A WebContents is removed and its containing frames are disposed.
-  // - An <iframe> is removed from the DOM.
-  // - Cross-origin navigation creates a new RFH in a separate process which
-  //   is swapped by content::RenderFrameHostManager.
-  //
+  // 在以下情况下可以删除RenderFrameHost：
+  // -移除WebContents并释放其包含的框架。
+  // -从DOM中删除&lt;iframe&gt;。
+  // -跨源导航在单独的进程中创建新的RFH，该进程。
+  // 由Content：：RenderFrameHostManager交换。
+  // 
 
-  // clear out objects that have been granted permissions
+  // 清除已被授予权限的对象
   if (!granted_devices_.empty()) {
     granted_devices_.erase(render_frame_host->GetFrameTreeNodeId());
   }
 
-  // WebFrameMain::FromRenderFrameHost(rfh) will use the RFH's FrameTreeNode ID
-  // to find an existing instance of WebFrameMain. During a cross-origin
-  // navigation, the deleted RFH will be the old host which was swapped out. In
-  // this special case, we need to also ensure that WebFrameMain's internal RFH
-  // matches before marking it as disposed.
+  // WebFrameMain：：FromRenderFrameHost(RFH)将使用RFH的FrameTreeNode ID。
+  // 若要查找WebFrameMain的现有实例，请执行以下操作。在跨地域旅行期间。
+  // 导航时，删除的RFH将是换出的旧主机。在……里面。
+  // 在这种特殊情况下，我们还需要确保WebFrameMain的内部RFH。
+  // 在将其标记为已释放之前进行匹配。
   auto* web_frame = WebFrameMain::FromRenderFrameHost(render_frame_host);
   if (web_frame && web_frame->render_frame_host() == render_frame_host)
     web_frame->MarkRenderFrameDisposed();
@@ -1471,12 +1471,12 @@ void WebContents::RenderFrameDeleted(
 
 void WebContents::RenderFrameHostChanged(content::RenderFrameHost* old_host,
                                          content::RenderFrameHost* new_host) {
-  // During cross-origin navigation, a FrameTreeNode will swap out its RFH.
-  // If an instance of WebFrameMain exists, it will need to have its RFH
-  // swapped as well.
-  //
-  // |old_host| can be a nullptr so we use |new_host| for looking up the
-  // WebFrameMain instance.
+  // 在跨域导航时，FrameTreeNode会换出它的RFH。
+  // 如果存在WebFrameMain实例，则需要具有其RFH。
+  // 也交换了。
+  // 
+  // |old_host|可以是nullptr，所以我们使用|new_host|来查找。
+  // WebFrameMain实例。
   auto* web_frame =
       WebFrameMain::FromFrameTreeNodeId(new_host->GetFrameTreeNodeId());
   if (web_frame) {
@@ -1491,16 +1491,16 @@ void WebContents::FrameDeleted(int frame_tree_node_id) {
 }
 
 void WebContents::RenderViewDeleted(content::RenderViewHost* render_view_host) {
-  // This event is necessary for tracking any states with respect to
-  // intermediate render view hosts aka speculative render view hosts. Currently
-  // used by object-registry.js to ref count remote objects.
+  // 此事件对于跟踪与以下各项相关的任何状态都是必需的。
+  // 中间渲染视图主机(也称为推测性渲染视图主机)。目前。
+  // 由object-registry.js用于引用远程对象的计数。
   Emit("render-view-deleted", render_view_host->GetProcess()->GetID());
 
   if (web_contents()->GetRenderViewHost() == render_view_host) {
-    // When the RVH that has been deleted is the current RVH it means that the
-    // the web contents are being closed. This is communicated by this event.
-    // Currently tracked by guest-window-manager.ts to destroy the
-    // BrowserWindow.
+    // 当已删除的RVH为当前RVH时，表示。
+    // 网站内容正在关闭。这是由这个事件传达的。
+    // 当前由Guest-Window-Manager.ts跟踪以销毁。
+    // 浏览器窗口。
     Emit("current-render-view-deleted",
          render_view_host->GetProcess()->GetID());
   }
@@ -1510,7 +1510,7 @@ void WebContents::RenderProcessGone(base::TerminationStatus status) {
   auto weak_this = GetWeakPtr();
   Emit("crashed", status == base::TERMINATION_STATUS_PROCESS_WAS_KILLED);
 
-  // User might destroy WebContents in the crashed event.
+  // 用户可能会在Crash事件中销毁WebContents。
   if (!weak_this || !web_contents())
     return;
 
@@ -1529,7 +1529,7 @@ void WebContents::PluginCrashed(const base::FilePath& plugin_path,
   auto* plugin_service = content::PluginService::GetInstance();
   plugin_service->GetPluginInfoByPath(plugin_path, &info);
   Emit("plugin-crashed", info.name, info.version);
-#endif  // BUILDFLAG(ENABLE_PLUGINS)
+#endif  // BUILDFLAG(ENABLE_Plugin)
 }
 
 void WebContents::MediaStartedPlaying(const MediaPlayerInfo& video_type,
@@ -1576,9 +1576,9 @@ void WebContents::DidFinishLoad(content::RenderFrameHost* render_frame_host,
   Emit("did-frame-finish-load", is_main_frame, frame_process_id,
        frame_routing_id);
 
-  // ⚠️WARNING!⚠️
-  // Emit() triggers JS which can call destroy() on |this|. It's not safe to
-  // assume that |this| points to valid memory at this point.
+  // ⚠️警告！⚠️。
+  // Emit()触发JS，JS可以在|this|上调用Destroy()。这是不安全的。
+  // 假设|this|指向此时的有效内存。
   if (is_main_frame && weak_this && web_contents())
     Emit("did-finish-load");
 }
@@ -1636,8 +1636,8 @@ void WebContents::Message(bool internal,
                           blink::CloneableMessage arguments,
                           content::RenderFrameHost* render_frame_host) {
   TRACE_EVENT1("electron", "WebContents::Message", "channel", channel);
-  // webContents.emit('-ipc-message', new Event(), internal, channel,
-  // arguments);
+  // WebContents.emit(‘-ipc-message’，new event()，Internal，channel，
+  // 论据)；
   EmitWithSender("-ipc-message", render_frame_host,
                  electron::mojom::ElectronBrowser::InvokeCallback(), internal,
                  channel, std::move(arguments));
@@ -1650,7 +1650,7 @@ void WebContents::Invoke(
     electron::mojom::ElectronBrowser::InvokeCallback callback,
     content::RenderFrameHost* render_frame_host) {
   TRACE_EVENT1("electron", "WebContents::Invoke", "channel", channel);
-  // webContents.emit('-ipc-invoke', new Event(), internal, channel, arguments);
+  // WebContents.emit(‘-IPC-Invoke’，new event()，Internal，Channel，Arguments)；
   EmitWithSender("-ipc-invoke", render_frame_host, std::move(callback),
                  internal, channel, std::move(arguments));
 }
@@ -1684,8 +1684,8 @@ void WebContents::MessageSync(
     electron::mojom::ElectronBrowser::MessageSyncCallback callback,
     content::RenderFrameHost* render_frame_host) {
   TRACE_EVENT1("electron", "WebContents::MessageSync", "channel", channel);
-  // webContents.emit('-ipc-message-sync', new Event(sender, message), internal,
-  // channel, arguments);
+  // WebContents.emit(‘-ipc-message-sync’，新事件(发送者，消息)，内部，
+  // 通道、参数)；
   EmitWithSender("-ipc-message-sync", render_frame_host, std::move(callback),
                  internal, channel, std::move(arguments));
 }
@@ -1708,7 +1708,7 @@ void WebContents::MessageTo(int32_t web_contents_id,
       return;
 
     int32_t sender_id = ID();
-    web_frame_main->GetRendererApi()->Message(false /* internal */, channel,
+    web_frame_main->GetRendererApi()->Message(false /* 内部。*/, channel,
                                               std::move(arguments), sender_id);
   }
 }
@@ -1717,7 +1717,7 @@ void WebContents::MessageHost(const std::string& channel,
                               blink::CloneableMessage arguments,
                               content::RenderFrameHost* render_frame_host) {
   TRACE_EVENT1("electron", "WebContents::MessageHost", "channel", channel);
-  // webContents.emit('ipc-message-host', new Event(), channel, args);
+  // WebContents.emit(‘ipc-message-host’，new event()，channel，args)；
   EmitWithSender("ipc-message-host", render_frame_host,
                  electron::mojom::ElectronBrowser::InvokeCallback(), channel,
                  std::move(arguments));
@@ -1741,7 +1741,7 @@ void WebContents::DidRedirectNavigation(
 
 void WebContents::ReadyToCommitNavigation(
     content::NavigationHandle* navigation_handle) {
-  // Don't focus content in an inactive window.
+  // 不要将内容聚焦在非活动窗口中。
   if (!owner_window())
     return;
 #if defined(OS_MAC)
@@ -1751,10 +1751,10 @@ void WebContents::ReadyToCommitNavigation(
   if (!owner_window()->widget()->IsActive())
     return;
 #endif
-  // Don't focus content after subframe navigations.
+  // 子框架导航后不要聚焦内容。
   if (!navigation_handle->IsInMainFrame())
     return;
-  // Only focus for top-level contents.
+  // 只关注顶级内容。
   if (type_ != Type::kBrowserWindow)
     return;
   web_contents()->SetInitialFocus();
@@ -1777,9 +1777,9 @@ void WebContents::DidFinishNavigation(
     frame_routing_id = frame_host->GetRoutingID();
   }
   if (!navigation_handle->IsErrorPage()) {
-    // FIXME: All the Emit() calls below could potentially result in |this|
-    // being destroyed (by JS listening for the event and calling
-    // webContents.destroy()).
+    // FIX：下面的所有emit()调用都可能导致|this|。
+    // 被销毁(由JS监听事件并调用。
+    // WebContents.Destroy())。
     auto url = navigation_handle->GetURL();
     bool is_same_document = navigation_handle->IsSameDocument();
     if (is_same_document) {
@@ -1809,7 +1809,7 @@ void WebContents::DidFinishNavigation(
     Emit("did-fail-provisional-load", code, description, url, is_main_frame,
          frame_process_id, frame_routing_id);
 
-    // Do not emit "did-fail-load" for canceled requests.
+    // 对于取消的请求，不要发出“DID-FAIL-LOAD”。
     if (code != net::ERR_ABORTED) {
       EmitWarning(
           node::Environment::GetCurrent(JavascriptEnvironment::GetIsolate()),
@@ -1822,11 +1822,11 @@ void WebContents::DidFinishNavigation(
   }
   content::NavigationEntry* entry = navigation_handle->GetNavigationEntry();
 
-  // This check is needed due to an issue in Chromium
-  // Check the Chromium issue to keep updated:
-  // https://bugs.chromium.org/p/chromium/issues/detail?id=1178663
-  // If a history entry has been made and the forward/back call has been made,
-  // proceed with setting the new title
+  // 由于Chromium中的一个问题，需要进行此检查。
+  // 检查Chromium问题以保持更新：
+  // Https://bugs.chromium.org/p/chromium/issues/detail?id=1178663
+  // 如果已经进行了历史条目并且已经进行了前向/回拨呼叫，
+  // 继续设置新标题。
   if (entry && (entry->GetTransitionType() & ui::PAGE_TRANSITION_FORWARD_BACK))
     WebContents::TitleWasSet(entry);
 }
@@ -1883,12 +1883,12 @@ void WebContents::DevToolsOpened() {
       isolate, inspectable_web_contents_->GetDevToolsWebContents());
   devtools_web_contents_.Reset(isolate, handle.ToV8());
 
-  // Set inspected tabID.
+  // 设置已检查的TABID。
   base::Value tab_id(ID());
   inspectable_web_contents_->CallClientFunction("DevToolsAPI.setInspectedTabId",
                                                 &tab_id, nullptr, nullptr);
 
-  // Inherit owner window in devtools when it doesn't have one.
+  // 如果DevTools中没有所有者窗口，则继承所有者窗口。
   auto* devtools = inspectable_web_contents_->GetDevToolsWebContents();
   bool has_window = devtools->GetUserData(NativeWindowRelay::UserDataKey());
   if (owner_window() && !has_window)
@@ -1945,7 +1945,7 @@ content::WebContents* WebContents::GetDevToolsWebContents() const {
 }
 
 void WebContents::WebContentsDestroyed() {
-  // Clear the pointer stored in wrapper.
+  // 清除包装器中存储的指针。
   if (GetAllWebContents().Lookup(id_))
     GetAllWebContents().Remove(id_);
   v8::Isolate* isolate = JavascriptEnvironment::GetIsolate();
@@ -1955,7 +1955,7 @@ void WebContents::WebContentsDestroyed() {
     return;
   wrapper->SetAlignedPointerInInternalField(0, nullptr);
 
-  // Tell WebViewGuestDelegate that the WebContents has been destroyed.
+  // 告诉WebViewGuestDelegate WebContents已销毁。
   if (guest_delegate_)
     guest_delegate_->WillDestroy();
 
@@ -2065,42 +2065,42 @@ void WebContents::LoadURL(const GURL& url,
     params.reload_type = content::ReloadType::BYPASSING_CACHE;
   }
 
-  // Calling LoadURLWithParams() can trigger JS which destroys |this|.
+  // 调用LoadURLWithParams()可以触发销毁|this|的JS。
   auto weak_this = GetWeakPtr();
 
   params.transition_type = ui::PageTransitionFromInt(
       ui::PAGE_TRANSITION_TYPED | ui::PAGE_TRANSITION_FROM_ADDRESS_BAR);
   params.override_user_agent = content::NavigationController::UA_OVERRIDE_TRUE;
-  // Discord non-committed entries to ensure that we don't re-use a pending
-  // entry
+  // 不协调未提交的条目，以确保我们不会重用挂起的。
+  // 条目。
   web_contents()->GetController().DiscardNonCommittedEntries();
   web_contents()->GetController().LoadURLWithParams(params);
 
-  // ⚠️WARNING!⚠️
-  // LoadURLWithParams() triggers JS events which can call destroy() on |this|.
-  // It's not safe to assume that |this| points to valid memory at this point.
+  // ⚠️警告！⚠️。
+  // LoadURLWithParams()触发JS事件，JS事件可以在|this|上调用Destroy()。
+  // 在这一点上，假设|this|指向有效内存是不安全的。
   if (!weak_this || !web_contents())
     return;
 
-  // Required to make beforeunload handler work.
+  // 需要使Bere Unload处理程序工作。
   NotifyUserActivation();
 }
 
-// TODO(MarshallOfSound): Figure out what we need to do with post data here, I
-// believe the default behavior when we pass "true" is to phone out to the
-// delegate and then the controller expects this method to be called again with
-// "false" if the user approves the reload.  For now this would result in
-// ".reload()" calls on POST data domains failing silently.  Passing false would
-// result in them succeeding, but reposting which although more correct could be
-// considering a breaking change.
+// TODO(MarshallOfSound)：弄清楚我们需要如何处理这里的POST数据，我。
+// 我相信当我们传递“true”时的默认行为是向外拨电话到。
+// 委托，然后控制器期望使用以下命令再次调用此方法。
+// 如果用户批准重新加载，则为“false”。就目前而言，这将导致。
+// POST Data Domain上的“.reload()”调用以静默方式失败。如果传递假的话。
+// 结果是他们成功了，但转发了尽管更正确的。
+// 考虑一个突破性的变化。
 void WebContents::Reload() {
   web_contents()->GetController().Reload(content::ReloadType::NORMAL,
-                                         /* check_for_repost */ true);
+                                         /* 检查是否转发。*/ true);
 }
 
 void WebContents::ReloadIgnoringCache() {
   web_contents()->GetController().Reload(content::ReloadType::BYPASSING_CACHE,
-                                         /* check_for_repost */ true);
+                                         /* 检查是否转发。*/ true);
 }
 
 void WebContents::DownloadURL(const GURL& url) {
@@ -2173,8 +2173,8 @@ int WebContents::GetActiveIndex() const {
 }
 
 void WebContents::ClearHistory() {
-  // In some rare cases (normally while there is no real history) we are in a
-  // state where we can't prune navigation entries
+  // 在一些罕见的情况下(通常没有真实的历史)，我们处于。
+  // 我们不能删除导航条目的状态。
   if (web_contents()->GetController().CanPruneAllButLastCommitted()) {
     web_contents()->GetController().PruneAllButLastCommitted();
   }
@@ -2215,11 +2215,11 @@ void WebContents::ForcefullyCrashRenderer() {
   content::RenderProcessHost* rph = rwh->GetProcess();
   if (rph) {
 #if defined(OS_LINUX) || defined(OS_CHROMEOS)
-    // A generic |CrashDumpHungChildProcess()| is not implemented for Linux.
-    // Instead we send an explicit IPC to crash on the renderer's IO thread.
+    // Linux没有实现泛型|CrashDump匈牙利ChildProcess()|。
+    // 相反，我们发送一个显式IPC，使其在呈现器的IO线程上崩溃。
     rph->ForceCrash();
 #else
-    // Try to generate a crash report for the hung process.
+    // 尝试为挂起的进程生成崩溃报告。
 #ifndef MAS_BUILD
     CrashDumpHungChildProcess(rph->GetProcess().Handle());
 #endif
@@ -2449,10 +2449,10 @@ void WebContents::OnGetDefaultPrinter(
     printing::CompletionCallback print_callback,
     std::u16string device_name,
     bool silent,
-    // <error, default_printer>
+    // &lt;错误，DEFAULT_PRINTER&gt;。
     std::pair<std::string, std::u16string> info) {
-  // The content::WebContents might be already deleted at this point, and the
-  // PrintViewManagerElectron class does not do null check.
+  // 此时内容：：WebContents可能已被删除，并且。
+  // PrintViewManagerElectron类不执行NULL检查。
   if (!web_contents()) {
     if (print_callback)
       std::move(print_callback).Run(false, "failed");
@@ -2465,10 +2465,10 @@ void WebContents::OnGetDefaultPrinter(
     return;
   }
 
-  // If the user has passed a deviceName use it, otherwise use default printer.
+  // 如果用户传递了deviceName，则使用它，否则使用默认打印机。
   std::u16string printer_name = device_name.empty() ? info.second : device_name;
 
-  // If there are no valid printers available on the network, we bail.
+  // 如果网络上没有可用的有效打印机，我们就退出。
   if (printer_name.empty() || !IsDeviceNameValid(printer_name)) {
     if (print_callback)
       std::move(print_callback).Run(false, "no valid printers available");
@@ -2509,7 +2509,7 @@ void WebContents::Print(gin::Arguments* args) {
     return;
   }
 
-  // Set optional silent printing
+  // 设置可选的静默打印。
   bool silent = false;
   options.Get("silent", &silent);
 
@@ -2518,7 +2518,7 @@ void WebContents::Print(gin::Arguments* args) {
   settings.SetBoolKey(printing::kSettingShouldPrintBackgrounds,
                       print_background);
 
-  // Set custom margin settings
+  // 设置自定义边距设置。
   gin_helper::Dictionary margins =
       gin::Dictionary::CreateEmpty(args->isolate());
   if (options.Get("margins", &margins)) {
@@ -2551,21 +2551,21 @@ void WebContents::Print(gin::Arguments* args) {
         static_cast<int>(printing::mojom::MarginType::kDefaultMargins));
   }
 
-  // Set whether to print color or greyscale
+  // 设置是打印彩色还是灰度。
   bool print_color = true;
   options.Get("color", &print_color);
   auto const color_model = print_color ? printing::mojom::ColorModel::kColor
                                        : printing::mojom::ColorModel::kGray;
   settings.SetIntKey(printing::kSettingColor, static_cast<int>(color_model));
 
-  // Is the orientation landscape or portrait.
+  // 是朝向、横向还是纵向。
   bool landscape = false;
   options.Get("landscape", &landscape);
   settings.SetBoolKey(printing::kSettingLandscape, landscape);
 
-  // We set the default to the system's default printer and only update
-  // if at the Chromium level if the user overrides.
-  // Printer device name as opened by the OS.
+  // 我们将默认打印机设置为系统的默认打印机，并且仅更新。
+  // 如果用户覆盖，则为Chromium级别。
+  // 操作系统打开的打印机设备名称。
   std::u16string device_name;
   options.Get("deviceName", &device_name);
   if (!device_name.empty() && !IsDeviceNameValid(device_name)) {
@@ -2582,17 +2582,17 @@ void WebContents::Print(gin::Arguments* args) {
   options.Get("pagesPerSheet", &pages_per_sheet);
   settings.SetIntKey(printing::kSettingPagesPerSheet, pages_per_sheet);
 
-  // True if the user wants to print with collate.
+  // 如果用户要使用Colate打印，则为True。
   bool collate = true;
   options.Get("collate", &collate);
   settings.SetBoolKey(printing::kSettingCollate, collate);
 
-  // The number of individual copies to print
+  // 要打印的单个份数。
   int copies = 1;
   options.Get("copies", &copies);
   settings.SetIntKey(printing::kSettingCopies, copies);
 
-  // Strings to be printed as headers and footers if requested by the user.
+  // 如果用户请求，要打印为页眉和页脚的字符串。
   std::string header;
   options.Get("header", &header);
   std::string footer;
@@ -2607,14 +2607,14 @@ void WebContents::Print(gin::Arguments* args) {
     settings.SetBoolKey(printing::kSettingHeaderFooterEnabled, false);
   }
 
-  // We don't want to allow the user to enable these settings
-  // but we need to set them or a CHECK is hit.
+  // 我们不希望允许用户启用这些设置。
+  // 但是我们需要设置它们，否则支票就会被击中。
   settings.SetIntKey(printing::kSettingPrinterType,
                      static_cast<int>(printing::mojom::PrinterType::kLocal));
   settings.SetBoolKey(printing::kSettingShouldPrintSelectionOnly, false);
   settings.SetBoolKey(printing::kSettingRasterizePdf, false);
 
-  // Set custom page ranges to print
+  // 设置要打印的自定义页面范围。
   std::vector<gin_helper::Dictionary> page_ranges;
   if (options.Get("pageRanges", &page_ranges)) {
     base::Value page_range_list(base::Value::Type::LIST);
@@ -2622,7 +2622,7 @@ void WebContents::Print(gin::Arguments* args) {
       int from, to;
       if (range.Get("from", &from) && range.Get("to", &to)) {
         base::Value range(base::Value::Type::DICTIONARY);
-        // Chromium uses 1-based page ranges, so increment each by 1.
+        // Chrome使用以1为基数的页面范围，因此每个页面范围递增1。
         range.SetIntKey(printing::kSettingPageRangeFrom, from + 1);
         range.SetIntKey(printing::kSettingPageRangeTo, to + 1);
         page_range_list.Append(std::move(range));
@@ -2634,20 +2634,20 @@ void WebContents::Print(gin::Arguments* args) {
       settings.SetPath(printing::kSettingPageRange, std::move(page_range_list));
   }
 
-  // Duplex type user wants to use.
+  // 用户要使用的双工类型。
   printing::mojom::DuplexMode duplex_mode =
       printing::mojom::DuplexMode::kSimplex;
   options.Get("duplexMode", &duplex_mode);
   settings.SetIntKey(printing::kSettingDuplexMode,
                      static_cast<int>(duplex_mode));
 
-  // We've already done necessary parameter sanitization at the
-  // JS level, so we can simply pass this through.
+  // 我们已经在。
+  // JS级别，所以我们可以简单地通过它。
   base::Value media_size(base::Value::Type::DICTIONARY);
   if (options.Get("mediaSize", &media_size))
     settings.SetKey(printing::kSettingMediaSize, std::move(media_size));
 
-  // Set custom dots per inch (dpi)
+  // 设置自定义每英寸点数(Dpi)。
   gin_helper::Dictionary dpi_settings;
   int dpi = 72;
   if (options.Get("dpi", &dpi_settings)) {
@@ -2783,8 +2783,8 @@ void WebContents::CopyImageAt(int x, int y) {
 }
 
 void WebContents::Focus() {
-  // Focusing on WebContents does not automatically focus the window on macOS
-  // and Linux, do it manually to match the behavior on Windows.
+  // 聚焦于WebContents不会自动将窗口聚焦在MacOS上。
+  // 和Linux，请手动执行此操作，以与Windows上的行为相匹配。
 #if defined(OS_MAC) || defined(OS_LINUX)
   if (owner_window())
     owner_window()->Focus(true);
@@ -2847,14 +2847,14 @@ void WebContents::SendInputEvent(v8::Isolate* isolate,
             mouse_wheel_event);
 #endif
       } else {
-        // Chromium expects phase info in wheel events (and applies a
-        // DCHECK to verify it). See: https://crbug.com/756524.
+        // 铬需要轮子事件中的阶段信息(并应用。
+        // DCHECK来验证它)。请参阅：https://crbug.com/756524.。
         mouse_wheel_event.phase = blink::WebMouseWheelEvent::kPhaseBegan;
         mouse_wheel_event.dispatch_type =
             blink::WebInputEvent::DispatchType::kBlocking;
         rwh->ForwardWheelEvent(mouse_wheel_event);
 
-        // Send a synthetic wheel event with phaseEnded to finish scrolling.
+        // 发送带有phaseEnded的合成滚轮事件以完成滚动。
         mouse_wheel_event.has_synthetic_phase = true;
         mouse_wheel_event.delta_x = 0;
         mouse_wheel_event.delta_y = 0;
@@ -2915,7 +2915,7 @@ void WebContents::StartDrag(const gin_helper::Dictionary& item,
     return;
   }
 
-  // Start dragging.
+  // 开始拖拽。
   if (!files.empty()) {
     base::CurrentThread::ScopedNestableTaskAllower allow;
     DragFileItems(files, icon->image(), web_contents()->GetNativeView());
@@ -2930,7 +2930,7 @@ v8::Local<v8::Promise> WebContents::CapturePage(gin::Arguments* args) {
   gin_helper::Promise<gfx::Image> promise(args->isolate());
   v8::Local<v8::Promise> handle = promise.GetHandle();
 
-  // get rect arguments if they exist
+  // 获取RECT参数(如果存在)。
   args->GetNext(&rect);
 
   auto* const view = web_contents()->GetRenderWidgetHostView();
@@ -2940,24 +2940,24 @@ v8::Local<v8::Promise> WebContents::CapturePage(gin::Arguments* args) {
   }
 
 #if !defined(OS_MAC)
-  // If the view's renderer is suspended this may fail on Windows/Linux -
-  // bail if so. See CopyFromSurface in
-  // content/public/browser/render_widget_host_view.h.
+  // 如果视图的呈现器挂起，则在Windows/Linux上可能会失败-。
+  // 如果是的话，可以保释。请参见中的CopyFromSurface。
+  // Content/public/browser/render_widget_host_view.h.
   auto* rfh = web_contents()->GetMainFrame();
   if (rfh &&
       rfh->GetVisibilityState() == blink::mojom::PageVisibilityState::kHidden) {
     promise.Resolve(gfx::Image());
     return handle;
   }
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 
-  // Capture full page if user doesn't specify a |rect|.
+  // 如果用户未指定|RECT|，则捕获整个页面。
   const gfx::Size view_size =
       rect.IsEmpty() ? view->GetViewBounds().size() : rect.size();
 
-  // By default, the requested bitmap size is the view size in screen
-  // coordinates.  However, if there's more pixel detail available on the
-  // current system, increase the requested bitmap size to capture it all.
+  // 默认情况下，请求的位图大小为屏幕中的视图大小。
+  // 坐标。但是，如果有更多像素细节可用，
+  // 当前系统，请增加请求的位图大小以捕获所有内容。
   gfx::Size bitmap_size = view_size;
   const gfx::NativeView native_view = view->GetNativeView();
   const float scale = display::Screen::GetScreen()
@@ -2976,11 +2976,11 @@ void WebContents::IncrementCapturerCount(gin::Arguments* args) {
   bool stay_hidden = false;
   bool stay_awake = false;
 
-  // get size arguments if they exist
+  // 获取大小参数(如果存在)。
   args->GetNext(&size);
-  // get stayHidden arguments if they exist
+  // 获取stayHidden参数(如果存在)。
   args->GetNext(&stay_hidden);
-  // get stayAwake arguments if they exist
+  // 获取stayAwake参数(如果存在)。
   args->GetNext(&stay_awake);
 
   ignore_result(
@@ -2991,9 +2991,9 @@ void WebContents::DecrementCapturerCount(gin::Arguments* args) {
   bool stay_hidden = false;
   bool stay_awake = false;
 
-  // get stayHidden arguments if they exist
+  // 获取stayHidden参数(如果存在)。
   args->GetNext(&stay_hidden);
-  // get stayAwake arguments if they exist
+  // 获取stayAwake参数(如果存在)。
   args->GetNext(&stay_awake);
 
   web_contents()->DecrementCapturerCount(stay_hidden, stay_awake);
@@ -3280,9 +3280,9 @@ v8::Local<v8::Promise> WebContents::TakeHeapSnapshot(
     return handle;
   }
 
-  // This dance with `base::Owned` is to ensure that the interface stays alive
-  // until the callback is called. Otherwise it would be closed at the end of
-  // this function.
+  // 这个与`base：：owned`的舞蹈是为了确保接口保持活动状态。
+  // 直到调用回调。否则，它将在。
+  // 此函数。
   auto electron_renderer =
       std::make_unique<mojo::Remote<mojom::ElectronRenderer>>();
   frame_host->GetRemoteInterfaces()->GetInterface(
@@ -3385,9 +3385,9 @@ blink::SecurityStyle WebContents::GetSecurityStyle(
 
 bool WebContents::TakeFocus(content::WebContents* source, bool reverse) {
   if (source && source->GetOutermostWebContents() == source) {
-    // If this is the outermost web contents and the user has tabbed or
-    // shift + tabbed through all the elements, reset the focus back to
-    // the first or last element so that it doesn't stay in the body.
+    // 如果这是最外层的Web内容，并且用户已标记或。
+    // 按住Shift+Tab键在所有元素之间切换，将焦点重置回。
+    // 第一个或最后一个元素，这样它就不会留在身体里。
     source->FocusThroughTabTraversal(reverse);
     return true;
   }
@@ -3435,7 +3435,7 @@ void WebContents::DevToolsSaveToFile(const std::string& url,
   }
 
   saved_files_[url] = path;
-  // Notify DevTools.
+  // 通知DevTools。
   base::Value url_value(url);
   base::Value file_system_path_value(path.AsUTF8Unsafe());
   inspectable_web_contents_->CallClientFunction(
@@ -3450,7 +3450,7 @@ void WebContents::DevToolsAppendToFile(const std::string& url,
   if (it == saved_files_.end())
     return;
 
-  // Notify DevTools.
+  // 通知DevTools。
   base::Value url_value(url);
   inspectable_web_contents_->CallClientFunction("DevToolsAPI.appendedToURL",
                                                 &url_value, nullptr, nullptr);
@@ -3684,20 +3684,20 @@ void WebContents::OnDevToolsSearchCompleted(
 }
 
 void WebContents::SetHtmlApiFullscreen(bool enter_fullscreen) {
-  // Window is already in fullscreen mode, save the state.
+  // 窗口已处于全屏模式，请保存状态。
   if (enter_fullscreen && owner_window_->IsFullscreen()) {
     native_fullscreen_ = true;
     UpdateHtmlApiFullscreen(true);
     return;
   }
 
-  // Exit html fullscreen state but not window's fullscreen mode.
+  // 退出html全屏状态，但不退出Windows的全屏模式。
   if (!enter_fullscreen && native_fullscreen_) {
     UpdateHtmlApiFullscreen(false);
     return;
   }
 
-  // Set fullscreen on window if allowed.
+  // 如果允许，在窗口上设置全屏。
   auto* web_preferences = WebContentsPreferences::From(GetWebContents());
   bool html_fullscreenable =
       web_preferences
@@ -3718,14 +3718,14 @@ void WebContents::UpdateHtmlApiFullscreen(bool fullscreen) {
 
   html_fullscreen_ = fullscreen;
 
-  // Notify renderer of the html fullscreen change.
+  // 通知呈现器HTML全屏更改。
   web_contents()
       ->GetRenderViewHost()
       ->GetWidget()
       ->SynchronizeVisualProperties();
 
-  // The embedder WebContents is separated from the frame tree of webview, so
-  // we must manually sync their fullscreen states.
+  // 嵌入器WebContents与WebView的框架树分离，因此。
+  // 我们必须手动同步他们的全屏状态。
   if (embedder_)
     embedder_->SetHtmlApiFullscreen(fullscreen);
 
@@ -3737,7 +3737,7 @@ void WebContents::UpdateHtmlApiFullscreen(bool fullscreen) {
     owner_window_->NotifyWindowLeaveHtmlFullScreen();
   }
 
-  // Make sure all child webviews quit html fullscreen.
+  // 确保所有子级网页浏览量退出html全屏。
   if (!fullscreen && !IsGuest()) {
     auto* manager = WebViewManager::GetWebViewManager(web_contents());
     manager->ForEachGuest(
@@ -3749,7 +3749,7 @@ void WebContents::UpdateHtmlApiFullscreen(bool fullscreen) {
   }
 }
 
-// static
+// 静电。
 v8::Local<v8::ObjectTemplate> WebContents::FillObjectTemplate(
     v8::Isolate* isolate,
     v8::Local<v8::ObjectTemplate> templ) {
@@ -3761,9 +3761,9 @@ v8::Local<v8::ObjectTemplate> WebContents::FillObjectTemplate(
       gin::CreateFunctionTemplate(
           isolate, base::BindRepeating(&gin_helper::Destroyable::IsDestroyed),
           options));
-  // We use gin_helper::ObjectTemplateBuilder instead of
-  // gin::ObjectTemplateBuilder here to handle the fact that WebContents is
-  // destroyable.
+  // 我们使用gin_helper：：ObjectTemplateBuilder代替。
+  // GIN：：ObjectTemplateBuilder在这里处理WebContents是。
+  // 可摧毁的。
   return gin_helper::ObjectTemplateBuilder(isolate, templ)
       .SetMethod("destroy", &WebContents::Destroy)
       .SetMethod("getBackgroundThrottling",
@@ -3899,7 +3899,7 @@ ElectronBrowserContext* WebContents::GetBrowserContext() const {
       web_contents()->GetBrowserContext());
 }
 
-// static
+// 静电。
 gin::Handle<WebContents> WebContents::New(
     v8::Isolate* isolate,
     const gin_helper::Dictionary& options) {
@@ -3913,7 +3913,7 @@ gin::Handle<WebContents> WebContents::New(
   return handle;
 }
 
-// static
+// 静电。
 gin::Handle<WebContents> WebContents::CreateAndTake(
     v8::Isolate* isolate,
     std::unique_ptr<content::WebContents> web_contents,
@@ -3928,7 +3928,7 @@ gin::Handle<WebContents> WebContents::CreateAndTake(
   return handle;
 }
 
-// static
+// 静电。
 WebContents* WebContents::From(content::WebContents* web_contents) {
   if (!web_contents)
     return nullptr;
@@ -3937,7 +3937,7 @@ WebContents* WebContents::From(content::WebContents* web_contents) {
   return data ? data->web_contents.get() : nullptr;
 }
 
-// static
+// 静电。
 gin::Handle<WebContents> WebContents::FromOrCreate(
     v8::Isolate* isolate,
     content::WebContents* web_contents) {
@@ -3953,17 +3953,17 @@ gin::Handle<WebContents> WebContents::FromOrCreate(
   return gin::CreateHandle(isolate, api_web_contents);
 }
 
-// static
+// 静电。
 gin::Handle<WebContents> WebContents::CreateFromWebPreferences(
     v8::Isolate* isolate,
     const gin_helper::Dictionary& web_preferences) {
-  // Check if webPreferences has |webContents| option.
+  // 检查webPreferences是否具有|webContents|选项。
   gin::Handle<WebContents> web_contents;
   if (web_preferences.GetHidden("webContents", &web_contents) &&
       !web_contents.IsEmpty()) {
-    // Set webPreferences from options if using an existing webContents.
-    // These preferences will be used when the webContent launches new
-    // render processes.
+    // 如果使用现有的webContents，请从选项设置webPreferences。
+    // 这些首选项将在Web内容启动新内容时使用。
+    // 渲染进程。
     auto* existing_preferences =
         WebContentsPreferences::From(web_contents->web_contents());
     gin_helper::Dictionary web_preferences_dict;
@@ -3978,24 +3978,24 @@ gin::Handle<WebContents> WebContents::CreateFromWebPreferences(
         rwhv->SetBackgroundColor(color.value_or(SK_ColorWHITE));
     }
   } else {
-    // Create one if not.
+    // 如果没有，就创建一个。
     web_contents = WebContents::New(isolate, web_preferences);
   }
 
   return web_contents;
 }
 
-// static
+// 静电
 WebContents* WebContents::FromID(int32_t id) {
   return GetAllWebContents().Lookup(id);
 }
 
-// static
+// 静电。
 gin::WrapperInfo WebContents::kWrapperInfo = {gin::kEmbedderNativeGin};
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -4040,6 +4040,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("getAllWebContents", &GetAllWebContentsAsV8);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_web_contents, Initialize)

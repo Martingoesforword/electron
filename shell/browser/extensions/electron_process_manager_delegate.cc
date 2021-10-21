@@ -1,6 +1,6 @@
-// Copyright 2019 Slack Technologies, Inc. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2019 Slake Technologies，Inc.保留所有权利。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 #include "base/debug/stack_trace.h"
 
 #include "shell/browser/extensions/electron_process_manager_delegate.h"
@@ -37,4 +37,4 @@ bool ElectronProcessManagerDelegate::DeferCreatingStartupBackgroundHosts(
   return false;
 }
 
-}  // namespace extensions
+}  // 命名空间扩展

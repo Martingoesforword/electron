@@ -1,6 +1,6 @@
-// Copyright (c) 2016 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/views/win_caption_button.h"
 
@@ -29,22 +29,22 @@ WinCaptionButton::WinCaptionButton(PressedCallback callback,
       frame_view_(frame_view),
       button_type_(button_type) {
   SetAnimateOnStateChange(true);
-  // Not focusable by default, only for accessibility.
+  // 默认情况下不可聚焦，仅用于辅助功能。
   SetFocusBehavior(FocusBehavior::ACCESSIBLE_ONLY);
   SetAccessibleName(accessible_name);
 }
 
 gfx::Size WinCaptionButton::CalculatePreferredSize() const {
-  // TODO(bsep): The sizes in this function are for 1x device scale and don't
-  // match Windows button sizes at hidpi.
+  // TODO(Bsep)：此函数中的大小适用于1X设备比例，不。
+  // 匹配HiDPI上的Windows按钮大小。
   int height = WindowFrameUtil::kWindows10GlassCaptionButtonHeightRestored;
   int base_width = WindowFrameUtil::kWindows10GlassCaptionButtonWidth;
   return gfx::Size(base_width + GetBetweenButtonSpacing(), height);
 }
 
 void WinCaptionButton::OnPaintBackground(gfx::Canvas* canvas) {
-  // Paint the background of the button (the semi-transparent rectangle that
-  // appears when you hover or press the button).
+  // 绘制按钮的背景(该按钮的半透明矩形。
+  // 在您悬停或按下按钮时出现)。
 
   const SkColor bg_color = frame_view_->window()->overlay_button_color();
   const SkAlpha theme_alpha = SkColorGetA(bg_color);
@@ -61,14 +61,14 @@ void WinCaptionButton::OnPaintBackground(gfx::Canvas* canvas) {
     hovered_alpha = SK_AlphaOPAQUE;
     pressed_alpha = 0x98;
   } else {
-    // Match the native buttons.
+    // 匹配本地按钮。
     base_color = frame_view_->GetReadableFeatureColor(bg_color);
     hovered_alpha = 0x1A;
     pressed_alpha = 0x33;
 
     if (theme_alpha > 0) {
-      // Theme buttons have slightly increased opacity to make them stand out
-      // against a visually-busy frame image.
+      // 主题按钮略微增加了不透明度以使其突出。
+      // 与视觉繁忙的框架图像形成对比。
       constexpr float kAlphaScale = 1.3f;
       hovered_alpha = base::ClampRound<SkAlpha>(hovered_alpha * kAlphaScale);
       pressed_alpha = base::ClampRound<SkAlpha>(pressed_alpha * kAlphaScale);
@@ -113,7 +113,7 @@ int WinCaptionButton::GetButtonDisplayOrderIndex() const {
       return 0;
   }
 
-  // Reverse the ordering if we're in RTL mode
+  // 如果我们处于RTL模式，则颠倒顺序。
   if (base::i18n::IsRTL())
     button_display_order = 2 - button_display_order;
 
@@ -122,8 +122,8 @@ int WinCaptionButton::GetButtonDisplayOrderIndex() const {
 
 namespace {
 
-// Canvas::DrawRect's stroke can bleed out of |rect|'s bounds, so this draws a
-// rectangle inset such that the result is constrained to |rect|'s size.
+// Canvas：：DrawRect的笔划可能超出|RECT|的界限，因此这将绘制一个。
+// 矩形插入，以便将结果限制为|Rect|的大小。
 void DrawRect(gfx::Canvas* canvas,
               const gfx::Rect& rect,
               const cc::PaintFlags& flags) {
@@ -133,7 +133,7 @@ void DrawRect(gfx::Canvas* canvas,
   canvas->DrawRect(rect_f, flags);
 }
 
-}  // namespace
+}  // 命名空间。
 
 void WinCaptionButton::PaintSymbol(gfx::Canvas* canvas) {
   SkColor symbol_color = frame_view_->window()->overlay_symbol_color();
@@ -161,7 +161,7 @@ void WinCaptionButton::PaintSymbol(gfx::Canvas* canvas) {
   flags.setAntiAlias(false);
   flags.setColor(symbol_color);
   flags.setStyle(cc::PaintFlags::kStroke_Style);
-  // Stroke width jumps up a pixel every time we reach a new integral scale.
+  // 每当我们达到一个新的积分比例时，笔划宽度就会上升一个像素。
   const int stroke_width = std::floor(scale);
   flags.setStrokeWidth(stroke_width);
 
@@ -179,12 +179,12 @@ void WinCaptionButton::PaintSymbol(gfx::Canvas* canvas) {
       return;
 
     case VIEW_ID_RESTORE_BUTTON: {
-      // Bottom left ("in front") square.
+      // 左下角(“前面”)方块。
       const int separation = std::floor(2 * scale);
       symbol_rect.Inset(0, separation, separation, 0);
       DrawRect(canvas, symbol_rect, flags);
 
-      // Top right ("behind") square.
+      // 右上角(“后面”)方块。
       canvas->ClipRect(symbol_rect, SkClipOp::kDifference);
       symbol_rect.Offset(separation, -separation);
       DrawRect(canvas, symbol_rect, flags);
@@ -193,15 +193,15 @@ void WinCaptionButton::PaintSymbol(gfx::Canvas* canvas) {
 
     case VIEW_ID_CLOSE_BUTTON: {
       flags.setAntiAlias(true);
-      // The close button's X is surrounded by a "halo" of transparent pixels.
-      // When the X is white, the transparent pixels need to be a bit brighter
-      // to be visible.
+      // 关闭按钮的X被透明像素的“光环”包围。
+      // 当X为白色时，透明像素需要更亮一点。
+      // 才能看得见。
       const float stroke_halo =
           stroke_width * (symbol_color == SK_ColorWHITE ? 0.1f : 0.05f);
       flags.setStrokeWidth(stroke_width + stroke_halo);
 
-      // TODO(bsep): This sometimes draws misaligned at fractional device scales
-      // because the button's origin isn't necessarily aligned to pixels.
+      // TODO(Bsep)：这有时会以小数位数设备比例绘制未对齐的图形。
+      // 因为按钮的原点不一定与像素对齐。
       canvas->ClipRect(symbol_rect);
       SkPath path;
       path.moveTo(symbol_rect.x(), symbol_rect.y());
@@ -217,4 +217,4 @@ void WinCaptionButton::PaintSymbol(gfx::Canvas* canvas) {
       return;
   }
 }
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/ui/views/electron_views_delegate.h"
 
@@ -26,7 +26,7 @@ bool IsDesktopEnvironmentUnity() {
 }
 #endif
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -71,8 +71,8 @@ void ViewsDelegate::ReleaseRef() {}
 void ViewsDelegate::OnBeforeWidgetInit(
     views::Widget::InitParams* params,
     views::internal::NativeWidgetDelegate* delegate) {
-  // If we already have a native_widget, we don't have to try to come
-  // up with one.
+  // 如果我们已经有了Native_Widget，我们就不必尝试来了。
+  // 加一个。
   if (params->native_widget)
     return;
 
@@ -86,8 +86,8 @@ void ViewsDelegate::OnBeforeWidgetInit(
 
 bool ViewsDelegate::WindowManagerProvidesTitleBar(bool maximized) {
 #if defined(OS_LINUX)
-  // On Ubuntu Unity, the system always provides a title bar for maximized
-  // windows.
+  // 在Ubuntu Unity上，系统总是提供最大化的标题栏。
+  // 窗户。
   if (!maximized)
     return false;
   static bool is_desktop_environment_unity = IsDesktopEnvironmentUnity();
@@ -97,4 +97,4 @@ bool ViewsDelegate::WindowManagerProvidesTitleBar(bool maximized) {
 #endif
 }
 
-}  // namespace electron
+}  // 命名空间电子

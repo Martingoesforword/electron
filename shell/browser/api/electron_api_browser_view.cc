@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_browser_view.h"
 
@@ -53,7 +53,7 @@ struct Converter<electron::AutoResizeFlags> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace {
 
@@ -62,7 +62,7 @@ int32_t GetNextId() {
   return next_id++;
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -81,8 +81,8 @@ BrowserView::BrowserView(gin::Arguments* args,
 
   v8::Local<v8::Value> value;
 
-  // Copy the webContents option to webPreferences. This is only used internally
-  // to implement nativeWindowOpen option.
+  // 将webContents选项复制到webPreferences。这仅供内部使用。
+  // 若要实现nativeWindowOpen选项，请执行以下操作。
   if (options.Get("webContents", &value)) {
     web_preferences.SetHidden("webContents", value);
   }
@@ -100,7 +100,7 @@ BrowserView::BrowserView(gin::Arguments* args,
 }
 
 BrowserView::~BrowserView() {
-  if (api_web_contents_) {  // destroy() called without closing WebContents
+  if (api_web_contents_) {  // 在未关闭WebContents的情况下调用了Destroy()。
     api_web_contents_->RemoveObserver(this);
     api_web_contents_->Destroy();
   }
@@ -117,7 +117,7 @@ void BrowserView::OnDraggableRegionsUpdated(
   view_->UpdateDraggableRegions(regions);
 }
 
-// static
+// 静电。
 gin::Handle<BrowserView> BrowserView::New(gin_helper::ErrorThrower thrower,
                                           gin::Arguments* args) {
   if (!Browser::Get()->is_ready()) {
@@ -158,7 +158,7 @@ v8::Local<v8::Value> BrowserView::GetWebContents(v8::Isolate* isolate) {
   return v8::Local<v8::Value>::New(isolate, web_contents_);
 }
 
-// static
+// 静电。
 v8::Local<v8::ObjectTemplate> BrowserView::FillObjectTemplate(
     v8::Isolate* isolate,
     v8::Local<v8::ObjectTemplate> templ) {
@@ -171,9 +171,9 @@ v8::Local<v8::ObjectTemplate> BrowserView::FillObjectTemplate(
       .Build();
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -189,6 +189,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("BrowserView", BrowserView::GetConstructor(context));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_browser_view, Initialize)

@@ -1,17 +1,17 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/browser.h"
 
-// must come before other includes. fixes bad #defines from <shlwapi.h>.
-#include "base/win/shlwapi.h"  // NOLINT(build/include_order)
+// 必须在其他包含之前。修复了&lt;shlwapi.h&gt;中错误的#定义。
+#include "base/win/shlwapi.h"  // NOLINT(BUILD/INCLUDE_ORDER)。
 
-#include <windows.h>  // NOLINT(build/include_order)
+#include <windows.h>  // NOLINT(BUILD/INCLUDE_ORDER)。
 
-#include <atlbase.h>   // NOLINT(build/include_order)
-#include <shlobj.h>    // NOLINT(build/include_order)
-#include <shobjidl.h>  // NOLINT(build/include_order)
+#include <atlbase.h>   // NOLINT(BUILD/INCLUDE_ORDER)。
+#include <shlobj.h>    // NOLINT(BUILD/INCLUDE_ORDER)。
+#include <shobjidl.h>  // NOLINT(BUILD/INCLUDE_ORDER)。
 
 #include "base/base_paths.h"
 #include "base/file_version_info.h"
@@ -63,19 +63,19 @@ bool GetProtocolLaunchPath(gin::Arguments* args, std::wstring* exe) {
     return false;
   }
 
-  // Read in optional args arg
+  // 读入可选参数Arg。
   std::vector<std::wstring> launch_args;
   if (args->GetNext(&launch_args) && !launch_args.empty())
-    *exe = base::StringPrintf(L"\"%ls\" %ls \"%%1\"", exe->c_str(),
+    *exe = base::StringPrintf(L"\"%ls\" %ls \"%1\"", exe->c_str(),
                               base::JoinString(launch_args, L" ").c_str());
   else
-    *exe = base::StringPrintf(L"\"%ls\" \"%%1\"", exe->c_str());
+    *exe = base::StringPrintf(L"\"%ls\" \"%1\"", exe->c_str());
   return true;
 }
 
-// Windows treats a given scheme as an Internet scheme only if its registry
-// entry has a "URL Protocol" key. Check this, otherwise we allow ProgIDs to be
-// used as custom protocols which leads to security bugs.
+// Windows仅当给定方案的注册表为Internet方案时才将其视为Internet方案。
+// 条目有一个“URL协议”键。选中此选项，否则我们允许ProgID。
+// 用作自定义协议，这会导致安全错误。
 bool IsValidCustomProtocol(const std::wstring& scheme) {
   if (scheme.empty())
     return false;
@@ -83,14 +83,14 @@ bool IsValidCustomProtocol(const std::wstring& scheme) {
   return cmd_key.Valid() && cmd_key.HasValue(L"URL Protocol");
 }
 
-// Helper for GetApplicationInfoForProtocol().
-// takes in an assoc_str
-// (https://docs.microsoft.com/en-us/windows/win32/api/shlwapi/ne-shlwapi-assocstr)
-// and returns the application name, icon and path that handles the protocol.
-//
-// Windows 8 introduced a new protocol->executable binding system which cannot
-// be retrieved in the HKCR registry subkey method implemented below. We call
-// AssocQueryString with the new Win8-only flag ASSOCF_IS_PROTOCOL instead.
+// GetApplicationInfoForProtocol()的帮助器。
+// 接受assoc_str。
+// (https://docs.microsoft.com/en-us/windows/win32/api/shlwapi/ne-shlwapi-assocstr)。
+// 并返回处理该协议的应用程序名称、图标和路径。
+// 
+// Windows8引入了一个新的协议-&gt;可执行绑定系统，它不能。
+// 在下面实现的HKCR注册表子项方法中检索。我们打电话给。
+// 而是使用新的仅限Win8的标志ASSOCF_IS_PROTOCOL代替AssocQueryString。
 std::wstring GetAppInfoHelperForProtocol(ASSOCSTR assoc_str, const GURL& url) {
   const std::wstring url_scheme = base::ASCIIToWide(url.scheme());
   if (!IsValidCustomProtocol(url_scheme))
@@ -139,7 +139,7 @@ std::wstring GetAppForProtocolUsingRegistry(const GURL& url) {
   if (!IsValidCustomProtocol(url_scheme))
     return std::wstring();
 
-  // First, try and extract the application's display name.
+  // 首先，尝试提取应用程序的显示名称。
   std::wstring command_to_launch;
   base::win::RegKey cmd_key_name(HKEY_CLASSES_ROOT, url_scheme.c_str(),
                                  KEY_READ);
@@ -148,8 +148,8 @@ std::wstring GetAppForProtocolUsingRegistry(const GURL& url) {
     return command_to_launch;
   }
 
-  // Otherwise, parse the command line in the registry, and return the basename
-  // of the program path if it exists.
+  // 否则，解析注册表中的命令行，并返回基本名称。
+  // 程序路径(如果存在)的。
   const std::wstring cmd_key_path = url_scheme + L"\\shell\\open\\command";
   base::win::RegKey cmd_key_exe(HKEY_CLASSES_ROOT, cmd_key_path.c_str(),
                                 KEY_READ);
@@ -177,11 +177,11 @@ bool FormatCommandLineString(std::wstring* exe,
   return true;
 }
 
-// Helper for GetLoginItemSettings().
-// iterates over all the entries in a windows registry path and returns
-// a list of launchItem with matching paths to our application.
-// if a launchItem with a matching path also has a matching entry within the
-// startup_approved_key_path, set executable_will_launch_at_login to be `true`
+// GetLoginItemSettings()的帮助器。
+// 循环访问windows注册表路径中的所有条目并返回。
+// 一个LaunchItem列表，其中包含指向我们的应用程序的匹配路径。
+// 如果具有匹配路径的LaunchItem在。
+// STARTUP_APPREED_KEY_PATH，将EXECUTABLE_Will_Launch_at_login设置为`true`。
 std::vector<Browser::LaunchItem> GetLoginItemSettingsHelper(
     base::win::RegistryValueIterator* it,
     boolean* executable_will_launch_at_login,
@@ -209,7 +209,7 @@ std::vector<Browser::LaunchItem> GetLoginItemSettingsHelper(
       bool exe_match = base::FilePath::CompareEqualIgnoreCase(
           lookup_exe_path.value(), registry_launch_path.value());
 
-      // add launch item to vector if it has a matching path (case-insensitive)
+      // 如果向量有匹配路径，则将启动项添加到向量(不区分大小写)。
       if (exe_match) {
         Browser::LaunchItem launch_item;
         launch_item.name = it->Name();
@@ -218,10 +218,10 @@ std::vector<Browser::LaunchItem> GetLoginItemSettingsHelper(
         launch_item.scope = scope;
         launch_item.enabled = true;
 
-        // attempt to update launch_item.enabled if there is a matching key
-        // value entry in the StartupApproved registry
+        // 如果存在匹配的密钥，请尝试更新Launch_item.Enabled。
+        // StartupApproven注册表中的值条目。
         HKEY hkey;
-        // StartupApproved registry path
+        // StartupApproven注册表路径。
         LPCTSTR path = TEXT(
             "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApp"
             "roved\\Run");
@@ -242,8 +242,8 @@ std::vector<Browser::LaunchItem> GetLoginItemSettingsHelper(
                               &(size = sizeof(startup_binary)));
           if (result == ERROR_SUCCESS) {
             if (type == REG_BINARY) {
-              // any other binary other than this indicates that the program is
-              // not set to launch at login
+              // 除此以外的任何其他二进制文件都表示该程序是。
+              // 未设置为登录时启动。
               wchar_t binary_accepted[12] = {0x00, 0x00, 0x00, 0x00,
                                              0x00, 0x00, 0x00, 0x00,
                                              0x00, 0x00, 0x00, 0x00};
@@ -281,7 +281,7 @@ std::unique_ptr<FileVersionInfo> FetchFileVersionInfo() {
   return std::unique_ptr<FileVersionInfo>();
 }
 
-}  // namespace
+}  // 命名空间。
 
 Browser::UserTask::UserTask() = default;
 Browser::UserTask::UserTask(const UserTask&) = default;
@@ -348,10 +348,10 @@ void GetApplicationInfoForProtocolUsingRegistry(
               std::move(promise));
 }
 
-// resolves `Promise<Object>` - Resolve with an object containing the following:
-// * `icon` NativeImage - the display icon of the app handling the protocol.
-// * `path` String  - installation path of the app handling the protocol.
-// * `name` String - display name of the app handling the protocol.
+// 解析`Promise&lt;object&gt;`-解析包含以下内容的对象：
+// *`icon`NativeImage-处理协议的应用的显示图标。
+// *`path`String-处理该协议的APP的安装路径。
+// *`name`String-处理协议的应用的显示名称。
 void GetApplicationInfoForProtocolUsingAssocQuery(
     v8::Isolate* isolate,
     const GURL& url,
@@ -427,11 +427,11 @@ bool Browser::RemoveAsDefaultProtocolClient(const std::string& protocol,
   if (protocol.empty())
     return false;
 
-  // Main Registry Key
+  // 主注册表项。
   HKEY root = HKEY_CURRENT_USER;
   std::wstring keyPath = L"Software\\Classes\\";
 
-  // Command Key
+  // 命令键。
   std::wstring wprotocol = base::UTF8ToWide(protocol);
   std::wstring shellPath = wprotocol + L"\\shell";
   std::wstring cmdPath = keyPath + shellPath + L"\\open\\command";
@@ -440,17 +440,17 @@ bool Browser::RemoveAsDefaultProtocolClient(const std::string& protocol,
   base::win::RegKey commandKey;
 
   if (FAILED(classesKey.Open(root, keyPath.c_str(), KEY_ALL_ACCESS)))
-    // Classes key doesn't exist, that's concerning, but I guess
-    // we're not the default handler
+    // 类密钥不存在，这很令人担忧，但我想。
+    // 我们不是默认处理程序。
     return true;
 
   if (FAILED(commandKey.Open(root, cmdPath.c_str(), KEY_ALL_ACCESS)))
-    // Key doesn't even exist, we can confirm that it is not set
+    // 密钥甚至不存在，我们可以确认它没有设置。
     return true;
 
   std::wstring keyVal;
   if (FAILED(commandKey.ReadValue(L"", &keyVal)))
-    // Default value not set, we can confirm that it is not set
+    // 未设置默认值，我们可以确认该值未设置。
     return true;
 
   std::wstring exe;
@@ -458,11 +458,11 @@ bool Browser::RemoveAsDefaultProtocolClient(const std::string& protocol,
     return false;
 
   if (keyVal == exe) {
-    // Let's kill the key
+    // 让我们杀了这把钥匙
     if (FAILED(classesKey.DeleteKey(shellPath.c_str())))
       return false;
 
-    // Let's clean up after ourselves
+    // 让我们自己清理一下吧。
     base::win::RegKey protocolKey;
     std::wstring protocolPath = keyPath + wprotocol;
 
@@ -470,12 +470,12 @@ bool Browser::RemoveAsDefaultProtocolClient(const std::string& protocol,
             protocolKey.Open(root, protocolPath.c_str(), KEY_ALL_ACCESS))) {
       protocolKey.DeleteValue(L"URL Protocol");
 
-      // Overwrite the default value to be empty, we can't delete it right away
+      // 将默认值覆盖为空，我们不能立即将其删除。
       protocolKey.WriteValue(L"", L"");
       protocolKey.DeleteValue(L"");
     }
 
-    // If now empty, delete the whole key
+    // 如果现在为空，请删除整个密钥。
     classesKey.DeleteEmptyKey(wprotocol.c_str());
 
     return true;
@@ -486,19 +486,19 @@ bool Browser::RemoveAsDefaultProtocolClient(const std::string& protocol,
 
 bool Browser::SetAsDefaultProtocolClient(const std::string& protocol,
                                          gin::Arguments* args) {
-  // HKEY_CLASSES_ROOT
-  //    $PROTOCOL
-  //       (Default) = "URL:$NAME"
-  //       URL Protocol = ""
-  //       shell
-  //          open
-  //             command
-  //                (Default) = "$COMMAND" "%1"
-  //
-  // However, the "HKEY_CLASSES_ROOT" key can only be written by the
-  // Administrator user. So, we instead write to "HKEY_CURRENT_USER\
-  // Software\Classes", which is inherited by "HKEY_CLASSES_ROOT"
-  // anyway, and can be written by unprivileged users.
+  // HKEY_CLASSES_ROOT。
+  // $协议。
+  // (默认)=“URL：$name”
+  // URL协议=“”
+  // 壳。
+  // 打开。
+  // 命令。
+  // (默认)=“$COMMAND”“%1”
+  // 
+  // 但是，“HKEY_CLASSES_ROOT”键只能由。
+  // 管理员用户。因此，我们改为写入“HKEY_CURRENT_USER\。
+  // SOFTWARE\CLASSES“，由”HKEY_CLASSES_ROOT“继承。
+  // 无论如何，都可以由非特权用户写入。
 
   if (protocol.empty())
     return false;
@@ -507,15 +507,15 @@ bool Browser::SetAsDefaultProtocolClient(const std::string& protocol,
   if (!GetProtocolLaunchPath(args, &exe))
     return false;
 
-  // Main Registry Key
+  // 主注册表项。
   HKEY root = HKEY_CURRENT_USER;
   std::wstring keyPath = base::UTF8ToWide("Software\\Classes\\" + protocol);
   std::wstring urlDecl = base::UTF8ToWide("URL:" + protocol);
 
-  // Command Key
+  // 命令键。
   std::wstring cmdPath = keyPath + L"\\shell\\open\\command";
 
-  // Write information to registry
+  // 将信息写入注册表。
   base::win::RegKey key(root, keyPath.c_str(), KEY_ALL_ACCESS);
   if (FAILED(key.WriteValue(L"URL Protocol", L"")) ||
       FAILED(key.WriteValue(L"", urlDecl.c_str())))
@@ -537,34 +537,34 @@ bool Browser::IsDefaultProtocolClient(const std::string& protocol,
   if (!GetProtocolLaunchPath(args, &exe))
     return false;
 
-  // Main Registry Key
+  // 主注册表项。
   HKEY root = HKEY_CURRENT_USER;
   std::wstring keyPath = base::UTF8ToWide("Software\\Classes\\" + protocol);
 
-  // Command Key
+  // 命令键。
   std::wstring cmdPath = keyPath + L"\\shell\\open\\command";
 
   base::win::RegKey key;
   base::win::RegKey commandKey;
   if (FAILED(key.Open(root, keyPath.c_str(), KEY_ALL_ACCESS)))
-    // Key doesn't exist, we can confirm that it is not set
+    // 密钥不存在，我们可以确认没有设置。
     return false;
 
   if (FAILED(commandKey.Open(root, cmdPath.c_str(), KEY_ALL_ACCESS)))
-    // Key doesn't exist, we can confirm that it is not set
+    // 密钥不存在，我们可以确认没有设置。
     return false;
 
   std::wstring keyVal;
   if (FAILED(commandKey.ReadValue(L"", &keyVal)))
-    // Default value not set, we can confirm that it is not set
+    // 未设置默认值，我们可以确认该值未设置。
     return false;
 
-  // Default value is the same as current file path
+  // 默认值与当前文件路径相同。
   return keyVal == exe;
 }
 
 std::u16string Browser::GetApplicationNameForProtocol(const GURL& url) {
-  // Windows 8 or above has a new protocol association query.
+  // Windows 8或更高版本有一个新的协议关联查询。
   if (base::win::GetVersion() >= base::win::Version::WIN8) {
     std::wstring application_name = GetAppDisplayNameForProtocol(url);
     if (!application_name.empty())
@@ -580,7 +580,7 @@ v8::Local<v8::Promise> Browser::GetApplicationInfoForProtocol(
   gin_helper::Promise<gin_helper::Dictionary> promise(isolate);
   v8::Local<v8::Promise> handle = promise.GetHandle();
 
-  // Windows 8 or above has a new protocol association query.
+  // Windows 8或更高版本有一个新的协议关联查询。
   if (base::win::GetVersion() >= base::win::Version::WIN8) {
     GetApplicationInfoForProtocolUsingAssocQuery(
         isolate, url, std::move(promise), &cancelable_task_tracker_);
@@ -600,34 +600,34 @@ bool Browser::SetBadgeCount(absl::optional<int> count) {
     badge_content = badging::BadgeManager::GetBadgeString(count);
   }
 
-  // There are 3 different cases when the badge has a value:
-  // 1. |contents| is between 1 and 99 inclusive => Set the accessibility text
-  //    to a pluralized notification count (e.g. 4 Unread Notifications).
-  // 2. |contents| is greater than 99 => Set the accessibility text to
-  //    More than |kMaxBadgeContent| unread notifications, so the
-  //    accessibility text matches what is displayed on the badge (e.g. More
-  //    than 99 notifications).
-  // 3. The badge is set to 'flag' => Set the accessibility text to something
-  //    less specific (e.g. Unread Notifications).
+  // 当徽章具有值时，有3种不同的情况：
+  // 1.|内容|介于1和99之间=&gt;设置辅助功能文本。
+  // 到多元通知计数(例如，4个未读通知)。
+  // 2.|内容|大于99=&gt;将辅助功能文本设置为。
+  // 多于|kMaxBadgeContent|未读通知，因此。
+  // 辅助功能文本与徽章上显示的内容相匹配(例如更多。
+  // 多于99个通知)。
+  // 3.徽章设置为‘flag’=&gt;将辅助功能文本设置为。
+  // 不太具体(例如，未读通知)。
   std::string badge_alt_string;
   if (count.has_value()) {
     badge_count_ = count.value();
     badge_alt_string = (uint64_t)badge_count_ <= badging::kMaxBadgeContent
-                           // Case 1.
+                           // 案例1。
                            ? l10n_util::GetPluralStringFUTF8(
                                  IDS_BADGE_UNREAD_NOTIFICATIONS, badge_count_)
-                           // Case 2.
+                           // 案例2。
                            : l10n_util::GetPluralStringFUTF8(
                                  IDS_BADGE_UNREAD_NOTIFICATIONS_SATURATED,
                                  badging::kMaxBadgeContent);
   } else {
-    // Case 3.
+    // 案例3。
     badge_alt_string =
         l10n_util::GetStringUTF8(IDS_BADGE_UNREAD_NOTIFICATIONS_UNSPECIFIED);
     badge_count_ = 0;
   }
   for (auto* window : WindowList::GetWindows()) {
-    // On Windows set the badge on the first window found.
+    // 在Windows上，在找到的第一个窗口上设置徽章。
     UpdateBadgeContents(window->GetAcceleratedWidget(), badge_content,
                         badge_alt_string);
   }
@@ -642,17 +642,17 @@ void Browser::UpdateBadgeContents(
   if (badge_content) {
     std::string content = badge_content.value();
     constexpr int kOverlayIconSize = 16;
-    // This is the color used by the Windows 10 Badge API, for platform
-    // consistency.
+    // 这是Windows 10平台工卡API使用的颜色。
+    // 一致性。
     constexpr int kBackgroundColor = SkColorSetRGB(0x26, 0x25, 0x2D);
     constexpr int kForegroundColor = SK_ColorWHITE;
     constexpr int kRadius = kOverlayIconSize / 2;
-    // The minimum gap to have between our content and the edge of the badge.
+    // 我们的内容和徽章边缘之间的最小差距。
     constexpr int kMinMargin = 3;
-    // The amount of space we have to render the icon.
+    // 渲染图标所需的空间量。
     constexpr int kMaxBounds = kOverlayIconSize - 2 * kMinMargin;
-    constexpr int kMaxTextSize = 24;  // Max size for our text.
-    constexpr int kMinTextSize = 7;   // Min size for our text.
+    constexpr int kMaxTextSize = 24;  // 文本的最大大小。
+    constexpr int kMinTextSize = 7;   // 文本的最小尺寸。
 
     badge.allocN32Pixels(kOverlayIconSize, kOverlayIconSize);
     SkCanvas canvas(badge, skia::LegacyDisplayGlobals::GetSkSurfaceProps());
@@ -671,8 +671,8 @@ void Browser::UpdateBadgeContents(
 
     SkRect bounds;
     int text_size = kMaxTextSize;
-    // Find the largest |text_size| larger than |kMinTextSize| in which
-    // |content| fits into our 16x16px icon, with margins.
+    // 查找大于|kMinTextSize|的最大|TEXT_SIZE|，其中。
+    // |内容|适合16x16px的图标，并留有页边距。
     do {
       font.setSize(text_size--);
       font.measureText(content.c_str(), content.size(), SkTextEncoding::kUTF8,
@@ -725,7 +725,7 @@ void Browser::SetLoginItemSettings(LoginItemSettings settings) {
       }
     }
   } else {
-    // if open at login is false, delete both values
+    // 如果登录时打开为假，请删除这两个值。
     startup_approved_key.DeleteValue(key_name);
     key.DeleteValue(key_name);
   }
@@ -738,7 +738,7 @@ Browser::LoginItemSettings Browser::GetLoginItemSettings(
   base::win::RegKey key(HKEY_CURRENT_USER, keyPath.c_str(), KEY_ALL_ACCESS);
   std::wstring keyVal;
 
-  // keep old openAtLogin behaviour
+  // 保留旧的openAtLogin行为。
   if (!FAILED(key.ReadValue(GetAppUserModelID(), &keyVal))) {
     std::wstring exe = base::UTF16ToWide(options.path);
     if (FormatCommandLineString(&exe, options.args)) {
@@ -746,9 +746,9 @@ Browser::LoginItemSettings Browser::GetLoginItemSettings(
     }
   }
 
-  // iterate over current user and machine registries and populate launch items
-  // if there exists a launch entry with property enabled=='true',
-  // set executable_will_launch_at_login to 'true'.
+  // 迭代当前用户和计算机注册表并填充启动项。
+  // 如果存在属性为Enabled==‘true’的启动条目，
+  // 将EXECUTABLE_WILL_LAUNT_AT_LOGIN设置为‘true’。
   boolean executable_will_launch_at_login = false;
   std::vector<Browser::LaunchItem> launch_items;
   base::win::RegistryValueIterator hkcu_iterator(HKEY_CURRENT_USER,
@@ -790,14 +790,14 @@ std::string Browser::GetExecutableFileProductName() const {
 }
 
 bool Browser::IsEmojiPanelSupported() {
-  // emoji picker is supported on Windows 10's Spring 2018 update & above.
+  // Windows10的2018年春季更新及以上版本支持表情符号选择器。
   return base::win::GetVersion() >= base::win::Version::WIN10_RS4;
 }
 
 void Browser::ShowEmojiPanel() {
-  // This sends Windows Key + '.' (both keydown and keyup events).
-  // "SendInput" is used because Windows needs to receive these events and
-  // open the Emoji picker.
+  // 这将发送Windows键+‘.’(Keydown和KeyUp事件)。
+  // 使用“SendInput”是因为Windows需要接收这些事件，并且。
+  // 打开表情符号选取器。
   INPUT input[4] = {};
   input[0].type = INPUT_KEYBOARD;
   input[0].ki.wVk = ui::WindowsKeyCodeForKeyboardCode(ui::VKEY_COMMAND);
@@ -818,7 +818,7 @@ void Browser::ShowAboutPanel() {
   std::string aboutMessage = "";
   gfx::ImageSkia image;
 
-  // grab defaults from Windows .EXE file
+  // 从Windows.exe文件抓取默认值。
   std::unique_ptr<FileVersionInfo> exe_info = FetchFileVersionInfo();
   dict.SetStringKey("applicationName", exe_info->file_description());
   dict.SetStringKey("applicationVersion", exe_info->product_version());
@@ -853,4 +853,4 @@ void Browser::SetAboutPanelOptions(base::DictionaryValue options) {
   about_panel_options_ = std::move(options);
 }
 
-}  // namespace electron
+}  // 命名空间电子

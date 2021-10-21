@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/web_contents_zoom_controller.h"
 
@@ -67,13 +67,13 @@ void WebContentsZoomController::SetZoomLevel(double level) {
   if (zoom_mode_ == ZoomMode::kIsolated ||
       zoom_map->UsesTemporaryZoomLevel(render_process_id, render_view_id)) {
     zoom_map->SetTemporaryZoomLevel(render_process_id, render_view_id, level);
-    // Notify observers of zoom level changes.
+    // 通知观察者缩放级别的更改。
     for (Observer& observer : observers_)
       observer.OnZoomLevelChanged(web_contents(), level, true);
   } else {
     content::HostZoomMap::SetZoomLevel(web_contents(), level);
 
-    // Notify observers of zoom level changes.
+    // 通知观察者缩放级别的更改。
     for (Observer& observer : observers_)
       observer.OnZoomLevelChanged(web_contents(), level, false);
   }
@@ -97,7 +97,7 @@ void WebContentsZoomController::SetTemporaryZoomLevel(double level) {
   old_process_id_ = web_contents()->GetRenderViewHost()->GetProcess()->GetID();
   old_view_id_ = web_contents()->GetRenderViewHost()->GetRoutingID();
   host_zoom_map_->SetTemporaryZoomLevel(old_process_id_, old_view_id_, level);
-  // Notify observers of zoom level changes.
+  // 通知观察者缩放级别的更改。
   for (Observer& observer : observers_)
     observer.OnZoomLevelChanged(web_contents(), level, true);
 }
@@ -131,35 +131,35 @@ void WebContentsZoomController::SetZoomMode(ZoomMode new_mode) {
         std::string host = net::GetHostOrSpecFromURL(url);
 
         if (zoom_map->HasZoomLevel(url.scheme(), host)) {
-          // If there are other tabs with the same origin, then set this tab's
-          // zoom level to match theirs. The temporary zoom level will be
-          // cleared below, but this call will make sure this tab re-draws at
-          // the correct zoom level.
+          // 如果存在同源的其他选项卡，则设置此选项卡的。
+          // 缩放级别以匹配他们的缩放级别。临时缩放级别将为。
+          // 下面已清除，但此调用将确保此选项卡在。
+          // 正确的缩放级别。
           double origin_zoom_level =
               zoom_map->GetZoomLevelForHostAndScheme(url.scheme(), host);
           zoom_map->SetTemporaryZoomLevel(render_process_id, render_view_id,
                                           origin_zoom_level);
         } else {
-          // The host will need a level prior to removing the temporary level.
-          // We don't want the zoom level to change just because we entered
-          // default mode.
+          // 在删除临时标高之前，主体需要一个标高。
+          // 我们不希望仅仅因为我们输入。
+          // 默认模式。
           zoom_map->SetZoomLevelForHost(host, original_zoom_level);
         }
       }
-      // Remove per-tab zoom data for this tab. No event callback expected.
+      // 删除此选项卡的每个选项卡缩放数据。不需要事件回调。
       zoom_map->ClearTemporaryZoomLevel(render_process_id, render_view_id);
       break;
     }
     case ZoomMode::kIsolated: {
-      // Unless the zoom mode was |ZoomMode::kDisabled| before this call, the
-      // page needs an initial isolated zoom back to the same level it was at
-      // in the other mode.
+      // 除非在此调用之前缩放模式为|ZoomMode：：kDisabled|，否则。
+      // 页面需要初始独立缩放回其所处的相同级别。
+      // 在另一种模式下。
       if (zoom_mode_ != ZoomMode::kDisabled) {
         zoom_map->SetTemporaryZoomLevel(render_process_id, render_view_id,
                                         original_zoom_level);
       } else {
-        // When we don't call any HostZoomMap set functions, we send the event
-        // manually.
+        // 当我们不调用任何HostZoomMap集函数时，我们发送事件。
+        // 手工操作。
         for (Observer& observer : observers_)
           observer.OnZoomLevelChanged(web_contents(), original_zoom_level,
                                       false);
@@ -167,16 +167,16 @@ void WebContentsZoomController::SetZoomMode(ZoomMode new_mode) {
       break;
     }
     case ZoomMode::kManual: {
-      // Unless the zoom mode was |ZoomMode::kDisabled| before this call, the
-      // page needs to be resized to the default zoom. While in manual mode,
-      // the zoom level is handled independently.
+      // 除非在此调用之前缩放模式为|ZoomMode：：kDisabled|，否则。
+      // 需要将页面大小调整为默认缩放。当处于手动模式时，
+      // 缩放级别是独立处理的。
       if (zoom_mode_ != ZoomMode::kDisabled) {
         zoom_map->SetTemporaryZoomLevel(render_process_id, render_view_id,
                                         GetDefaultZoomLevel());
         zoom_level_ = original_zoom_level;
       } else {
-        // When we don't call any HostZoomMap set functions, we send the event
-        // manually.
+        // 当我们不调用任何HostZoomMap集函数时，我们发送事件。
+        // 手工操作。
         for (Observer& observer : observers_)
           observer.OnZoomLevelChanged(web_contents(), original_zoom_level,
                                       false);
@@ -184,7 +184,7 @@ void WebContentsZoomController::SetZoomMode(ZoomMode new_mode) {
       break;
     }
     case ZoomMode::kDisabled: {
-      // The page needs to be zoomed back to default before disabling the zoom
+      // 在禁用缩放之前，需要将页面缩回到默认状态。
       zoom_map->SetTemporaryZoomLevel(render_process_id, render_view_id,
                                       GetDefaultZoomLevel());
       break;
@@ -238,7 +238,7 @@ void WebContentsZoomController::WebContentsDestroyed() {
 void WebContentsZoomController::RenderFrameHostChanged(
     content::RenderFrameHost* old_host,
     content::RenderFrameHost* new_host) {
-  // If our associated HostZoomMap changes, update our event subscription.
+  // 如果关联的HostZoomMap发生更改，请更新我们的活动订阅。
   content::HostZoomMap* new_host_zoom_map =
       content::HostZoomMap::GetForWebContents(web_contents());
   if (new_host_zoom_map == host_zoom_map_)
@@ -263,10 +263,10 @@ void WebContentsZoomController::SetZoomFactorOnNavigationIfNeeded(
     return;
   }
 
-  // When kZoomFactor is available, it takes precedence over
-  // pref store values but if the host has zoom factor set explicitly
-  // then it takes precedence.
-  // pref store < kZoomFactor < setZoomLevel
+  // 当kZoomfactor可用时，它优先于。
+  // 首选存储值，但如果主机显式设置了缩放因子。
+  // 然后它就优先了。
+  // 首选商店&lt;kZoomfactor&lt;setZoomLevel。
   std::string host = net::GetHostOrSpecFromURL(url);
   std::string scheme = url.scheme();
   double zoom_factor = GetDefaultZoomFactor();
@@ -282,4 +282,4 @@ void WebContentsZoomController::SetZoomFactorOnNavigationIfNeeded(
 
 WEB_CONTENTS_USER_DATA_KEY_IMPL(WebContentsZoomController)
 
-}  // namespace electron
+}  // 命名空间电子

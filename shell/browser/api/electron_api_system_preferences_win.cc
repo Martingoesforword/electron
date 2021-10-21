@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <dwmapi.h>
 #include <windows.devices.enumeration.h>
@@ -69,7 +69,7 @@ std::string ConvertDeviceAccessStatus(DeviceAccessStatus value) {
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace api {
 
@@ -188,9 +188,9 @@ void SystemPreferences::InitializeWindow() {
   invertered_color_scheme_ = IsInvertedColorScheme();
   high_contrast_color_scheme_ = IsHighContrastColorScheme();
 
-  // Wait until app is ready before creating sys color listener
-  // Creating this listener before the app is ready causes global shortcuts
-  // to not fire
+  // 等待应用程序就绪后再创建sys颜色监听器。
+  // 在应用程序准备就绪之前创建此监听程序会导致全局快捷方式。
+  // 不开火。
   if (Browser::Get()->is_ready())
     color_change_listener_ =
         std::make_unique<gfx::ScopedSysColorChangeListener>(this);
@@ -205,10 +205,10 @@ void SystemPreferences::InitializeWindow() {
   instance_ = window_class.hInstance;
   atom_ = RegisterClassEx(&window_class);
 
-  // Create an offscreen window for receiving broadcast messages for the system
-  // colorization color.  Create a hidden WS_POPUP window instead of an
-  // HWND_MESSAGE window, because only top-level windows such as popups can
-  // receive broadcast messages like "WM_DWMCOLORIZATIONCOLORCHANGED".
+  // 创建离屏窗口，用于接收系统的广播消息。
+  // 彩色化颜色。创建隐藏的WS_Popup窗口，而不是。
+  // HWND_MESSAGE窗口，因为只有顶级窗口(如弹出窗口)才能。
+  // 接收广播消息，如“WM_DWMCOLORIZATIONCOLORCHANGED”。
   window_ = CreateWindow(MAKEINTATOM(atom_), 0, WS_POPUP, 0, 0, 0, 0, 0, 0,
                          instance_, 0);
   gfx::CheckWindowCreated(window_, ::GetLastError());
@@ -264,6 +264,6 @@ void SystemPreferences::OnFinishLaunching(
       std::make_unique<gfx::ScopedSysColorChangeListener>(this);
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

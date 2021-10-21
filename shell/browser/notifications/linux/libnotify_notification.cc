@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/notifications/linux/libnotify_notification.h"
 
@@ -53,11 +53,11 @@ void log_and_clear_error(GError* error, const char* context) {
   g_error_free(error);
 }
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 bool LibnotifyNotification::Initialize() {
-  if (!libnotify_loader_.Load("libnotify.so.4") &&  // most common one
+  if (!libnotify_loader_.Load("libnotify.so.4") &&  // 最常见的一种。
       !libnotify_loader_.Load("libnotify.so.5") &&
       !libnotify_loader_.Load("libnotify.so.1") &&
       !libnotify_loader_.Load("libnotify.so")) {
@@ -91,8 +91,8 @@ void LibnotifyNotification::Show(const NotificationOptions& options) {
   g_signal_connect(notification_, "closed",
                    G_CALLBACK(OnNotificationClosedThunk), this);
 
-  // NB: On Unity and on any other DE using Notify-OSD, adding a notification
-  // action will cause the notification to display as a modal dialog box.
+  // 注：在Unity和使用Notify-OSD的任何其他DE上，添加通知。
+  // 操作将使通知显示为模式对话框。
   if (NotifierSupportsActions()) {
     libnotify_loader_.notify_notification_add_action(
         notification_, "default", "View", OnNotificationViewThunk, this,
@@ -106,7 +106,7 @@ void LibnotifyNotification::Show(const NotificationOptions& options) {
     urgency = NOTIFY_URGENCY_LOW;
   }
 
-  // Set the urgency level of the notification.
+  // 设置通知的紧急级别。
   libnotify_loader_.notify_notification_set_urgency(notification_, urgency);
 
   if (!options.icon.drawsNothing()) {
@@ -116,7 +116,7 @@ void LibnotifyNotification::Show(const NotificationOptions& options) {
     g_object_unref(pixbuf);
   }
 
-  // Set the timeout duration for the notification
+  // 设置通知的超时持续时间。
   bool neverTimeout = options.timeout_type == u"never";
   int timeout = (neverTimeout) ? NOTIFY_EXPIRES_NEVER : NOTIFY_EXPIRES_DEFAULT;
   libnotify_loader_.notify_notification_set_timeout(notification_, timeout);
@@ -126,8 +126,8 @@ void LibnotifyNotification::Show(const NotificationOptions& options) {
     g_object_set(G_OBJECT(notification_), "id", id, NULL);
   }
 
-  // Always try to append notifications.
-  // Unique tags can be used to prevent this.
+  // 始终尝试附加通知。
+  // 可以使用独特的标签来防止这种情况。
   if (HasCapability("append")) {
     libnotify_loader_.notify_notification_set_hint_string(notification_,
                                                           "append", "true");
@@ -136,8 +136,8 @@ void LibnotifyNotification::Show(const NotificationOptions& options) {
         notification_, "x-canonical-append", "true");
   }
 
-  // Send the desktop name to identify the application
-  // The desktop-entry is the part before the .desktop
+  // 发送桌面名称以标识应用程序。
+  // Ktop-entry是.ktop之前的部分。
   std::string desktop_id;
   if (platform_util::GetDesktopName(&desktop_id)) {
     const std::string suffix{".desktop"};
@@ -185,4 +185,4 @@ void LibnotifyNotification::OnNotificationView(NotifyNotification* notification,
   NotificationClicked();
 }
 
-}  // namespace electron
+}  // 命名空间电子

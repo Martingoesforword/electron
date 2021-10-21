@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/accelerator_util.h"
 
@@ -19,11 +19,11 @@ TEST(AcceleratorUtilTest, StringToAccelerator) {
   };
 
   for (const auto& key : keys) {
-    // Initialize empty-but-not-null accelerator
+    // 初始化空但不为空的加速器。
     ui::Accelerator out = ui::Accelerator(ui::VKEY_UNKNOWN, ui::EF_NONE);
     bool success = StringToAccelerator(key.description, &out);
     EXPECT_EQ(success, key.expected_success);
   }
 }
 
-}  // namespace accelerator_util
+}  // 命名空间加速器_util

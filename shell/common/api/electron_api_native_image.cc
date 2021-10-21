@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/api/electron_api_native_image.h"
 
@@ -54,7 +54,7 @@ namespace api {
 
 namespace {
 
-// Get the scale factor from options object at the first argument
+// 从第一个参数的Options对象中获取比例因子。
 float GetScaleFactorFromOptions(gin::Arguments* args) {
   float scale_factor = 1.0f;
   gin_helper::Dictionary options;
@@ -70,7 +70,7 @@ base::FilePath NormalizePath(const base::FilePath& path) {
 
   base::ThreadRestrictions::ScopedAllowIO allow_blocking;
   base::FilePath absolute_path = MakeAbsoluteFilePath(path);
-  // MakeAbsoluteFilePath returns an empty path on failures so use original path
+  // MakeAboluteFilePath在失败时返回空路径，因此请使用原始路径。
   if (absolute_path.empty()) {
     return path;
   } else {
@@ -87,8 +87,8 @@ bool IsTemplateFilename(const base::FilePath& path) {
 
 #if defined(OS_WIN)
 base::win::ScopedHICON ReadICOFromPath(int size, const base::FilePath& path) {
-  // If file is in asar archive, we extract it to a temp file so LoadImage can
-  // load it.
+  // 如果文件在asar存档中，我们将其解压缩到临时文件中，以便LoadImage可以。
+  // 装上它。
   base::FilePath asar_path, relative_path;
   base::FilePath image_path(path);
   if (asar::GetAsarArchivePath(image_path, &asar_path, &relative_path)) {
@@ -98,14 +98,14 @@ base::win::ScopedHICON ReadICOFromPath(int size, const base::FilePath& path) {
       archive->CopyFileOut(relative_path, &image_path);
   }
 
-  // Load the icon from file.
+  // 从文件加载图标。
   return base::win::ScopedHICON(
       static_cast<HICON>(LoadImage(NULL, image_path.value().c_str(), IMAGE_ICON,
                                    size, size, LR_LOADFROMFILE)));
 }
 #endif
 
-}  // namespace
+}  // 命名空间。
 
 NativeImage::NativeImage(v8::Isolate* isolate, const gfx::Image& image)
     : image_(image), isolate_(isolate) {
@@ -115,7 +115,7 @@ NativeImage::NativeImage(v8::Isolate* isolate, const gfx::Image& image)
 #if defined(OS_WIN)
 NativeImage::NativeImage(v8::Isolate* isolate, const base::FilePath& hicon_path)
     : hicon_path_(hicon_path), isolate_(isolate) {
-  // Use the 256x256 icon as fallback icon.
+  // 使用256x256图标作为备用图标。
   gfx::ImageSkia image_skia;
   electron::util::ReadImageSkiaFromICO(&image_skia, GetHICON(256));
   image_ = gfx::Image(image_skia);
@@ -138,7 +138,7 @@ void NativeImage::AdjustAmountOfExternalAllocatedMemory(bool add) {
   }
 }
 
-// static
+// 静电。
 bool NativeImage::TryConvertNativeImage(v8::Isolate* isolate,
                                         v8::Local<v8::Value> image,
                                         NativeImage** native_image,
@@ -184,13 +184,13 @@ HICON NativeImage::GetHICON(int size) {
   if (iter != hicons_.end())
     return iter->second.get();
 
-  // First try loading the icon with specified size.
+  // 首先尝试加载指定大小的图标。
   if (!hicon_path_.empty()) {
     hicons_[size] = ReadICOFromPath(size, hicon_path_);
     return hicons_[size].get();
   }
 
-  // Then convert the image to ICO.
+  // 然后将图像转换为ICO。
   if (image_.IsEmpty())
     return NULL;
   hicons_[size] = IconUtil::CreateHICONFromSkBitmap(image_.AsBitmap());
@@ -202,7 +202,7 @@ v8::Local<v8::Value> NativeImage::ToPNG(gin::Arguments* args) {
   float scale_factor = GetScaleFactorFromOptions(args);
 
   if (scale_factor == 1.0f) {
-    // Use raw 1x PNG bytes when available
+    // 使用原始1x PNG字节(如果可用。
     scoped_refptr<base::RefCountedMemory> png = image_.As1xPNGBytes();
     if (png->size() > 0) {
       const char* data = reinterpret_cast<const char*>(png->front());
@@ -256,7 +256,7 @@ std::string NativeImage::ToDataURL(gin::Arguments* args) {
   float scale_factor = GetScaleFactorFromOptions(args);
 
   if (scale_factor == 1.0f) {
-    // Use raw 1x PNG bytes when available
+    // 使用原始1x PNG字节(如果可用。
     scoped_refptr<base::RefCountedMemory> png = image_.As1xPNGBytes();
     if (png->size() > 0)
       return webui::GetPngDataUrl(png->front(), png->size());
@@ -344,12 +344,12 @@ gin::Handle<NativeImage> NativeImage::Resize(gin::Arguments* args,
   if (width <= 0 && height <= 0) {
     return CreateEmpty(args->isolate());
   } else if (width_set && !height_set) {
-    // Scale height to preserve original aspect ratio
+    // 缩放高度以保持原始纵横比。
     size.set_height(width);
     size =
         gfx::ScaleToRoundedSize(size, 1.f, 1.f / GetAspectRatio(scale_factor));
   } else if (height_set && !width_set) {
-    // Scale width to preserve original aspect ratio
+    // 缩放宽度以保持原始纵横比。
     size.set_width(height);
     size = gfx::ScaleToRoundedSize(size, GetAspectRatio(scale_factor), 1.f);
   }
@@ -409,7 +409,7 @@ void NativeImage::AddRepresentation(const gin_helper::Dictionary& options) {
     }
   }
 
-  // Re-initialize image when first representation is added to an empty image
+  // 将第一个表示形式添加到空图像时重新初始化图像。
   if (skia_rep_added && IsEmpty()) {
     gfx::Image image(image_skia);
     image_ = std::move(image);
@@ -424,18 +424,18 @@ bool NativeImage::IsTemplateImage() {
 }
 #endif
 
-// static
+// 静电。
 gin::Handle<NativeImage> NativeImage::CreateEmpty(v8::Isolate* isolate) {
   return gin::CreateHandle(isolate, new NativeImage(isolate, gfx::Image()));
 }
 
-// static
+// 静电。
 gin::Handle<NativeImage> NativeImage::Create(v8::Isolate* isolate,
                                              const gfx::Image& image) {
   return gin::CreateHandle(isolate, new NativeImage(isolate, image));
 }
 
-// static
+// 静电。
 gin::Handle<NativeImage> NativeImage::CreateFromPNG(v8::Isolate* isolate,
                                                     const char* buffer,
                                                     size_t length) {
@@ -445,7 +445,7 @@ gin::Handle<NativeImage> NativeImage::CreateFromPNG(v8::Isolate* isolate,
   return Create(isolate, gfx::Image(image_skia));
 }
 
-// static
+// 静电。
 gin::Handle<NativeImage> NativeImage::CreateFromJPEG(v8::Isolate* isolate,
                                                      const char* buffer,
                                                      size_t length) {
@@ -455,7 +455,7 @@ gin::Handle<NativeImage> NativeImage::CreateFromJPEG(v8::Isolate* isolate,
   return Create(isolate, gfx::Image(image_skia));
 }
 
-// static
+// 静电。
 gin::Handle<NativeImage> NativeImage::CreateFromPath(
     v8::Isolate* isolate,
     const base::FilePath& path) {
@@ -476,7 +476,7 @@ gin::Handle<NativeImage> NativeImage::CreateFromPath(
   return handle;
 }
 
-// static
+// 静电。
 gin::Handle<NativeImage> NativeImage::CreateFromBitmap(
     gin_helper::ErrorThrower thrower,
     v8::Local<v8::Value> buffer,
@@ -524,7 +524,7 @@ gin::Handle<NativeImage> NativeImage::CreateFromBitmap(
   return Create(thrower.isolate(), gfx::Image(image_skia));
 }
 
-// static
+// 静电。
 gin::Handle<NativeImage> NativeImage::CreateFromBuffer(
     gin_helper::ErrorThrower thrower,
     v8::Local<v8::Value> buffer,
@@ -552,7 +552,7 @@ gin::Handle<NativeImage> NativeImage::CreateFromBuffer(
   return Create(args->isolate(), gfx::Image(image_skia));
 }
 
-// static
+// 静电。
 gin::Handle<NativeImage> NativeImage::CreateFromDataURL(v8::Isolate* isolate,
                                                         const GURL& url) {
   std::string mime_type, charset, data;
@@ -573,7 +573,7 @@ gin::Handle<NativeImage> NativeImage::CreateFromNamedImage(gin::Arguments* args,
 }
 #endif
 
-// static
+// 静电。
 gin::ObjectTemplateBuilder NativeImage::GetObjectTemplateBuilder(
     v8::Isolate* isolate) {
   gin::PerIsolateData* data = gin::PerIsolateData::From(isolate);
@@ -610,12 +610,12 @@ const char* NativeImage::GetTypeName() {
   return "NativeImage";
 }
 
-// static
+// 静电。
 gin::WrapperInfo NativeImage::kWrapperInfo = {gin::kEmbedderNativeGin};
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -643,6 +643,6 @@ void Initialize(v8::Local<v8::Object> exports,
 #endif
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_common_native_image, Initialize)

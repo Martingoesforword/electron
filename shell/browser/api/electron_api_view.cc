@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_view.h"
 
@@ -31,20 +31,20 @@ void View::AddChildView(gin::Handle<View> child) {
 void View::AddChildViewAt(gin::Handle<View> child, size_t index) {
   if (index > child_views_.size())
     return;
-  child_views_.emplace(child_views_.begin() + index,     // index
-                       isolate(), child->GetWrapper());  // v8::Global(args...)
+  child_views_.emplace(child_views_.begin() + index,     // 指标。
+                       isolate(), child->GetWrapper());  // V8：：GLOBAL(参数...)。
   view()->AddChildViewAt(child->view(), index);
 }
 #endif
 
-// static
+// 静电。
 gin_helper::WrappableBase* View::New(gin::Arguments* args) {
   auto* view = new View();
   view->InitWithArgs(args);
   return view;
 }
 
-// static
+// 静电。
 void View::BuildPrototype(v8::Isolate* isolate,
                           v8::Local<v8::FunctionTemplate> prototype) {
   prototype->SetClassName(gin::StringToV8(isolate, "View"));
@@ -55,9 +55,9 @@ void View::BuildPrototype(v8::Isolate* isolate,
 #endif
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -78,6 +78,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("View", constructor);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_view, Initialize)

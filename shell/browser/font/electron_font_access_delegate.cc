@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <utility>
 
@@ -32,7 +32,7 @@ ElectronFontAccessDelegate::RunChooser(
     content::RenderFrameHost* frame,
     const std::vector<std::string>& selection,
     content::FontAccessChooser::Callback callback) {
-  // TODO(codebytere) : implement with proper permissions model.
+  // TODO(Codebytere)：使用适当的权限模型实现。
   return std::make_unique<ElectronFontAccessChooser>(base::BindOnce(
       [](content::FontAccessChooser::Callback callback) {
         std::move(callback).Run(

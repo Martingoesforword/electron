@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/ui/devtools_ui.h"
 
@@ -70,14 +70,14 @@ class BundledDataSource : public content::URLDataSource {
   BundledDataSource() = default;
   ~BundledDataSource() override = default;
 
-  // content::URLDataSource implementation.
+  // 内容：：URLDataSource实现。
   std::string GetSource() override { return chrome::kChromeUIDevToolsHost; }
 
   void StartDataRequest(const GURL& url,
                         const content::WebContents::Getter& wc_getter,
                         GotDataCallback callback) override {
     const std::string path = content::URLDataSource::URLToRequestPath(url);
-    // Serve request from local bundle.
+    // 服务来自本地捆绑包的请求。
     std::string bundled_path_prefix(chrome::kChromeUIDevToolsBundledPath);
     bundled_path_prefix += "/";
     if (base::StartsWith(path, bundled_path_prefix,
@@ -87,7 +87,7 @@ class BundledDataSource : public content::URLDataSource {
       return;
     }
 
-    // We do not handle remote and custom requests.
+    // 我们不处理远程和自定义请求。
     std::move(callback).Run(nullptr);
   }
 
@@ -118,7 +118,7 @@ class BundledDataSource : public content::URLDataSource {
   DISALLOW_COPY_AND_ASSIGN(BundledDataSource);
 };
 
-}  // namespace
+}  // 命名空间。
 
 DevToolsUI::DevToolsUI(content::BrowserContext* browser_context,
                        content::WebUI* web_ui)
@@ -128,4 +128,4 @@ DevToolsUI::DevToolsUI(content::BrowserContext* browser_context,
                               std::make_unique<BundledDataSource>());
 }
 
-}  // namespace electron
+}  // 命名空间电子

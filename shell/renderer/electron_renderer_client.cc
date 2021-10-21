@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/electron_renderer_client.h"
 
@@ -31,7 +31,7 @@ bool IsDevToolsExtension(content::RenderFrame* render_frame) {
       .SchemeIs("chrome-extension");
 }
 
-}  // namespace
+}  // 命名空间。
 
 ElectronRendererClient::ElectronRendererClient()
     : node_bindings_(
@@ -50,7 +50,7 @@ void ElectronRendererClient::RenderFrameCreated(
 void ElectronRendererClient::RunScriptsAtDocumentStart(
     content::RenderFrame* render_frame) {
   RendererClientBase::RunScriptsAtDocumentStart(render_frame);
-  // Inform the document start pharse.
+  // 通知文件开始发声。
   v8::HandleScope handle_scope(v8::Isolate::GetCurrent());
   node::Environment* env = GetEnvironment(render_frame);
   if (env)
@@ -61,7 +61,7 @@ void ElectronRendererClient::RunScriptsAtDocumentStart(
 void ElectronRendererClient::RunScriptsAtDocumentEnd(
     content::RenderFrame* render_frame) {
   RendererClientBase::RunScriptsAtDocumentEnd(render_frame);
-  // Inform the document end pharse.
+  // 通知文件结束时的声音。
   v8::HandleScope handle_scope(v8::Isolate::GetCurrent());
   node::Environment* env = GetEnvironment(render_frame);
   if (env)
@@ -72,11 +72,11 @@ void ElectronRendererClient::RunScriptsAtDocumentEnd(
 void ElectronRendererClient::DidCreateScriptContext(
     v8::Handle<v8::Context> renderer_context,
     content::RenderFrame* render_frame) {
-  // TODO(zcbenz): Do not create Node environment if node integration is not
-  // enabled.
+  // TODO(Zcbenz)：如果未进行节点集成，则不创建节点环境。
+  // 已启用。
 
-  // Only load Node.js if we are a main frame or a devtools extension
-  // unless Node.js support has been explicitly enabled for subframes.
+  // 仅当我们是主机或DevTools扩展时才加载Node.js。
+  // 除非已为子帧显式启用了Node.js支持。
   auto prefs = render_frame->GetBlinkPreferences();
   bool is_main_frame = render_frame->IsMainFrame();
   bool is_devtools = IsDevToolsExtension(render_frame);
@@ -98,39 +98,39 @@ void ElectronRendererClient::DidCreateScriptContext(
     node_bindings_->PrepareMessageLoop();
   }
 
-  // Setup node tracing controller.
+  // 设置节点跟踪控制器。
   if (!node::tracing::TraceEventHelper::GetAgent())
     node::tracing::TraceEventHelper::SetAgent(node::CreateAgent());
 
-  // Setup node environment for each window.
+  // 为每个窗口设置节点环境。
   bool initialized = node::InitializeContext(renderer_context);
   CHECK(initialized);
 
   node::Environment* env =
       node_bindings_->CreateEnvironment(renderer_context, nullptr);
 
-  // If we have disabled the site instance overrides we should prevent loading
-  // any non-context aware native module.
+  // 如果我们已禁用站点实例覆盖，则应阻止加载。
+  // 任何非上下文感知的本机模块。
   env->options()->force_context_aware = true;
 
-  // We do not want to crash the renderer process on unhandled rejections.
+  // 我们不想让渲染器进程因未处理的拒绝而崩溃。
   env->options()->unhandled_rejections = "warn";
 
   environments_.insert(env);
 
-  // Add Electron extended APIs.
+  // 添加电子扩展API。
   electron_bindings_->BindTo(env->isolate(), env->process_object());
   gin_helper::Dictionary process_dict(env->isolate(), env->process_object());
   BindProcess(env->isolate(), &process_dict, render_frame);
 
-  // Load everything.
+  // 把所有东西都装上。
   node_bindings_->LoadEnvironment(env);
 
   if (node_bindings_->uv_env() == nullptr) {
-    // Make uv loop being wrapped by window context.
+    // 使UV循环被窗口上下文包裹。
     node_bindings_->set_uv_env(env);
 
-    // Give the node loop a run to make sure everything is ready.
+    // 让节点循环运行一次，以确保一切准备就绪。
     node_bindings_->RunMessageLoop();
   }
 }
@@ -147,28 +147,28 @@ void ElectronRendererClient::WillReleaseScriptContext(
 
   gin_helper::EmitEvent(env->isolate(), env->process_object(), "exit");
 
-  // The main frame may be replaced.
+  // 主机可能会被更换。
   if (env == node_bindings_->uv_env())
     node_bindings_->set_uv_env(nullptr);
 
-  // Destroy the node environment.  We only do this if node support has been
-  // enabled for sub-frames to avoid a change-of-behavior / introduce crashes
-  // for existing users.
-  // We also do this if we have disable electron site instance overrides to
-  // avoid memory leaks
+  // 销毁节点环境。我们仅在节点支持已完成的情况下才执行此操作。
+  // 为子帧启用以避免行为改变/引入崩溃。
+  // 适用于现有用户。
+  // 如果我们将电子站点实例覆盖禁用为。
+  // 避免内存泄漏。
   auto prefs = render_frame->GetBlinkPreferences();
   node::FreeEnvironment(env);
   if (env == node_bindings_->uv_env())
     node::FreeIsolateData(node_bindings_->isolate_data());
 
-  // ElectronBindings is tracking node environments.
+  // 电子绑定正在跟踪节点环境。
   electron_bindings_->EnvironmentDestroyed(env);
 }
 
 void ElectronRendererClient::WorkerScriptReadyForEvaluationOnWorkerThread(
     v8::Local<v8::Context> context) {
-  // TODO(loc): Note that this will not be correct for in-process child windows
-  // with webPreferences that have a different value for nodeIntegrationInWorker
+  // TODO(Loc)：请注意，这对于进程中的子窗口是不正确的。
+  // 具有不同nodeIntegrationInWorker值的webPreferences。
   if (base::CommandLine::ForCurrentProcess()->HasSwitch(
           switches::kNodeIntegrationInWorker)) {
     WebWorkerObserver::GetCurrent()->WorkerScriptReadyForEvaluation(context);
@@ -177,8 +177,8 @@ void ElectronRendererClient::WorkerScriptReadyForEvaluationOnWorkerThread(
 
 void ElectronRendererClient::WillDestroyWorkerContextOnWorkerThread(
     v8::Local<v8::Context> context) {
-  // TODO(loc): Note that this will not be correct for in-process child windows
-  // with webPreferences that have a different value for nodeIntegrationInWorker
+  // TODO(Loc)：请注意，这对于进程中的子窗口是不正确的。
+  // 具有不同nodeIntegrationInWorker值的webPreferences。
   if (base::CommandLine::ForCurrentProcess()->HasSwitch(
           switches::kNodeIntegrationInWorker)) {
     WebWorkerObserver::GetCurrent()->ContextWillDestroy(context);
@@ -198,4 +198,4 @@ node::Environment* ElectronRendererClient::GetEnvironment(
   return env;
 }
 
-}  // namespace electron
+}  // 命名空间电子

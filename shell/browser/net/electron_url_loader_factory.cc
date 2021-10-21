@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/net/electron_url_loader_factory.h"
 
@@ -57,19 +57,19 @@ struct Converter<electron::ProtocolType> {
       *out = electron::ProtocolType::kHttp;
     else if (type == "stream")
       *out = electron::ProtocolType::kStream;
-    else  // note "free" is internal type, not allowed to be passed from user
+    else  // 注意“free”为内部类型，用户不允许传入。
       return false;
     return true;
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
 namespace {
 
-// Determine whether a protocol type can accept non-object response.
+// 确定协议类型是否可以接受非对象响应。
 bool ResponseMustBeObject(ProtocolType type) {
   switch (type) {
     case ProtocolType::kString:
@@ -81,7 +81,7 @@ bool ResponseMustBeObject(ProtocolType type) {
   }
 }
 
-// Helper to convert value to Dictionary.
+// 用于将值转换为字典的帮助器。
 gin::Dictionary ToDict(v8::Isolate* isolate, v8::Local<v8::Value> value) {
   if (!value->IsFunction() && value->IsObject())
     return gin::Dictionary(
@@ -91,7 +91,7 @@ gin::Dictionary ToDict(v8::Isolate* isolate, v8::Local<v8::Value> value) {
     return gin::Dictionary(isolate);
 }
 
-// Parse headers from response object.
+// 从响应对象解析标头。
 network::mojom::URLResponseHeadPtr ToResponseHead(
     const gin_helper::Dictionary& dict) {
   auto head = network::mojom::URLResponseHead::New();
@@ -118,10 +118,10 @@ network::mojom::URLResponseHeadPtr ToResponseHead(
   if (dict.Get("headers", &headers)) {
     for (const auto iter : headers.DictItems()) {
       if (iter.second.is_string()) {
-        // key, value
+        // 键、值。
         head->headers->AddHeader(iter.first, iter.second.GetString());
       } else if (iter.second.is_list()) {
-        // key: [values...]
+        // 密钥：[值...]。
         for (const auto& item : iter.second.GetList()) {
           if (item.is_string())
             head->headers->AddHeader(iter.first, item.GetString());
@@ -132,8 +132,8 @@ network::mojom::URLResponseHeadPtr ToResponseHead(
       auto header_name_lowercase = base::ToLowerASCII(iter.first);
 
       if (header_name_lowercase == "content-type") {
-        // Some apps are passing content-type via headers, which is not accepted
-        // in NetworkService.
+        // 一些应用程序通过标头传递内容类型，这是不被接受的。
+        // 在网络服务中。
         head->headers->GetMimeTypeAndCharset(&head->mime_type, &head->charset);
         has_content_type = true;
       } else if (header_name_lowercase == "content-length" &&
@@ -143,14 +143,14 @@ network::mojom::URLResponseHeadPtr ToResponseHead(
     }
   }
 
-  // Setting |head->mime_type| does not automatically set the "content-type"
-  // header in NetworkService.
+  // 设置|head-&gt;MIME_TYPE|不会自动设置“Content-type”
+  // NetworkService中的标头。
   if (has_mime_type && !has_content_type)
     head->headers->AddHeader("content-type", head->mime_type);
   return head;
 }
 
-// Helper to write string to pipe.
+// 将字符串写入管道的帮助器。
 struct WriteData {
   mojo::Remote<network::mojom::URLLoaderClient> client;
   std::string data;
@@ -168,7 +168,7 @@ void OnWrite(std::unique_ptr<WriteData> write_data, MojoResult result) {
   write_data->client->OnComplete(status);
 }
 
-}  // namespace
+}  // 命名空间。
 
 ElectronURLLoaderFactory::RedirectedRequest::RedirectedRequest(
     const net::RedirectInfo& redirect_info,
@@ -202,8 +202,8 @@ void ElectronURLLoaderFactory::RedirectedRequest::FollowRedirect(
     const net::HttpRequestHeaders& modified_headers,
     const net::HttpRequestHeaders& modified_cors_exempt_headers,
     const absl::optional<GURL>& new_url) {
-  // Update |request_| with info from the redirect, so that it's accurate
-  // The following references code in WorkerScriptLoader::FollowRedirect
+  // 使用来自重定向的信息更新|REQUEST_|，以确保其准确性。
+  // 以下引用WorkerScriptLoader：：FollowRedirect中的代码。
   bool should_clear_upload = false;
   net::RedirectUtil::UpdateHttpRequest(
       request_.url, request_.method, redirect_info_, removed_headers,
@@ -221,7 +221,7 @@ void ElectronURLLoaderFactory::RedirectedRequest::FollowRedirect(
   request_.referrer = GURL(redirect_info_.new_referrer);
   request_.referrer_policy = redirect_info_.new_referrer_policy;
 
-  // Create a new loader to process the redirect and destroy this one
+  // 创建新的加载器以处理重定向并销毁此加载器。
   target_factory_remote_->CreateLoaderAndStart(
       loader_receiver_.Unbind(), request_id_, options_, request_,
       std::move(client_), traffic_annotation_);
@@ -230,7 +230,7 @@ void ElectronURLLoaderFactory::RedirectedRequest::FollowRedirect(
 }
 
 void ElectronURLLoaderFactory::RedirectedRequest::OnTargetFactoryError() {
-  // Can't create a new loader at this point, so the request can't continue
+  // 此时无法创建新的加载器，因此请求无法继续。
   mojo::Remote<network::mojom::URLLoaderClient> client_remote(
       std::move(client_));
   client_remote->OnComplete(
@@ -247,14 +247,14 @@ void ElectronURLLoaderFactory::RedirectedRequest::DeleteThis() {
   delete this;
 }
 
-// static
+// 静电。
 mojo::PendingRemote<network::mojom::URLLoaderFactory>
 ElectronURLLoaderFactory::Create(ProtocolType type,
                                  const ProtocolHandler& handler) {
   mojo::PendingRemote<network::mojom::URLLoaderFactory> pending_remote;
 
-  // The ElectronURLLoaderFactory will delete itself when there are no more
-  // receivers - see the SelfDeletingURLLoaderFactory::OnDisconnect method.
+  // 当没有更多文件时，ElectronURLLoaderFactory将自动删除。
+  // 接收器-请参见SelfDeletingURLLoaderFactory：：OnDisconnect方法。
   new ElectronURLLoaderFactory(type, handler,
                                pending_remote.InitWithNewPipeAndPassReceiver());
 
@@ -280,9 +280,9 @@ void ElectronURLLoaderFactory::CreateLoaderAndStart(
     const net::MutableNetworkTrafficAnnotationTag& traffic_annotation) {
   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
 
-  // |StartLoading| is used for both intercepted and registered protocols,
-  // and on redirects it needs a factory to use to create a loader for the
-  // new request. So in this case, this factory is the target factory.
+  // |StartLoding|用于拦截和注册的协议。
+  // 在重定向上，它需要一个工厂来为。
+  // 新请求。所以在这种情况下，这个工厂就是目标工厂。
   mojo::PendingRemote<network::mojom::URLLoaderFactory> target_factory;
   this->Clone(target_factory.InitWithNewPipeAndPassReceiver());
 
@@ -293,7 +293,7 @@ void ElectronURLLoaderFactory::CreateLoaderAndStart(
                      traffic_annotation, std::move(target_factory), type_));
 }
 
-// static
+// 静电。
 void ElectronURLLoaderFactory::OnComplete(
     mojo::PendingRemote<network::mojom::URLLoaderClient> client,
     int32_t request_id,
@@ -305,7 +305,7 @@ void ElectronURLLoaderFactory::OnComplete(
   }
 }
 
-// static
+// 静电。
 void ElectronURLLoaderFactory::StartLoading(
     mojo::PendingReceiver<network::mojom::URLLoader> loader,
     int32_t request_id,
@@ -316,10 +316,10 @@ void ElectronURLLoaderFactory::StartLoading(
     mojo::PendingRemote<network::mojom::URLLoaderFactory> target_factory,
     ProtocolType type,
     gin::Arguments* args) {
-  // Send network error when there is no argument passed.
-  //
-  // Note that we should not throw JS error in the callback no matter what is
-  // passed, to keep compatibility with old code.
+  // 未传递参数时发送网络错误。
+  // 
+  // 请注意，无论是什么，我们都不应该在回调中抛出JS错误。
+  // 通过，以保持与旧代码的兼容性。
   v8::Local<v8::Value> response;
   if (!args->GetNext(&response)) {
     OnComplete(std::move(client), request_id,
@@ -327,7 +327,7 @@ void ElectronURLLoaderFactory::StartLoading(
     return;
   }
 
-  // Parse {error} object.
+  // 分析{Error}对象。
   gin_helper::Dictionary dict = ToDict(args->isolate(), response);
   if (!dict.IsEmpty()) {
     int error_code;
@@ -340,16 +340,16 @@ void ElectronURLLoaderFactory::StartLoading(
 
   network::mojom::URLResponseHeadPtr head = ToResponseHead(dict);
 
-  // Handle redirection.
-  //
-  // Note that with NetworkService, sending the "Location" header no longer
-  // automatically redirects the request, we have explicitly create a new loader
-  // to implement redirection. This is also what Chromium does with WebRequest
-  // API in WebRequestProxyingURLLoaderFactory.
+  // 处理重定向。
+  // 
+  // 请注意，使用NetworkService时，不再发送“Location”报头。
+  // 自动重定向请求，我们显式创建了一个新的加载器。
+  // 若要实现重定向，请执行以下操作。这也是Chromium对WebRequest所做的事情。
+  // WebRequestProxyingURLLoaderFactory中的接口。
   std::string location;
   if (head->headers->IsRedirect(&location)) {
-    // If the request is a MAIN_FRAME request, the first-party URL gets
-    // updated on redirects.
+    // 如果请求是Main_Frame请求，则第一方URL将获取。
+    // 已更新重定向。
     const net::RedirectInfo::FirstPartyURLPolicy first_party_url_policy =
         request.resource_type ==
                 static_cast<int>(blink::mojom::ResourceType::kMainFrame)
@@ -370,11 +370,11 @@ void ElectronURLLoaderFactory::StartLoading(
 
     client_remote->OnReceiveRedirect(redirect_info, std::move(head));
 
-    // Bind the URLLoader receiver and wait for a FollowRedirect request, or for
-    // the remote to disconnect, which will happen if the request is aborted.
-    // That may happen when the redirect is to a different scheme, which will
-    // cause the URL loader to be destroyed and a new one created using the
-    // factory for that scheme.
+    // 绑定URLLoader接收器并等待FollowRedirect请求，或。
+    // 要断开连接的遥控器，如果请求中止，则会发生这种情况。
+    // 当重定向到不同的方案时，可能会发生这种情况，这将。
+    // 导致销毁URL加载器并使用。
+    // 该计划的工厂。
     new RedirectedRequest(redirect_info, std::move(loader), request_id, options,
                           request, client_remote.Unbind(), traffic_annotation,
                           std::move(target_factory));
@@ -382,7 +382,7 @@ void ElectronURLLoaderFactory::StartLoading(
     return;
   }
 
-  // Some protocol accepts non-object responses.
+  // 一些协议接受非对象响应。
   if (dict.IsEmpty() && ResponseMustBeObject(type)) {
     OnComplete(std::move(client), request_id,
                network::URLLoaderCompletionStatus(net::ERR_NOT_IMPLEMENTED));
@@ -423,7 +423,7 @@ void ElectronURLLoaderFactory::StartLoading(
   }
 }
 
-// static
+// 静电。
 void ElectronURLLoaderFactory::StartLoadingBuffer(
     mojo::PendingRemote<network::mojom::URLLoaderClient> client,
     network::mojom::URLResponseHeadPtr head,
@@ -443,7 +443,7 @@ void ElectronURLLoaderFactory::StartLoadingBuffer(
       std::string(node::Buffer::Data(buffer), node::Buffer::Length(buffer)));
 }
 
-// static
+// 静电。
 void ElectronURLLoaderFactory::StartLoadingString(
     mojo::PendingRemote<network::mojom::URLLoaderClient> client,
     network::mojom::URLResponseHeadPtr head,
@@ -466,7 +466,7 @@ void ElectronURLLoaderFactory::StartLoadingString(
   SendContents(std::move(client), std::move(head), std::move(contents));
 }
 
-// static
+// 静电。
 void ElectronURLLoaderFactory::StartLoadingFile(
     mojo::PendingReceiver<network::mojom::URLLoader> loader,
     network::ResourceRequest request,
@@ -491,13 +491,13 @@ void ElectronURLLoaderFactory::StartLoadingFile(
     return;
   }
 
-  // Add header to ignore CORS.
+  // 添加标题以忽略CORS。
   head->headers->AddHeader("Access-Control-Allow-Origin", "*");
   asar::CreateAsarURLLoader(request, std::move(loader), std::move(client),
                             head->headers);
 }
 
-// static
+// 静电。
 void ElectronURLLoaderFactory::StartLoadingHttp(
     mojo::PendingReceiver<network::mojom::URLLoader> loader,
     const network::ResourceRequest& original_request,
@@ -541,7 +541,7 @@ void ElectronURLLoaderFactory::StartLoadingHttp(
       std::move(upload_data));
 }
 
-// static
+// 静电。
 void ElectronURLLoaderFactory::StartLoadingStream(
     mojo::PendingReceiver<network::mojom::URLLoader> loader,
     mojo::PendingRemote<network::mojom::URLLoaderClient> client,
@@ -549,16 +549,16 @@ void ElectronURLLoaderFactory::StartLoadingStream(
     const gin_helper::Dictionary& dict) {
   v8::Local<v8::Value> stream;
   if (!dict.Get("data", &stream)) {
-    // Assume the opts is already a stream.
+    // 假设OPTS已经是一个流。
     stream = dict.GetHandle();
   } else if (stream->IsNullOrUndefined()) {
     mojo::Remote<network::mojom::URLLoaderClient> client_remote(
         std::move(client));
-    // "data" was explicitly passed as null or undefined, assume the user wants
-    // to send an empty body.
-    //
-    // Note that We must submit a empty body otherwise NetworkService would
-    // crash.
+    // 假定用户需要，“data”被显式作为NULL或未定义传递。
+    // 送去一具空身体。
+    // 
+    // 请注意，我们必须提交一个空正文，否则NetworkService将。
+    // 撞车。
     client_remote->OnReceiveResponse(std::move(head));
     mojo::ScopedDataPipeProducerHandle producer;
     mojo::ScopedDataPipeConsumerHandle consumer;
@@ -567,7 +567,7 @@ void ElectronURLLoaderFactory::StartLoadingStream(
           network::URLLoaderCompletionStatus(net::ERR_INSUFFICIENT_RESOURCES));
       return;
     }
-    producer.reset();  // The data pipe is empty.
+    producer.reset();  // 数据管道为空。
     client_remote->OnStartLoadingResponseBody(std::move(consumer));
     client_remote->OnComplete(network::URLLoaderCompletionStatus(net::OK));
     return;
@@ -594,7 +594,7 @@ void ElectronURLLoaderFactory::StartLoadingStream(
                        data.isolate(), data.GetHandle());
 }
 
-// static
+// 静电。
 void ElectronURLLoaderFactory::SendContents(
     mojo::PendingRemote<network::mojom::URLLoaderClient> client,
     network::mojom::URLResponseHeadPtr head,
@@ -602,11 +602,11 @@ void ElectronURLLoaderFactory::SendContents(
   mojo::Remote<network::mojom::URLLoaderClient> client_remote(
       std::move(client));
 
-  // Add header to ignore CORS.
+  // 添加标题以忽略CORS。
   head->headers->AddHeader("Access-Control-Allow-Origin", "*");
   client_remote->OnReceiveResponse(std::move(head));
 
-  // Code below follows the pattern of data_url_loader_factory.cc.
+  // 下面的代码遵循data_url_loader_factory.cc模式。
   mojo::ScopedDataPipeProducerHandle producer;
   mojo::ScopedDataPipeConsumerHandle consumer;
   if (mojo::CreateDataPipe(nullptr, producer, consumer) != MOJO_RESULT_OK) {
@@ -632,4 +632,4 @@ void ElectronURLLoaderFactory::SendContents(
       base::BindOnce(OnWrite, std::move(write_data)));
 }
 
-}  // namespace electron
+}  // 命名空间电子

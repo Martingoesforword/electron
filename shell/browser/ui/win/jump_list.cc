@@ -1,10 +1,10 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/win/jump_list.h"
 
-#include <propkey.h>  // for PKEY_* constants
+#include <propkey.h>  // 对于PKEY_*常量。
 
 #include "base/cxx17_backports.h"
 #include "base/logging.h"
@@ -29,10 +29,10 @@ bool AppendTask(const JumpListItem& item, IObjectCollection* collection) {
       FAILED(link->SetDescription(item.description.c_str())))
     return false;
 
-  // SetDescription limits the size of the parameter to INFOTIPSIZE (1024),
-  // which suggests rejection when exceeding that limit, but experimentation
-  // has shown that descriptions longer than 260 characters cause a silent
-  // failure, despite SetDescription returning the success code S_OK.
+  // SetDescription将参数的大小限制为INFOTIPSIZE(1024)，
+  // 这意味着当超过这个限制时会被拒绝，但是实验。
+  // 已经表明，超过260个字符的描述会导致静音。
+  // 失败，尽管SetDescription返回成功代码S_OK。
   if (item.description.size() > 260)
     return false;
 
@@ -128,7 +128,7 @@ bool ConvertShellLinkToJumpListItem(IShellLink* shell_link,
   return true;
 }
 
-// Convert IObjectArray of IShellLink & IShellItem to std::vector.
+// 将IShellLink&IShellItem的IObjectArray转换为std：：Vector。
 void ConvertRemovedJumpListItems(IObjectArray* in,
                                  std::vector<JumpListItem>* out) {
   DCHECK(in);
@@ -155,7 +155,7 @@ void ConvertRemovedJumpListItems(IObjectArray* in,
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -218,10 +218,10 @@ bool JumpList::Delete() {
   return SUCCEEDED(destinations_->DeleteList(app_id_.c_str()));
 }
 
-// This method will attempt to append as many items to the Jump List as
-// possible, and will return a single error code even if multiple things
-// went wrong in the process. To get detailed information about what went
-// wrong enable runtime logging.
+// 此方法将尝试将尽可能多的项目追加到跳转列表。
+// 可能，并且将返回单个错误代码，即使有多个错误代码也是如此。
+// 在这个过程中出了差错。以获取关于发生了什么的详细信息。
+// 错误启用运行时日志记录。
 JumpListResult JumpList::AppendCategory(const JumpListCategory& category) {
   DCHECK(destinations_);
   if (!destinations_)
@@ -236,7 +236,7 @@ JumpListResult JumpList::AppendCategory(const JumpListCategory& category) {
   }
 
   auto result = JumpListResult::kSuccess;
-  // Keep track of how many items were actually appended to the category.
+  // 记录有多少项实际附加到类别中。
   int appended_count = 0;
   for (const auto& item : category.items) {
     switch (item.type) {
@@ -313,10 +313,10 @@ JumpListResult JumpList::AppendCategory(const JumpListCategory& category) {
   return result;
 }
 
-// This method will attempt to append as many categories to the Jump List
-// as possible, and will return a single error code even if multiple things
-// went wrong in the process. To get detailed information about what went
-// wrong enable runtime logging.
+// 此方法将尝试将尽可能多的类别追加到跳转列表。
+// ，并将返回单个错误代码，即使有多个。
+// 在这个过程中出了差错。以获取关于发生了什么的详细信息。
+// 错误启用运行时日志记录。
 JumpListResult JumpList::AppendCategories(
     const std::vector<JumpListCategory>& categories) {
   DCHECK(destinations_);
@@ -346,8 +346,8 @@ JumpListResult JumpList::AppendCategories(
         }
         break;
     }
-    // Keep the first non-generic error code as only one can be returned from
-    // the function (so try to make it the most useful one).
+    // 保留第一个非泛型错误代码，因为只能从返回一个错误代码。
+    // 函数(所以尽量使其成为最有用的函数)。
     if (((result == JumpListResult::kSuccess) ||
          (result == JumpListResult::kGenericError)) &&
         (latestResult != JumpListResult::kSuccess))
@@ -356,4 +356,4 @@ JumpListResult JumpList::AppendCategories(
   return result;
 }
 
-}  // namespace electron
+}  // 命名空间电子

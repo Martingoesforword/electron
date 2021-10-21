@@ -1,6 +1,6 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2019年Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/serial/serial_chooser_context_factory.h"
 
@@ -22,12 +22,12 @@ KeyedService* SerialChooserContextFactory::BuildServiceInstanceFor(
   return new SerialChooserContext();
 }
 
-// static
+// 静电。
 SerialChooserContextFactory* SerialChooserContextFactory::GetInstance() {
   return base::Singleton<SerialChooserContextFactory>::get();
 }
 
-// static
+// 静电。
 SerialChooserContext* SerialChooserContextFactory::GetForBrowserContext(
     content::BrowserContext* context) {
   return static_cast<SerialChooserContext*>(
@@ -39,4 +39,4 @@ content::BrowserContext* SerialChooserContextFactory::GetBrowserContextToUse(
   return context;
 }
 
-}  // namespace electron
+}  // 命名空间电子

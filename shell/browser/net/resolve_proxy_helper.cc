@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/net/resolve_proxy_helper.h"
 
@@ -25,17 +25,17 @@ ResolveProxyHelper::~ResolveProxyHelper() {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
   DCHECK(!owned_self_);
   DCHECK(!receiver_.is_bound());
-  // Clear all pending requests if the ProxyService is still alive.
+  // 如果ProxyService仍处于活动状态，则清除所有挂起的请求。
   pending_requests_.clear();
 }
 
 void ResolveProxyHelper::ResolveProxy(const GURL& url,
                                       ResolveProxyCallback callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
-  // Enqueue the pending request.
+  // 将挂起的请求排队。
   pending_requests_.emplace_back(url, std::move(callback));
 
-  // If nothing is in progress, start.
+  // 如果没有进行任何操作，请启动。
   if (!receiver_.is_bound()) {
     DCHECK_EQ(1u, pending_requests_.size());
     StartPendingRequest();
@@ -47,7 +47,7 @@ void ResolveProxyHelper::StartPendingRequest() {
   DCHECK(!receiver_.is_bound());
   DCHECK(!pending_requests_.empty());
 
-  // Start the request.
+  // 启动请求。
   mojo::PendingRemote<network::mojom::ProxyLookupClient> proxy_lookup_client =
       receiver_.BindNewPipeAndPassRemote();
   receiver_.set_disconnect_handler(
@@ -68,7 +68,7 @@ void ResolveProxyHelper::OnProxyLookupComplete(
 
   receiver_.reset();
 
-  // Clear the current (completed) request.
+  // 清除当前(已完成)请求。
   PendingRequest completed_request = std::move(pending_requests_.front());
   pending_requests_.pop_front();
 
@@ -79,7 +79,7 @@ void ResolveProxyHelper::OnProxyLookupComplete(
   if (!completed_request.callback.is_null())
     std::move(completed_request.callback).Run(proxy);
 
-  // Start the next request.
+  // 开始下一个请求。
   if (!pending_requests_.empty())
     StartPendingRequest();
 }
@@ -98,4 +98,4 @@ ResolveProxyHelper::PendingRequest&
 ResolveProxyHelper::PendingRequest::operator=(
     ResolveProxyHelper::PendingRequest&& pending_request) noexcept = default;
 
-}  // namespace electron
+}  // 命名空间电子

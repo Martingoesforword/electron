@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_helper/destroyable.h"
 
@@ -27,7 +27,7 @@ void DestroyFunc(const v8::FunctionCallbackInfo<v8::Value>& info) {
   if (Destroyable::IsDestroyed(holder))
     return;
 
-  // TODO(zcbenz): gin_helper::Wrappable will be removed.
+  // TODO(Zcbenz)：gin_helper：：Wrappable将被删除。
   delete static_cast<gin_helper::WrappableBase*>(
       holder->GetAlignedPointerFromInternalField(0));
   holder->SetAlignedPointerInInternalField(0, nullptr);
@@ -38,20 +38,20 @@ void IsDestroyedFunc(const v8::FunctionCallbackInfo<v8::Value>& info) {
       info.GetIsolate(), Destroyable::IsDestroyed(info.Holder())));
 }
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 bool Destroyable::IsDestroyed(v8::Local<v8::Object> object) {
-  // An object is considered destroyed if it has no internal pointer or its
-  // internal has been destroyed.
+  // 如果对象没有内部指针或其。
+  // 内部已经被摧毁了。
   return object->InternalFieldCount() == 0 ||
          object->GetAlignedPointerFromInternalField(0) == nullptr;
 }
 
-// static
+// 静电。
 void Destroyable::MakeDestroyable(v8::Isolate* isolate,
                                   v8::Local<v8::FunctionTemplate> prototype) {
-  // Cache the FunctionTemplate of "destroy" and "isDestroyed".
+  // 缓存“Destroy”和“isDestroed”的FunctionTemplate。
   if (GetDestroyFunc()->IsEmpty()) {
     auto templ = v8::FunctionTemplate::New(isolate, DestroyFunc);
     templ->RemovePrototype();
@@ -70,4 +70,4 @@ void Destroyable::MakeDestroyable(v8::Isolate* isolate,
       v8::Local<v8::FunctionTemplate>::New(isolate, *GetIsDestroyedFunc()));
 }
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper

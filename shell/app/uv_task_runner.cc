@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <utility>
 
@@ -40,7 +40,7 @@ bool UvTaskRunner::PostNonNestableDelayedTask(const base::Location& from_here,
   return PostDelayedTask(from_here, std::move(task), delay);
 }
 
-// static
+// 静电。
 void UvTaskRunner::OnTimeout(uv_timer_t* timer) {
   auto& tasks = static_cast<UvTaskRunner*>(timer->data)->tasks_;
   const auto iter = tasks.find(timer);
@@ -53,9 +53,9 @@ void UvTaskRunner::OnTimeout(uv_timer_t* timer) {
   uv_close(reinterpret_cast<uv_handle_t*>(timer), UvTaskRunner::OnClose);
 }
 
-// static
+// 静电。
 void UvTaskRunner::OnClose(uv_handle_t* handle) {
   delete reinterpret_cast<uv_timer_t*>(handle);
 }
 
-}  // namespace electron
+}  // 命名空间电子

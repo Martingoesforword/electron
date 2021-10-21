@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/zoom_level_delegate.h"
 
@@ -24,11 +24,11 @@ namespace electron {
 
 namespace {
 
-// Double that indicates the default zoom level.
+// 双精度，表示默认缩放级别。
 const char kPartitionDefaultZoomLevel[] = "partition.default_zoom_level";
 
-// Dictionary that maps hostnames to zoom levels.  Hosts not in this pref will
-// be displayed at the default zoom level.
+// 将主机名映射到缩放级别的字典。不在此首选项中主机将。
+// 以默认缩放级别显示。
 const char kPartitionPerHostZoomLevels[] = "partition.per_host_zoom_levels";
 
 std::string GetHash(const base::FilePath& partition_path) {
@@ -36,9 +36,9 @@ std::string GetHash(const base::FilePath& partition_path) {
   return base::NumberToString(int_key);
 }
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 void ZoomLevelDelegate::RegisterPrefs(PrefRegistrySimple* registry) {
   registry->RegisterDictionaryPref(kPartitionDefaultZoomLevel);
   registry->RegisterDictionaryPref(kPartitionPerHostZoomLevels);
@@ -67,8 +67,8 @@ double ZoomLevelDelegate::GetDefaultZoomLevelPref() const {
 
   const base::DictionaryValue* default_zoom_level_dictionary =
       pref_service_->GetDictionary(kPartitionDefaultZoomLevel);
-  // If no default has been previously set, the default returned is the
-  // value used to initialize default_zoom_level in this function.
+  // 如果以前没有设置默认值，则返回的默认值为。
+  // 用于初始化此函数中的DEFAULT_ZOOM_LEVEL的值。
   default_zoom_level_dictionary->GetDouble(partition_key_, &default_zoom_level);
   return default_zoom_level;
 }
@@ -109,12 +109,12 @@ void ZoomLevelDelegate::ExtractPerHostZoomLevels(
     const std::string& host(i.key());
     const absl::optional<double> zoom_level = i.value().GetIfDouble();
 
-    // Filter out A) the empty host, B) zoom levels equal to the default; and
-    // remember them, so that we can later erase them from Prefs.
-    // Values of type B could further have been stored before the default zoom
-    // level was set to its current value. In either case, SetZoomLevelForHost
-    // will ignore type B values, thus, to have consistency with HostZoomMap's
-    // internal state, these values must also be removed from Prefs.
+    // 过滤掉A)空主机，B)等于默认值的缩放级别；以及。
+    // 记住它们，这样我们以后就可以从首选项中删除它们。
+    // 类型B的值可以在默认缩放之前进一步存储。
+    // 级别已设置为其当前值。在这两种情况下，SetZoomLevelForHost。
+    // 将忽略类型B值，因此与HostZoomMap的值保持一致。
+    // 内部状态，则还必须从首选项中删除这些值。
     if (host.empty() || !zoom_level ||
         blink::PageZoomValuesEqual(*zoom_level,
                                    host_zoom_map_->GetDefaultZoomLevel())) {
@@ -125,8 +125,8 @@ void ZoomLevelDelegate::ExtractPerHostZoomLevels(
     host_zoom_map_->SetZoomLevelForHost(host, *zoom_level);
   }
 
-  // Sanitize prefs to remove entries that match the default zoom level and/or
-  // have an empty host.
+  // 清理首选项以删除与默认缩放级别和/或。
+  // 有一个空的主机。
   {
     DictionaryPrefUpdate update(pref_service_, kPartitionPerHostZoomLevels);
     base::DictionaryValue* host_zoom_dictionaries = update.Get();
@@ -139,24 +139,24 @@ void ZoomLevelDelegate::ExtractPerHostZoomLevels(
 }
 
 void ZoomLevelDelegate::InitHostZoomMap(content::HostZoomMap* host_zoom_map) {
-  // This init function must be called only once.
+  // 此init函数只能调用一次。
   DCHECK(!host_zoom_map_);
   DCHECK(host_zoom_map);
   host_zoom_map_ = host_zoom_map;
 
-  // Initialize the default zoom level.
+  // 初始化默认缩放级别。
   host_zoom_map_->SetDefaultZoomLevel(GetDefaultZoomLevelPref());
 
-  // Initialize the HostZoomMap with per-host zoom levels from the persisted
-  // zoom-level preference values.
+  // 使用持久化的每个主机的缩放级别初始化HostZoomMap。
+  // 缩放级别首选项值。
   const base::DictionaryValue* host_zoom_dictionaries =
       pref_service_->GetDictionary(kPartitionPerHostZoomLevels);
   const base::DictionaryValue* host_zoom_dictionary = nullptr;
   if (host_zoom_dictionaries->GetDictionary(partition_key_,
                                             &host_zoom_dictionary)) {
-    // Since we're calling this before setting up zoom_subscription_ below we
-    // don't need to worry that host_zoom_dictionary is indirectly affected
-    // by calls to HostZoomMap::SetZoomLevelForHost().
+    // 由于我们在设置下面的Zoom_Subscription_之前调用它，因此我们。
+    // 无需担心HOST_ZOOM_DICTIONARY会受到间接影响。
+    // 通过调用HostZoomMap：：SetZoomLevelForHost()。
     ExtractPerHostZoomLevels(host_zoom_dictionary);
   }
   zoom_subscription_ =
@@ -164,4 +164,4 @@ void ZoomLevelDelegate::InitHostZoomMap(content::HostZoomMap* host_zoom_map) {
           &ZoomLevelDelegate::OnZoomLevelChanged, base::Unretained(this)));
 }
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/electron_autofill_agent.h"
 
@@ -37,17 +37,17 @@ void GetDataListSuggestions(const blink::WebInputElement& element,
 }
 
 void TrimStringVectorForIPC(std::vector<std::u16string>* strings) {
-  // Limit the size of the vector.
+  // 限制矢量的大小。
   if (strings->size() > kMaxListSize)
     strings->resize(kMaxListSize);
 
-  // Limit the size of the strings in the vector.
+  // 限制矢量中字符串的大小。
   for (auto& str : *strings) {
     if (str.length() > kMaxDataLength)
       str.resize(kMaxDataLength);
   }
 }
-}  // namespace
+}  // 命名空间。
 
 AutofillAgent::AutofillAgent(content::RenderFrame* frame,
                              blink::AssociatedInterfaceRegistry* registry)
@@ -223,4 +223,4 @@ AutofillAgent::GetAutofillDriver() {
   return autofill_driver_;
 }
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/ui/devtools_manager_delegate.h"
 
@@ -42,7 +42,7 @@ class TCPServerSocketFactory : public content::DevToolsSocketFactory {
       : address_(address), port_(port) {}
 
  private:
-  // content::ServerSocketFactory.
+  // 内容：：ServerSocketFactory。
   std::unique_ptr<net::ServerSocket> CreateForHttpServer() override {
     auto socket =
         std::make_unique<net::TCPServerSocket>(nullptr, net::NetLogSource());
@@ -64,8 +64,8 @@ class TCPServerSocketFactory : public content::DevToolsSocketFactory {
 
 std::unique_ptr<content::DevToolsSocketFactory> CreateSocketFactory() {
   auto& command_line = *base::CommandLine::ForCurrentProcess();
-  // See if the user specified a port on the command line (useful for
-  // automation). If not, use an ephemeral port by specifying 0.
+  // 查看用户是否在命令行上指定了端口(适用于。
+  // 自动化)。如果不是，请通过指定0使用临时端口。
   int port = 0;
   if (command_line.HasSwitch(switches::kRemoteDebuggingPort)) {
     int temp_port;
@@ -83,11 +83,11 @@ std::unique_ptr<content::DevToolsSocketFactory> CreateSocketFactory() {
 
 const char kBrowserCloseMethod[] = "Browser.close";
 
-}  // namespace
+}  // 命名空间。
 
-// DevToolsManagerDelegate ---------------------------------------------------
+// 设备工具管理器委派-。
 
-// static
+// 静电。
 void DevToolsManagerDelegate::StartHttpHandler() {
   base::FilePath user_dir;
   base::PathService::Get(chrome::DIR_USER_DATA, &user_dir);
@@ -109,12 +109,12 @@ void DevToolsManagerDelegate::HandleCommand(
   DCHECK(dispatchable.ok());
   if (crdtp::SpanEquals(crdtp::SpanFrom(kBrowserCloseMethod),
                         dispatchable.Method())) {
-    // In theory, we should respond over the protocol saying that the
-    // Browser.close was handled. But doing so requires instantiating the
-    // protocol UberDispatcher and generating proper protocol handlers.
-    // Since we only have one method and it is supposed to close Electron,
-    // we don't need to add this complexity. Should we decide to support
-    // methods like Browser.setWindowBounds, we'll need to do it though.
+    // 从理论上讲，我们应该对协议做出回应，说。
+    // Browser.Close已处理。但这样做需要实例化。
+    // 协议UberDispatcher并生成适当的协议处理程序。
+    // 因为我们只有一种方法，而且它应该是关闭电子的，
+    // 我们不需要增加这种复杂性。我们是否应该决定支持。
+    // 像Browser.setWindowBound这样的方法，但是我们需要这样做。
     base::PostTask(FROM_HERE, {content::BrowserThread::UI},
                    base::BindOnce([]() { Browser::Get()->Quit(); }));
     return;
@@ -136,4 +136,4 @@ bool DevToolsManagerDelegate::HasBundledFrontendResources() {
   return true;
 }
 
-}  // namespace electron
+}  // 命名空间电子

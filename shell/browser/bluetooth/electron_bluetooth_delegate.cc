@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/bluetooth/electron_bluetooth_delegate.h"
 
@@ -37,7 +37,7 @@ ElectronBluetoothDelegate::RunBluetoothChooser(
   return std::make_unique<BluetoothChooser>(api_web_contents, event_handler);
 }
 
-// The following methods are not currently called in Electron.
+// 以下方法当前未在Electron中调用。
 std::unique_ptr<content::BluetoothScanningPrompt>
 ElectronBluetoothDelegate::ShowBluetoothScanningPrompt(
     content::RenderFrameHost* frame,
@@ -123,4 +123,4 @@ ElectronBluetoothDelegate::GetPermittedDevices(
   return permitted_devices;
 }
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/osr/osr_video_consumer.h"
 
@@ -83,18 +83,18 @@ void OffScreenVideoConsumer::OnFrameCaptured(
     return;
   }
 
-  // The SkBitmap's pixels will be marked as immutable, but the installPixels()
-  // API requires a non-const pointer. So, cast away the const.
+  // SkBitmap的像素将标记为不可变，但installPixels()。
+  // API需要非常数指针。所以，扔掉这位君主吧。
   void* const pixels = const_cast<void*>(mapping.memory());
 
-  // Call installPixels() with a |releaseProc| that: 1) notifies the capturer
-  // that this consumer has finished with the frame, and 2) releases the shared
-  // memory mapping.
+  // 使用|RelaseProc|调用installPixels()：1)通知捕捉器。
+  // 该使用者已经完成了帧，并且2)释放共享的。
+  // 内存映射。
   struct FramePinner {
-    // Keeps the shared memory that backs |frame_| mapped.
+    // 保持支持|FRAME_|映射的共享内存。
     base::ReadOnlySharedMemoryMapping mapping;
-    // Prevents FrameSinkVideoCapturer from recycling the shared memory that
-    // backs |frame_|.
+    // 防止FrameSinkVideoCapturer回收共享内存。
+    // BACKS|FRAME_|。
     mojo::PendingRemote<viz::mojom::FrameSinkVideoConsumerFrameCallbacks>
         releaser;
   };
@@ -139,4 +139,4 @@ bool OffScreenVideoConsumer::CheckContentRect(const gfx::Rect& content_rect) {
   return true;
 }
 
-}  // namespace electron
+}  // 命名空间电子

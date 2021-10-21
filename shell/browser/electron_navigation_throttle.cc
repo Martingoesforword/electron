@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/electron_navigation_throttle.h"
 
@@ -33,7 +33,7 @@ ElectronNavigationThrottle::WillStartRequest() {
   v8::HandleScope scope(isolate);
   api::WebContents* api_contents = api::WebContents::From(contents);
   if (!api_contents) {
-    // No need to emit any event if the WebContents is not available in JS.
+    // 如果JS中没有WebContents，则无需发出任何事件。
     return PROCEED;
   }
 
@@ -57,7 +57,7 @@ ElectronNavigationThrottle::WillRedirectRequest() {
   v8::HandleScope scope(isolate);
   api::WebContents* api_contents = api::WebContents::From(contents);
   if (!api_contents) {
-    // No need to emit any event if the WebContents is not available in JS.
+    // 如果JS中没有WebContents，则无需发出任何事件。
     return PROCEED;
   }
 
@@ -67,4 +67,4 @@ ElectronNavigationThrottle::WillRedirectRequest() {
   return PROCEED;
 }
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2018年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/extensions/electron_extensions_api_provider.h"
 
@@ -44,7 +44,7 @@ base::span<const Alias> GetPermissionAliases() {
   return base::span<const Alias>();
 }
 
-}  // namespace extensions
+}  // 命名空间扩展。
 
 namespace electron {
 
@@ -68,12 +68,12 @@ void ElectronExtensionsAPIProvider::AddPermissionFeatures(
 
 void ElectronExtensionsAPIProvider::AddBehaviorFeatures(
     extensions::FeatureProvider* provider) {
-  // No shell-specific behavior features.
+  // 没有外壳特定的行为特性。
 }
 
 void ElectronExtensionsAPIProvider::AddAPIJSONSources(
     extensions::JSONFeatureProviderSource* json_source) {
-  // json_source->LoadJSON(IDR_SHELL_EXTENSION_API_FEATURES);
+  // Json_source-&gt;LoadJSON(IDR_SHELL_EXTENSION_API_FEATURES)；
 }
 
 bool ElectronExtensionsAPIProvider::IsAPISchemaGenerated(
@@ -99,4 +99,4 @@ void ElectronExtensionsAPIProvider::RegisterManifestHandlers() {
       std::make_unique<extensions::DevToolsPageHandler>());
 }
 
-}  // namespace electron
+}  // 命名空间电子

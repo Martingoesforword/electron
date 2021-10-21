@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/application_info.h"
 
@@ -31,7 +31,7 @@ std::string GetPossiblyOverriddenApplicationName() {
 }
 
 std::string GetApplicationUserAgent() {
-  // Construct user agent string.
+  // 构造用户代理字符串。
   Browser* browser = Browser::Get();
   std::string name, user_agent;
   if (!base::RemoveChars(browser->GetName(), " ", &name))
@@ -47,4 +47,4 @@ std::string GetApplicationUserAgent() {
   return content::BuildUserAgentFromProduct(user_agent);
 }
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/views/global_menu_bar_x11.h"
 
@@ -23,7 +23,7 @@
 #include "ui/gfx/x/keysyms/keysyms.h"
 #include "ui/gfx/x/xproto.h"
 
-// libdbusmenu-glib types
+// Libdbusmenu-Glib类型。
 typedef struct _DbusmenuMenuitem DbusmenuMenuitem;
 typedef DbusmenuMenuitem* (*dbusmenu_menuitem_new_func)();
 typedef DbusmenuMenuitem* (*dbusmenu_menuitem_new_with_id_func)(int id);
@@ -59,9 +59,9 @@ namespace electron {
 
 namespace {
 
-// Retrieved functions from libdbusmenu-glib.
+// 从libdbusmenu-lib检索到的函数。
 
-// DbusmenuMenuItem methods:
+// DbusmenuMenuItem方法：
 dbusmenu_menuitem_new_func menuitem_new = nullptr;
 dbusmenu_menuitem_new_with_id_func menuitem_new_with_id = nullptr;
 dbusmenu_menuitem_get_id_func menuitem_get_id = nullptr;
@@ -74,11 +74,11 @@ dbusmenu_menuitem_property_set_variant_func menuitem_property_set_variant =
 dbusmenu_menuitem_property_set_bool_func menuitem_property_set_bool = nullptr;
 dbusmenu_menuitem_property_set_int_func menuitem_property_set_int = nullptr;
 
-// DbusmenuServer methods:
+// DbusmenuServer方法：
 dbusmenu_server_new_func server_new = nullptr;
 dbusmenu_server_set_root_func server_set_root = nullptr;
 
-// Properties that we set on menu items:
+// 我们在菜单项上设置的属性：
 const char kPropertyEnabled[] = "enabled";
 const char kPropertyLabel[] = "label";
 const char kPropertyShortcut[] = "shortcut";
@@ -105,7 +105,7 @@ void EnsureMethodsLoaded() {
   if (!dbusmenu_lib)
     return;
 
-  // DbusmenuMenuItem methods.
+  // DbusmenuMenuItem方法。
   menuitem_new = reinterpret_cast<dbusmenu_menuitem_new_func>(
       dlsym(dbusmenu_lib, "dbusmenu_menuitem_new"));
   menuitem_new_with_id = reinterpret_cast<dbusmenu_menuitem_new_with_id_func>(
@@ -131,7 +131,7 @@ void EnsureMethodsLoaded() {
       reinterpret_cast<dbusmenu_menuitem_property_set_int_func>(
           dlsym(dbusmenu_lib, "dbusmenu_menuitem_property_set_int"));
 
-  // DbusmenuServer methods.
+  // DbusmenuServer方法。
   server_new = reinterpret_cast<dbusmenu_server_new_func>(
       dlsym(dbusmenu_lib, "dbusmenu_server_new"));
   server_set_root = reinterpret_cast<dbusmenu_server_set_root_func>(
@@ -156,7 +156,7 @@ bool GetMenuItemID(DbusmenuMenuitem* item, int* id) {
 void SetMenuItemID(DbusmenuMenuitem* item, int id) {
   DCHECK_GE(id, 0);
 
-  // Add 1 to the menu_id to avoid setting zero (null) to "menu-id".
+  // 将Menu_id加1，以避免将零(NULL)设置为“Menu-id”。
   g_object_set_data(G_OBJECT(item), "menu-id", GINT_TO_POINTER(id + 1));
 }
 
@@ -172,7 +172,7 @@ std::string GetMenuModelStatus(ElectronMenuModel* model) {
   return ret;
 }
 
-}  // namespace
+}  // 命名空间。
 
 GlobalMenuBarX11::GlobalMenuBarX11(NativeWindowViews* window)
     : window_(window),
@@ -192,7 +192,7 @@ GlobalMenuBarX11::~GlobalMenuBarX11() {
   GlobalMenuBarRegistrarX11::GetInstance()->OnWindowUnmapped(xwindow_);
 }
 
-// static
+// 静电。
 std::string GlobalMenuBarX11::GetPathForWindow(x11::Window window) {
   return base::StringPrintf("/com/canonical/menu/%X", window);
 }
@@ -278,8 +278,8 @@ void GlobalMenuBarX11::BuildMenuFromModel(ElectronMenuModel* model,
 
 void GlobalMenuBarX11::RegisterAccelerator(DbusmenuMenuitem* item,
                                            const ui::Accelerator& accelerator) {
-  // A translation of libdbusmenu-gtk's menuitem_property_set_shortcut()
-  // translated from GDK types to ui::Accelerator types.
+  // Libdbusmenu-GTK的menuItem_Property_Set_Shortcut()的翻译。
+  // 从GDK类型转换为UI：：Accelerator类型。
   GVariantBuilder builder;
   g_variant_builder_init(&builder, G_VARIANT_TYPE_ARRAY);
 
@@ -321,23 +321,23 @@ void GlobalMenuBarX11::OnSubMenuShow(DbusmenuMenuitem* item) {
   if (!model || !GetMenuItemID(item, &id))
     return;
 
-  // Do not update menu if the submenu has not been changed.
+  // 如果子菜单没有更改，请不要更新菜单。
   std::string status = GetMenuModelStatus(model);
   char* old = static_cast<char*>(g_object_get_data(G_OBJECT(item), "status"));
   if (old && status == old)
     return;
 
-  // Save the new status.
+  // 保存新状态。
   g_object_set_data_full(G_OBJECT(item), "status", g_strdup(status.c_str()),
                          g_free);
 
-  // Clear children.
+  // 清理儿童。
   GList* children = menuitem_take_children(item);
   g_list_foreach(children, reinterpret_cast<GFunc>(g_object_unref), nullptr);
   g_list_free(children);
 
-  // Build children.
+  // 培养孩子。
   BuildMenuFromModel(model->GetSubmenuModelAt(id), item);
 }
 
-}  // namespace electron
+}  // 命名空间电子

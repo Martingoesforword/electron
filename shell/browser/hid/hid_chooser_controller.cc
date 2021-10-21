@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/hid/hid_chooser_controller.h"
 
@@ -30,17 +30,17 @@ namespace {
 
 std::string PhysicalDeviceIdFromDeviceInfo(
     const device::mojom::HidDeviceInfo& device) {
-  // A single physical device may expose multiple HID interfaces, each
-  // represented by a HidDeviceInfo object. When a device exposes multiple
-  // HID interfaces, the HidDeviceInfo objects will share a common
-  // |physical_device_id|. Group these devices so that a single chooser item
-  // is shown for each physical device. If a device's physical device ID is
-  // empty, use its GUID instead.
+  // 单个物理设备可以公开多个HID接口，每个接口。
+  // 由HidDeviceInfo对象表示。当设备公开多个。
+  // HID接口，则HidDeviceInfo对象将共享。
+  // |Physical_Device_id|。对这些设备进行分组，以便单个选择器项目。
+  // 为每台物理设备显示。如果设备的物理设备ID是。
+  // 空，请改用其GUID。
   return device.physical_device_id.empty() ? device.guid
                                            : device.physical_device_id;
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace gin {
 
@@ -55,7 +55,7 @@ struct Converter<device::mojom::HidDeviceInfoPtr> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -151,7 +151,7 @@ void HidChooserController::OnDeviceChanged(
     return;
   }
 
-  // Update the item to replace the old device info with |device|.
+  // 更新项目以将旧设备信息替换为|Device|。
   UpdateDeviceInfo(device);
 }
 
@@ -202,8 +202,8 @@ void HidChooserController::OnGotDevices(
     }
   }
 
-  // Listen to HidChooserContext for OnDeviceAdded/Removed events after the
-  // enumeration.
+  // 监听OnDeviceAdded/Remove事件的HidChooserContext。
+  // 枚举。
   if (chooser_context_)
     observation_.Observe(chooser_context_.get());
   bool prevent_default = false;
@@ -231,17 +231,17 @@ bool HidChooserController::DisplayDevice(
     const device::mojom::HidDeviceInfo& device) const {
   if (!base::CommandLine::ForCurrentProcess()->HasSwitch(
           switches::kDisableHidBlocklist)) {
-    // Do not pass the device to the chooser if it is excluded by the blocklist.
+    // 如果设备被阻止列表排除，请不要将其传递给选择器。
     if (device::HidBlocklist::IsDeviceExcluded(device))
       return false;
 
-    // Do not pass the device to the chooser if it has a top-level collection
-    // with the FIDO usage page.
-    //
-    // Note: The HID blocklist also blocks top-level collections with the FIDO
-    // usage page, but will not block the device if it has other (non-FIDO)
-    // collections. The check below will exclude the device from the chooser
-    // if it has any top-level FIDO collection.
+    // 如果设备具有顶级集合，请不要将其传递给选择器。
+    // 使用FIDO使用情况页面。
+    // 
+    // 注意：HID阻止列表也会阻止FIDO的顶级收集。
+    // 使用情况页面，但如果设备有其他(非FIDO)，则不会阻止该设备。
+    // 收藏品。下面的检查将从选择器中排除该设备。
+    // 如果它有任何顶级的FIDO集合。
     auto find_it =
         std::find_if(device.collections.begin(), device.collections.end(),
                      [](const device::mojom::HidCollectionInfoPtr& c) {
@@ -311,7 +311,7 @@ bool HidChooserController::AddDeviceInfo(
     find_it->second.push_back(device.Clone());
     return false;
   }
-  // A new device was connected. Append it to the end of the chooser list.
+  // 连接了一个新设备。将其追加到选择器列表的末尾。
   device_map_[id].push_back(device.Clone());
   items_.push_back(id);
   return true;
@@ -329,7 +329,7 @@ bool HidChooserController::RemoveDeviceInfo(
                 });
   if (!device_infos.empty())
     return false;
-  // A device was disconnected. Remove it from the chooser list.
+  // 设备已断开连接。将其从选择器列表中移除。
   device_map_.erase(find_it);
   base::Erase(items_, id);
   return true;
@@ -363,4 +363,4 @@ void HidChooserController::RenderFrameDeleted(
   }
 }
 
-}  // namespace electron
+}  // 命名空间电子

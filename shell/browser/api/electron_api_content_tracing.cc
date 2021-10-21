@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <set>
 #include <string>
@@ -28,10 +28,10 @@ struct Converter<base::trace_event::TraceConfig> {
   static bool FromV8(v8::Isolate* isolate,
                      v8::Local<v8::Value> val,
                      base::trace_event::TraceConfig* out) {
-    // (alexeykuzmin): A combination of "categoryFilter" and "traceOptions"
-    // has to be checked first because none of the fields
-    // in the `memory_dump_config` dict below are mandatory
-    // and we cannot check the config format.
+    // (Alexeykuzmin)：组合了“recastyFilter”和“traceOptions”
+    // 必须首先选中，因为没有任何字段。
+    // 在`MEMORY_DUMP_CONFIG`中，下面的判据是必填的。
+    // 我们不能检查配置格式。
     gin_helper::Dictionary options;
     if (ConvertFromV8(isolate, val, &options)) {
       std::string category_filter, trace_options;
@@ -52,7 +52,7 @@ struct Converter<base::trace_event::TraceConfig> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace {
 
@@ -102,7 +102,7 @@ v8::Local<v8::Promise> StopRecording(gin_helper::Arguments* args) {
   if (args->GetNext(&path) && !path.empty()) {
     StopTracing(std::move(promise), absl::make_optional(path));
   } else {
-    // use a temporary file.
+    // 使用临时文件。
     base::ThreadPool::PostTaskAndReplyWithResult(
         FROM_HERE, {base::MayBlock(), base::TaskPriority::USER_VISIBLE},
         base::BindOnce(CreateTemporaryFileOnIO),
@@ -116,7 +116,7 @@ v8::Local<v8::Promise> GetCategories(v8::Isolate* isolate) {
   gin_helper::Promise<const std::set<std::string>&> promise(isolate);
   v8::Local<v8::Promise> handle = promise.GetHandle();
 
-  // Note: This method always succeeds.
+  // 注意：此方法总是成功的。
   TracingController::GetInstance()->GetCategories(base::BindOnce(
       gin_helper::Promise<const std::set<std::string>&>::ResolvePromise,
       std::move(promise)));
@@ -134,10 +134,10 @@ v8::Local<v8::Promise> StartTracing(
           trace_config,
           base::BindOnce(gin_helper::Promise<void>::ResolvePromise,
                          std::move(promise)))) {
-    // If StartTracing returns false, that means it didn't invoke its callback.
-    // Return an already-resolved promise and abandon the previous promise (it
-    // was std::move()d into the StartTracing callback and has been deleted by
-    // this point).
+    // 如果StartTracing返回False，这意味着它没有调用其回调。
+    // 退回已解决的承诺并放弃先前的承诺(它。
+    // 将std：：Move()d放入StartTracing回调，并已被删除。
+    // 这一点)。
     return gin_helper::Promise<void>::ResolvedPromise(isolate);
   }
   return handle;
@@ -158,7 +158,7 @@ v8::Local<v8::Promise> GetTraceBufferUsage(v8::Isolate* isolate) {
   gin_helper::Promise<gin_helper::Dictionary> promise(isolate);
   v8::Local<v8::Promise> handle = promise.GetHandle();
 
-  // Note: This method always succeeds.
+  // 注意：此方法总是成功的。
   TracingController::GetInstance()->GetTraceBufferUsage(
       base::BindOnce(&OnTraceBufferUsageAvailable, std::move(promise)));
   return handle;
@@ -175,6 +175,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("getTraceBufferUsage", &GetTraceBufferUsage);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_content_tracing, Initialize)

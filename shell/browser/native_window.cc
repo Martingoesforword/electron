@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/native_window.h"
 
@@ -50,7 +50,7 @@ struct Converter<electron::NativeWindow::TitleBarStyle> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -64,15 +64,15 @@ gfx::Size GetExpandedWindowSize(const NativeWindow* window, gfx::Size size) {
   gfx::Size min_size = display::win::ScreenWin::ScreenToDIPSize(
       window->GetAcceleratedWidget(), gfx::Size(64, 64));
 
-  // Some AMD drivers can't display windows that are less than 64x64 pixels,
-  // so expand them to be at least that size. http://crbug.com/286609
+  // 一些AMD驱动程序无法显示小于64x64像素的窗口，
+  // 所以把它们扩大到至少那个大小。Http://crbug.com/286609。
   gfx::Size expanded(std::max(size.width(), min_size.width()),
                      std::max(size.height(), min_size.height()));
   return expanded;
 }
 #endif
 
-}  // namespace
+}  // 命名空间。
 
 NativeWindow::NativeWindow(const gin_helper::Dictionary& options,
                            NativeWindow* parent)
@@ -103,26 +103,26 @@ NativeWindow::NativeWindow(const gin_helper::Dictionary& options,
 }
 
 NativeWindow::~NativeWindow() {
-  // It's possible that the windows gets destroyed before it's closed, in that
-  // case we need to ensure the Widget delegate gets destroyed and
-  // OnWindowClosed message is still notified.
+  // 窗户有可能在关闭之前就被毁了，因为。
+  // 我们需要确保Widget委托被销毁。
+  // 仍会通知OnWindowClosed消息。
   if (widget_->widget_delegate())
     widget_->OnNativeWidgetDestroyed();
   NotifyWindowClosed();
 }
 
 void NativeWindow::InitFromOptions(const gin_helper::Dictionary& options) {
-  // Setup window from options.
+  // 选项中的设置窗口。
   int x = -1, y = -1;
   bool center;
   if (options.Get(options::kX, &x) && options.Get(options::kY, &y)) {
     SetPosition(gfx::Point(x, y));
 
 #if defined(OS_WIN)
-    // FIXME(felixrieseberg): Dirty, dirty workaround for
-    // https://github.com/electron/electron/issues/10862
-    // Somehow, we need to call `SetBounds` twice to get
-    // usable results. The root cause is still unknown.
+    // FIXME(Felixrieseberg)：肮脏，肮脏的解决方法。
+    // Https://github.com/electron/electron/issues/10862。
+    // 不知怎么的，我们需要调用两次“设置边界”才能。
+    // 有用的结果。根本原因尚不清楚。
     SetPosition(gfx::Point(x, y));
 #endif
   } else if (options.Get(options::kCenter, &center) && center) {
@@ -132,7 +132,7 @@ void NativeWindow::InitFromOptions(const gin_helper::Dictionary& options) {
   bool use_content_size = false;
   options.Get(options::kUseContentSize, &use_content_size);
 
-  // On Linux and Window we may already have maximum size defined.
+  // 在Linux和Windows上，我们可能已经定义了最大大小。
   extensions::SizeConstraints size_constraints(
       use_content_size ? GetContentSizeConstraints() : GetSizeConstraints());
   int min_height = 0, min_width = 0;
@@ -179,12 +179,12 @@ void NativeWindow::InitFromOptions(const gin_helper::Dictionary& options) {
   bool fullscreenable = true;
   bool fullscreen = false;
   if (options.Get(options::kFullscreen, &fullscreen) && !fullscreen) {
-    // Disable fullscreen button if 'fullscreen' is specified to false.
+    // 如果将“FullScreen”指定为False，则禁用“Full Screen”按钮。
 #if defined(OS_MAC)
     fullscreenable = false;
 #endif
   }
-  // Overridden by 'fullscreenable'.
+  // 被“全屏显示”所覆盖。
   options.Get(options::kFullScreenable, &fullscreenable);
   SetFullScreenable(fullscreenable);
   if (fullscreen) {
@@ -208,14 +208,14 @@ void NativeWindow::InitFromOptions(const gin_helper::Dictionary& options) {
   if (options.Get(options::kBackgroundColor, &color)) {
     SetBackgroundColor(ParseHexColor(color));
   } else if (!transparent()) {
-    // For normal window, use white as default background.
+    // 对于普通窗口，使用白色作为默认背景。
     SetBackgroundColor(SK_ColorWHITE);
   }
   std::string title(Browser::Get()->GetName());
   options.Get(options::kTitle, &title);
   SetTitle(title);
 
-  // Then show it.
+  // 那就拿出来看看。
   bool show = true;
   options.Get(options::kShow, &show);
   if (show)
@@ -392,7 +392,7 @@ void NativeWindow::MoveTabToNewWindow() {}
 void NativeWindow::ToggleTabBar() {}
 
 bool NativeWindow::AddTabbedWindow(NativeWindow* window) {
-  return true;  // for non-Mac platforms
+  return true;  // 对于非Mac平台。
 }
 
 void NativeWindow::SetVibrancy(const std::string& type) {}
@@ -450,7 +450,7 @@ void NativeWindow::NotifyWindowRequestPreferredWith(int* width) {
 }
 
 void NativeWindow::NotifyWindowCloseButtonClicked() {
-  // First ask the observers whether we want to close.
+  // 首先询问观察者我们是否想关闭。
   bool prevent_default = false;
   for (NativeWindowObserver& observer : observers_)
     observer.WillCloseWindow(&prevent_default);
@@ -459,7 +459,7 @@ void NativeWindow::NotifyWindowCloseButtonClicked() {
     return;
   }
 
-  // Then ask the observers how should we close the window.
+  // 然后问观察者我们应该如何关闭窗户。
   for (NativeWindowObserver& observer : observers_)
     observer.OnCloseButtonClicked(&prevent_default);
   if (prevent_default)
@@ -683,10 +683,10 @@ std::string NativeWindow::GetAccessibleTitle() {
   return base::UTF16ToUTF8(accessible_title_);
 }
 
-// static
+// 静电。
 int32_t NativeWindow::next_id_ = 0;
 
-// static
+// 静电。
 void NativeWindowRelay::CreateForWebContents(
     content::WebContents* web_contents,
     base::WeakPtr<NativeWindow> window) {
@@ -704,4 +704,4 @@ NativeWindowRelay::~NativeWindowRelay() = default;
 
 WEB_CONTENTS_USER_DATA_KEY_IMPL(NativeWindowRelay)
 
-}  // namespace electron
+}  // 命名空间电子

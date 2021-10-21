@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/event_emitter_mixin.h"
 
@@ -40,6 +40,6 @@ v8::Local<v8::FunctionTemplate> GetEventEmitterTemplate(v8::Isolate* isolate) {
   return tmpl;
 }
 
-}  // namespace internal
+}  // 命名空间内部。
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper

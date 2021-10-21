@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/browser.h"
 
@@ -25,8 +25,8 @@ namespace electron {
 const char kXdgSettings[] = "xdg-settings";
 const char kXdgSettingsDefaultSchemeHandler[] = "default-url-scheme-handler";
 
-// The use of the ForTesting flavors is a hack workaround to avoid having to
-// patch these as friends into the associated guard classes.
+// 使用ForTesting风格是一种巧妙的解决方法，可以避免。
+// 将这些人作为朋友添加到相关的守卫类别中。
 class LaunchXdgUtilityScopedAllowBaseSyncPrimitives
     : public base::ScopedAllowBaseSyncPrimitivesForTesting {};
 
@@ -110,11 +110,11 @@ bool Browser::IsDefaultProtocolClient(const std::string& protocol,
   if (!output)
     return false;
 
-  // Allow any reply that starts with "yes".
+  // 允许任何以“yes”开头的回复。
   return base::StartsWith(output.value(), "yes", base::CompareCase::SENSITIVE);
 }
 
-// Todo implement
+// TODO实施。
 bool Browser::RemoveAsDefaultProtocolClient(const std::string& protocol,
                                             gin::Arguments* args) {
   return false;
@@ -190,10 +190,10 @@ void Browser::ShowAboutPanel() {
   }
   if ((str = opts.FindStringKey("iconPath"))) {
     GError* error = nullptr;
-    constexpr int width = 64;   // width of about panel icon in pixels
-    constexpr int height = 64;  // height of about panel icon in pixels
+    constexpr int width = 64;   // 关于面板图标的宽度(以像素为单位。
+    constexpr int height = 64;  // 关于面板图标的高度(像素)。
 
-    // set preserve_aspect_ratio to true
+    // 将PERSERVE_Aspect_Ratio设置为true。
     GdkPixbuf* icon =
         gdk_pixbuf_new_from_file_at_size(str->c_str(), width, height, &error);
     if (error != nullptr) {
@@ -215,7 +215,7 @@ void Browser::ShowAboutPanel() {
     if (cstrs.empty()) {
       LOG(WARNING) << "No author strings found in 'authors' array";
     } else {
-      cstrs.push_back(nullptr);  // null-terminated char* array
+      cstrs.push_back(nullptr);  // 以空结尾的char*数组。
       gtk_about_dialog_set_authors(dialog, cstrs.data());
     }
   }
@@ -228,4 +228,4 @@ void Browser::SetAboutPanelOptions(base::DictionaryValue options) {
   about_panel_options_ = std::move(options);
 }
 
-}  // namespace electron
+}  // 命名空间电子

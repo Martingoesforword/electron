@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/electron_permission_manager.h"
 
@@ -48,7 +48,7 @@ void PermissionRequestResponseCallbackWrapper(
   std::move(callback).Run(vector[0]);
 }
 
-}  // namespace
+}  // 命名空间。
 
 class ElectronPermissionManager::PendingRequest {
  public:
@@ -351,9 +351,9 @@ bool ElectronPermissionManager::CheckDevicePermission(
               *granted_device.FindStringKey(kUsbDriverKey)) {
             continue;
           }
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
           return true;
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
         }
       }
     }
@@ -398,4 +398,4 @@ ElectronPermissionManager::GetPermissionStatusForFrame(
                  : blink::mojom::PermissionStatus::DENIED;
 }
 
-}  // namespace electron
+}  // 命名空间电子

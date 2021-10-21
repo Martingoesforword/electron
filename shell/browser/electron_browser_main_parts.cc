@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/electron_browser_main_parts.h"
 
@@ -18,7 +18,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "chrome/browser/icon_manager.h"
 #include "components/os_crypt/os_crypt.h"
-#include "content/browser/browser_main_loop.h"  // nogncheck
+#include "content/browser/browser_main_loop.h"  // 点名检查。
 #include "content/public/browser/browser_thread.h"
 #include "content/public/browser/child_process_security_policy.h"
 #include "content/public/browser/device_service.h"
@@ -112,10 +112,10 @@
 #include "shell/browser/extensions/electron_browser_context_keyed_service_factories.h"
 #include "shell/browser/extensions/electron_extensions_browser_client.h"
 #include "shell/common/extensions/electron_extensions_client.h"
-#endif  // BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
+#endif  // BUILDFLAG(启用电子扩展)。
 
 #if BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
-#include "chrome/browser/spellchecker/spellcheck_factory.h"  // nogncheck
+#include "chrome/browser/spellchecker/spellcheck_factory.h"  // 点名检查。
 #endif
 
 namespace electron {
@@ -128,7 +128,7 @@ void Erase(T* container, typename T::iterator iter) {
 }
 
 #if defined(OS_WIN)
-// gfx::Font callbacks
+// GFX：：Font回调。
 void AdjustUIFont(gfx::win::FontAdjustment* font_adjustment) {
   l10n_util::NeedOverrideDefaultUIFont(&font_adjustment->font_family_override,
                                        &font_adjustment->font_scale);
@@ -157,36 +157,36 @@ std::u16string MediaStringProvider(media::MessageId id) {
 }
 
 #if defined(OS_LINUX)
-// GTK does not provide a way to check if current theme is dark, so we compare
-// the text and background luminosity to get a result.
-// This trick comes from FireFox.
+// GTK不提供检查当前主题是否暗的方法，所以我们比较。
+// 文本和背景亮度以获得结果。
+// 这个技巧来自Firefox。
 void UpdateDarkThemeSetting() {
   float bg = color_utils::GetRelativeLuminance(gtk::GetBgColor("GtkLabel"));
   float fg = color_utils::GetRelativeLuminance(gtk::GetFgColor("GtkLabel"));
   bool is_dark = fg > bg;
-  // Pass it to NativeUi theme, which is used by the nativeTheme module and most
-  // places in Electron.
+  // 将其传递给nativeUi主题，该主题由nativeTheme模块和MOST。
+  // 在电子公司的位置。
   ui::NativeTheme::GetInstanceForNativeUi()->set_use_dark_colors(is_dark);
-  // Pass it to Web Theme, to make "prefers-color-scheme" media query work.
+  // 传给Web Theme，让“偏好配色方案”的媒体查询工作。
   ui::NativeTheme::GetInstanceForWeb()->set_use_dark_colors(is_dark);
 }
 #endif
 
-}  // namespace
+}  // 命名空间。
 
 #if defined(OS_LINUX)
 class DarkThemeObserver : public ui::NativeThemeObserver {
  public:
   DarkThemeObserver() = default;
 
-  // ui::NativeThemeObserver:
+  // UI：：NativeThemeViewer：
   void OnNativeThemeUpdated(ui::NativeTheme* observed_theme) override {
     UpdateDarkThemeSetting();
   }
 };
 #endif
 
-// static
+// 静电。
 ElectronBrowserMainParts* ElectronBrowserMainParts::self_ = nullptr;
 
 ElectronBrowserMainParts::ElectronBrowserMainParts(
@@ -203,7 +203,7 @@ ElectronBrowserMainParts::ElectronBrowserMainParts(
 
 ElectronBrowserMainParts::~ElectronBrowserMainParts() = default;
 
-// static
+// 静电。
 ElectronBrowserMainParts* ElectronBrowserMainParts::Get() {
   DCHECK(self_);
   return self_;
@@ -232,52 +232,52 @@ int ElectronBrowserMainParts::PreEarlyInitialization() {
 }
 
 void ElectronBrowserMainParts::PostEarlyInitialization() {
-  // A workaround was previously needed because there was no ThreadTaskRunner
-  // set.  If this check is failing we may need to re-add that workaround
+  // 之前需要解决方法，因为没有ThreadTaskRunner。
+  // 准备好了。如果此检查失败，我们可能需要重新添加解决方法。
   DCHECK(base::ThreadTaskRunnerHandle::IsSet());
 
-  // The ProxyResolverV8 has setup a complete V8 environment, in order to
-  // avoid conflicts we only initialize our V8 environment after that.
+  // ProxyResolverV8设置了一个完整的V8环境，以便。
+  // 避免冲突，我们只在那之后初始化我们的V8环境。
   js_env_ = std::make_unique<JavascriptEnvironment>(node_bindings_->uv_loop());
 
   v8::HandleScope scope(js_env_->isolate());
 
   node_bindings_->Initialize();
-  // Create the global environment.
+  // 营造全球环境。
   node::Environment* env = node_bindings_->CreateEnvironment(
       js_env_->context(), js_env_->platform());
   node_env_ = std::make_unique<NodeEnvironment>(env);
 
   env->set_trace_sync_io(env->options()->trace_sync_io);
 
-  // We do not want to crash the main process on unhandled rejections.
+  // 我们不想让未处理的拒绝导致主进程崩溃。
   env->options()->unhandled_rejections = "warn";
 
-  // Add Electron extended APIs.
+  // 添加电子扩展API。
   electron_bindings_->BindTo(js_env_->isolate(), env->process_object());
 
-  // Load everything.
+  // 把所有东西都装上。
   node_bindings_->LoadEnvironment(env);
 
-  // Wrap the uv loop with global env.
+  // 使用全局环境包裹UV循环。
   node_bindings_->set_uv_env(env);
 
-  // We already initialized the feature list in PreEarlyInitialization(), but
-  // the user JS script would not have had a chance to alter the command-line
-  // switches at that point. Lets reinitialize it here to pick up the
-  // command-line changes.
+  // 我们已经在PreEarlyInitialization()中初始化了功能列表，但是。
+  // 用户JS脚本将没有机会更改命令行。
+  // 在这一点上切换。让我们在这里重新初始化它，以获取。
+  // 命令行更改。
   base::FeatureList::ClearInstanceForTesting();
   InitializeFeatureList();
 
-  // Initialize field trials.
+  // 初始化现场试验。
   InitializeFieldTrials();
 
-  // Reinitialize logging now that the app has had a chance to set the app name
-  // and/or user data directory.
+  // 现在应用程序已有机会设置应用程序名称，因此重新初始化日志记录。
+  // 和/或用户数据目录。
   logging::InitElectronLogging(*base::CommandLine::ForCurrentProcess(),
-                               /* is_preinit = */ false);
+                               /* IS_PREINIT=。*/ false);
 
-  // Initialize after user script environment creation.
+  // 创建用户脚本环境后进行初始化。
   fake_browser_process_->PostEarlyInitialization();
 }
 
@@ -297,16 +297,16 @@ int ElectronBrowserMainParts::PreCreateThreads() {
   std::string locale = command_line->GetSwitchValueASCII(::switches::kLang);
 
 #if defined(OS_MAC)
-  // The browser process only wants to support the language Cocoa will use,
-  // so force the app locale to be overridden with that value. This must
-  // happen before the ResourceBundle is loaded
+  // 浏览器进程只想支持Cocoa将使用的语言，
+  // 因此，强制使用该值覆盖应用程序区域设置。这一定是。
+  // 在加载ResourceBundle之前发生。
   if (locale.empty())
     l10n_util::OverrideLocaleWithCocoaLocale();
 #elif defined(OS_LINUX)
-  // l10n_util::GetApplicationLocaleInternal uses g_get_language_names(),
-  // which keys off of getenv("LC_ALL").
-  // We must set this env first to make ui::ResourceBundle accept the custom
-  // locale.
+  // L10n_util：：GetApplicationLocaleInternal Uses g_Get_Language_Names()，
+  // 哪个键关闭getenv(“LC_ALL”)。
+  // 我们必须首先设置此env以使UI：：ResourceBundle接受自定义。
+  // 地点。
   auto env = base::Environment::Create();
   absl::optional<std::string> lc_all;
   if (!locale.empty()) {
@@ -317,16 +317,16 @@ int ElectronBrowserMainParts::PreCreateThreads() {
   }
 #endif
 
-  // Load resources bundle according to locale.
+  // 根据区域设置加载资源包。
   std::string loaded_locale = LoadResourceBundle(locale);
 
-  // Initialize the app locale.
+  // 初始化应用程序区域设置。
   std::string app_locale = l10n_util::GetApplicationLocale(loaded_locale);
   ElectronBrowserClient::SetApplicationLocale(app_locale);
   fake_browser_process_->SetApplicationLocale(app_locale);
 
 #if defined(OS_LINUX)
-  // Reset to the original LC_ALL since we should not be changing it.
+  // 重置为原始的LC_ALL，因为我们不应该更改它。
   if (!locale.empty()) {
     if (lc_all)
       env->SetVar("LC_ALL", *lc_all);
@@ -335,10 +335,10 @@ int ElectronBrowserMainParts::PreCreateThreads() {
   }
 #endif
 
-  // Force MediaCaptureDevicesDispatcher to be created on UI thread.
+  // 强制在UI线程上创建MediaCaptureDevicesDispatcher。
   MediaCaptureDevicesDispatcher::GetInstance();
 
-  // Force MediaCaptureDevicesDispatcher to be created on UI thread.
+  // 强制在UI线程上创建MediaCaptureDevicesDispatcher。
   MediaCaptureDevicesDispatcher::GetInstance();
 
 #if defined(OS_MAC)
@@ -347,7 +347,7 @@ int ElectronBrowserMainParts::PreCreateThreads() {
 
   fake_browser_process_->PreCreateThreads();
 
-  // Notify observers.
+  // 通知观察员。
   Browser::Get()->PreCreateThreads();
 
   return 0;
@@ -376,13 +376,13 @@ void ElectronBrowserMainParts::ToolkitInitialized() {
   auto linux_ui = BuildGtkUi();
   linux_ui->Initialize();
 
-  // Chromium does not respect GTK dark theme setting, but they may change
-  // in future and this code might be no longer needed. Check the Chromium
-  // issue to keep updated:
-  // https://bugs.chromium.org/p/chromium/issues/detail?id=998903
+  // 铬不尊重GTK深色主题设置，但它们可能会改变。
+  // 将来可能不再需要此代码。检查铬。
+  // 要保持最新的问题：
+  // Https://bugs.chromium.org/p/chromium/issues/detail?id=998903。
   UpdateDarkThemeSetting();
-  // Update the native theme when GTK theme changes. The GetNativeTheme
-  // here returns a NativeThemeGtk, which monitors GTK settings.
+  // 当GTK主题更改时更新原生主题。GetNativeTheme。
+  // 这里返回一个NativeThemeGtk，它监视GTK设置。
   dark_theme_observer_ = std::make_unique<DarkThemeObserver>();
   linux_ui->GetNativeTheme(nullptr)->AddObserver(dark_theme_observer_.get());
   views::LinuxUI::SetInstance(std::move(linux_ui));
@@ -405,19 +405,19 @@ void ElectronBrowserMainParts::ToolkitInitialized() {
 }
 
 int ElectronBrowserMainParts::PreMainMessageLoopRun() {
-  // Run user's main script before most things get initialized, so we can have
-  // a chance to setup everything.
+  // 在大多数事情初始化之前运行用户的主脚本，这样我们就可以。
+  // 一个把一切都安排好的机会。
   node_bindings_->PrepareMessageLoop();
   node_bindings_->RunMessageLoop();
 
-  // url::Add*Scheme are not threadsafe, this helps prevent data races.
+  // URL：：Add*Scheme不是ThreadSafe，这有助于防止数据竞争。
   url::LockSchemeRegistries();
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
   extensions_client_ = std::make_unique<ElectronExtensionsClient>();
   extensions::ExtensionsClient::Set(extensions_client_.get());
 
-  // BrowserContextKeyedAPIServiceFactories require an ExtensionsBrowserClient.
+  // BrowserContextKeyedAPI服务工厂需要ExtensionsBrowserClient。
   extensions_browser_client_ =
       std::make_unique<ElectronExtensionsBrowserClient>();
   extensions::ExtensionsBrowserClient::Set(extensions_browser_client_.get());
@@ -439,7 +439,7 @@ int ElectronBrowserMainParts::PreMainMessageLoopRun() {
 
   auto* command_line = base::CommandLine::ForCurrentProcess();
   if (command_line->HasSwitch(switches::kRemoteDebuggingPipe)) {
-    // --remote-debugging-pipe
+    // --远程调试-管道。
     auto on_disconnect = base::BindOnce([]() {
       base::PostTask(FROM_HERE, {content::BrowserThread::UI},
                      base::BindOnce([]() { Browser::Get()->Quit(); }));
@@ -447,17 +447,17 @@ int ElectronBrowserMainParts::PreMainMessageLoopRun() {
     content::DevToolsAgentHost::StartRemoteDebuggingPipeHandler(
         std::move(on_disconnect));
   } else if (command_line->HasSwitch(switches::kRemoteDebuggingPort)) {
-    // --remote-debugging-port
+    // --远程调试端口。
     DevToolsManagerDelegate::StartHttpHandler();
   }
 
 #if !defined(OS_MAC)
-  // The corresponding call in macOS is in ElectronApplicationDelegate.
+  // MacOS中的相应调用在ElectronApplicationDelegate中。
   Browser::Get()->WillFinishLaunching();
   Browser::Get()->DidFinishLaunching(base::DictionaryValue());
 #endif
 
-  // Notify observers that main thread message loop was initialized.
+  // 通知观察者主线程消息循环已初始化。
   Browser::Get()->PreMainMessageLoopRun();
 
   return GetExitCode();
@@ -483,7 +483,7 @@ void ElectronBrowserMainParts::PostCreateMainMessageLoop() {
   bluez::DBusBluezManagerWrapperLinux::Initialize();
 #endif
 #if defined(OS_POSIX)
-  // Exit in response to SIGINT, SIGTERM, etc.
+  // 响应SIGINT、SIGTERM等退出。
   InstallShutdownSignalHandlers(
       base::BindOnce(&Browser::Quit, base::Unretained(Browser::Get())),
       content::GetUIThreadTaskRunner({}));
@@ -495,8 +495,8 @@ void ElectronBrowserMainParts::PostMainMessageLoopRun() {
   FreeAppDelegate();
 #endif
 
-  // Shutdown the DownloadManager before destroying Node to prevent
-  // DownloadItem callbacks from crashing.
+  // 在销毁节点之前关闭DownloadManager以防止。
+  // DownloadItem从崩溃中回调。
   for (auto& iter : ElectronBrowserContext::browser_context_map()) {
     auto* download_manager = iter.second.get()->GetDownloadManager();
     if (download_manager) {
@@ -504,8 +504,8 @@ void ElectronBrowserMainParts::PostMainMessageLoopRun() {
     }
   }
 
-  // Destroy node platform after all destructors_ are executed, as they may
-  // invoke Node/V8 APIs inside them.
+  // 在执行所有析构函数后销毁节点平台，视情况而定。
+  // 调用其中的Node/v8API。
   node_env_->env()->set_trace_sync_io(false);
   js_env_->OnMessageLoopDestroying();
   node::Stop(node_env_->env());
@@ -565,4 +565,4 @@ IconManager* ElectronBrowserMainParts::GetIconManager() {
   return icon_manager_.get();
 }
 
-}  // namespace electron
+}  // 命名空间电子

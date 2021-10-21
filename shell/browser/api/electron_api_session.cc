@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_session.h"
 
@@ -81,8 +81,8 @@
 #endif
 
 #if BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
-#include "chrome/browser/spellchecker/spellcheck_factory.h"  // nogncheck
-#include "chrome/browser/spellchecker/spellcheck_service.h"  // nogncheck
+#include "chrome/browser/spellchecker/spellcheck_factory.h"  // 点名检查。
+#include "chrome/browser/spellchecker/spellcheck_service.h"  // 点名检查。
 #include "components/spellcheck/browser/pref_names.h"
 #include "components/spellcheck/common/spellcheck_common.h"
 
@@ -96,11 +96,11 @@ using content::BrowserThread;
 using content::StoragePartition;
 
 namespace predictors {
-// NOTE(nornagon): this is copied from
-// //chrome/browser/predictors/resource_prefetch_predictor.cc we don't need
-// anything in that file other than this constructor. Without it we get a link
-// error. Probably upstream the constructor should be moved to
-// preconnect_manager.cc.
+// 注(正方形)：此内容复制自。
+// //chrome/browser/predictors/resource_prefetch_predictor.cc我们不需要。
+// 该文件中除此构造函数以外的任何内容。如果没有它，我们就会得到一个链接。
+// 错误。可能应该将构造函数移到上游。
+// Preconnect_manager er.cc。
 PreconnectRequest::PreconnectRequest(
     const url::Origin& origin,
     int num_sockets,
@@ -110,7 +110,7 @@ PreconnectRequest::PreconnectRequest(
       network_isolation_key(network_isolation_key) {
   DCHECK_GE(num_sockets, 0);
 }
-}  // namespace predictors
+}  // 命名空间预测器。
 
 namespace {
 
@@ -160,7 +160,7 @@ uint32_t GetQuotaMask(const std::vector<std::string>& quota_types) {
   return quota_mask;
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace gin {
 
@@ -237,12 +237,12 @@ struct Converter<network::mojom::SSLConfigPtr> {
     std::sort((*out)->disabled_cipher_suites.begin(),
               (*out)->disabled_cipher_suites.end());
 
-    // TODO(nornagon): also support other SSLConfig properties?
+    // TODO(Nornagon)：还支持其他SSLConfig属性吗？
     return true;
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -306,10 +306,10 @@ class DictionaryObserver final : public SpellcheckCustomDictionary::Observer {
 
   void OnCustomDictionaryChanged(
       const SpellcheckCustomDictionary::Change& dictionary_change) override {
-    // noop
+    // 诺普。
   }
 };
-#endif  // BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
+#endif  // BUILDFLAG(ENABLE_BUILTIN_SPELELL CHECKER)。
 
 struct UserDataLink : base::SupportsUserData::Data {
   explicit UserDataLink(Session* ses) : session(ses) {}
@@ -319,7 +319,7 @@ struct UserDataLink : base::SupportsUserData::Data {
 
 const void* kElectronApiSessionKey = &kElectronApiSessionKey;
 
-}  // namespace
+}  // 命名空间。
 
 gin::WrapperInfo Session::kWrapperInfo = {gin::kEmbedderNativeGin};
 
@@ -327,7 +327,7 @@ Session::Session(v8::Isolate* isolate, ElectronBrowserContext* browser_context)
     : isolate_(isolate),
       network_emulation_token_(base::UnguessableToken::Create()),
       browser_context_(browser_context) {
-  // Observe DownloadManager to get download notifications.
+  // 观察DownloadManager以获取下载通知。
   browser_context->GetDownloadManager()->AddObserver(this);
 
   new SessionPreferences(browser_context);
@@ -461,8 +461,8 @@ v8::Local<v8::Promise> Session::ClearStorageData(gin::Arguments* args) {
 
   auto* storage_partition = browser_context()->GetStoragePartition(nullptr);
   if (options.storage_types & StoragePartition::REMOVE_DATA_MASK_COOKIES) {
-    // Reset media device id salt when cookies are cleared.
-    // https://w3c.github.io/mediacapture-main/#dom-mediadeviceinfo-deviceid
+    // 清除Cookie时重置媒体设备ID盐。
+    // Https://w3c.github.io/mediacapture-main/#dom-mediadeviceinfo-deviceid。
     MediaDeviceIDSalt::Reset(browser_context()->prefs());
   }
 
@@ -500,7 +500,7 @@ v8::Local<v8::Promise> Session::SetProxy(gin::Arguments* args) {
 
   ProxyPrefs::ProxyMode proxy_mode = ProxyPrefs::MODE_FIXED_SERVERS;
   if (!options.Get("mode", &mode)) {
-    // pacScript takes precedence over proxyRules.
+    // PacScript优先于proxyRules。
     if (!pac_url.empty()) {
       proxy_mode = ProxyPrefs::MODE_PAC_SCRIPT;
     } else {
@@ -528,7 +528,7 @@ v8::Local<v8::Promise> Session::SetProxy(gin::Arguments* args) {
   } else if (proxy_mode == ProxyPrefs::MODE_PAC_SCRIPT) {
     proxy_config =
         std::make_unique<base::Value>(ProxyConfigDictionary::CreatePacScript(
-            pac_url, true /* pac_mandatory */));
+            pac_url, true /* PAC_MANDIRED。*/));
   } else {
     proxy_config = std::make_unique<base::Value>(
         ProxyConfigDictionary::CreateFixedServers(proxy_rules, bypass_list));
@@ -998,7 +998,7 @@ void Session::SetSpellCheckerLanguages(
   }
   browser_context_->prefs()->Set(spellcheck::prefs::kSpellCheckDictionaries,
                                  language_codes);
-  // Enable spellcheck if > 0 languages, disable if no languages set
+  // 如果&gt;0种语言，则启用拼写检查；如果未设置语言，则禁用。
   browser_context_->prefs()->SetBoolean(spellcheck::prefs::kSpellCheckEnable,
                                         !languages.empty());
 }
@@ -1031,8 +1031,8 @@ v8::Local<v8::Promise> Session::ListWordsInSpellCheckerDictionary() {
     promise.Resolve(spellcheck->GetCustomDictionary()->GetWords());
   } else {
     new DictionaryObserver(std::move(promise), spellcheck->GetWeakPtr());
-    // Dictionary loads by default asynchronously,
-    // call the load function anyways just to be sure.
+    // 默认情况下，字典以异步方式加载，
+    // 为了确保安全，无论如何都要调用Load函数。
     spellcheck->GetCustomDictionary()->Load();
   }
 
@@ -1040,8 +1040,8 @@ v8::Local<v8::Promise> Session::ListWordsInSpellCheckerDictionary() {
 }
 
 bool Session::AddWordToSpellCheckerDictionary(const std::string& word) {
-  // don't let in-memory sessions add spellchecker words
-  // because files will persist unintentionally
+  // 不允许内存会话添加拼写检查器单词。
+  // 因为文件将在无意中保存。
   bool is_in_memory = browser_context_->IsOffTheRecord();
   if (is_in_memory)
     return false;
@@ -1061,8 +1061,8 @@ bool Session::AddWordToSpellCheckerDictionary(const std::string& word) {
 }
 
 bool Session::RemoveWordFromSpellCheckerDictionary(const std::string& word) {
-  // don't let in-memory sessions remove spellchecker words
-  // because files will persist unintentionally
+  // 不要让内存中的会话删除拼写检查器单词。
+  // 因为文件将在无意中保存。
   bool is_in_memory = browser_context_->IsOffTheRecord();
   if (is_in_memory)
     return false;
@@ -1091,16 +1091,16 @@ bool Session::IsSpellCheckerEnabled() const {
       spellcheck::prefs::kSpellCheckEnable);
 }
 
-#endif  // BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
+#endif  // BUILDFLAG(ENABLE_BUILTIN_SPELELL CHECKER)。
 
-// static
+// 静电。
 Session* Session::FromBrowserContext(content::BrowserContext* context) {
   auto* data =
       static_cast<UserDataLink*>(context->GetUserData(kElectronApiSessionKey));
   return data ? data->session : nullptr;
 }
 
-// static
+// 静电。
 gin::Handle<Session> Session::CreateFrom(
     v8::Isolate* isolate,
     ElectronBrowserContext* browser_context) {
@@ -1111,8 +1111,8 @@ gin::Handle<Session> Session::CreateFrom(
   auto handle =
       gin::CreateHandle(isolate, new Session(isolate, browser_context));
 
-  // The Sessions should never be garbage collected, since the common pattern is
-  // to use partition strings, instead of using the Session object directly.
+  // 永远不应该对会话进行垃圾收集，因为常见的模式是。
+  // 使用分区字符串，而不是直接使用会话对象。
   handle->Pin(isolate);
 
   App::Get()->EmitCustomEvent("session-created",
@@ -1121,7 +1121,7 @@ gin::Handle<Session> Session::CreateFrom(
   return handle;
 }
 
-// static
+// 静电。
 gin::Handle<Session> Session::FromPartition(v8::Isolate* isolate,
                                             const std::string& partition,
                                             base::DictionaryValue options) {
@@ -1215,9 +1215,9 @@ const char* Session::GetTypeName() {
   return "Session";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -1244,6 +1244,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("fromPartition", &FromPartition);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_session, Initialize)

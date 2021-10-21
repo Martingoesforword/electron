@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/asar/scoped_temporary_file.h"
 
@@ -18,9 +18,9 @@ ScopedTemporaryFile::ScopedTemporaryFile() = default;
 ScopedTemporaryFile::~ScopedTemporaryFile() {
   if (!path_.empty()) {
     base::ThreadRestrictions::ScopedAllowIO allow_io;
-    // On Windows it is very likely the file is already in use (because it is
-    // mostly used for Node native modules), so deleting it now will halt the
-    // program.
+    // 在Windows上，该文件很可能已在使用中(因为它。
+    // 主要用于节点本机模块)，因此现在删除它会暂停。
+    // 程序。
 #if defined(OS_WIN)
     base::DeleteFileAfterReboot(path_);
 #else
@@ -38,7 +38,7 @@ bool ScopedTemporaryFile::Init(const base::FilePath::StringType& ext) {
     return false;
 
 #if defined(OS_WIN)
-  // Keep the original extension.
+  // 保留原始扩展名。
   if (!ext.empty()) {
     base::FilePath new_path = path_.AddExtension(ext);
     if (!base::Move(path_, new_path))
@@ -80,4 +80,4 @@ bool ScopedTemporaryFile::InitFromFile(
          static_cast<int>(size);
 }
 
-}  // namespace asar
+}  // 命名空间asar

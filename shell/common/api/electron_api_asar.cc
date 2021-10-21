@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <vector>
 
@@ -27,7 +27,7 @@ class Archive : public gin::Wrappable<Archive> {
     return gin::CreateHandle(isolate, new Archive(isolate, std::move(archive)));
   }
 
-  // gin::Wrappable
+  // 杜松子酒：：可包装的。
   static gin::WrapperInfo kWrapperInfo;
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override {
@@ -46,7 +46,7 @@ class Archive : public gin::Wrappable<Archive> {
   Archive(v8::Isolate* isolate, std::unique_ptr<asar::Archive> archive)
       : archive_(std::move(archive)) {}
 
-  // Reads the offset and size of file.
+  // 读取文件的偏移量和大小。
   v8::Local<v8::Value> GetFileInfo(v8::Isolate* isolate,
                                    const base::FilePath& path) {
     asar::Archive::FileInfo info;
@@ -73,7 +73,7 @@ class Archive : public gin::Wrappable<Archive> {
     return dict.GetHandle();
   }
 
-  // Returns a fake result of fs.stat(path).
+  // 返回fs.stat(Path)的假结果。
   v8::Local<v8::Value> Stat(v8::Isolate* isolate, const base::FilePath& path) {
     asar::Archive::Stats stats;
     if (!archive_ || !archive_->Stat(path, &stats))
@@ -87,7 +87,7 @@ class Archive : public gin::Wrappable<Archive> {
     return dict.GetHandle();
   }
 
-  // Returns all files under a directory.
+  // 返回目录下的所有文件。
   v8::Local<v8::Value> Readdir(v8::Isolate* isolate,
                                const base::FilePath& path) {
     std::vector<base::FilePath> files;
@@ -96,7 +96,7 @@ class Archive : public gin::Wrappable<Archive> {
     return gin::ConvertToV8(isolate, files);
   }
 
-  // Returns the path of file with symbol link resolved.
+  // 返回解析了符号链接的文件的路径。
   v8::Local<v8::Value> Realpath(v8::Isolate* isolate,
                                 const base::FilePath& path) {
     base::FilePath realpath;
@@ -105,7 +105,7 @@ class Archive : public gin::Wrappable<Archive> {
     return gin::ConvertToV8(isolate, realpath);
   }
 
-  // Copy the file out into a temporary file and returns the new path.
+  // 将文件复制到临时文件中并返回新路径。
   v8::Local<v8::Value> CopyFileOut(v8::Isolate* isolate,
                                    const base::FilePath& path) {
     base::FilePath new_path;
@@ -114,7 +114,7 @@ class Archive : public gin::Wrappable<Archive> {
     return gin::ConvertToV8(isolate, new_path);
   }
 
-  // Return the file descriptor.
+  // 返回文件描述符。
   int GetFD() const {
     if (!archive_)
       return -1;
@@ -127,11 +127,11 @@ class Archive : public gin::Wrappable<Archive> {
   DISALLOW_COPY_AND_ASSIGN(Archive);
 };
 
-// static
+// 静电。
 gin::WrapperInfo Archive::kWrapperInfo = {gin::kEmbedderNativeGin};
 
 void InitAsarSupport(v8::Isolate* isolate, v8::Local<v8::Value> require) {
-  // Evaluate asar_bundle.js.
+  // 评估asar_bundle.js。
   std::vector<v8::Local<v8::String>> asar_bundle_params = {
       node::FIXED_ONE_BYTE_STRING(isolate, "require")};
   std::vector<v8::Local<v8::Value>> asar_bundle_args = {require};
@@ -164,6 +164,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("initAsarSupport", &InitAsarSupport);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_common_asar, Initialize)

@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Samuel Maddock <sam@samuelmaddock.com>.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Samuel Maddock&lt;Sam@samuelmaddock.com&gt;。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/electron_extension_message_filter.h"
 
@@ -92,7 +92,7 @@ void ElectronExtensionMessageFilter::OnGetExtMessageBundle(
           ->enabled_extensions();
   const extensions::Extension* extension = extension_set.GetByID(extension_id);
 
-  if (!extension) {  // The extension has gone.
+  if (!extension) {  // 分机已取消。
     ExtensionHostMsg_GetMessageBundle::WriteReplyParams(
         reply_msg, extensions::MessageBundle::SubstitutionMap());
     Send(reply_msg);
@@ -102,7 +102,7 @@ void ElectronExtensionMessageFilter::OnGetExtMessageBundle(
   const std::string& default_locale =
       extensions::LocaleInfo::GetDefaultLocale(extension);
   if (default_locale.empty()) {
-    // A little optimization: send the answer here to avoid an extra thread hop.
+    // 稍加优化：将答案发送到此处，以避免额外的线程跳转。
     std::unique_ptr<extensions::MessageBundle::SubstitutionMap> dictionary_map(
         extensions::file_util::LoadNonLocalizedMessageBundleSubstitutionMap(
             extension_id));
@@ -116,9 +116,9 @@ void ElectronExtensionMessageFilter::OnGetExtMessageBundle(
   paths_to_load.push_back(extension->path());
 
   auto imports = extensions::SharedModuleInfo::GetImports(extension);
-  // Iterate through the imports in reverse.  This will allow later imported
-  // modules to override earlier imported modules, as the list order is
-  // maintained from the definition in manifest.json of the imports.
+  // 反向迭代导入。这将允许稍后导入。
+  // 覆盖以前导入的模块的模块，如列表顺序所示。
+  // 从导入的清单.json中的定义维护。
   for (auto it = imports.rbegin(); it != imports.rend(); ++it) {
     const extensions::Extension* imported_extension =
         extension_set.GetByID(it->extension_id);
@@ -129,7 +129,7 @@ void ElectronExtensionMessageFilter::OnGetExtMessageBundle(
     paths_to_load.push_back(imported_extension->path());
   }
 
-  // This blocks tab loading. Priority is inherited from the calling context.
+  // 这会阻止选项卡加载。优先级继承自调用上下文。
   base::ThreadPool::PostTask(
       FROM_HERE, {base::MayBlock()},
       base::BindOnce(
@@ -155,4 +155,4 @@ void ElectronExtensionMessageFilter::OnGetExtMessageBundleAsync(
   Send(reply_msg);
 }
 
-}  // namespace electron
+}  // 命名空间电子

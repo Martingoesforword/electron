@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/web_contents_permission_helper.h"
 
@@ -26,7 +26,7 @@ std::string MediaStreamTypeToString(blink::mojom::MediaStreamType type) {
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -61,7 +61,7 @@ void OnPermissionResponse(base::OnceCallback<void(bool)> callback,
     std::move(callback).Run(false);
 }
 
-}  // namespace
+}  // 命名空间。
 
 WebContentsPermissionHelper::WebContentsPermissionHelper(
     content::WebContents* web_contents)
@@ -142,8 +142,8 @@ void WebContentsPermissionHelper::RequestMediaAccessPermission(
   details.SetList("mediaTypes", std::move(media_types));
   details.SetString("securityOrigin", request.security_origin.spec());
 
-  // The permission type doesn't matter here, AUDIO_CAPTURE/VIDEO_CAPTURE
-  // are presented as same type in content_converter.h.
+  // 此处权限类型无关紧要，AUDIO_CAPTURE/VIDEO_CAPTURE。
+  // 在Content_Converter.h中显示为同一类型。
   RequestPermission(content::PermissionType::AUDIO_CAPTURE, std::move(callback),
                     false, &details);
 }
@@ -178,8 +178,8 @@ bool WebContentsPermissionHelper::CheckMediaAccessPermission(
   base::DictionaryValue details;
   details.SetString("securityOrigin", security_origin.spec());
   details.SetString("mediaType", MediaStreamTypeToString(type));
-  // The permission type doesn't matter here, AUDIO_CAPTURE/VIDEO_CAPTURE
-  // are presented as same type in content_converter.h.
+  // 此处权限类型无关紧要，AUDIO_CAPTURE/VIDEO_CAPTURE。
+  // 在Content_Converter.h中显示为同一类型。
   return CheckPermission(content::PermissionType::AUDIO_CAPTURE, &details);
 }
 
@@ -237,4 +237,4 @@ void WebContentsPermissionHelper::GrantHIDDevicePermission(
 
 WEB_CONTENTS_USER_DATA_KEY_IMPL(WebContentsPermissionHelper)
 
-}  // namespace electron
+}  // 命名空间电子

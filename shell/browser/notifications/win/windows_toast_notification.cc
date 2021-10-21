@@ -1,10 +1,10 @@
-// Copyright (c) 2015 Felix Rieseberg <feriese@microsoft.com> and Jason Poon
-// <jason.poon@microsoft.com>. All rights reserved.
-// Copyright (c) 2015 Ryan McShane <rmcshane@bandwidth.com> and Brandon Smith
-// <bsmith@bandwidth.com>
-// Thanks to both of those folks mentioned above who first thought up a bunch of
-// this code
-// and released it as MIT to the world.
+// 版权所有(C)2015年Felix Rieseberg&lt;feriese@microsoft.com&gt;和Jason Poon。
+// &lt;jason.poon@microsoft.com&gt;。版权所有。
+// 版权所有(C)2015 Ryan McShane&lt;rmcshane@Bandwidth.com&gt;和Brandon Smith。
+// &lt;bsmith@Bandwidth.com&gt;。
+// 感谢上面提到的两个人，他们最先想出了一堆。
+// 此代码。
+// 并以麻省理工学院的名义向全世界发布。
 
 #include "shell/browser/notifications/win/windows_toast_notification.h"
 
@@ -61,19 +61,19 @@ namespace {
 bool IsDebuggingNotifications() {
   return base::Environment::Create()->HasVar("ELECTRON_DEBUG_NOTIFICATIONS");
 }
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 ComPtr<ABI::Windows::UI::Notifications::IToastNotificationManagerStatics>
     WindowsToastNotification::toast_manager_;
 
-// static
+// 静电。
 ComPtr<ABI::Windows::UI::Notifications::IToastNotifier>
     WindowsToastNotification::toast_notifier_;
 
-// static
+// 静电。
 bool WindowsToastNotification::Initialize() {
-  // Just initialize, don't care if it fails or already initialized.
+  // 只需初始化，不管它是失败还是已经初始化。
   Windows::Foundation::Initialize(RO_INIT_MULTITHREADED);
 
   ScopedHString toast_manager_str(
@@ -85,8 +85,8 @@ bool WindowsToastNotification::Initialize() {
     return false;
 
   if (IsRunningInDesktopBridge()) {
-    // Ironically, the Desktop Bridge / UWP environment
-    // requires us to not give Windows an appUserModelId.
+    // 具有讽刺意味的是，Desktop Bridge/UWP环境。
+    // 要求我们不向Windows提供appUserModelId。
     return SUCCEEDED(toast_manager_->CreateToastNotifier(&toast_notifier_));
   } else {
     ScopedHString app_id;
@@ -104,7 +104,7 @@ WindowsToastNotification::WindowsToastNotification(
     : Notification(delegate, presenter) {}
 
 WindowsToastNotification::~WindowsToastNotification() {
-  // Remove the notification on exit.
+  // 删除退出时的通知。
   if (toast_notification_) {
     RemoveCallbacks(toast_notification_.Get());
   }
@@ -129,7 +129,7 @@ void WindowsToastNotification::Dismiss() {
 HRESULT WindowsToastNotification::ShowInternal(
     const NotificationOptions& options) {
   ComPtr<IXmlDocument> toast_xml;
-  // The custom xml takes priority over the preset template.
+  // 自定义XML优先于预设模板。
   if (!options.toast_xml.empty()) {
     REPORT_AND_RETURN_IF_FAILED(
         XmlDocumentFromString(base::as_wcstr(options.toast_xml), &toast_xml),
@@ -180,7 +180,7 @@ HRESULT WindowsToastNotification::GetToastXml(
     IXmlDocument** toast_xml) {
   ABI::Windows::UI::Notifications::ToastTemplateType template_type;
   if (title.empty() || msg.empty()) {
-    // Single line toast.
+    // 单行吐司。
     template_type =
         icon_path.empty()
             ? ABI::Windows::UI::Notifications::ToastTemplateType_ToastText01
@@ -190,13 +190,13 @@ HRESULT WindowsToastNotification::GetToastXml(
         toast_manager_->GetTemplateContent(template_type, toast_xml),
         "XML: Fetching XML ToastImageAndText01 template failed");
     std::u16string toastMsg = title.empty() ? msg : title;
-    // we can't create an empty notification
+    // 我们无法创建空通知。
     toastMsg = toastMsg.empty() ? u"[no message]" : toastMsg;
     REPORT_AND_RETURN_IF_FAILED(
         SetXmlText(*toast_xml, toastMsg),
         "XML: Filling XML ToastImageAndText01 template failed");
   } else {
-    // Title and body toast.
+    // 头衔和身体干杯。
     template_type =
         icon_path.empty()
             ? ABI::Windows::UI::Notifications::ToastTemplateType_ToastText02
@@ -210,21 +210,21 @@ HRESULT WindowsToastNotification::GetToastXml(
         "XML: Filling XML ToastImageAndText02 template failed");
   }
 
-  // Configure the toast's timeout settings
+  // 配置吐司的超时设置。
   if (timeout_type == u"never") {
     REPORT_AND_RETURN_IF_FAILED(
         (SetXmlScenarioReminder(*toast_xml)),
         "XML: Setting \"scenario\" option on notification failed");
   }
 
-  // Configure the toast's notification sound
+  // 配置吐司的通知声音。
   if (silent) {
     REPORT_AND_RETURN_IF_FAILED(
         SetXmlAudioSilent(*toast_xml),
         "XML: Setting \"silent\" option on notification failed");
   }
 
-  // Configure the toast's image
+  // 配置吐司的图像。
   if (!icon_path.empty()) {
     REPORT_AND_RETURN_IF_FAILED(
         SetXmlImage(*toast_xml, icon_path),
@@ -242,11 +242,11 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   ComPtr<IXmlNodeList> node_list;
   RETURN_IF_FAILED(doc->GetElementsByTagName(tag, &node_list));
 
-  // Check that root "toast" node exists
+  // 检查根“toast”节点是否存在。
   ComPtr<IXmlNode> root;
   RETURN_IF_FAILED(node_list->Item(0, &root));
 
-  // get attributes of root "toast" node
+  // 获取根“toast”节点的属性。
   ComPtr<IXmlNamedNodeMap> toast_attributes;
   RETURN_IF_FAILED(root->get_Attributes(&toast_attributes));
 
@@ -275,7 +275,7 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   RETURN_IF_FAILED(toast_attributes.Get()->SetNamedItem(
       scenario_attribute_node.Get(), &scenario_attribute_pnode));
 
-  // Create "actions" wrapper
+  // 创建“Actions”包装器。
   ComPtr<IXmlElement> actions_wrapper_element;
   ScopedHString actions_wrapper_str(L"actions");
   RETURN_IF_FAILED(
@@ -284,7 +284,7 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   ComPtr<IXmlNode> actions_wrapper_node_tmp;
   RETURN_IF_FAILED(actions_wrapper_element.As(&actions_wrapper_node_tmp));
 
-  // Append actions wrapper node to toast xml
+  // 将操作包装节点追加到toast XML。
   ComPtr<IXmlNode> actions_wrapper_node;
   RETURN_IF_FAILED(
       root->AppendChild(actions_wrapper_node_tmp.Get(), &actions_wrapper_node));
@@ -293,8 +293,8 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   RETURN_IF_FAILED(
       actions_wrapper_node->get_Attributes(&attributes_actions_wrapper));
 
-  // Add a "Dismiss" button
-  // Create "action" tag
+  // 添加一个“取消”按钮。
+  // 创建“action”标签。
   ComPtr<IXmlElement> action_element;
   ScopedHString action_str(L"action");
   RETURN_IF_FAILED(doc->CreateElement(action_str, &action_element));
@@ -302,16 +302,16 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   ComPtr<IXmlNode> action_node_tmp;
   RETURN_IF_FAILED(action_element.As(&action_node_tmp));
 
-  // Append action node to actions wrapper in toast xml
+  // 将操作节点附加到toast XML中的操作包装器。
   ComPtr<IXmlNode> action_node;
   RETURN_IF_FAILED(
       actions_wrapper_node->AppendChild(action_node_tmp.Get(), &action_node));
 
-  // Setup attributes for action
+  // 设置操作的属性。
   ComPtr<IXmlNamedNodeMap> action_attributes;
   RETURN_IF_FAILED(action_node->get_Attributes(&action_attributes));
 
-  // Create activationType attribute
+  // 创建激活类型属性。
   ComPtr<IXmlAttribute> activation_type_attribute;
   ScopedHString activation_type_str(L"activationType");
   RETURN_IF_FAILED(
@@ -321,7 +321,7 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   RETURN_IF_FAILED(
       activation_type_attribute.As(&activation_type_attribute_node));
 
-  // Set activationType attribute to system
+  // 将激活类型属性设置为系统。
   ScopedHString activation_type_value(L"system");
   if (!activation_type_value.success())
     return E_FAIL;
@@ -337,12 +337,12 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   RETURN_IF_FAILED(activation_type_attribute_node->AppendChild(
       activation_type_node.Get(), &activation_type_backup_node));
 
-  // Add activation type to the action attributes
+  // 将激活类型添加到操作属性。
   ComPtr<IXmlNode> activation_type_attribute_pnode;
   RETURN_IF_FAILED(action_attributes.Get()->SetNamedItem(
       activation_type_attribute_node.Get(), &activation_type_attribute_pnode));
 
-  // Create arguments attribute
+  // 创建参数属性。
   ComPtr<IXmlAttribute> arguments_attribute;
   ScopedHString arguments_str(L"arguments");
   RETURN_IF_FAILED(doc->CreateAttribute(arguments_str, &arguments_attribute));
@@ -350,7 +350,7 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   ComPtr<IXmlNode> arguments_attribute_node;
   RETURN_IF_FAILED(arguments_attribute.As(&arguments_attribute_node));
 
-  // Set arguments attribute to dismiss
+  // 将Arguments属性设置为Dismit。
   ScopedHString arguments_value(L"dismiss");
   if (!arguments_value.success())
     return E_FAIL;
@@ -365,12 +365,12 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   RETURN_IF_FAILED(arguments_attribute_node->AppendChild(
       arguments_node.Get(), &arguments_backup_node));
 
-  // Add arguments to the action attributes
+  // 向操作属性添加参数。
   ComPtr<IXmlNode> arguments_attribute_pnode;
   RETURN_IF_FAILED(action_attributes.Get()->SetNamedItem(
       arguments_attribute_node.Get(), &arguments_attribute_pnode));
 
-  // Create content attribute
+  // 创建内容属性。
   ComPtr<IXmlAttribute> content_attribute;
   ScopedHString content_str(L"content");
   RETURN_IF_FAILED(doc->CreateAttribute(content_str, &content_attribute));
@@ -378,7 +378,7 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   ComPtr<IXmlNode> content_attribute_node;
   RETURN_IF_FAILED(content_attribute.As(&content_attribute_node));
 
-  // Set content attribute to Dismiss
+  // 将内容属性设置为取消。
   ScopedHString content_value(l10n_util::GetWideString(IDS_APP_CLOSE));
   if (!content_value.success())
     return E_FAIL;
@@ -393,7 +393,7 @@ HRESULT WindowsToastNotification::SetXmlScenarioReminder(IXmlDocument* doc) {
   RETURN_IF_FAILED(content_attribute_node->AppendChild(content_node.Get(),
                                                        &content_backup_node));
 
-  // Add content to the action attributes
+  // 将内容添加到操作属性。
   ComPtr<IXmlNode> content_attribute_pnode;
   return action_attributes.Get()->SetNamedItem(content_attribute_node.Get(),
                                                &content_attribute_pnode);
@@ -417,11 +417,11 @@ HRESULT WindowsToastNotification::SetXmlAudioSilent(IXmlDocument* doc) {
   ComPtr<IXmlNode> audio_node_tmp;
   RETURN_IF_FAILED(audio_element.As(&audio_node_tmp));
 
-  // Append audio node to toast xml
+  // 将音频节点追加到toast XML。
   ComPtr<IXmlNode> audio_node;
   RETURN_IF_FAILED(root->AppendChild(audio_node_tmp.Get(), &audio_node));
 
-  // Create silent attribute
+  // 创建静默属性。
   ComPtr<IXmlNamedNodeMap> attributes;
   RETURN_IF_FAILED(audio_node->get_Attributes(&attributes));
 
@@ -432,7 +432,7 @@ HRESULT WindowsToastNotification::SetXmlAudioSilent(IXmlDocument* doc) {
   ComPtr<IXmlNode> silent_attribute_node;
   RETURN_IF_FAILED(silent_attribute.As(&silent_attribute_node));
 
-  // Set silent attribute to true
+  // 将静默属性设置为true。
   ScopedHString silent_value(L"true");
   if (!silent_value.success())
     return E_FAIL;
@@ -588,9 +588,7 @@ bool WindowsToastNotification::RemoveCallbacks(
   return SUCCEEDED(toast->remove_Failed(failed_token_));
 }
 
-/*
-/ Toast Event Handler
-*/
+/* /Toast事件处理程序。*/
 ToastEventHandler::ToastEventHandler(Notification* notification)
     : notification_(notification->GetWeakPtr()) {}
 
@@ -636,4 +634,4 @@ IFACEMETHODIMP ToastEventHandler::Invoke(
   return S_OK;
 }
 
-}  // namespace electron
+}  // 命名空间电子

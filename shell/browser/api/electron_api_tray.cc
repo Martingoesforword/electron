@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_tray.h"
 
@@ -54,7 +54,7 @@ struct Converter<electron::TrayIcon::IconType> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -72,7 +72,7 @@ Tray::Tray(v8::Isolate* isolate,
 
 Tray::~Tray() = default;
 
-// static
+// 静电。
 gin::Handle<Tray> Tray::New(gin_helper::ErrorThrower thrower,
                             v8::Local<v8::Value> image,
                             absl::optional<UUID> guid,
@@ -234,7 +234,7 @@ void Tray::SetTitle(const std::string& title,
   TrayIcon::TitleOptions title_options;
   if (options) {
     if (options->Get("fontType", &title_options.font_type)) {
-      // Validate the font type if it's passed in
+      // 如果传入字体类型，则验证该字体类型。
       if (title_options.font_type != "monospaced" &&
           title_options.font_type != "monospacedDigit") {
         args->ThrowTypeError(
@@ -394,7 +394,7 @@ bool Tray::CheckAlive() {
   return true;
 }
 
-// static
+// 静电。
 v8::Local<v8::ObjectTemplate> Tray::FillObjectTemplate(
     v8::Isolate* isolate,
     v8::Local<v8::ObjectTemplate> templ) {
@@ -420,9 +420,9 @@ v8::Local<v8::ObjectTemplate> Tray::FillObjectTemplate(
       .Build();
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -438,6 +438,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("Tray", Tray::GetConstructor(context));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_tray, Initialize)

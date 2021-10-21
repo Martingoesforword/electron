@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/views/autofill_popup_view.h"
 
@@ -70,9 +70,9 @@ void AutofillPopupView::Show() {
   if (initialize_widget) {
     parent_widget_->AddObserver(this);
 
-    // The widget is destroyed by the corresponding NativeWidget, so we use
-    // a weak pointer to hold the reference and don't have to worry about
-    // deletion.
+    // 小部件被相应的NativeWidget销毁，因此我们使用。
+    // 保存引用的弱指针，不必担心。
+    // 删除。
     auto* widget = new views::Widget;
     views::Widget::InitParams params(views::Widget::InitParams::TYPE_POPUP);
     params.delegate = this;
@@ -80,7 +80,7 @@ void AutofillPopupView::Show() {
     params.z_order = ui::ZOrderLevel::kFloatingUIElement;
     widget->Init(std::move(params));
 
-    // No animation for popup appearance (too distracting).
+    // 弹出式外观没有动画(太分散注意力)。
     widget->SetVisibilityAnimationTransition(views::Widget::ANIMATE_HIDE);
 
     show_time_ = base::Time::Now();
@@ -191,7 +191,7 @@ void AutofillPopupView::DrawAutofillEntry(gfx::Canvas* canvas,
                 value_rect.height()),
       text_align);
 
-  // Draw the label text, if one exists.
+  // 绘制标签文本(如果存在)。
   if (!popup_->GetLabelAt(index).empty()) {
     const int label_width = gfx::GetStringWidth(
         popup_->GetLabelAt(index), popup_->GetLabelFontListForRow(index));
@@ -283,28 +283,28 @@ bool AutofillPopupView::OnMouseDragged(const ui::MouseEvent& event) {
   if (HitTestPoint(event.location())) {
     SetSelection(event.location());
 
-    // We must return true in order to get future OnMouseDragged and
-    // OnMouseReleased events.
+    // 我们必须返回TRUE，才能让未来的OnMouseDraked和。
+    // OnMouseReleated事件。
     return true;
   }
 
-  // If we move off of the popup, we lose the selection.
+  // 如果我们离开弹出窗口，我们就会失去选择。
   ClearSelection();
   return false;
 }
 
 void AutofillPopupView::OnMouseExited(const ui::MouseEvent& event) {
-  // Pressing return causes the cursor to hide, which will generate an
-  // OnMouseExited event. Pressing return should activate the current selection
-  // via AcceleratorPressed, so we need to let that run first.
+  // 按Return键会导致光标隐藏，这将生成一个。
+  // OnMouseExted事件。按回车键应该会激活当前选择。
+  // 通过加速器按下，所以我们需要先让它运行。
   base::ThreadTaskRunnerHandle::Get()->PostTask(
       FROM_HERE, base::BindOnce(&AutofillPopupView::ClearSelection,
                                 weak_ptr_factory_.GetWeakPtr()));
 }
 
 void AutofillPopupView::OnMouseMoved(const ui::MouseEvent& event) {
-  // A synthesized mouse move will be sent when the popup is first shown.
-  // Don't preview a suggestion if the mouse happens to be hovering there.
+  // 当弹出窗口首次显示时，将发送合成的鼠标移动。
+  // 如果鼠标恰好在那里徘徊，不要预览建议。
 #if defined(OS_WIN)
   if (base::Time::Now() - show_time_ <= base::TimeDelta::FromMilliseconds(50))
     return;
@@ -324,7 +324,7 @@ bool AutofillPopupView::OnMousePressed(const ui::MouseEvent& event) {
 }
 
 void AutofillPopupView::OnMouseReleased(const ui::MouseEvent& event) {
-  // We only care about the left click.
+  // 我们只关心左键点击。
   if (event.IsOnlyLeftMouseButton() && HitTestPoint(event.location()))
     AcceptSelection(event.location());
 }
@@ -383,19 +383,19 @@ bool AutofillPopupView::HandleKeyPressEvent(
     case ui::VKEY_DOWN:
       SelectNextLine();
       return true;
-    case ui::VKEY_PRIOR:  // Page up.
+    case ui::VKEY_PRIOR:  // 往上翻。
       SetSelectedLine(0);
       return true;
-    case ui::VKEY_NEXT:  // Page down.
+    case ui::VKEY_NEXT:  // 翻下一页。
       SetSelectedLine(popup_->GetLineCount() - 1);
       return true;
     case ui::VKEY_ESCAPE:
       popup_->Hide();
       return true;
     case ui::VKEY_TAB:
-      // A tab press should cause the selected line to be accepted, but still
-      // return false so the tab key press propagates and changes the cursor
-      // location.
+      // 按Tab键应该会使所选行被接受，但仍然。
+      // 返回False，以便按Tab键传播并更改光标。
+      // 地点。
       AcceptSelectedLine();
       return false;
     case ui::VKEY_RETURN:
@@ -493,4 +493,4 @@ void AutofillPopupView::RemoveObserver() {
   views::WidgetFocusManager::GetInstance()->RemoveFocusChangeListener(this);
 }
 
-}  // namespace electron
+}  // 命名空间电子

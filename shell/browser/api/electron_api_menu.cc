@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_menu.h"
 
@@ -40,7 +40,7 @@ struct Converter<SharingItem> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 #endif
 
@@ -76,8 +76,8 @@ bool InvokeBoolMethod(const Menu* menu,
                       bool default_value = false) {
   v8::Isolate* isolate = JavascriptEnvironment::GetIsolate();
   v8::HandleScope scope(isolate);
-  // We need to cast off const here because GetWrapper() is non-const, but
-  // ui::SimpleMenuModel::Delegate's methods are const.
+  // 我们需要在这里去掉const，因为GetWrapper()是非const的，但是。
+  // UI：：SimpleMenuModel：：Delegate的方法是常量。
   v8::Local<v8::Value> val = gin_helper::CallMethod(
       isolate, const_cast<Menu*>(menu), method, command_id);
   bool ret = false;
@@ -144,7 +144,7 @@ void Menu::OnMenuWillShow(ui::SimpleMenuModel* source) {
 }
 
 base::OnceClosure Menu::BindSelfToClosure(base::OnceClosure callback) {
-  // return ((callback, ref) => { callback() }).bind(null, callback, this)
+  // Return((callback，ref)=&gt;{callback()}).bind(null，callback，this)。
   v8::Isolate* isolate = JavascriptEnvironment::GetIsolate();
   v8::Locker locker(isolate);
   v8::HandleScope scope(isolate);
@@ -268,7 +268,7 @@ void Menu::OnMenuWillShow() {
   Emit("menu-will-show");
 }
 
-// static
+// 静电。
 v8::Local<v8::ObjectTemplate> Menu::FillObjectTemplate(
     v8::Isolate* isolate,
     v8::Local<v8::ObjectTemplate> templ) {
@@ -302,9 +302,9 @@ v8::Local<v8::ObjectTemplate> Menu::FillObjectTemplate(
       .Build();
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -325,6 +325,6 @@ void Initialize(v8::Local<v8::Object> exports,
 #endif
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_menu, Initialize)

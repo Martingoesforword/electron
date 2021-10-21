@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/event.h"
 
@@ -21,8 +21,8 @@ Event::Event() = default;
 Event::~Event() {
   if (callback_) {
     v8::Isolate* isolate = electron::JavascriptEnvironment::GetIsolate();
-    // If there's no current context, it means we're shutting down, so we don't
-    // need to send an event.
+    // 如果没有当前的上下文，那就意味着我们要关门了，所以我们不会。
+    // 需要发送事件。
     if (!isolate->GetCurrentContext().IsEmpty()) {
       v8::HandleScope scope(isolate);
       auto message = gin::DataObjectBuilder(isolate)
@@ -69,9 +69,9 @@ const char* Event::GetTypeName() {
   return "Event";
 }
 
-// static
+// 静电。
 gin::Handle<Event> Event::Create(v8::Isolate* isolate) {
   return gin::CreateHandle(isolate, new Event());
 }
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper

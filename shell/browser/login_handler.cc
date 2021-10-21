@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/login_handler.h"
 
@@ -59,9 +59,9 @@ void LoginHandler::EmitEvent(
   auto details = gin::Dictionary::CreateEmpty(isolate);
   details.Set("url", url);
 
-  // These parameters aren't documented, and I'm not sure that they're useful,
-  // but we might as well stick 'em on the details object. If it turns out they
-  // are useful, we can add them to the docs :)
+  // 这些参数没有记录在案，我也不确定它们是否有用，
+  // 但我们还是把它们贴在细节对象上吧。如果结果是它们。
+  // 是有用的，我们可以将它们添加到文档中：)。
   details.Set("isMainFrame", is_main_frame);
   details.Set("firstAuthAttempt", first_auth_attempt);
   details.Set("responseHeaders", response_headers.get());
@@ -71,9 +71,9 @@ void LoginHandler::EmitEvent(
       api_web_contents->Emit("login", std::move(details), auth_info,
                              base::BindOnce(&LoginHandler::CallbackFromJS,
                                             weak_factory_.GetWeakPtr()));
-  // ⚠️ NB, if CallbackFromJS is called during Emit(), |this| will have been
-  // deleted. Check the weak ptr before accessing any member variables to
-  // prevent UAF.
+  // ⚠️NB，如果在Emit()期间调用CallbackFromJS，|This|将。
+  // 已删除。在访问任何成员变量之前检查弱PTR。
+  // 防止UAF。
   if (weak_this && !default_prevented && auth_required_callback_) {
     std::move(auth_required_callback_).Run(absl::nullopt);
   }
@@ -93,4 +93,4 @@ void LoginHandler::CallbackFromJS(gin::Arguments* args) {
   }
 }
 
-}  // namespace electron
+}  // 命名空间电子

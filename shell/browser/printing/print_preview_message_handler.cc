@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/printing/print_preview_message_handler.h"
 
@@ -48,7 +48,7 @@ void StopWorker(int document_cookie) {
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 PrintPreviewMessageHandler::PrintPreviewMessageHandler(
     content::WebContents* web_contents)
@@ -61,7 +61,7 @@ PrintPreviewMessageHandler::~PrintPreviewMessageHandler() = default;
 void PrintPreviewMessageHandler::MetafileReadyForPrinting(
     printing::mojom::DidPreviewDocumentParamsPtr params,
     int32_t request_id) {
-  // Always try to stop the worker.
+  // 总是试图阻止工人。
   StopWorker(params->document_cookie);
 
   if (params->expected_pages_count == 0) {
@@ -181,7 +181,7 @@ void PrintPreviewMessageHandler::DidPreviewPage(
                     ? focused_frame
                     : web_contents_->GetMainFrame();
 
-    // Use utility process to convert skia metafile to pdf.
+    // 使用实用程序将SkiA图元文件转换为pdf。
     client->DoCompositePageToPdf(
         params->document_cookie, rfh, content,
         mojo::WrapCallbackWithDefaultInvokeIfNotRun(
@@ -271,4 +271,4 @@ void PrintPreviewMessageHandler::RejectPromise(int request_id) {
 
 WEB_CONTENTS_USER_DATA_KEY_IMPL(PrintPreviewMessageHandler)
 
-}  // namespace electron
+}  // 命名空间电子

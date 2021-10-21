@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/electron_browser_client.h"
 
@@ -31,7 +31,7 @@
 #include "chrome/common/chrome_version.h"
 #include "components/net_log/chrome_net_log.h"
 #include "components/network_hints/common/network_hints.mojom.h"
-#include "content/browser/site_instance_impl.h"  // nogncheck
+#include "content/browser/site_instance_impl.h"  // 点名检查。
 #include "content/public/browser/browser_main_runner.h"
 #include "content/public/browser/browser_ppapi_host.h"
 #include "content/public/browser/browser_task_traits.h"
@@ -126,13 +126,13 @@
 #endif
 
 #if BUILDFLAG(ENABLE_BUILTIN_SPELLCHECKER)
-#include "chrome/browser/spellchecker/spell_check_host_chrome_impl.h"  // nogncheck
-#include "components/spellcheck/common/spellcheck.mojom.h"  // nogncheck
+#include "chrome/browser/spellchecker/spell_check_host_chrome_impl.h"  // 点名检查。
+#include "components/spellcheck/common/spellcheck.mojom.h"  // 点名检查。
 #endif
 
 #if BUILDFLAG(OVERRIDE_LOCATION_PROVIDER)
 #include "shell/browser/fake_location_provider.h"
-#endif  // BUILDFLAG(OVERRIDE_LOCATION_PROVIDER)
+#endif  // BUILDFLAG(OVERRIDE_LOCATION_PROVIDER)。
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
 #include "chrome/common/webui_url_constants.h"
@@ -168,7 +168,7 @@
 #endif
 
 #if BUILDFLAG(ENABLE_PLUGINS)
-#include "chrome/browser/plugins/plugin_response_interceptor_url_loader_throttle.h"  // nogncheck
+#include "chrome/browser/plugins/plugin_response_interceptor_url_loader_throttle.h"  // 点名检查。
 #include "shell/browser/plugins/plugin_utils.h"
 #endif
 
@@ -180,9 +180,9 @@
 #if defined(OS_LINUX) && !defined(MAS_BUILD)
 #include "base/debug/leak_annotations.h"
 #include "components/crash/content/browser/crash_handler_host_linux.h"
-#include "components/crash/core/app/breakpad_linux.h"  // nogncheck
-#include "components/crash/core/app/crash_switches.h"  // nogncheck
-#include "components/crash/core/app/crashpad.h"        // nogncheck
+#include "components/crash/core/app/breakpad_linux.h"  // 点名检查。
+#include "components/crash/core/app/crash_switches.h"  // 点名检查。
+#include "components/crash/core/app/crashpad.h"        // 点名检查。
 #endif
 
 #if BUILDFLAG(ENABLE_PICTURE_IN_PICTURE) && defined(OS_WIN)
@@ -199,7 +199,7 @@
 #endif
 
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
-#include "components/pdf/browser/pdf_web_contents_helper.h"  // nogncheck
+#include "components/pdf/browser/pdf_web_contents_helper.h"  // 点名检查。
 #endif
 
 using content::BrowserThread;
@@ -227,10 +227,10 @@ void BindNetworkHintsHandler(
 }
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
-// Used by the GetPrivilegeRequiredByUrl() and GetProcessPrivilege() functions
-// below.  Extension, and isolated apps require different privileges to be
-// granted to their RenderProcessHosts.  This classification allows us to make
-// sure URLs are served by hosts with the right set of privileges.
+// 由GetPrivilegeRequiredByUrl()和GetProcessPrivilegeRequiredByUrl()函数使用。
+// 下面。扩展，独立的应用程序需要不同的权限才能。
+// 授予其RenderProcessHosts。这种分类使我们能够。
+// 确保URL由具有正确权限集的主机提供。
 enum class RenderProcessHostPrivilege {
   kNormal,
   kHosted,
@@ -238,7 +238,7 @@ enum class RenderProcessHostPrivilege {
   kExtension,
 };
 
-// Copied from chrome/browser/extensions/extension_util.cc.
+// 从Chrome/Browser/Extensions/Extension_util.cc复制。
 bool AllowFileAccess(const std::string& extension_id,
                      content::BrowserContext* context) {
   return base::CommandLine::ForCurrentProcess()->HasSwitch(
@@ -250,12 +250,12 @@ bool AllowFileAccess(const std::string& extension_id,
 RenderProcessHostPrivilege GetPrivilegeRequiredByUrl(
     const GURL& url,
     extensions::ExtensionRegistry* registry) {
-  // Default to a normal renderer cause it is lower privileged. This should only
-  // occur if the URL on a site instance is either malformed, or uninitialized.
-  // If it is malformed, then there is no need for better privileges anyways.
-  // If it is uninitialized, but eventually settles on being an a scheme other
-  // than normal webrenderer, the navigation logic will correct us out of band
-  // anyways.
+  // 默认为普通渲染器，因为它的权限较低。这应该只是。
+  // 如果Site实例上的URL格式错误或未初始化，则会发生。
+  // 如果它是畸形的，那么无论如何都不需要更好的特权。
+  // 如果它未初始化，但最终决定成为其他方案。
+  // 比起普通的浏览器，导航逻辑会纠正我们的带外。
+  // 不管怎么说。
   if (!url.is_valid())
     return RenderProcessHostPrivilege::kNormal;
 
@@ -290,7 +290,7 @@ const extensions::Extension* GetEnabledExtensionFromEffectiveURL(
 
   return registry->enabled_extensions().GetByID(effective_url.host());
 }
-#endif  // BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
+#endif  // BUILDFLAG(启用电子扩展)。
 
 #if defined(OS_LINUX)
 breakpad::CrashHandlerHostLinux* CreateCrashHandlerHost(
@@ -314,7 +314,7 @@ int GetCrashSignalFD(const base::CommandLine& command_line) {
     return crash_reporter::GetHandlerSocket(&fd, &pid) ? fd : -1;
   }
 
-  // Extensions have the same process type as renderers.
+  // 扩展与呈现器具有相同的进程类型。
   if (command_line.HasSwitch(extensions::switches::kExtensionProcess)) {
     static breakpad::CrashHandlerHostLinux* crash_handler = nullptr;
     if (!crash_handler)
@@ -355,16 +355,16 @@ int GetCrashSignalFD(const base::CommandLine& command_line) {
 
   return -1;
 }
-#endif  // defined(OS_LINUX)
+#endif  // 已定义(OS_Linux)。
 
-}  // namespace
+}  // 命名空间。
 
-// static
+// 静电。
 ElectronBrowserClient* ElectronBrowserClient::Get() {
   return g_browser_client;
 }
 
-// static
+// 静电。
 void ElectronBrowserClient::SetApplicationLocale(const std::string& locale) {
   if (!BrowserThread::IsThreadInitialized(BrowserThread::IO) ||
       !base::PostTask(
@@ -387,14 +387,14 @@ ElectronBrowserClient::~ElectronBrowserClient() {
 
 content::WebContents* ElectronBrowserClient::GetWebContentsFromProcessID(
     int process_id) {
-  // If the process is a pending process, we should use the web contents
-  // for the frame host passed into RegisterPendingProcess.
+  // 如果进程是挂起的进程，我们应该使用Web内容。
+  // 传入RegisterPendingProcess的帧主机的。
   const auto iter = pending_processes_.find(process_id);
   if (iter != std::end(pending_processes_))
     return iter->second;
 
-  // Certain render process will be created with no associated render view,
-  // for example: ServiceWorker.
+  // 某些渲染进程将在没有关联渲染视图的情况下创建，
+  // 例如：ServiceWorker。
   return WebContentsPreferences::GetWebContentsFromProcessID(process_id);
 }
 
@@ -411,7 +411,7 @@ bool ElectronBrowserClient::IsRendererSubFrame(int process_id) const {
 
 void ElectronBrowserClient::RenderProcessWillLaunch(
     content::RenderProcessHost* host) {
-  // When a render process is crashed, it might be reused.
+  // 当渲染进程崩溃时，它可能会被重复使用。
   int process_id = host->GetID();
 
   auto* browser_context = host->GetBrowserContext();
@@ -426,7 +426,7 @@ void ElectronBrowserClient::RenderProcessWillLaunch(
       new ElectronExtensionMessageFilter(process_id, browser_context));
 #endif
 
-  // ensure the ProcessPreferences is removed later
+  // 确保稍后删除ProcessPreferences。
   host->AddObserver(this);
 }
 
@@ -476,7 +476,7 @@ void ElectronBrowserClient::OverrideWebkitPrefs(
 
   SetFontDefaults(prefs);
 
-  // Custom preferences of guest page.
+  // 访客页面的自定义首选项。
   auto* web_preferences = WebContentsPreferences::From(web_contents);
   if (web_preferences) {
     web_preferences->OverrideWebkitPrefs(prefs);
@@ -486,7 +486,7 @@ void ElectronBrowserClient::OverrideWebkitPrefs(
 void ElectronBrowserClient::RegisterPendingSiteInstance(
     content::RenderFrameHost* rfh,
     content::SiteInstance* pending_site_instance) {
-  // Remember the original web contents for the pending renderer process.
+  // 记住挂起的渲染器进程的原始Web内容。
   auto* web_contents = content::WebContents::FromRenderFrameHost(rfh);
   auto* pending_process = pending_site_instance->GetProcess();
   pending_processes_[pending_process->GetID()] = web_contents;
@@ -500,7 +500,7 @@ void ElectronBrowserClient::RegisterPendingSiteInstance(
 void ElectronBrowserClient::AppendExtraCommandLineSwitches(
     base::CommandLine* command_line,
     int process_id) {
-  // Make sure we're about to launch a known executable
+  // 确保我们即将启动一个已知的可执行文件。
   {
     base::ThreadRestrictions::ScopedAllowIO allow_io;
     base::FilePath child_path;
@@ -576,9 +576,9 @@ void ElectronBrowserClient::AppendExtraCommandLineSwitches(
   }
 #endif
 
-  // The zygote process is booted before JS runs, so DIR_USER_DATA isn't usable
-  // at that time. It doesn't need --user-data-dir to be correct anyway, since
-  // the zygote itself doesn't access anything in that directory.
+  // Zygote进程在JS运行之前启动，因此DIR_USER_DATA不可用。
+  // 在那个时候。它无论如何都不需要--user-data-dir是正确的，因为。
+  // 受精卵本身不访问该目录中的任何内容。
   if (process_type != ::switches::kZygoteProcess) {
     base::FilePath user_data_dir;
     if (base::PathService::Get(chrome::DIR_USER_DATA, &user_data_dir))
@@ -587,7 +587,7 @@ void ElectronBrowserClient::AppendExtraCommandLineSwitches(
 
   if (process_type == ::switches::kUtilityProcess ||
       process_type == ::switches::kRendererProcess) {
-    // Copy following switches to child process.
+    // 将以下开关复制到子进程。
     static const char* const kCommonSwitchNames[] = {
         switches::kStandardSchemes,      switches::kEnableSandbox,
         switches::kSecureSchemes,        switches::kBypassCSPSchemes,
@@ -600,7 +600,7 @@ void ElectronBrowserClient::AppendExtraCommandLineSwitches(
 
   if (process_type == ::switches::kRendererProcess) {
 #if defined(OS_WIN)
-    // Append --app-user-model-id.
+    // 追加--app-user-model-id。
     PWSTR current_app_id;
     if (SUCCEEDED(GetCurrentProcessExplicitAppUserModelID(&current_app_id))) {
       command_line->AppendSwitchNative(switches::kAppUserModelId,
@@ -619,8 +619,8 @@ void ElectronBrowserClient::AppendExtraCommandLineSwitches(
       command_line->AppendSwitch("profile-electron-init");
     }
 
-    // Extension background pages don't have WebContentsPreferences, but they
-    // support WebSQL by default.
+    // 扩展背景页面没有WebContentsPreferences，但它们。
+    // 默认支持WebSQL。
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
     content::RenderProcessHost* process =
         content::RenderProcessHost::FromID(process_id);
@@ -643,7 +643,7 @@ void ElectronBrowserClient::AppendExtraCommandLineSwitches(
 void ElectronBrowserClient::DidCreatePpapiPlugin(
     content::BrowserPpapiHost* host) {}
 
-// attempt to get api key from env
+// 尝试从环境获取API密钥。
 std::string ElectronBrowserClient::GetGeolocationApiKey() {
   auto env = base::Environment::Create();
   std::string api_key;
@@ -659,11 +659,11 @@ ElectronBrowserClient::CreateQuotaPermissionContext() {
 content::GeneratedCodeCacheSettings
 ElectronBrowserClient::GetGeneratedCodeCacheSettings(
     content::BrowserContext* context) {
-  // TODO(deepak1556): Use platform cache directory.
+  // TODO(Deepak1556)：使用平台缓存目录。
   base::FilePath cache_path = context->GetPath();
-  // If we pass 0 for size, disk_cache will pick a default size using the
-  // heuristics based on available disk size. These are implemented in
-  // disk_cache::PreferredCacheSize in net/disk_cache/cache_util.cc.
+  // 如果将大小传递为0，则disk_cache将使用。
+  // 基于可用磁盘大小的启发式方法。这些都是在。
+  // Net/disk_cache/cache_util.cc中的disk_cache：：PferredCacheSize。
   return content::GeneratedCodeCacheSettings(true, 0, cache_path);
 }
 
@@ -718,8 +718,8 @@ bool ElectronBrowserClient::CanCreateWindow(
   WebContentsPreferences* prefs = WebContentsPreferences::From(web_contents);
   if (prefs && prefs->ShouldUseNativeWindowOpen()) {
     if (prefs->ShouldDisablePopups()) {
-      // <webview> without allowpopups attribute should return
-      // null from window.open calls
+      // 不允许弹出窗口属性的&lt;webview&gt;应返回。
+      // Window.open调用为空。
       return false;
     } else {
       *no_javascript_access = false;
@@ -791,7 +791,7 @@ void ElectronBrowserClient::SiteInstanceGotProcess(
         ->Insert(extension->id(), site_instance->GetProcess()->GetID(),
                  site_instance->GetId());
   }
-#endif  // BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
+#endif  // BUILDFLAG(启用电子扩展)
 }
 
 bool ElectronBrowserClient::IsSuitableHost(
@@ -804,8 +804,8 @@ bool ElectronBrowserClient::IsSuitableHost(
   extensions::ProcessMap* process_map =
       extensions::ProcessMap::Get(browser_context);
 
-  // Otherwise, just make sure the process privilege matches the privilege
-  // required by the site.
+  // 否则，只需确保进程权限与权限匹配。
+  // 站点所需的。
   RenderProcessHostPrivilege privilege_required =
       GetPrivilegeRequiredByUrl(site_url, registry);
   return GetProcessPrivilege(process_host, process_map, registry) ==
@@ -844,14 +844,14 @@ base::FilePath ElectronBrowserClient::GetLoggingFileName(
 void ElectronBrowserClient::SiteInstanceDeleting(
     content::SiteInstance* site_instance) {
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
-  // Don't do anything if we're shutting down.
+  // 如果我们要关门什么都别做。
   if (content::BrowserMainRunner::ExitedMainMessageLoop())
     return;
 
   auto* browser_context =
       static_cast<ElectronBrowserContext*>(site_instance->GetBrowserContext());
   if (!browser_context->IsOffTheRecord()) {
-    // If this isn't an extension renderer there's nothing to do.
+    // 如果这不是一个扩展渲染器，那就没有什么可做的了。
     extensions::ExtensionRegistry* registry =
         extensions::ExtensionRegistry::Get(browser_context);
     const extensions::Extension* extension =
@@ -1105,12 +1105,12 @@ void ElectronBrowserClient::RegisterNonNetworkNavigationURLLoaderFactories(
       extensions::kExtensionScheme,
       extensions::CreateExtensionNavigationURLLoaderFactory(
           context, ukm_source_id,
-          false /* we don't support extensions::WebViewGuest */));
+          false /* 我们不支持Extensions：：WebViewGuest。*/));
 #endif
-  // Always allow navigating to file:// URLs.
+  // 始终允许导航到file：//urls。
   auto* protocol_registry = ProtocolRegistry::FromBrowserContext(context);
   protocol_registry->RegisterURLLoaderFactories(factories,
-                                                true /* allow_file_access */);
+                                                true /* 允许文件访问。*/);
 }
 
 void ElectronBrowserClient::
@@ -1119,25 +1119,25 @@ void ElectronBrowserClient::
         NonNetworkURLLoaderFactoryMap* factories) {
   auto* protocol_registry =
       ProtocolRegistry::FromBrowserContext(browser_context);
-  // Workers are not allowed to request file:// URLs, there is no particular
-  // reason for it, and we could consider supporting it in future.
+  // 不允许工作人员请求file：//urls，没有特定的。
+  // 这是有原因的，我们可以考虑在将来支持它。
   protocol_registry->RegisterURLLoaderFactories(factories,
-                                                false /* allow_file_access */);
+                                                false /* 允许文件访问。*/);
 }
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
 namespace {
 
-// The FileURLLoaderFactory provided to the extension background pages.
-// Checks with the ChildProcessSecurityPolicy to validate the file access.
+// 提供给扩展背景页的FileURLLoaderFactory。
+// 检查ChildProcessSecurityPolicy以验证文件访问。
 class FileURLLoaderFactory : public network::SelfDeletingURLLoaderFactory {
  public:
   static mojo::PendingRemote<network::mojom::URLLoaderFactory> Create(
       int child_id) {
     mojo::PendingRemote<network::mojom::URLLoaderFactory> pending_remote;
 
-    // The FileURLLoaderFactory will delete itself when there are no more
-    // receivers - see the SelfDeletingURLLoaderFactory::OnDisconnect method.
+    // FileURLLoaderFactory将在没有更多文件时自行删除。
+    // 接收器-请参见SelfDeletingURLLoaderFactory：：OnDisconnect方法。
     new FileURLLoaderFactory(child_id,
                              pending_remote.InitWithNewPipeAndPassReceiver());
 
@@ -1152,7 +1152,7 @@ class FileURLLoaderFactory : public network::SelfDeletingURLLoaderFactory {
         child_id_(child_id) {}
   ~FileURLLoaderFactory() override = default;
 
-  // network::mojom::URLLoaderFactory:
+  // Network：：mojom：：URLLoaderFactory：
   void CreateLoaderAndStart(
       mojo::PendingReceiver<network::mojom::URLLoader> loader,
       int32_t request_id,
@@ -1170,8 +1170,8 @@ class FileURLLoaderFactory : public network::SelfDeletingURLLoaderFactory {
     }
     content::CreateFileURLLoaderBypassingSecurityChecks(
         request, std::move(loader), std::move(client),
-        /*observer=*/nullptr,
-        /* allow_directory_listing */ true);
+        /* 观察者=。*/nullptr,
+        /* 允许目录列表。*/ true);
   }
 
   int child_id_;
@@ -1179,8 +1179,8 @@ class FileURLLoaderFactory : public network::SelfDeletingURLLoaderFactory {
   DISALLOW_COPY_AND_ASSIGN(FileURLLoaderFactory);
 };
 
-}  // namespace
-#endif  // BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
+}  // 命名空间。
+#endif  // BUILDFLAG(启用电子扩展)。
 
 void ElectronBrowserClient::RegisterNonNetworkSubresourceURLLoaderFactories(
     int render_process_id,
@@ -1197,8 +1197,8 @@ void ElectronBrowserClient::RegisterNonNetworkSubresourceURLLoaderFactories(
   content::WebContents* web_contents =
       content::WebContents::FromRenderFrameHost(frame_host);
 
-  // Allow accessing file:// subresources from non-file protocols if web
-  // security is disabled.
+  // 如果是Web，则允许从非文件协议访问file：//子资源。
+  // 安全性已禁用。
   bool allow_file_access = false;
   if (web_contents) {
     const auto& web_preferences = web_contents->GetOrCreateWebPreferences();
@@ -1222,8 +1222,8 @@ void ElectronBrowserClient::RegisterNonNetworkSubresourceURLLoaderFactories(
       extensions::ElectronExtensionWebContentsObserver::FromWebContents(
           web_contents);
 
-  // There is nothing to do if no ElectronExtensionWebContentsObserver is
-  // attached to the |web_contents|.
+  // 如果没有ElectronExtensionWebContentsWatch。
+  // 附加到|WEB_CONTENTS|。
   if (!web_observer)
     return;
 
@@ -1232,20 +1232,20 @@ void ElectronBrowserClient::RegisterNonNetworkSubresourceURLLoaderFactories(
   if (!extension)
     return;
 
-  // Support for chrome:// scheme if appropriate.
+  // 如果合适，支持Chrome：//方案。
   if (extension->is_extension() &&
       extensions::Manifest::IsComponentLocation(extension->location())) {
-    // Components of chrome that are implemented as extensions or platform apps
-    // are allowed to use chrome://resources/ and chrome://theme/ URLs.
+    // 作为扩展或平台应用程序实现的Chrome组件。
+    // 允许使用Chrome：//Resources/和Chrome：//Theme/URL。
     factories->emplace(content::kChromeUIScheme,
                        content::CreateWebUIURLLoaderFactory(
                            frame_host, content::kChromeUIScheme,
                            {content::kChromeUIResourcesHost}));
   }
 
-  // Extensions with the necessary permissions get access to file:// URLs that
-  // gets approval from ChildProcessSecurityPolicy. Keep this logic in sync with
-  // ExtensionWebContentsObserver::RenderFrameCreated.
+  // 具有必要权限的扩展获得对file：//URL的访问权限。
+  // 获得ChildProcessSecurityPolicy的批准。使此逻辑与保持同步。
+  // ExtensionWebContentsObserver：：RenderFrameCreated.。
   extensions::Manifest::Type type = extension->GetType();
   if (type == extensions::Manifest::TYPE_EXTENSION &&
       AllowFileAccess(extension->id(), web_contents->GetBrowserContext())) {
@@ -1277,8 +1277,8 @@ bool ElectronBrowserClient::WillInterceptWebSocket(
   auto* browser_context = frame->GetProcess()->GetBrowserContext();
   auto web_request = api::WebRequest::FromOrCreate(isolate, browser_context);
 
-  // NOTE: Some unit test environments do not initialize
-  // BrowserContextKeyedAPI factories for e.g. WebRequest.
+  // 注意：某些单元测试环境不会初始化。
+  // 例如WebRequest的BrowserContextKeyedAPI工厂。
   if (!web_request.get())
     return false;
 
@@ -1372,11 +1372,11 @@ bool ElectronBrowserClient::WillCreateURLLoaderFactory(
   mojo::PendingRemote<network::mojom::URLLoaderFactory> target_factory_remote;
   *factory_receiver = target_factory_remote.InitWithNewPipeAndPassReceiver();
 
-  // Required by WebRequestInfoInitParams.
-  //
-  // Note that in Electron we allow webRequest to capture requests sent from
-  // browser process, so creation of |navigation_ui_data| is different from
-  // Chromium which only does for renderer-initialized navigations.
+  // WebRequestInfoInitParams需要。
+  // 
+  // 请注意，在Electron中，我们允许WebRequest捕获从。
+  // 浏览器进程，因此|VIAGATION_UI_DATA|的创建不同于。
+  // Chrome，它只对渲染器初始化的导航起作用。
   std::unique_ptr<extensions::ExtensionNavigationUIData> navigation_ui_data;
   if (navigation_id.has_value()) {
     navigation_ui_data =
@@ -1412,7 +1412,7 @@ void ElectronBrowserClient::OverrideURLLoaderFactoryParams(
     bool is_for_isolated_world,
     network::mojom::URLLoaderFactoryParams* factory_params) {
   if (factory_params->top_frame_id) {
-    // Bypass CORB and CORS when web security is disabled.
+    // 禁用网络安全时绕过CORB和CORS。
     auto* rfh = content::RenderFrameHost::FromFrameToken(
         factory_params->process_id,
         blink::LocalFrameToken(factory_params->top_frame_id.value()));
@@ -1433,7 +1433,7 @@ bool ElectronBrowserClient::PreSpawnChild(
     sandbox::TargetPolicy* policy,
     sandbox::policy::SandboxType sandbox_type,
     ChildSpawnFlags flags) {
-  // Allow crashpad to communicate via named pipe.
+  // 允许CrashPad通过命名管道进行通信。
   sandbox::ResultCode result = policy->AddRule(
       sandbox::TargetPolicy::SUBSYS_FILES,
       sandbox::TargetPolicy::FILES_ALLOW_ANY, L"\\??\\pipe\\crashpad_*");
@@ -1441,7 +1441,7 @@ bool ElectronBrowserClient::PreSpawnChild(
     return false;
   return true;
 }
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 
 bool ElectronBrowserClient::BindAssociatedReceiverFromFrame(
     content::RenderFrameHost* render_frame_host,
@@ -1498,7 +1498,7 @@ base::FilePath ElectronBrowserClient::GetFontLookupTableCacheDir() {
 }
 
 bool ElectronBrowserClient::ShouldEnableStrictSiteIsolation() {
-  // Enable site isolation. It is off by default in Chromium <= 69.
+  // 启用站点隔离。默认情况下，在铬&lt;=69时该选项处于关闭状态。
   return true;
 }
 
@@ -1709,4 +1709,4 @@ content::HidDelegate* ElectronBrowserClient::GetHidDelegate() {
   return hid_delegate_.get();
 }
 
-}  // namespace electron
+}  // 命名空间电子

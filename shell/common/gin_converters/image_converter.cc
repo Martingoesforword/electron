@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_converters/image_converter.h"
 
@@ -27,7 +27,7 @@ bool Converter<gfx::Image>::FromV8(v8::Isolate* isolate,
   if (val->IsNull())
     return true;
 
-  // First see if the user has passed a path.
+  // 首先查看用户是否经过了路径。
   electron::api::NativeImage* native_image = nullptr;
   base::FilePath icon_path;
   if (gin::ConvertFromV8(isolate, val, &icon_path)) {
@@ -36,7 +36,7 @@ bool Converter<gfx::Image>::FromV8(v8::Isolate* isolate,
     if (native_image->image().IsEmpty())
       return false;
   } else {
-    // Try a normal nativeImage if that fails.
+    // 如果失败，请尝试正常的nativeImage。
     if (!gin::ConvertFromV8(isolate, val, &native_image))
       return false;
   }
@@ -51,4 +51,4 @@ v8::Local<v8::Value> Converter<gfx::Image>::ToV8(v8::Isolate* isolate,
                           electron::api::NativeImage::Create(isolate, val));
 }
 
-}  // namespace gin
+}  // 命名空间杜松子酒

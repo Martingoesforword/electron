@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/gtk/app_indicator_icon.h"
 
@@ -77,7 +77,7 @@ typedef void (*app_indicator_set_icon_theme_path_func)(
 bool g_attempted_load = false;
 bool g_opened = false;
 
-// Retrieved functions from libappindicator.
+// 从libappdicator检索到的函数。
 app_indicator_new_func app_indicator_new = nullptr;
 app_indicator_new_with_path_func app_indicator_new_with_path = nullptr;
 app_indicator_set_status_func app_indicator_set_status = nullptr;
@@ -134,7 +134,7 @@ void EnsureLibAppIndicatorLoaded() {
           dlsym(indicator_lib, "app_indicator_set_icon_theme_path"));
 }
 
-// Writes |bitmap| to a file at |path|. Returns true if successful.
+// 将|位图|写入|路径|下的文件。如果成功，则返回TRUE。
 bool WriteFile(const base::FilePath& path, const SkBitmap& bitmap) {
   std::vector<unsigned char> png_data;
   if (!gfx::PNGCodec::EncodeBGRASkBitmap(bitmap, false, &png_data))
@@ -150,7 +150,7 @@ void DeleteTempDirectory(const base::FilePath& dir_path) {
   base::DeletePathRecursively(dir_path);
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace electron {
 
@@ -177,7 +177,7 @@ AppIndicatorIcon::~AppIndicatorIcon() {
   }
 }
 
-// static
+// 静电。
 bool AppIndicatorIcon::CouldOpen() {
   EnsureLibAppIndicatorLoaded();
   return g_opened;
@@ -189,8 +189,8 @@ void AppIndicatorIcon::SetIcon(const gfx::ImageSkia& image) {
 
   ++icon_change_count_;
 
-  // Copy the bitmap because it may be freed by the time it's accessed in
-  // another thread.
+  // 复制位图，因为在中访问位图时可能会释放位图。
+  // 另一条线索。
   SkBitmap safe_bitmap = *image.bitmap();
 
   const base::TaskTraits kTraits = {
@@ -227,8 +227,8 @@ void AppIndicatorIcon::UpdatePlatformContextMenu(ui::MenuModel* model) {
 
   menu_model_ = model;
 
-  // The icon is created asynchronously so it might not exist when the menu is
-  // set.
+  // 该图标是异步创建的，因此当菜单被创建时，该图标可能不存在。
+  // 准备好了。
   if (icon_)
     SetMenu();
 }
@@ -237,7 +237,7 @@ void AppIndicatorIcon::RefreshPlatformContextMenu() {
   menu_->Refresh();
 }
 
-// static
+// 静电。
 AppIndicatorIcon::SetImageFromFileParams
 AppIndicatorIcon::WriteKDE4TempImageOnWorkerThread(
     const SkBitmap& bitmap,
@@ -251,9 +251,9 @@ AppIndicatorIcon::WriteKDE4TempImageOnWorkerThread(
 
   base::FilePath icon_theme_path = temp_dir.AppendASCII("icons");
 
-  // On KDE4, an image located in a directory ending with
-  // "icons/hicolor/22x22/apps" can be used as the app indicator image because
-  // "/usr/share/icons/hicolor/22x22/apps" exists.
+  // 在KDE4上，位于以以下字符结尾的目录中的图像。
+  // “icons/hicolor/22x22/apps”可以用作应用程序指示器图像，因为。
+  // “/usr/share/icons/hicolor/22x22/apps”存在。
   base::FilePath image_dir =
       icon_theme_path.AppendASCII("hicolor").AppendASCII("22x22").AppendASCII(
           "apps");
@@ -261,8 +261,8 @@ AppIndicatorIcon::WriteKDE4TempImageOnWorkerThread(
   if (!base::CreateDirectory(image_dir))
     return SetImageFromFileParams();
 
-  // On KDE4, the name of the image file for each different looking bitmap must
-  // be unique. It must also be unique across runs of Chrome.
+  // 在KDE4上，每个不同外观的位图的图像文件名必须。
+  // 做到独一无二。它在不同的Chrome版本中也必须是独一无二的。
   std::vector<unsigned char> bitmap_png_data;
   if (!gfx::PNGCodec::EncodeBGRASkBitmap(bitmap, false, &bitmap_png_data)) {
     LOG(WARNING) << "Could not encode icon";
@@ -274,8 +274,8 @@ AppIndicatorIcon::WriteKDE4TempImageOnWorkerThread(
   std::string icon_name = base::StringPrintf(
       "electron_app_indicator2_%s", base::MD5DigestToBase16(digest).c_str());
 
-  // If |bitmap| is smaller than 22x22, KDE does some really ugly resizing.
-  // Pad |bitmap| with transparent pixels to make it 22x22.
+  // 如果|bitmap|小于22x22，KDE会进行一些非常难看的大小调整。
+  // 用透明像素填充|位图|，使其为22x22。
   const int kMinimalSize = 22;
   SkBitmap scaled_bitmap;
   scaled_bitmap.allocN32Pixels(std::max(bitmap.width(), kMinimalSize),
@@ -297,14 +297,14 @@ AppIndicatorIcon::WriteKDE4TempImageOnWorkerThread(
   return params;
 }
 
-// static
+// 静电。
 AppIndicatorIcon::SetImageFromFileParams
 AppIndicatorIcon::WriteUnityTempImageOnWorkerThread(const SkBitmap& bitmap,
                                                     int icon_change_count,
                                                     const std::string& id) {
-  // Create a new temporary directory for each image on Unity since using a
-  // single temporary directory seems to have issues when changing icons in
-  // quick succession.
+  // 在Unity上为每个映像创建一个新的临时目录，因为使用。
+  // 在中更改图标时，单个临时目录似乎有问题。
+  // 快速接班。
   base::FilePath temp_dir;
   if (!base::CreateNewTempDirectory(base::FilePath::StringType(), &temp_dir)) {
     LOG(WARNING) << "Could not create temporary directory";
@@ -355,7 +355,7 @@ void AppIndicatorIcon::SetMenu() {
 }
 
 void AppIndicatorIcon::UpdateClickActionReplacementMenuItem() {
-  // The menu may not have been created yet.
+  // 菜单可能尚未创建。
   if (!menu_.get())
     return;
 
@@ -375,6 +375,6 @@ void AppIndicatorIcon::OnClickActionReplacementMenuItemActivated() {
     delegate()->OnClick();
 }
 
-}  // namespace gtkui
+}  // 命名空间gtkui。
 
-}  // namespace electron
+}  // 命名空间电子

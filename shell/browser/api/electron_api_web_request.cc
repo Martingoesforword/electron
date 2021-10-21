@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_web_request.h"
 
@@ -79,7 +79,7 @@ struct Converter<extensions::WebRequestResourceType> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -89,13 +89,13 @@ namespace {
 
 const char kUserDataKey[] = "WebRequest";
 
-// BrowserContext <=> WebRequest relationship.
+// BrowserContext&lt;=&gt;WebRequest关系。
 struct UserData : public base::SupportsUserData::Data {
   explicit UserData(WebRequest* data) : data(data) {}
   WebRequest* data;
 };
 
-// Test whether the URL of |request| matches |patterns|.
+// 测试|请求|的URL是否与|模式|匹配。
 bool MatchesFilterCondition(extensions::WebRequestInfo* info,
                             const std::set<URLPattern>& patterns) {
   if (patterns.empty())
@@ -108,11 +108,11 @@ bool MatchesFilterCondition(extensions::WebRequestInfo* info,
   return false;
 }
 
-// Convert HttpResponseHeaders to V8.
-//
-// Note that while we already have converters for HttpResponseHeaders, we can
-// not use it because it lowercases the header keys, while the webRequest has
-// to pass the original keys.
+// 将HttpResponseHeaders转换为V8。
+// 
+// 注意，虽然我们已经有了HttpResponseHeaders的转换器，但是我们可以。
+// 不使用它，因为它将标头键小写，而webRequest具有。
+// 传递原始密钥。
 v8::Local<v8::Value> HttpResponseHeadersToV8(
     net::HttpResponseHeaders* headers) {
   base::DictionaryValue response_headers;
@@ -122,12 +122,12 @@ v8::Local<v8::Value> HttpResponseHeadersToV8(
     std::string value;
     while (headers->EnumerateHeaderLines(&iter, &key, &value)) {
       base::Value* values = response_headers.FindListKey(key);
-      // Note that Web servers not developed with nodejs allow non-utf8
-      // characters in content-disposition's filename field. Use Chromium's
-      // HttpContentDisposition class to decode the correct encoding instead of
-      // arbitrarily converting it to UTF8. It should also be noted that if the
-      // encoding is not specified, HttpContentDisposition will transcode
-      // according to the system's encoding.
+      // 请注意，不是使用NodeJS开发的Web服务器允许非UTF8。
+      // Content-Disposition的文件名字段中的字符。使用铬的。
+      // HttpContentDisposition类来解码正确的编码，而不是。
+      // 任意将其转换为UTF8。还应该注意的是，如果。
+      // 未指定编码，HttpContentDisposition将转码。
+      // 根据系统的编码。
       if (base::EqualsCaseInsensitiveASCII("Content-Disposition", key) &&
           !value.empty()) {
         net::HttpContentDisposition header(value, std::string());
@@ -144,7 +144,7 @@ v8::Local<v8::Value> HttpResponseHeadersToV8(
   return gin::ConvertToV8(v8::Isolate::GetCurrent(), response_headers);
 }
 
-// Overloaded by multiple types to fill the |details| object.
+// 由多个类型重载以填充|Details|对象。
 void ToDictionary(gin_helper::Dictionary* details,
                   extensions::WebRequestInfo* info) {
   details->Set("id", info->id);
@@ -196,7 +196,7 @@ void ToDictionary(gin_helper::Dictionary* details, int net_error) {
   details->Set("error", net::ErrorToString(net_error));
 }
 
-// Helper function to fill |details| with arbitrary |args|.
+// 使用任意|参数|填充|详细信息|的帮助器函数。
 template <typename Arg>
 void FillDetails(gin_helper::Dictionary* details, Arg arg) {
   ToDictionary(details, arg);
@@ -208,7 +208,7 @@ void FillDetails(gin_helper::Dictionary* details, Arg arg, Args... args) {
   FillDetails(details, args...);
 }
 
-// Fill the native types with the result from the response object.
+// 用响应对象的结果填充本机类型。
 void ReadFromResponse(v8::Isolate* isolate,
                       gin::Dictionary* response,
                       GURL* new_location) {
@@ -241,7 +241,7 @@ void ReadFromResponse(v8::Isolate* isolate,
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 gin::WrapperInfo WebRequest::kWrapperInfo = {gin::kEmbedderNativeGin};
 
@@ -390,13 +390,13 @@ void WebRequest::SetListener(Event event,
                              gin::Arguments* args) {
   v8::Local<v8::Value> arg;
 
-  // { urls }.
+  // {URL}。
   std::set<std::string> filter_patterns;
   gin::Dictionary dict(args->isolate());
   if (args->GetNext(&arg) && !arg->IsFunction()) {
-    // Note that gin treats Function as Dictionary when doing conversions, so we
-    // have to explicitly check if the argument is Function before trying to
-    // convert it to Dictionary.
+    // 请注意，GIN在执行转换时将函数视为Dictionary，因此我们。
+    // 在尝试执行以下操作之前，必须显式检查参数是否为函数。
+    // 将其转换为字典。
     if (gin::ConvertFromV8(args->isolate(), arg, &dict)) {
       if (!dict.Get("urls", &filter_patterns)) {
         args->ThrowTypeError("Parameter 'filter' must have property 'urls'.");
@@ -420,7 +420,7 @@ void WebRequest::SetListener(Event event,
     }
   }
 
-  // Function or null.
+  // 函数或NULL。
   Listener listener;
   if (arg.IsEmpty() ||
       !(gin::ConvertFromV8(args->isolate(), arg, &listener) || arg->IsNull())) {
@@ -502,20 +502,20 @@ void WebRequest::OnListenerResult(uint64_t id,
       ReadFromResponse(isolate, &dict, out);
   }
 
-  // The ProxyingURLLoaderFactory expects the callback to be executed
-  // asynchronously, because it used to work on IO thread before NetworkService.
+  // ProxyingURLLoaderFactory期望执行回调。
+  // 异步，因为它在NetworkService之前是在IO线程上工作。
   base::SequencedTaskRunnerHandle::Get()->PostTask(
       FROM_HERE, base::BindOnce(std::move(callbacks_[id]), result));
   callbacks_.erase(iter);
 }
 
-// static
+// 静电。
 gin::Handle<WebRequest> WebRequest::FromOrCreate(
     v8::Isolate* isolate,
     content::BrowserContext* browser_context) {
   gin::Handle<WebRequest> handle = From(isolate, browser_context);
   if (handle.IsEmpty()) {
-    // Make sure the |Session| object has the |webRequest| property created.
+    // 确保|Session|对象已创建|webRequest|属性。
     v8::Local<v8::Value> web_request =
         Session::CreateFrom(
             isolate, static_cast<ElectronBrowserContext*>(browser_context))
@@ -526,7 +526,7 @@ gin::Handle<WebRequest> WebRequest::FromOrCreate(
   return handle;
 }
 
-// static
+// 静电。
 gin::Handle<WebRequest> WebRequest::Create(
     v8::Isolate* isolate,
     content::BrowserContext* browser_context) {
@@ -535,7 +535,7 @@ gin::Handle<WebRequest> WebRequest::Create(
   return gin::CreateHandle(isolate, new WebRequest(isolate, browser_context));
 }
 
-// static
+// 静电。
 gin::Handle<WebRequest> WebRequest::From(
     v8::Isolate* isolate,
     content::BrowserContext* browser_context) {
@@ -548,6 +548,6 @@ gin::Handle<WebRequest> WebRequest::From(
   return gin::CreateHandle(isolate, user_data->data);
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

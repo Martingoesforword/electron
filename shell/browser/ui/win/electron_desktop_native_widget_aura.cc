@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/win/electron_desktop_native_widget_aura.h"
 
@@ -17,7 +17,7 @@ ElectronDesktopNativeWidgetAura::ElectronDesktopNativeWidgetAura(
     : views::DesktopNativeWidgetAura(native_window_view->widget()),
       native_window_view_(native_window_view) {
   GetNativeWindow()->SetName("ElectronDesktopNativeWidgetAura");
-  // This is to enable the override of OnWindowActivated
+  // 这是为了启用OnWindowActified的覆盖。
   wm::SetActivationChangeObserver(GetNativeWindow(), this);
 }
 
@@ -31,9 +31,9 @@ void ElectronDesktopNativeWidgetAura::InitNativeWidget(
 }
 
 void ElectronDesktopNativeWidgetAura::Activate() {
-  // Activate can cause the focused window to be blurred so only
-  // call when the window being activated is visible. This prevents
-  // hidden windows from blurring the focused window when created.
+  // 激活可使聚焦窗口变得模糊，因此仅。
+  // 当激活的窗口可见时调用。这会阻止。
+  // 隐藏窗口，避免在创建时模糊聚焦窗口。
   if (IsVisible())
     views::DesktopNativeWidgetAura::Activate();
 }
@@ -48,13 +48,13 @@ void ElectronDesktopNativeWidgetAura::OnWindowActivated(
     auto* tooltip_controller = static_cast<views::corewm::TooltipController*>(
         wm::GetTooltipClient(lost_active->GetRootWindow()));
 
-    // This will cause the tooltip to be hidden when a window is deactivated,
-    // as it should be.
-    // TODO(brenca): Remove this fix when the chromium issue is fixed.
-    // crbug.com/724538
+    // 这将导致在停用窗口时隐藏工具提示，
+    // 应该是这样的。
+    // TODO(Brenca)：修复铬问题后删除此修复。
+    // Crbug.com/724538。
     if (tooltip_controller != nullptr)
       tooltip_controller->OnCancelMode(nullptr);
   }
 }
 
-}  // namespace electron
+}  // 命名空间电子

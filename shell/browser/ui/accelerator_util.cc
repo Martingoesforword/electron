@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/accelerator_util.h"
 
@@ -28,7 +28,7 @@ bool StringToAccelerator(const std::string& shortcut,
   std::vector<std::string> tokens = base::SplitString(
       shortcut, "+", base::TRIM_WHITESPACE, base::SPLIT_WANT_NONEMPTY);
 
-  // Now, parse it into an accelerator.
+  // 现在，把它解析成一个加速器。
   int modifiers = ui::EF_NONE;
   ui::KeyboardCode key = ui::VKEY_UNKNOWN;
   absl::optional<char16_t> shifted_char;
@@ -37,7 +37,7 @@ bool StringToAccelerator(const std::string& shortcut,
     if (shifted_char)
       modifiers |= ui::EF_SHIFT_DOWN;
     switch (code) {
-      // The token can be a modifier.
+      // 令牌可以是修饰语。
       case ui::VKEY_SHIFT:
         modifiers |= ui::EF_SHIFT_DOWN;
         break;
@@ -53,7 +53,7 @@ bool StringToAccelerator(const std::string& shortcut,
       case ui::VKEY_ALTGR:
         modifiers |= ui::EF_ALTGR_DOWN;
         break;
-      // Or it is a normal key.
+      // 或者这是一把普通钥匙。
       default:
         key = code;
     }
@@ -104,4 +104,4 @@ bool TriggerAcceleratorTableCommand(AcceleratorTable* table,
   return false;
 }
 
-}  // namespace accelerator_util
+}  // 命名空间加速器_util

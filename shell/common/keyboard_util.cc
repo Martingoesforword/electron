@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <string>
 
@@ -14,7 +14,7 @@ namespace electron {
 
 namespace {
 
-// Return key code represented by |str|.
+// 返回由|str|表示的密钥代码。
 ui::KeyboardCode KeyboardCodeFromKeyIdentifier(
     const std::string& s,
     absl::optional<char16_t>* shifted_char) {
@@ -122,7 +122,7 @@ ui::KeyboardCode KeyboardCodeFromKeyIdentifier(
   } else if (str == "printscreen") {
     return ui::VKEY_SNAPSHOT;
   } else if (str.size() > 1 && str[0] == 'f') {
-    // F1 - F24.
+    // F1-F24。
     int n;
     if (base::StringToInt(str.c_str() + 1, &n) && n > 0 && n < 25) {
       return static_cast<ui::KeyboardCode>(ui::VKEY_F1 + n - 1);
@@ -137,7 +137,7 @@ ui::KeyboardCode KeyboardCodeFromKeyIdentifier(
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 ui::KeyboardCode KeyboardCodeFromCharCode(char16_t c, bool* shifted) {
   c = base::ToLowerASCII(c);
@@ -333,4 +333,4 @@ ui::KeyboardCode KeyboardCodeFromStr(const std::string& str,
   }
 }
 
-}  // namespace electron
+}  // 命名空间电子

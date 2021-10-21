@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/relauncher.h"
 
@@ -44,11 +44,11 @@ HANDLE GetParentProcessHandle(base::ProcessHandle handle) {
 }
 
 StringType AddQuoteForArg(const StringType& arg) {
-  // We follow the quoting rules of CommandLineToArgvW.
-  // http://msdn.microsoft.com/en-us/library/17w5ykft.aspx
+  // 我们遵循CommandLineToArgvW的报价规则。
+  // Http://msdn.microsoft.com/en-us/library/17w5ykft.aspx。
   std::wstring quotable_chars(L" \\\"");
   if (arg.find_first_of(quotable_chars) == std::wstring::npos) {
-    // No quoting necessary.
+    // 不需要报价。
     return arg;
   }
 
@@ -56,23 +56,23 @@ StringType AddQuoteForArg(const StringType& arg) {
   out.push_back(L'"');
   for (size_t i = 0; i < arg.size(); ++i) {
     if (arg[i] == '\\') {
-      // Find the extent of this run of backslashes.
+      // 找出这一系列反斜杠的范围。
       size_t start = i, end = start + 1;
       for (; end < arg.size() && arg[end] == '\\'; ++end) {
       }
       size_t backslash_count = end - start;
 
-      // Backslashes are escapes only if the run is followed by a double quote.
-      // Since we also will end the string with a double quote, we escape for
-      // either a double quote or the end of the string.
+      // 只有在运行后跟双引号的情况下，反斜杠才是转义。
+      // 由于我们还将以双引号结束字符串，因此我们转义为。
+      // 可以是双引号，也可以是字符串末尾。
       if (end == arg.size() || arg[end] == '"') {
-        // To quote, we need to output 2x as many backslashes.
+        // 引用一下，我们需要输出2倍的反斜杠。
         backslash_count *= 2;
       }
       for (size_t j = 0; j < backslash_count; ++j)
         out.push_back('\\');
 
-      // Advance i to one before the end to balance i++ in loop.
+      // 在结束前将i前进到1，以平衡循环中的i++。
       i = end - 1;
     } else if (arg[i] == '"') {
       out.push_back('\\');
@@ -86,7 +86,7 @@ StringType AddQuoteForArg(const StringType& arg) {
   return out;
 }
 
-}  // namespace
+}  // 命名空间。
 
 StringType GetWaitEventName(base::ProcessId pid) {
   return base::StringPrintf(L"%ls-%d", kWaitEventName, static_cast<int>(pid));
@@ -107,13 +107,13 @@ void RelauncherSynchronizeWithParent() {
   base::win::ScopedHandle parent_process(
       GetParentProcessHandle(process.Handle()));
 
-  // Notify the parent process that it can quit now.
+  // 通知父进程它现在可以退出。
   StringType name = internal::GetWaitEventName(process.Pid());
   base::win::ScopedHandle wait_event(
       CreateEvent(NULL, TRUE, FALSE, name.c_str()));
   ::SetEvent(wait_event.Get());
 
-  // Wait for parent process to quit.
+  // 等待父进程退出。
   WaitForSingleObject(parent_process.Get(), INFINITE);
 }
 
@@ -125,6 +125,6 @@ int LaunchProgram(const StringVector& relauncher_args,
   return process.IsValid() ? 0 : 1;
 }
 
-}  // namespace internal
+}  // 命名空间内部。
 
-}  // namespace relauncher
+}  // 命名空间重新启动器

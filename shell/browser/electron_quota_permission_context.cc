@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/electron_quota_permission_context.h"
 
@@ -21,4 +21,4 @@ void ElectronQuotaPermissionContext::RequestQuotaPermission(
   std::move(callback).Run(response::QUOTA_PERMISSION_RESPONSE_ALLOW);
 }
 
-}  // namespace electron
+}  // 命名空间电子

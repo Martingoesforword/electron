@@ -1,6 +1,6 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2019年Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/serial/serial_chooser_context.h"
 
@@ -30,8 +30,8 @@ const char kProductIdKey[] = "product_id";
 const char kSerialNumberKey[] = "serial_number";
 #if defined(OS_MAC)
 const char kUsbDriverKey[] = "usb_driver";
-#endif  // defined(OS_MAC)
-#endif  // defined(OS_WIN
+#endif  // 已定义(OS_MAC)。
+#endif  // 已定义(OS_WIN。
 
 std::string EncodeToken(const base::UnguessableToken& token) {
   const uint64_t data[2] = {token.GetHighForSerialization(),
@@ -67,8 +67,8 @@ base::Value PortInfoToValue(const device::mojom::SerialPortInfo& port) {
   }
 
 #if defined(OS_WIN)
-  // Windows provides a handy device identifier which we can rely on to be
-  // sufficiently stable for identifying devices across restarts.
+  // Windows提供了一个方便的设备标识符，我们可以依赖它。
+  // 足够稳定，可在重启后识别设备。
   value.SetStringKey(kDeviceInstanceIdKey, port.device_instance_id);
 #else
   DCHECK(port.has_vendor_id);
@@ -81,8 +81,8 @@ base::Value PortInfoToValue(const device::mojom::SerialPortInfo& port) {
 #if defined(OS_MAC)
   DCHECK(port.usb_driver_name && !port.usb_driver_name->empty());
   value.SetStringKey(kUsbDriverKey, *port.usb_driver_name);
-#endif  // defined(OS_MAC)
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_MAC)。
+#endif  // 已定义(OS_WIN)。
   return value;
 }
 
@@ -134,13 +134,13 @@ bool SerialChooserContext::HasPortPermission(
                                                       render_frame_host);
 }
 
-// static
+// 静电。
 bool SerialChooserContext::CanStorePersistentEntry(
     const device::mojom::SerialPortInfo& port) {
-  // If there is no display name then the path name will be used instead. The
-  // path name is not guaranteed to be stable. For example, on Linux the name
-  // "ttyUSB0" is reused for any USB serial device. A name like that would be
-  // confusing to show in settings when the device is disconnected.
+  // 如果没有显示名称，则将使用路径名。这个。
+  // 不能保证路径名是稳定的。例如，在Linux上，名称。
+  // “ttyUSB0”可重复用于任何USB串行设备。这样的名字应该是。
+  // 当设备断开连接时，在设置中显示令人困惑。
   if (!port.display_name || port.display_name->empty())
     return false;
 
@@ -153,19 +153,19 @@ bool SerialChooserContext::CanStorePersistentEntry(
   }
 
 #if defined(OS_MAC)
-  // The combination of the standard USB vendor ID, product ID and serial
-  // number properties should be enough to uniquely identify a device
-  // however recent versions of macOS include built-in drivers for common
-  // types of USB-to-serial adapters while their manufacturers still
-  // recommend installing their custom drivers. When both are loaded two
-  // IOSerialBSDClient instances are found for each device. Including the
-  // USB driver name allows us to distinguish between the two.
+  // 标准USB供应商ID、产品ID和序列号的组合。
+  // 数字属性应足以唯一标识设备。
+  // 不过，最新版本的MacOS包含内置驱动程序。
+  // USB转串行适配器的类型，而它们的制造商仍然。
+  // 建议安装他们的自定义驱动程序。当两个都加载了两个。
+  // 找到每个设备的IOSerialBSDClient实例。包括。
+  // USB驱动程序名称使我们可以区分这两者。
   if (!port.usb_driver_name || port.usb_driver_name->empty())
     return false;
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 
   return true;
-#endif  // defined(OS_WIN)
+#endif  // 已定义(OS_WIN)。
 }
 
 device::mojom::SerialPortManager* SerialChooserContext::GetPortManager() {
@@ -227,4 +227,4 @@ void SerialChooserContext::OnPortManagerConnectionError() {
   ephemeral_ports_.clear();
 }
 
-}  // namespace electron
+}  // 命名空间电子

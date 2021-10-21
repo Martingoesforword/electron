@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/net/url_pipe_loader.h"
 
@@ -24,7 +24,7 @@ URLPipeLoader::URLPipeLoader(
   url_loader_.set_disconnect_handler(base::BindOnce(
       &URLPipeLoader::NotifyComplete, base::Unretained(this), net::ERR_FAILED));
 
-  // PostTask since it might destruct.
+  // PostTask，因为它可能会破坏。
   base::SequencedTaskRunnerHandle::Get()->PostTask(
       FROM_HERE,
       base::BindOnce(&URLPipeLoader::Start, weak_factory_.GetWeakPtr(), factory,
@@ -42,8 +42,8 @@ void URLPipeLoader::Start(
   loader_->SetOnResponseStartedCallback(base::BindOnce(
       &URLPipeLoader::OnResponseStarted, weak_factory_.GetWeakPtr()));
 
-  // TODO(zcbenz): The old protocol API only supports string as upload data,
-  // we should seek to support more types in future.
+  // TODO(Zcbenz)：旧协议API只支持字符串作为上传数据。
+  // 我们应该在未来寻求支持更多的类型。
   std::string content_type, data;
   if (upload_data.GetString("contentType", &content_type) &&
       upload_data.GetString("data", &data))
@@ -99,4 +99,4 @@ void URLPipeLoader::OnComplete(bool success) {
   NotifyComplete(loader_->NetError());
 }
 
-}  // namespace electron
+}  // 命名空间电子

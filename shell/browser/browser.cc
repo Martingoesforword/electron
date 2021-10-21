@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/browser.h"
 
@@ -28,18 +28,18 @@ namespace electron {
 
 namespace {
 
-// Call |quit| after Chromium is fully started.
-//
-// This is important for quitting immediately in the "ready" event, when
-// certain initialization task may still be pending, and quitting at that time
-// could end up with crash on exit.
+// Call|Quit|Chromium完全启动后。
+// 
+// 这对于在“Ready”事件中立即退出非常重要，当。
+// 某些初始化任务可能仍处于挂起状态，此时正在退出。
+// 可能会在出口发生撞车事故。
 void RunQuitClosure(base::OnceClosure quit) {
-  // On Linux/Windows the "ready" event is emitted in "PreMainMessageLoopRun",
-  // make sure we quit after message loop has run for once.
+  // 在Linux/Windows上，“Ready”事件在“PreMainMessageLoopRun”中发出，
+  // 确保我们在消息循环运行一次后退出。
   base::ThreadTaskRunnerHandle::Get()->PostTask(FROM_HERE, std::move(quit));
 }
 
-}  // namespace
+}  // 命名空间。
 
 #if defined(OS_WIN)
 Browser::LaunchItem::LaunchItem() = default;
@@ -60,14 +60,14 @@ Browser::~Browser() {
   WindowList::RemoveObserver(this);
 }
 
-// static
+// 静电。
 Browser* Browser::Get() {
   return ElectronBrowserMainParts::Get()->browser();
 }
 
 #if defined(OS_WIN) || defined(OS_LINUX)
 void Browser::Focus(gin::Arguments* args) {
-  // Focus on the first visible window.
+  // 将焦点放在第一个可见窗口上。
   for (auto* const window : WindowList::GetWindows()) {
     if (window->IsVisible()) {
       window->Focus(true);
@@ -96,21 +96,21 @@ void Browser::Exit(gin::Arguments* args) {
   args->GetNext(&code);
 
   if (!ElectronBrowserMainParts::Get()->SetExitCode(code)) {
-    // Message loop is not ready, quit directly.
+    // 消息循环未准备好，请直接退出。
     exit(code);
   } else {
-    // Prepare to quit when all windows have been closed.
+    // 准备在所有窗口关闭后退出。
     is_quitting_ = true;
 
-    // Remember this caller so that we don't emit unrelated events.
+    // 记住这个调用者，这样我们就不会发出无关的事件。
     is_exiting_ = true;
 
-    // Must destroy windows before quitting, otherwise bad things can happen.
+    // 在退出前一定要毁掉窗户，否则可能会发生不好的事情。
     if (electron::WindowList::IsEmpty()) {
       Shutdown();
     } else {
-      // Unlike Quit(), we do not ask to close window, but destroy the window
-      // without asking.
+      // 与Quit()不同，我们不要求关闭窗口，而是销毁窗口。
+      // 在没有询问的情况下。
       electron::WindowList::DestroyAllWindows();
     }
   }
@@ -129,9 +129,9 @@ void Browser::Shutdown() {
   if (quit_main_message_loop_) {
     RunQuitClosure(std::move(quit_main_message_loop_));
   } else {
-    // There is no message loop available so we are in early stage, wait until
-    // the quit_main_message_loop_ is available.
-    // Exiting now would leave defunct processes behind.
+    // 没有可用的消息循环，因此我们处于早期阶段，请等待。
+    // QUIT_MAIN_MESSAGE_LOOP_可用。
+    // 现在退出将把废弃的进程抛在脑后。
   }
 }
 
@@ -185,7 +185,7 @@ void Browser::WillFinishLaunching() {
 }
 
 void Browser::DidFinishLaunching(base::DictionaryValue launch_info) {
-  // Make sure the userData directory is created.
+  // 确保创建了userdata目录。
   base::ThreadRestrictions::ScopedAllowIO allow_io;
   base::FilePath user_data;
   if (base::PathService::Get(chrome::DIR_USER_DATA, &user_data))
@@ -259,8 +259,8 @@ bool Browser::HandleBeforeQuit() {
 
 void Browser::OnWindowCloseCancelled(NativeWindow* window) {
   if (is_quitting_)
-    // Once a beforeunload handler has prevented the closing, we think the quit
-    // is cancelled too.
+    // 一旦预卸载处理程序阻止了关闭，我们认为退出。
+    // 也被取消了。
     is_quitting_ = false;
 }
 
@@ -287,4 +287,4 @@ void Browser::DidBecomeActive() {
 }
 #endif
 
-}  // namespace electron
+}  // 命名空间电子

@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_net_log.h"
 
@@ -46,18 +46,18 @@ struct Converter<net::NetLogCaptureMode> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
 namespace {
 
 scoped_refptr<base::SequencedTaskRunner> CreateFileTaskRunner() {
-  // The tasks posted to this sequenced task runner do synchronous File I/O for
-  // checking paths and setting permissions on files.
-  //
-  // These operations can be skipped on shutdown since FileNetLogObserver's API
-  // doesn't require things to have completed until notified of completion.
+  // 发布到此排序任务运行器的任务为执行同步文件I/O。
+  // 检查路径并设置文件权限。
+  // 
+  // 这些操作在关闭时可以跳过，因为FileNetLogWatch的API。
+  // 不要求在通知完成之前完成任务。
   return base::ThreadPool::CreateSequencedTaskRunner(
       {base::MayBlock(), base::TaskPriority::USER_VISIBLE,
        base::TaskShutdownBehavior::SKIP_ON_SHUTDOWN});
@@ -77,7 +77,7 @@ void ResolvePromiseWithNetError(gin_helper::Promise<void> promise,
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace api {
 
@@ -159,9 +159,9 @@ void NetLog::StartNetLogAfterCreateFile(net::NetLogCaptureMode capture_mode,
                                         base::Value custom_constants,
                                         base::File output_file) {
   if (!net_log_exporter_) {
-    // Theoretically the mojo pipe could have been closed by the time we get
-    // here via the connection error handler. If so, the promise has already
-    // been resolved.
+    // 理论上，魔力管道在我们到达的时候可能已经关闭了。
+    // 这里通过连接错误处理程序。如果是这样的话，承诺已经。
+    // 已经解决了。
     return;
   }
   DCHECK(pending_start_promise_);
@@ -200,9 +200,9 @@ v8::Local<v8::Promise> NetLog::StopLogging(gin::Arguments* args) {
   v8::Local<v8::Promise> handle = promise.GetHandle();
 
   if (net_log_exporter_) {
-    // Move the net_log_exporter_ into the callback to ensure that the mojo
-    // pointer lives long enough to resolve the promise. Moving it into the
-    // callback will cause the instance variable to become empty.
+    // 将net_log_exporter_移到回调中，以确保mojo。
+    // 指针的寿命足够长，足以解决这个承诺。把它移到。
+    // 回调将导致实例变量为空。
     net_log_exporter_->Stop(
         base::Value(base::Value::Type::DICTIONARY),
         base::BindOnce(
@@ -230,12 +230,12 @@ const char* NetLog::GetTypeName() {
   return "NetLog";
 }
 
-// static
+// 静电。
 gin::Handle<NetLog> NetLog::Create(v8::Isolate* isolate,
                                    ElectronBrowserContext* browser_context) {
   return gin::CreateHandle(isolate, new NetLog(isolate, browser_context));
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

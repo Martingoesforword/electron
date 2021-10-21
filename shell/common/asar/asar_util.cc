@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/asar/asar_util.h"
 
@@ -47,7 +47,7 @@ bool IsDirectoryCached(const base::FilePath& path) {
   return is_directory_cache[path] = base::DirectoryExists(path);
 }
 
-}  // namespace
+}  // 命名空间。
 
 ArchiveMap& GetArchiveCache() {
   static base::NoDestructor<ArchiveMap> s_archive_map;
@@ -63,19 +63,19 @@ std::shared_ptr<Archive> GetOrCreateAsarArchive(const base::FilePath& path) {
   base::AutoLock auto_lock(GetArchiveCacheLock());
   ArchiveMap& map = GetArchiveCache();
 
-  // if we have it, return it
+  // 如果我们拿到了，就退货。
   const auto lower = map.lower_bound(path);
   if (lower != std::end(map) && !map.key_comp()(path, lower->first))
     return lower->second;
 
-  // if we can create it, return it
+  // 如果我们能创建它，就把它退回。
   auto archive = std::make_shared<Archive>(path);
   if (archive->Init()) {
     base::TryEmplace(map, lower, path, archive);
     return archive;
   }
 
-  // didn't have it, couldn't create it
+  // 没有，也不能创造出来。
   return nullptr;
 }
 
@@ -125,7 +125,7 @@ bool ReadFileToString(const base::FilePath& path, std::string* contents) {
 
   if (info.unpacked) {
     base::FilePath real_path;
-    // For unpacked file it will return the real path instead of doing the copy.
+    // 对于解压缩的文件，它将返回真实路径，而不是执行复制。
     archive->CopyFileOut(relative_path, &real_path);
     return base::ReadFileToString(real_path, contents);
   }
@@ -169,4 +169,4 @@ void ValidateIntegrityOrDie(const char* data,
   }
 }
 
-}  // namespace asar
+}  // 命名空间asar

@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/net/system_network_context_manager.h"
 
@@ -50,7 +50,7 @@
 
 namespace {
 
-// The global instance of the SystemNetworkContextmanager.
+// SystemNetworkContextManager的全局实例。
 SystemNetworkContextManager* g_system_network_context_manager = nullptr;
 
 network::mojom::HttpAuthStaticParamsPtr CreateHttpAuthStaticParams() {
@@ -80,10 +80,10 @@ network::mojom::HttpAuthDynamicParamsPtr CreateHttpAuthDynamicParams() {
   return auth_dynamic_params;
 }
 
-}  // namespace
+}  // 命名空间。
 
-// SharedURLLoaderFactory backed by a SystemNetworkContextManager and its
-// network context. Transparently handles crashes.
+// 由SystemNetworkContextManager支持的SharedURLLoaderFactory及其。
+// 网络环境。透明地处理崩溃。
 class SystemNetworkContextManager::URLLoaderFactoryForSystem
     : public network::SharedURLLoaderFactory {
  public:
@@ -92,7 +92,7 @@ class SystemNetworkContextManager::URLLoaderFactoryForSystem
     DETACH_FROM_SEQUENCE(sequence_checker_);
   }
 
-  // mojom::URLLoaderFactory implementation:
+  // Mojom：：URLLoaderFactory实现：
   void CreateLoaderAndStart(
       mojo::PendingReceiver<network::mojom::URLLoader> request,
       int32_t request_id,
@@ -116,7 +116,7 @@ class SystemNetworkContextManager::URLLoaderFactoryForSystem
     manager_->GetURLLoaderFactory()->Clone(std::move(receiver));
   }
 
-  // SharedURLLoaderFactory implementation:
+  // SharedURLLoaderFactory实现：
   std::unique_ptr<network::PendingSharedURLLoaderFactory> Clone() override {
     DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
     DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
@@ -138,12 +138,12 @@ class SystemNetworkContextManager::URLLoaderFactoryForSystem
 
 network::mojom::NetworkContext* SystemNetworkContextManager::GetContext() {
   if (!network_context_ || !network_context_.is_connected()) {
-    // This should call into OnNetworkServiceCreated(), which will re-create
-    // the network service, if needed. There's a chance that it won't be
-    // invoked, if the NetworkContext has encountered an error but the
-    // NetworkService has not yet noticed its pipe was closed. In that case,
-    // trying to create a new NetworkContext would fail, anyways, and hopefully
-    // a new NetworkContext will be created on the next GetContext() call.
+    // 这应该调用OnNetworkServiceCreated()，它将重新创建。
+    // 网络服务(如果需要)。有可能它不会是。
+    // 如果NetworkContext遇到错误，但。
+    // NetworkService尚未注意到其管道已关闭。在这种情况下，
+    // 尝试创建新的NetworkContext无论如何都会失败，希望如此。
+    // 下一次调用GetContext()时将创建一个新的NetworkContext。
     content::GetNetworkService();
     DCHECK(network_context_);
   }
@@ -152,7 +152,7 @@ network::mojom::NetworkContext* SystemNetworkContextManager::GetContext() {
 
 network::mojom::URLLoaderFactory*
 SystemNetworkContextManager::GetURLLoaderFactory() {
-  // Create the URLLoaderFactory as needed.
+  // 根据需要创建URLLoaderFactory。
   if (url_loader_factory_ && url_loader_factory_.is_connected()) {
     return url_loader_factory_.get();
   }
@@ -197,7 +197,7 @@ void SystemNetworkContextManager::ConfigureDefaultNetworkContextParams(
       ChromeMojoProxyResolverFactory::CreateWithSelfOwnedReceiver();
 }
 
-// static
+// 静电。
 SystemNetworkContextManager* SystemNetworkContextManager::CreateInstance(
     PrefService* pref_service) {
   DCHECK(!g_system_network_context_manager);
@@ -206,12 +206,12 @@ SystemNetworkContextManager* SystemNetworkContextManager::CreateInstance(
   return g_system_network_context_manager;
 }
 
-// static
+// 静电。
 SystemNetworkContextManager* SystemNetworkContextManager::GetInstance() {
   return g_system_network_context_manager;
 }
 
-// static
+// 静电。
 void SystemNetworkContextManager::DeleteInstance() {
   DCHECK(g_system_network_context_manager);
   delete g_system_network_context_manager;
@@ -277,8 +277,8 @@ void SystemNetworkContextManager::OnNetworkServiceCreated(
 
   bool additional_dns_query_types_enabled = true;
 
-  // Configure the stub resolver. This must be done after the system
-  // NetworkContext is created, but before anything has the chance to use it.
+  // 配置存根解析器。此操作必须在系统运行后执行。
+  // NetworkContext已创建，但尚未有机会使用它。
   content::GetNetworkService()->ConfigureStubHostResolver(
       base::FeatureList::IsEnabled(features::kAsyncDns),
       default_secure_dns_mode, std::move(servers_mojo),
@@ -290,8 +290,8 @@ void SystemNetworkContextManager::OnNetworkServiceCreated(
   KeychainPassword::GetAccountName() = app_name;
 #endif
 #if defined(OS_LINUX)
-  // c.f.
-  // https://source.chromium.org/chromium/chromium/src/+/master:chrome/browser/net/system_network_context_manager.cc;l=515;drc=9d82515060b9b75fa941986f5db7390299669ef1;bpv=1;bpt=1
+  // C.F.。
+  // Https://source.chromium.org/chromium/chromium/src/+/master:chrome/browser/net/system_network_context_manager.cc；l=515；drc=9d82515060b9b75fa941986f5db7390299669ef1；bpv=1；bpt=1。
   const base::CommandLine& command_line =
       *base::CommandLine::ForCurrentProcess();
 
@@ -300,15 +300,15 @@ void SystemNetworkContextManager::OnNetworkServiceCreated(
   config->product_name = app_name;
   config->application_name = app_name;
   config->main_thread_runner = base::ThreadTaskRunnerHandle::Get();
-  // c.f.
-  // https://source.chromium.org/chromium/chromium/src/+/master:chrome/common/chrome_switches.cc;l=689;drc=9d82515060b9b75fa941986f5db7390299669ef1
+  // C.F.。
+  // Https://source.chromium.org/chromium/chromium/src/+/master:chrome/common/chrome_switches.cc；l=689；drc=9d82515060b9b75fa941986f5db7390299669ef1。
   config->should_use_preference =
       command_line.HasSwitch(::switches::kEnableEncryptionSelection);
   base::PathService::Get(chrome::DIR_USER_DATA, &config->user_data_path);
 #endif
 
-  // The OSCrypt keys are process bound, so if network service is out of
-  // process, send it the required key.
+  // OSCcrypt密钥是受进程限制，因此如果网络服务不在。
+  // 进程，向其发送所需的密钥。
   if (content::IsOutOfProcessNetworkService() &&
       electron::fuses::IsCookieEncryptionEnabled()) {
 #if defined(OS_LINUX)
@@ -338,7 +338,7 @@ void SystemNetworkContextManager::OnNetworkServiceCreated(
 
 network::mojom::NetworkContextParamsPtr
 SystemNetworkContextManager::CreateNetworkContextParams() {
-  // TODO(mmenke): Set up parameters here (in memory cookie store, etc).
+  // TODO(Mmenke)：在此设置参数(在内存cookie存储等中)。
   network::mojom::NetworkContextParamsPtr network_context_params =
       CreateDefaultNetworkContextParams();
 

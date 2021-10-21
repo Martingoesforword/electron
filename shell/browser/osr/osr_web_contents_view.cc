@@ -1,10 +1,10 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/osr/osr_web_contents_view.h"
 
-#include "content/browser/web_contents/web_contents_impl.h"  // nogncheck
+#include "content/browser/web_contents/web_contents_impl.h"  // 点名检查。
 #include "content/public/browser/render_view_host.h"
 #include "ui/display/screen.h"
 #include "ui/display/screen_info.h"
@@ -50,7 +50,7 @@ void OffScreenWebContentsView::SetNativeWindow(NativeWindow* window) {
 }
 
 void OffScreenWebContentsView::OnWindowResize() {
-  // In offscreen mode call RenderWidgetHostView's SetSize explicitly
+  // 在离屏模式下，显式调用RenderWidgetHostView的SetSize。
   if (GetView())
     GetView()->SetSize(GetSize());
 }
@@ -156,7 +156,7 @@ void OffScreenWebContentsView::SetOverscrollControllerEnabled(bool enabled) {}
 bool OffScreenWebContentsView::CloseTabAfterEventTrackingIfNeeded() {
   return false;
 }
-#endif  // defined(OS_MAC)
+#endif  // 已定义(OS_MAC)。
 
 void OffScreenWebContentsView::StartDragging(
     const content::DropData& drop_data,
@@ -215,4 +215,4 @@ OffScreenRenderWidgetHostView* OffScreenWebContentsView::GetView() const {
   return nullptr;
 }
 
-}  // namespace electron
+}  // 命名空间电子

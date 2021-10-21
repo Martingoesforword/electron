@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/gin_helper/promise.h"
 
@@ -64,7 +64,7 @@ v8::Local<v8::Promise::Resolver> PromiseBase::GetInner() const {
   return resolver_.Get(isolate());
 }
 
-// static
+// 静电。
 void Promise<void>::ResolvePromise(Promise<void> promise) {
   if (gin_helper::Locker::IsBrowserProcess() &&
       !content::BrowserThread::CurrentlyOn(content::BrowserThread::UI)) {
@@ -77,7 +77,7 @@ void Promise<void>::ResolvePromise(Promise<void> promise) {
   }
 }
 
-// static
+// 静电。
 v8::Local<v8::Promise> Promise<void>::ResolvedPromise(v8::Isolate* isolate) {
   Promise<void> resolved(isolate);
   resolved.Resolve();
@@ -93,4 +93,4 @@ v8::Maybe<bool> Promise<void>::Resolve() {
   return GetInner()->Resolve(GetContext(), v8::Undefined(isolate()));
 }
 
-}  // namespace gin_helper
+}  // 命名空间gin_helper

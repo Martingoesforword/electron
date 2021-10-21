@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/frame_subscriber.h"
 
@@ -38,12 +38,12 @@ FrameSubscriber::~FrameSubscriber() = default;
 void FrameSubscriber::AttachToHost(content::RenderWidgetHost* host) {
   host_ = host;
 
-  // The view can be null if the renderer process has crashed.
-  // (https://crbug.com/847363)
+  // 如果呈现器进程已崩溃，则该视图可能为空。
+  // (https://crbug.com/847363))。
   if (!host_->GetView())
     return;
 
-  // Create and configure the video capturer.
+  // 创建并配置视频采集器。
   gfx::Size size = GetRenderViewSize();
   video_capturer_ = host_->GetView()->CreateVideoCapturer();
   video_capturer_->SetResolutionConstraints(size, size, true);
@@ -113,18 +113,18 @@ void FrameSubscriber::OnFrameCaptured(
     return;
   }
 
-  // The SkBitmap's pixels will be marked as immutable, but the installPixels()
-  // API requires a non-const pointer. So, cast away the const.
+  // SkBitmap的像素将标记为不可变，但installPixels()。
+  // API需要非常数指针。所以，扔掉这位君主吧。
   void* const pixels = const_cast<void*>(mapping.memory());
 
-  // Call installPixels() with a |releaseProc| that: 1) notifies the capturer
-  // that this consumer has finished with the frame, and 2) releases the shared
-  // memory mapping.
+  // 使用|RelaseProc|调用installPixels()：1)通知捕捉器。
+  // 该使用者已经完成了帧，并且2)释放共享的。
+  // 内存映射。
   struct FramePinner {
-    // Keeps the shared memory that backs |frame_| mapped.
+    // 保持支持|FRAME_|映射的共享内存。
     base::ReadOnlySharedMemoryMapping mapping;
-    // Prevents FrameSinkVideoCapturer from recycling the shared memory that
-    // backs |frame_|.
+    // 防止FrameSinkVideoCapturer回收共享内存。
+    // BACKS|FRAME_|。
     mojo::Remote<viz::mojom::FrameSinkVideoConsumerFrameCallbacks> releaser;
   };
 
@@ -157,9 +157,9 @@ void FrameSubscriber::Done(const gfx::Rect& damage, const SkBitmap& frame) {
                                              damage.width(), damage.height())
                                        : frame;
 
-  // Copying SkBitmap does not copy the internal pixels, we have to manually
-  // allocate and write pixels otherwise crash may happen when the original
-  // frame is modified.
+  // 复制SkBitmap不会复制内部像素，我们必须手动。
+  // 分配和写入像素，否则当原始。
+  // 框架已修改。
   SkBitmap copy;
   copy.allocPixels(SkImageInfo::Make(bitmap.width(), bitmap.height(),
                                      kN32_SkColorType, kPremul_SkAlphaType));
@@ -177,6 +177,6 @@ gfx::Size FrameSubscriber::GetRenderViewSize() const {
       gfx::ScaleSize(gfx::SizeF(size), view->GetDeviceScaleFactor()));
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

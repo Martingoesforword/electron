@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_web_contents_view.h"
 
@@ -35,16 +35,16 @@ WebContentsView::WebContentsView(v8::Isolate* isolate,
       web_contents_(isolate, web_contents.ToV8()),
       api_web_contents_(web_contents.get()) {
 #if !defined(OS_MAC)
-  // On macOS the View is a newly-created |DelayedNativeViewHost| and it is our
-  // responsibility to delete it. On other platforms the View is created and
-  // managed by InspectableWebContents.
+  // 在MacOS上，View是一个新创建的|DelayedNativeViewHost|，它是我们的。
+  // 有责任删除它。在其他平台上创建视图，并且。
+  // 由InspectableWebContents管理。
   set_delete_view(false);
 #endif
   Observe(web_contents->web_contents());
 }
 
 WebContentsView::~WebContentsView() {
-  if (api_web_contents_)  // destroy() called without closing WebContents
+  if (api_web_contents_)  // 在未关闭WebContents的情况下调用了Destroy()。
     api_web_contents_->Destroy();
 }
 
@@ -57,7 +57,7 @@ void WebContentsView::WebContentsDestroyed() {
   web_contents_.Reset();
 }
 
-// static
+// 静电。
 gin::Handle<WebContentsView> WebContentsView::Create(
     v8::Isolate* isolate,
     const gin_helper::Dictionary& web_preferences) {
@@ -72,7 +72,7 @@ gin::Handle<WebContentsView> WebContentsView::Create(
   return gin::Handle<WebContentsView>();
 }
 
-// static
+// 静电。
 v8::Local<v8::Function> WebContentsView::GetConstructor(v8::Isolate* isolate) {
   static base::NoDestructor<v8::Global<v8::Function>> constructor;
   if (constructor.get()->IsEmpty()) {
@@ -83,20 +83,20 @@ v8::Local<v8::Function> WebContentsView::GetConstructor(v8::Isolate* isolate) {
   return v8::Local<v8::Function>::New(isolate, *constructor.get());
 }
 
-// static
+// 静电。
 gin_helper::WrappableBase* WebContentsView::New(
     gin_helper::Arguments* args,
     const gin_helper::Dictionary& web_preferences) {
   auto web_contents =
       WebContents::CreateFromWebPreferences(args->isolate(), web_preferences);
 
-  // Constructor call.
+  // 构造函数调用。
   auto* view = new WebContentsView(args->isolate(), web_contents);
   view->InitWithArgs(args);
   return view;
 }
 
-// static
+// 静电。
 void WebContentsView::BuildPrototype(
     v8::Isolate* isolate,
     v8::Local<v8::FunctionTemplate> prototype) {
@@ -105,9 +105,9 @@ void WebContentsView::BuildPrototype(
       .SetProperty("webContents", &WebContentsView::GetWebContents);
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -122,6 +122,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("WebContentsView", WebContentsView::GetConstructor(isolate));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_web_contents_view, Initialize)

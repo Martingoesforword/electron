@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/pepper_helper.h"
 
@@ -18,8 +18,8 @@ PepperHelper::PepperHelper(content::RenderFrame* render_frame)
 PepperHelper::~PepperHelper() = default;
 
 void PepperHelper::DidCreatePepperPlugin(content::RendererPpapiHost* host) {
-  // TODO(brettw) figure out how to hook up the host factory. It needs some
-  // kind of filter-like system to allow dynamic additions.
+  // TODO(Brettw)弄清楚如何连接主机工厂。它需要一些。
+  // 一种类似过滤器的系统，允许动态添加。
   host->GetPpapiHost()->AddHostFactoryFilter(
       std::make_unique<ChromeRendererPepperHostFactory>(host));
   host->GetPpapiHost()->AddHostFactoryFilter(

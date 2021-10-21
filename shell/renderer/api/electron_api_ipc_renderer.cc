@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <string>
 
@@ -72,7 +72,7 @@ class IPCRenderer : public gin::Wrappable<IPCRenderer>,
       electron_browser_remote_.reset();
   }
 
-  // gin::Wrappable:
+  // 杜松子酒：：可包装的：
   gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
       v8::Isolate* isolate) override {
     return gin::Wrappable<IPCRenderer>::GetObjectTemplateBuilder(isolate)
@@ -141,7 +141,7 @@ class IPCRenderer : public gin::Wrappable<IPCRenderer>,
     blink::TransferableMessage transferable_message;
     if (!electron::SerializeV8Value(isolate, message_value,
                                     &transferable_message)) {
-      // SerializeV8Value sets an exception.
+      // SerializeV8Value设置异常。
       return;
     }
 
@@ -236,6 +236,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.Set("ipc", IPCRenderer::Create(context->GetIsolate()));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_renderer_ipc, Initialize)

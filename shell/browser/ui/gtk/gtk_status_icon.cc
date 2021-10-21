@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/gtk/gtk_status_icon.h"
 
@@ -23,10 +23,10 @@ GtkStatusIcon::GtkStatusIcon(const gfx::ImageSkia& image,
                              const std::u16string& tool_tip) {
   GdkPixbuf* pixbuf = gtk_util::GdkPixbufFromSkBitmap(*image.bitmap());
   {
-    // GTK has a bug that leaks 384 bytes when creating a GtkStatusIcon.  It
-    // will not be fixed since the status icon was deprecated in version 3.14.
-    // Luckily, Chromium doesn't need to create a status icon very often, if at
-    // all.
+    // GTK有一个缺陷，在创建GtkStatusIcon时会泄漏384个字节。它。
+    // 将不会修复，因为状态图标在版本3.14中已过时。
+    // 幸运的是，Chromium不需要经常创建状态图标，如果。
+    // 全。
     ANNOTATE_SCOPED_MEMORY_LEAK;
     gtk_status_icon_ = gtk_status_icon_new_from_pixbuf(pixbuf);
   }
@@ -81,6 +81,6 @@ void GtkStatusIcon::OnContextMenuRequested(GtkStatusIcon* status_icon,
   }
 }
 
-}  // namespace gtkui
+}  // 命名空间gtkui。
 
-}  // namespace electron
+}  // 命名空间电子

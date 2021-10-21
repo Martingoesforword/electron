@@ -1,6 +1,6 @@
-// Copyright 2016 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2016年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/plugins/plugin_utils.h"
 
@@ -21,7 +21,7 @@
 #include "extensions/common/manifest_handlers/mime_types_handler.h"
 #endif
 
-// static
+// 静电。
 std::string PluginUtils::GetExtensionIdForMimeType(
     content::BrowserContext* browser_context,
     const std::string& mime_type) {
@@ -39,15 +39,15 @@ PluginUtils::GetMimeTypeToExtensionIdMap(
 #if BUILDFLAG(ENABLE_EXTENSIONS)
   std::vector<std::string> allowed_extension_ids =
       MimeTypesHandler::GetMIMETypeAllowlist();
-  // Go through the white-listed extensions and try to use them to intercept
-  // the URL request.
+  // 检查白名单中的分机并尝试使用它们拦截。
+  // URL请求。
   for (const std::string& extension_id : allowed_extension_ids) {
     const extensions::Extension* extension =
         extensions::ExtensionRegistry::Get(browser_context)
             ->enabled_extensions()
             .GetByID(extension_id);
-    // The white-listed extension may not be installed, so we have to nullptr
-    // check |extension|.
+    // 白名单上的扩展可能没有安装，因此我们必须将其设为空。
+    // 选中|分机|。
     if (!extension) {
       continue;
     }

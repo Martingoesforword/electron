@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE-CHROMIUM file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证铬档案里找到的。
 
 #include "shell/browser/media/media_capture_devices_dispatcher.h"
 
@@ -14,7 +14,7 @@ namespace electron {
 
 namespace {
 
-// Finds a device in |devices| that has |device_id|, or NULL if not found.
+// 在|Devices|中查找具有|device_id|的设备，如果未找到，则为NULL。
 const blink::MediaStreamDevice* FindDeviceWithId(
     const blink::MediaStreamDevices& devices,
     const std::string& device_id) {
@@ -27,15 +27,15 @@ const blink::MediaStreamDevice* FindDeviceWithId(
   return nullptr;
 }
 
-}  // namespace
+}  // 命名空间。
 
 MediaCaptureDevicesDispatcher* MediaCaptureDevicesDispatcher::GetInstance() {
   return base::Singleton<MediaCaptureDevicesDispatcher>::get();
 }
 
 MediaCaptureDevicesDispatcher::MediaCaptureDevicesDispatcher() {
-  // MediaCaptureDevicesDispatcher is a singleton. It should be created on
-  // UI thread.
+  // MediaCaptureDevicesDispatcher是单例。它应该创建于。
+  // UI线程。
   DCHECK(BrowserThread::CurrentlyOn(BrowserThread::UI));
 }
 
@@ -141,4 +141,4 @@ void MediaCaptureDevicesDispatcher::OnSetCapturingLinkSecured(
     blink::mojom::MediaStreamType stream_type,
     bool is_secure) {}
 
-}  // namespace electron
+}  // 命名空间电子

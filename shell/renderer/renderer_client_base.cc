@@ -1,6 +1,6 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/renderer_client_base.h"
 
@@ -39,14 +39,14 @@
 #include "third_party/blink/public/common/web_preferences/web_preferences.h"
 #include "third_party/blink/public/platform/media/multi_buffer_data_source.h"
 #include "third_party/blink/public/web/blink.h"
-#include "third_party/blink/public/web/web_custom_element.h"  // NOLINT(build/include_alpha)
+#include "third_party/blink/public/web/web_custom_element.h"  // NOLINT(Build/Include_Alpha)。
 #include "third_party/blink/public/web/web_frame_widget.h"
 #include "third_party/blink/public/web/web_local_frame.h"
 #include "third_party/blink/public/web/web_plugin_params.h"
 #include "third_party/blink/public/web/web_script_source.h"
 #include "third_party/blink/public/web/web_security_policy.h"
 #include "third_party/blink/public/web/web_view.h"
-#include "third_party/blink/renderer/platform/weborigin/scheme_registry.h"  // nogncheck
+#include "third_party/blink/renderer/platform/weborigin/scheme_registry.h"  // 点名检查。
 
 #if defined(OS_MAC)
 #include "base/strings/sys_string_conversions.h"
@@ -63,17 +63,17 @@
 
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
 #include "shell/common/electron_constants.h"
-#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)
+#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)。
 
 #if BUILDFLAG(ENABLE_PLUGINS)
 #include "shell/renderer/pepper_helper.h"
-#endif  // BUILDFLAG(ENABLE_PLUGINS)
+#endif  // BUILDFLAG(ENABLE_Plugin)。
 
 #if BUILDFLAG(ENABLE_PRINTING)
 #include "components/printing/renderer/print_render_frame_helper.h"
-#include "printing/print_settings.h"  // nogncheck
+#include "printing/print_settings.h"  // 点名检查。
 #include "shell/renderer/printing/print_render_frame_helper_delegate.h"
-#endif  // BUILDFLAG(ENABLE_PRINTING)
+#endif  // BUILDFLAG(ENABLE_PRINTING)。
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
 #include "base/strings/utf_string_conversions.h"
@@ -85,7 +85,7 @@
 #include "extensions/renderer/guest_view/mime_handler_view/mime_handler_view_container_manager.h"
 #include "shell/common/extensions/electron_extensions_client.h"
 #include "shell/renderer/extensions/electron_extensions_renderer_client.h"
-#endif  // BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
+#endif  // BUILDFLAG(启用电子扩展)。
 
 namespace electron {
 
@@ -105,42 +105,42 @@ std::vector<std::string> ParseSchemesCLISwitch(base::CommandLine* command_line,
                            base::SPLIT_WANT_NONEMPTY);
 }
 
-// static
+// 静电。
 RendererClientBase* g_renderer_client_base = nullptr;
 
-}  // namespace
+}  // 命名空间。
 
 RendererClientBase::RendererClientBase() {
   auto* command_line = base::CommandLine::ForCurrentProcess();
-  // Parse --service-worker-schemes=scheme1,scheme2
+  // Parse--service-worker-schemes=scheme1，Scheme2。
   std::vector<std::string> service_worker_schemes_list =
       ParseSchemesCLISwitch(command_line, switches::kServiceWorkerSchemes);
   for (const std::string& scheme : service_worker_schemes_list)
     electron::api::AddServiceWorkerScheme(scheme);
-  // Parse --standard-schemes=scheme1,scheme2
+  // Parse--Standard-Schemes=scheme1，Scheme2。
   std::vector<std::string> standard_schemes_list =
       ParseSchemesCLISwitch(command_line, switches::kStandardSchemes);
   for (const std::string& scheme : standard_schemes_list)
     url::AddStandardScheme(scheme.c_str(), url::SCHEME_WITH_HOST);
-  // Parse --cors-schemes=scheme1,scheme2
+  // Parse--CORS-SCHEMES=scheme1，Scheme2。
   std::vector<std::string> cors_schemes_list =
       ParseSchemesCLISwitch(command_line, switches::kCORSSchemes);
   for (const std::string& scheme : cors_schemes_list)
     url::AddCorsEnabledScheme(scheme.c_str());
-  // Parse --streaming-schemes=scheme1,scheme2
+  // Parse--Streaming-Schemes=scheme1，Scheme2。
   std::vector<std::string> streaming_schemes_list =
       ParseSchemesCLISwitch(command_line, switches::kStreamingSchemes);
   for (const std::string& scheme : streaming_schemes_list)
     blink::AddStreamingScheme(scheme.c_str());
-  // Parse --secure-schemes=scheme1,scheme2
+  // Parse--Secure-Schemes=scheme1，Scheme2。
   std::vector<std::string> secure_schemes_list =
       ParseSchemesCLISwitch(command_line, switches::kSecureSchemes);
   for (const std::string& scheme : secure_schemes_list)
     url::AddSecureScheme(scheme.data());
-  // We rely on the unique process host id which is notified to the
-  // renderer process via command line switch from the content layer,
-  // if this switch is removed from the content layer for some reason,
-  // we should define our own.
+  // 我们依赖唯一的进程主机id，它被通知给。
+  // 从内容层通过命令行开关进行呈现器处理，
+  // 如果出于某种原因将该开关从内容层移除，
+  // 我们应该定义我们自己的。
   DCHECK(command_line->HasSwitch(::switches::kRendererClientId));
   renderer_client_id_ =
       command_line->GetSwitchValueASCII(::switches::kRendererClientId);
@@ -152,7 +152,7 @@ RendererClientBase::~RendererClientBase() {
   g_renderer_client_base = nullptr;
 }
 
-// static
+// 静电。
 RendererClientBase* RendererClientBase::Get() {
   DCHECK(g_renderer_client_base);
   return g_renderer_client_base;
@@ -187,7 +187,7 @@ void RendererClientBase::RenderThreadStarted() {
 #endif
 
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
-  // Enables printing from Chrome PDF viewer.
+  // 启用从Chrome PDF查看器打印。
   pdf_print_client_ = std::make_unique<ChromePDFPrintClient>();
   pdf::PepperPDFHost::SetPrintClient(pdf_print_client_.get());
 #endif
@@ -200,12 +200,12 @@ void RendererClientBase::RenderThreadStarted() {
   blink::WebCustomElement::AddEmbedderCustomElementName("browserplugin");
 
   WTF::String extension_scheme(extensions::kExtensionScheme);
-  // Extension resources are HTTP-like and safe to expose to the fetch API. The
-  // rules for the fetch API are consistent with XHR.
+  // 扩展资源类似于HTTP，可以安全地公开给FETCH API。这个。
+  // 回迁接口规则与XHR一致。
   blink::SchemeRegistry::RegisterURLSchemeAsSupportingFetchAPI(
       extension_scheme);
-  // Extension resources, when loaded as the top-level document, should bypass
-  // Blink's strict first-party origin checks.
+  // 扩展资源在作为顶级文档加载时应绕过。
+  // 布林克严格的第一方原产地检查。
   blink::SchemeRegistry::RegisterURLSchemeAsFirstPartyWhenTopLevel(
       extension_scheme);
   blink::SchemeRegistry::RegisterURLSchemeAsBypassingContentSecurityPolicy(
@@ -230,13 +230,13 @@ void RendererClientBase::RenderThreadStarted() {
     blink::SchemeRegistry::RegisterURLSchemeAsBypassingContentSecurityPolicy(
         WTF::String::FromUTF8(scheme.data(), scheme.length()));
 
-  // Allow file scheme to handle service worker by default.
-  // FIXME(zcbenz): Can this be moved elsewhere?
+  // 默认情况下允许文件方案处理服务工作者。
+  // Fixme(Zcbenz)：这个能移到别处吗？
   blink::WebSecurityPolicy::RegisterURLSchemeAsAllowingServiceWorkers("file");
   blink::SchemeRegistry::RegisterURLSchemeAsSupportingFetchAPI("file");
 
 #if defined(OS_WIN)
-  // Set ApplicationUserModelID in renderer process.
+  // 在渲染器进程中设置ApplicationUserModelID。
   std::wstring app_id =
       command_line->GetSwitchValueNative(switches::kAppUserModelId);
   if (!app_id.empty()) {
@@ -246,9 +246,9 @@ void RendererClientBase::RenderThreadStarted() {
 }
 
 void RendererClientBase::ExposeInterfacesToBrowser(mojo::BinderMap* binders) {
-  // NOTE: Do not add binders directly within this method. Instead, modify the
-  // definition of |ExposeElectronRendererInterfacesToBrowser()| to ensure
-  // security review coverage.
+  // 注意：不要在此方法中直接添加活页夹。相反，请修改。
+  // 定义|ExposeElectronRendererInterfacesToBrowser()|以确保。
+  // 安全审查覆盖范围。
   ExposeElectronRendererInterfacesToBrowser(this, binders);
 }
 
@@ -268,13 +268,13 @@ void RendererClientBase::RenderFrameCreated(
       std::make_unique<electron::PrintRenderFrameHelperDelegate>());
 #endif
 
-  // Note: ElectronApiServiceImpl has to be created now to capture the
-  // DidCreateDocumentElement event.
+  // 注意：现在必须创建ElectronApiServiceImpl才能捕获。
+  // DidCreateDocumentElement事件。
   new ElectronApiServiceImpl(render_frame, this);
 
 #if BUILDFLAG(ENABLE_ELECTRON_EXTENSIONS)
   auto* dispatcher = extensions_renderer_client_->GetDispatcher();
-  // ExtensionFrameHelper destroys itself when the RenderFrame is destroyed.
+  // 销毁RenderFrame时，ExtensionFrameHelper会自行销毁。
   new extensions::ExtensionFrameHelper(render_frame, dispatcher);
 
   dispatcher->OnRenderFrameCreated(render_frame);
@@ -295,11 +295,11 @@ void RendererClientBase::RenderFrameCreated(
 void RendererClientBase::GetInterface(
     const std::string& interface_name,
     mojo::ScopedMessagePipeHandle interface_pipe) {
-  // TODO(crbug.com/977637): Get rid of the use of this implementation of
-  // |service_manager::LocalInterfaceProvider|. This was done only to avoid
-  // churning spellcheck code while eliminating the "chrome" and
-  // "chrome_renderer" services. Spellcheck is (and should remain) the only
-  // consumer of this implementation.
+  // TODO(crbug.com/977637)：取消使用。
+  // |service_manager：：LocalInterfaceProvider|。这样做只是为了避免。
+  // 搅动拼写检查代码，同时消除“Chrome”和。
+  // “Chrome_renender”服务。拼写检查是(也应该继续)唯一。
+  // 此实现的使用者。
   content::RenderThread::Get()->BindHostReceiver(
       mojo::GenericPendingReceiver(interface_name, std::move(interface_pipe)));
 }
@@ -307,7 +307,7 @@ void RendererClientBase::GetInterface(
 
 void RendererClientBase::DidClearWindowObject(
     content::RenderFrame* render_frame) {
-  // Make sure every page will get a script context created.
+  // 确保每个页面都会创建一个脚本上下文。
   render_frame->GetWebFrame()->ExecuteScript(blink::WebScriptSource("void 0"));
 }
 
@@ -318,7 +318,7 @@ bool RendererClientBase::OverrideCreatePlugin(
   if (params.mime_type.Utf8() == content::kBrowserPluginMimeType ||
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
       params.mime_type.Utf8() == kPdfPluginMimeType ||
-#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)
+#endif  // BUILDFLAG(ENABLE_PDF_VIEWER)。
       render_frame->GetBlinkPreferences().enable_plugins)
     return false;
 
@@ -355,8 +355,8 @@ bool RendererClientBase::IsPluginHandledExternally(
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
   DCHECK(plugin_element.HasHTMLTagName("object") ||
          plugin_element.HasHTMLTagName("embed"));
-  // TODO(nornagon): this info should be shared with the data in
-  // electron_content_client.cc / ComputeBuiltInPlugins.
+  // TODO(Nornagon)：此信息应与中的数据共享。
+  // Electronics_Content_client.cc/ComputeBuiltInPlugins。
   content::WebPluginInfo info;
   info.type = content::WebPluginInfo::PLUGIN_TYPE_BROWSER_PLUGIN;
   const char16_t kPDFExtensionPluginName[] = u"Chromium PDF Viewer";
@@ -368,7 +368,7 @@ bool RendererClientBase::IsPluginHandledExternally(
   return extensions::MimeHandlerViewContainerManager::Get(
              content::RenderFrame::FromWebFrame(
                  plugin_element.GetDocument().GetFrame()),
-             true /* create_if_does_not_exist */)
+             true /* CREATE_IF_DOS_NOT_EXIST。*/)
       ->CreateFrameContainer(plugin_element, original_url, mime_type, info);
 #else
   return false;
@@ -377,7 +377,7 @@ bool RendererClientBase::IsPluginHandledExternally(
 
 bool RendererClientBase::IsOriginIsolatedPepperPlugin(
     const base::FilePath& plugin_path) {
-  // Isolate all Pepper plugins, including the PDF plugin.
+  // 隔离所有Pepper插件，包括PDF插件。
   return true;
 }
 
@@ -509,13 +509,13 @@ void RendererClientBase::SetupMainWorldOverrides(
     v8::Handle<v8::Context> context,
     content::RenderFrame* render_frame) {
   auto prefs = render_frame->GetBlinkPreferences();
-  // We only need to run the isolated bundle if webview is enabled
+  // 如果启用了WebView，我们只需要运行隔离捆绑包。
   if (!prefs.webview_tag)
     return;
 
-  // Setup window overrides in the main world context
-  // Wrap the bundle into a function that receives the isolatedApi as
-  // an argument.
+  // 主世界上下文中的设置窗口覆盖。
+  // 将捆绑包包装到一个函数中，该函数将solatedApi接收为。
+  // 一场争论。
   auto* isolate = context->GetIsolate();
   v8::HandleScope handle_scope(isolate);
   v8::Context::Scope context_scope(context);
@@ -548,7 +548,7 @@ void RendererClientBase::SetupMainWorldOverrides(
                        &isolated_bundle_params, &isolated_bundle_args, nullptr);
 }
 
-// static
+// 静电。
 void RendererClientBase::AllowGuestViewElementDefinition(
     v8::Isolate* isolate,
     v8::Local<v8::Object> context,
@@ -566,4 +566,4 @@ void RendererClientBase::AllowGuestViewElementDefinition(
       nullptr);
 }
 
-}  // namespace electron
+}  // 命名空间电子

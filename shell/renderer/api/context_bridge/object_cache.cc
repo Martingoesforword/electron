@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/api/context_bridge/object_cache.h"
 
@@ -50,8 +50,8 @@ v8::MaybeLocal<v8::Value> ObjectCache::GetCachedProxiedObject(
   return v8::MaybeLocal<v8::Value>();
 }
 
-}  // namespace context_bridge
+}  // 命名空间上下文桥接器。
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

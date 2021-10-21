@@ -33,6 +33,6 @@ napi_value Init(napi_env env, napi_value exports) {
   return exports;
 }
 
-}  // namespace
+}  // 命名空间
 
 NAPI_MODULE(NODE_GYP_MODULE_NAME, Init)

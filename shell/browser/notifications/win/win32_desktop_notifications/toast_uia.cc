@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/notifications/win/win32_desktop_notifications/toast_uia.h"
 
@@ -98,11 +98,11 @@ HRESULT
 DesktopNotificationController::Toast::UIAutomationInterface::GetPropertyValue(
     PROPERTYID property_id,
     VARIANT* retval) {
-  // Note: In order to have the toast read by the NVDA screen reader, we
-  // pretend that we're a Windows 8 native toast notification by reporting
-  // these property values:
-  //    ClassName: ToastContentHost
-  //    ControlType: UIA_ToolTipControlTypeId
+  // 注意：为了让NVDA屏幕阅读器读取祝酒词，我们。
+  // 通过报告，假装我们是Windows 8本机祝酒词通知。
+  // 以下属性值：
+  // 类名：ToastContentHost。
+  // ControlType：UIA_ToolTipControlTypeId。
 
   retval->vt = VT_EMPTY;
   switch (property_id) {
@@ -158,7 +158,7 @@ HRESULT DesktopNotificationController::Toast::UIAutomationInterface::Invoke() {
 HRESULT
 DesktopNotificationController::Toast::UIAutomationInterface::SetVisualState(
     WindowVisualState state) {
-  // setting the visual state is not supported
+  // 不支持设置可视状态。
   return E_FAIL;
 }
 
@@ -255,4 +255,4 @@ HRESULT DesktopNotificationController::Toast::UIAutomationInterface::
   return S_OK;
 }
 
-}  // namespace electron
+}  // 命名空间电子

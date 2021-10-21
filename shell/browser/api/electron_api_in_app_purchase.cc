@@ -1,6 +1,6 @@
-// Copyright (c) 2017 Amaplex Software, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 Amaplex Software，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_in_app_purchase.h"
 
@@ -57,21 +57,21 @@ struct Converter<in_app_purchase::Product> {
     dict.Set("contentVersion", val.localizedTitle);
     dict.Set("contentLengths", val.contentLengths);
 
-    // Pricing Information
+    // 定价信息。
     dict.Set("price", val.price);
     dict.Set("formattedPrice", val.formattedPrice);
 
-    // Currency Information
+    // 货币信息。
     dict.Set("currencyCode", val.currencyCode);
 
-    // Downloadable Content Information
+    // 可下载的内容信息。
     dict.Set("isDownloadable", val.isDownloadable);
 
     return dict.GetHandle();
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -80,7 +80,7 @@ namespace api {
 gin::WrapperInfo InAppPurchase::kWrapperInfo = {gin::kEmbedderNativeGin};
 
 #if defined(OS_MAC)
-// static
+// 静电。
 gin::Handle<InAppPurchase> InAppPurchase::Create(v8::Isolate* isolate) {
   return gin::CreateHandle(isolate, new InAppPurchase());
 }
@@ -149,9 +149,9 @@ void InAppPurchase::OnTransactionsUpdated(
 }
 #endif
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -168,6 +168,6 @@ void Initialize(v8::Local<v8::Object> exports,
 #endif
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_in_app_purchase, Initialize)

@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/electron_autofill_driver_factory.h"
 
@@ -26,11 +26,11 @@ std::unique_ptr<AutofillDriver> CreateDriver(
                                           std::move(request));
 }
 
-}  // namespace
+}  // 命名空间。
 
 AutofillDriverFactory::~AutofillDriverFactory() = default;
 
-// static
+// 静电。
 void AutofillDriverFactory::BindAutofillDriver(
     mojom::ElectronAutofillDriverAssociatedRequest request,
     content::RenderFrameHost* render_frame_host) {
@@ -68,8 +68,8 @@ void AutofillDriverFactory::RenderFrameDeleted(
 
 void AutofillDriverFactory::DidFinishNavigation(
     content::NavigationHandle* navigation_handle) {
-  // For the purposes of this code, a navigation is not important if it has not
-  // committed yet or if it's in a subframe.
+  // 就此代码而言，如果没有导航，则导航并不重要。
+  // 尚未提交或是否在子帧中。
   if (!navigation_handle->HasCommitted() ||
       !navigation_handle->IsInMainFrame()) {
     return;
@@ -89,7 +89,7 @@ void AutofillDriverFactory::AddDriverForFrame(
     CreationCallback factory_method) {
   auto insertion_result =
       driver_map_.insert(std::make_pair(render_frame_host, nullptr));
-  // This can be called twice for the key representing the main frame.
+  // 对于表示主框架的关键点，可以调用两次。
   if (insertion_result.second) {
     insertion_result.first->second = std::move(factory_method).Run();
   }
@@ -108,4 +108,4 @@ void AutofillDriverFactory::CloseAllPopups() {
 
 WEB_CONTENTS_USER_DATA_KEY_IMPL(AutofillDriverFactory)
 
-}  // namespace electron
+}  // 命名空间电子

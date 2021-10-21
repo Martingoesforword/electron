@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/api/runtime/electron_runtime_api_delegate.h"
 
@@ -75,7 +75,7 @@ bool ElectronRuntimeAPIDelegate::GetPlatformInfo(PlatformInfo* info) {
   if (strcmp(nacl_arch, "arm") == 0) {
     info->nacl_arch = extensions::api::runtime::PLATFORM_NACL_ARCH_ARM;
   } else if (strcmp(nacl_arch, "arm64") == 0) {
-    // Use ARM for ARM64 NaCl, as ARM64 NaCl is not available.
+    // ARM用于ARM64 NaCl，因为ARM64 NaCl不可用。
     info->nacl_arch = extensions::api::runtime::PLATFORM_NACL_ARCH_ARM;
   } else if (strcmp(nacl_arch, "x86-32") == 0) {
     info->nacl_arch = extensions::api::runtime::PLATFORM_NACL_ARCH_X86_32;
@@ -87,11 +87,11 @@ bool ElectronRuntimeAPIDelegate::GetPlatformInfo(PlatformInfo* info) {
   }
 
   return true;
-}  // namespace extensions
+}  // 命名空间扩展。
 
 bool ElectronRuntimeAPIDelegate::RestartDevice(std::string* error_message) {
   *error_message = "Restart is not supported in Electron";
   return false;
 }
 
-}  // namespace extensions
+}  // 命名空间扩展

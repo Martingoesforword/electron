@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/extensions/electron_extensions_renderer_client.h"
 
@@ -24,7 +24,7 @@ ElectronExtensionsRendererClient::ElectronExtensionsRendererClient()
 ElectronExtensionsRendererClient::~ElectronExtensionsRendererClient() = default;
 
 bool ElectronExtensionsRendererClient::IsIncognitoProcess() const {
-  // app_shell doesn't support off-the-record contexts.
+  // APP_SHELL不支持非记录上下文。
   return false;
 }
 
@@ -60,7 +60,7 @@ bool ElectronExtensionsRendererClient::
 }
 
 bool ElectronExtensionsRendererClient::AllowPopup() {
-  // TODO(samuelmaddock):
+  // TODO(Samuelmaddock)：
   return false;
 }
 
@@ -79,4 +79,4 @@ void ElectronExtensionsRendererClient::RunScriptsAtDocumentIdle(
   dispatcher_->RunScriptsAtDocumentIdle(render_frame);
 }
 
-}  // namespace electron
+}  // 命名空间电子

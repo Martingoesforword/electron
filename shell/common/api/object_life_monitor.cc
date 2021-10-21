@@ -1,7 +1,7 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Copyright (c) 2012 Intel Corp. All rights reserved.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 版权所有(C)2012英特尔公司保留所有权利。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/api/object_life_monitor.h"
 
@@ -22,7 +22,7 @@ ObjectLifeMonitor::~ObjectLifeMonitor() {
   target_.Reset();
 }
 
-// static
+// 静电。
 void ObjectLifeMonitor::OnObjectGC(
     const v8::WeakCallbackInfo<ObjectLifeMonitor>& data) {
   ObjectLifeMonitor* self = data.GetParameter();
@@ -31,10 +31,10 @@ void ObjectLifeMonitor::OnObjectGC(
   data.SetSecondPassCallback(Free);
 }
 
-// static
+// 静电。
 void ObjectLifeMonitor::Free(
     const v8::WeakCallbackInfo<ObjectLifeMonitor>& data) {
   delete data.GetParameter();
 }
 
-}  // namespace electron
+}  // 命名空间电子

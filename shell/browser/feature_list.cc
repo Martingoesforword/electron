@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "electron/shell/browser/feature_list.h"
 
@@ -25,10 +25,10 @@ void InitializeFeatureList() {
       cmd_line->GetSwitchValueASCII(::switches::kEnableFeatures);
   auto disable_features =
       cmd_line->GetSwitchValueASCII(::switches::kDisableFeatures);
-  // Disable creation of spare renderer process with site-per-process mode,
-  // it interferes with our process preference tracking for non sandboxed mode.
-  // Can be reenabled when our site instance policy is aligned with chromium
-  // when node integration is enabled.
+  // 禁止创建具有逐个站点进程模式的备用呈现器进程，
+  // 它会干扰我们对非沙箱模式的进程首选项跟踪。
+  // 当我们的站点实例策略与铬保持一致时，可以重新启用。
+  // 启用节点集成时。
   disable_features +=
       std::string(",") + features::kSpareRendererForSitePerProcess.name;
 
@@ -37,8 +37,8 @@ void InitializeFeatureList() {
 #endif
 
 #if defined(OS_WIN)
-  // Disable async spellchecker suggestions for Windows, which causes
-  // an empty suggestions list to be returned
+  // 禁用Windows的异步拼写检查建议，这会导致。
+  // 要返回的空建议列表。
   disable_features +=
       std::string(",") + spellcheck::kWinRetrieveSuggestionsOnlyOnDemand.name;
 #endif
@@ -53,4 +53,4 @@ void InitializeFieldTrials() {
   base::FieldTrialList::CreateTrialsFromString(force_fieldtrials);
 }
 
-}  // namespace electron
+}  // 命名空间电子

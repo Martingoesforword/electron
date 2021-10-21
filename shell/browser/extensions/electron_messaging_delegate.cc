@@ -1,6 +1,6 @@
-// Copyright 2017 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2017年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/electron_messaging_delegate.h"
 
@@ -76,7 +76,7 @@ std::unique_ptr<MessagePort> ElectronMessagingDelegate::CreateReceiverForTab(
     const PortId& receiver_port_id,
     content::WebContents* receiver_contents,
     int receiver_frame_id) {
-  // Frame ID -1 is every frame in the tab.
+  // 帧ID-1是选项卡中的每个帧。
   bool include_child_frames = receiver_frame_id == -1;
   content::RenderFrameHost* receiver_rfh =
       include_child_frames ? receiver_contents->GetMainFrame()
@@ -113,4 +113,4 @@ void ElectronMessagingDelegate::QueryIncognitoConnectability(
   std::move(callback).Run(false);
 }
 
-}  // namespace extensions
+}  // 命名空间扩展

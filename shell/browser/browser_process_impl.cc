@@ -1,6 +1,6 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有(C)2012 Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/browser_process_impl.h"
 
@@ -45,7 +45,7 @@ BrowserProcessImpl::~BrowserProcessImpl() {
   g_browser_process = nullptr;
 }
 
-// static
+// 静电。
 void BrowserProcessImpl::ApplyProxyModeFromCommandLine(
     ValueMapPrefStore* pref_store) {
   if (!pref_store)
@@ -64,7 +64,7 @@ void BrowserProcessImpl::ApplyProxyModeFromCommandLine(
     pref_store->SetValue(
         proxy_config::prefs::kProxy,
         std::make_unique<base::Value>(ProxyConfigDictionary::CreatePacScript(
-            pac_script_url, false /* pac_mandatory */)),
+            pac_script_url, false /* PAC_MANDIRED。*/)),
         WriteablePrefStore::DEFAULT_PREF_WRITE_FLAGS);
   } else if (command_line->HasSwitch(switches::kProxyAutoDetect)) {
     pref_store->SetValue(proxy_config::prefs::kProxy,
@@ -107,8 +107,8 @@ void BrowserProcessImpl::PostEarlyInitialization() {
   ApplyProxyModeFromCommandLine(pref_store.get());
   prefs_factory.set_command_line_prefs(std::move(pref_store));
 
-  // Only use a persistent prefs store when cookie encryption is enabled as that
-  // is the only key that needs it
+  // 仅当启用Cookie加密时才使用永久首选项存储。
+  // 是唯一需要它的钥匙。
   base::FilePath prefs_path;
   CHECK(base::PathService::Get(chrome::DIR_USER_DATA, &prefs_path));
   prefs_path = prefs_path.Append(FILE_PATH_LITERAL("Local State"));
@@ -121,13 +121,13 @@ void BrowserProcessImpl::PostEarlyInitialization() {
 }
 
 void BrowserProcessImpl::PreCreateThreads() {
-  // chrome-extension:// URLs are safe to request anywhere, but may only
-  // commit (including in iframes) in extension processes.
+  // Chrome-Extension：//URL在任何地方请求都是安全的，但只能。
+  // 在扩展流程中提交(包括在iframe中)。
   content::ChildProcessSecurityPolicy::GetInstance()
       ->RegisterWebSafeIsolatedScheme(extensions::kExtensionScheme, true);
-  // Must be created before the IOThread.
-  // Once IOThread class is no longer needed,
-  // this can be created on first use.
+  // 必须在IOThread之前创建。
+  // 一旦不再需要IOThread类，
+  // 这可以在第一次使用时创建。
   if (!SystemNetworkContextManager::GetInstance())
     SystemNetworkContextManager::CreateInstance(local_state_.get());
 }
@@ -136,7 +136,7 @@ void BrowserProcessImpl::PostMainMessageLoopRun() {
   if (local_state_)
     local_state_->CommitPendingWrite();
 
-  // This expects to be destroyed before the task scheduler is torn down.
+  // 这预计会在任务调度程序关闭之前销毁。
   SystemNetworkContextManager::DeleteInstance();
 }
 

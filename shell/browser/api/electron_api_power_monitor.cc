@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_power_monitor.h"
 
@@ -33,7 +33,7 @@ struct Converter<ui::IdleState> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -82,7 +82,7 @@ void PowerMonitor::OnResume() {
 #if defined(OS_LINUX)
 void PowerMonitor::SetListeningForShutdown(bool is_listening) {
   if (is_listening) {
-    // unretained is OK because we own power_observer_linux_
+    // 未保留是可以的，因为我们拥有POWER_EATISTOR_LINUX_。
     power_observer_linux_.SetShutdownHandler(base::BindRepeating(
         &PowerMonitor::ShouldShutdown, base::Unretained(this)));
   } else {
@@ -91,7 +91,7 @@ void PowerMonitor::SetListeningForShutdown(bool is_listening) {
 }
 #endif
 
-// static
+// 静电。
 v8::Local<v8::Value> PowerMonitor::Create(v8::Isolate* isolate) {
   CHECK(Browser::Get()->is_ready());
   auto* pm = new PowerMonitor(isolate);
@@ -116,9 +116,9 @@ const char* PowerMonitor::GetTypeName() {
   return "PowerMonitor";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -156,6 +156,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("isOnBatteryPower", base::BindRepeating(&IsOnBatteryPower));
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_power_monitor, Initialize)

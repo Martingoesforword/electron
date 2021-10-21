@@ -1,10 +1,10 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/platform_util.h"
 
-#include <windows.h>  // windows.h must be included first
+#include <windows.h>  // 必须先包含windows.h。
 
 #include <atlbase.h>
 #include <comdef.h>
@@ -39,9 +39,9 @@
 
 namespace {
 
-// Required COM implementation of IFileOperationProgressSink so we can
-// precheck files before deletion to make sure they can be move to the
-// Recycle Bin.
+// 需要IFileOperationProgressSink的COM实现，以便我们可以。
+// 在删除之前预先检查文件，以确保它们可以移动到。
+// 回收站。
 class DeleteFileProgressSink : public IFileOperationProgressSink {
  public:
   DeleteFileProgressSink();
@@ -104,24 +104,24 @@ DeleteFileProgressSink::DeleteFileProgressSink() {
 
 HRESULT DeleteFileProgressSink::PreDeleteItem(DWORD dwFlags, IShellItem*) {
   if (!(dwFlags & TSF_DELETE_RECYCLE_IF_POSSIBLE)) {
-    // TSF_DELETE_RECYCLE_IF_POSSIBLE will not be set for items that cannot be
-    // recycled.  In this case, we abort the delete operation.  This bubbles
-    // up and stops the Delete in IFileOperation.
+    // 不会为无法设置的项目设置TSF_DELETE_RECYCLE_IF_PUBLICE。
+    // 回收利用。在本例中，我们中止删除操作。这个泡泡。
+    // 向上并停止IFileOperation中的删除。
     return E_ABORT;
   }
-  // Returns S_OK if successful, or an error value otherwise. In the case of an
-  // error value, the delete operation and all subsequent operations pending
-  // from the call to IFileOperation are canceled.
+  // 如果成功，则返回S_OK，否则返回错误值。在此情况下，
+  // 错误值、删除操作和所有后续操作挂起。
+  // 对IFileOperation的调用被取消。
   return S_OK;
 }
 
 HRESULT DeleteFileProgressSink::QueryInterface(REFIID riid, LPVOID* ppvObj) {
-  // Always set out parameter to NULL, validating it first.
+  // 始终将参数设置为NULL，首先进行验证。
   if (!ppvObj)
     return E_INVALIDARG;
   *ppvObj = nullptr;
   if (riid == IID_IUnknown || riid == IID_IFileOperationProgressSink) {
-    // Increment the reference count and return the pointer.
+    // 递增引用计数并返回指针。
     *ppvObj = reinterpret_cast<IUnknown*>(this);
     AddRef();
     return NOERROR;
@@ -135,7 +135,7 @@ ULONG DeleteFileProgressSink::AddRef() {
 }
 
 ULONG DeleteFileProgressSink::Release() {
-  // Decrement the object's internal counter.
+  // 递减对象的内部计数器。
   ULONG ulRefCount = InterlockedDecrement(&m_cRef);
   if (0 == m_cRef) {
     delete this;
@@ -239,9 +239,9 @@ std::string OpenExternalOnWorkerThread(
     const platform_util::OpenExternalOptions& options) {
   base::ScopedBlockingCall scoped_blocking_call(FROM_HERE,
                                                 base::BlockingType::MAY_BLOCK);
-  // Quote the input scheme to be sure that the command does not have
-  // parameters unexpected by the external program. This url should already
-  // have been escaped.
+  // 引用输入方案以确保命令没有。
+  // 外部程序意外的参数。此URL应该已经。
+  // 已经逃脱了。
   std::wstring escaped_url =
       L"\"" + base::UTF8ToWide(net::EscapeExternalHandlerValue(url.spec())) +
       L"\"";
@@ -264,7 +264,7 @@ void ShowItemInFolderOnWorkerThread(const base::FilePath& full_path) {
     return;
 
   base::FilePath dir = full_path.DirName().AsEndingWithSeparator();
-  // ParseDisplayName will fail if the directory is "C:", it must be "C:\\".
+  // 如果目录是“C：”，则ParseDisplayName将失败，它必须是“C：\\”。
   if (dir.empty())
     return;
 
@@ -291,9 +291,9 @@ void ShowItemInFolderOnWorkerThread(const base::FilePath& full_path) {
   hr = SHOpenFolderAndSelectItems(dir_item, base::size(highlight), highlight,
                                   NULL);
   if (FAILED(hr)) {
-    // On some systems, the above call mysteriously fails with "file not
-    // found" even though the file is there.  In these cases, ShellExecute()
-    // seems to work as a fallback (although it won't select the file).
+    // 在某些系统上，上述调用神秘地失败，并显示“file not。
+    // Found“，即使文件在那里。在这些情况下，ShellExecute()。
+    // 似乎起到了后备作用(尽管它不会选择文件)。
     if (hr == ERROR_FILE_NOT_FOUND) {
       ShellExecute(NULL, L"open", dir.value().c_str(), NULL, NULL, SW_SHOW);
     } else {
@@ -305,7 +305,7 @@ void ShowItemInFolderOnWorkerThread(const base::FilePath& full_path) {
 }
 
 std::string OpenPathOnThread(const base::FilePath& full_path) {
-  // May result in an interactive dialog.
+  // 可以导致交互式对话。
   base::ScopedBlockingCall scoped_blocking_call(FROM_HERE,
                                                 base::BlockingType::MAY_BLOCK);
   bool success;
@@ -317,7 +317,7 @@ std::string OpenPathOnThread(const base::FilePath& full_path) {
   return success ? "" : "Failed to open path";
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace platform_util {
 
@@ -360,12 +360,12 @@ bool MoveItemToTrashWithError(const base::FilePath& path,
     return false;
   }
 
-  // Elevation prompt enabled for UAC protected files.  This overrides the
-  // SILENT, NO_UI and NOERRORUI flags.
+  // 已为受UAC保护的文件启用提升提示。这会重写。
+  // 静默、NO_UI和NOERRORUI标志。
 
   if (base::win::GetVersion() >= base::win::Version::WIN8) {
-    // Windows 8 introduces the flag RECYCLEONDELETE and deprecates the
-    // ALLOWUNDO in favor of ADDUNDORECORD.
+    // Windows 8引入了标志RECYCLEONDELETE，不建议使用。
+    // 你好，支持ADDUNDORECORD。
     if (FAILED(pfo->SetOperationFlags(
             FOF_NO_UI | FOFX_ADDUNDORECORD | FOF_NOERRORUI | FOF_SILENT |
             FOFX_SHOWELEVATIONPROMPT | FOFX_RECYCLEONDELETE))) {
@@ -373,7 +373,7 @@ bool MoveItemToTrashWithError(const base::FilePath& path,
       return false;
     }
   } else {
-    // For Windows 7 and Vista, RecycleOnDelete is the default behavior.
+    // 对于Windows 7和Vista，RecycleOnDelete是默认行为。
     if (FAILED(pfo->SetOperationFlags(FOF_NO_UI | FOF_ALLOWUNDO |
                                       FOF_NOERRORUI | FOF_SILENT |
                                       FOFX_SHOWELEVATIONPROMPT))) {
@@ -382,7 +382,7 @@ bool MoveItemToTrashWithError(const base::FilePath& path,
     }
   }
 
-  // Create an IShellItem from the supplied source path.
+  // 从提供的源路径创建IShellItem。
   Microsoft::WRL::ComPtr<IShellItem> delete_item;
   if (FAILED(SHCreateItemFromParsingName(
           path.value().c_str(), NULL,
@@ -400,8 +400,8 @@ bool MoveItemToTrashWithError(const base::FilePath& path,
 
   BOOL pfAnyOperationsAborted;
 
-  // Processes the queued command DeleteItem. This will trigger
-  // the DeleteFileProgressSink to check for Recycle Bin.
+  // 处理排队的命令DeleteItem。这将触发。
+  // 要检查回收站的DeleteFileProgressSink。
   if (!SUCCEEDED(pfo->DeleteItem(delete_item.Get(), delete_sink.Get()))) {
     *error = "Failed to enqueue DeleteItem command";
     return false;
@@ -431,7 +431,7 @@ bool PlatformTrashItem(const base::FilePath& full_path, std::string* error) {
   return MoveItemToTrashWithError(full_path, false, error);
 }
 
-}  // namespace internal
+}  // 命名空间内部。
 
 bool GetFolderPath(int key, base::FilePath* result) {
   wchar_t system_buffer[MAX_PATH];
@@ -453,4 +453,4 @@ void Beep() {
   MessageBeep(MB_OK);
 }
 
-}  // namespace platform_util
+}  // 命名空间Platform_util

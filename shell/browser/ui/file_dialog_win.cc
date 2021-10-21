@@ -1,18 +1,18 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/file_dialog.h"
 
-#include <windows.h>  // windows.h must be included first
+#include <windows.h>  // 必须先包含windows.h。
 
-#include "base/win/shlwapi.h"  // NOLINT(build/include_order)
+#include "base/win/shlwapi.h"  // NOLINT(BUILD/INCLUDE_ORDER)。
 
-// atlbase.h for CComPtr
-#include <atlbase.h>  // NOLINT(build/include_order)
+// CComPtr的atlbase.h。
+#include <atlbase.h>  // NOLINT(BUILD/INCLUDE_ORDER)。
 
-#include <shlobj.h>    // NOLINT(build/include_order)
-#include <shobjidl.h>  // NOLINT(build/include_order)
+#include <shlobj.h>    // NOLINT(BUILD/INCLUDE_ORDER)。
+#include <shobjidl.h>  // NOLINT(BUILD/INCLUDE_ORDER)。
 
 #include "base/files/file_util.h"
 #include "base/i18n/case_conversion.h"
@@ -33,7 +33,7 @@ DialogSettings::~DialogSettings() = default;
 
 namespace {
 
-// Distinguish directories from regular files.
+// 区分目录和常规文件。
 bool IsDirectory(const base::FilePath& path) {
   base::File::Info file_info;
   return base::GetFileInfo(path, &file_info) ? file_info.is_directory
@@ -134,20 +134,20 @@ static void ApplySettings(IFileDialog* dialog, const DialogSettings& settings) {
     dialog->SetFileTypes(filterspec.size(), filterspec.data());
   }
 
-  // By default, *.* will be added to the file name if file type is "*.*". In
-  // Electron, we disable it to make a better experience.
-  //
-  // From MSDN: https://msdn.microsoft.com/en-us/library/windows/desktop/
-  // bb775970(v=vs.85).aspx
-  //
-  // If SetDefaultExtension is not called, the dialog will not update
-  // automatically when user choose a new file type in the file dialog.
-  //
-  // We set file extension to the first none-wildcard extension to make
-  // sure the dialog will update file extension automatically.
+  // 默认情况下，如果文件类型为“*.*”，则文件名将添加*.*。在……里面。
+  // 电子设备，我们将其禁用以获得更好的体验。
+  // 
+  // 来自微软新闻网：https://msdn.microsoft.com/en-us/library/windows/desktop/。
+  // Bb775970(v=vs.85).aspx。
+  // 
+  // 如果未调用SetDefaultExtension，则对话框不会更新。
+  // 当用户在文件对话框中选择新的文件类型时自动。
+  // 
+  // 我们将文件扩展名设置为要创建的第一个非通配符扩展名。
+  // 确保对话框将自动更新文件扩展名。
   for (size_t i = 0; i < filterspec.size(); ++i) {
     if (std::wstring(filterspec[i].pszSpec) != L"*.*") {
-      // SetFileTypeIndex is regarded as one-based index.
+      // SetFileTypeIndex被视为基于一的索引。
       dialog->SetFileTypeIndex(i + 1);
       dialog->SetDefaultExtension(filterspec[i].pszSpec);
       break;
@@ -159,7 +159,7 @@ static void ApplySettings(IFileDialog* dialog, const DialogSettings& settings) {
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 bool ShowOpenDialogSync(const DialogSettings& settings,
                         std::vector<base::FilePath>* paths) {
@@ -282,4 +282,4 @@ void ShowSaveDialog(const DialogSettings& settings,
                      base::BindOnce(done, std::move(promise)));
 }
 
-}  // namespace file_dialog
+}  // 命名空间FILE_DIALOG

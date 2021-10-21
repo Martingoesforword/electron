@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/message_port.h"
 
@@ -30,13 +30,13 @@ gin::WrapperInfo MessagePort::kWrapperInfo = {gin::kEmbedderNativeGin};
 MessagePort::MessagePort() = default;
 MessagePort::~MessagePort() {
   if (!IsNeutered()) {
-    // Disentangle before teardown. The MessagePortDescriptor will blow up if it
-    // hasn't had its underlying handle returned to it before teardown.
+    // 拆卸前先解开。如果出现以下情况，MessagePortDescriptor将会爆炸。
+    // 在被拆毁之前，它的底层句柄还没有归还给它。
     Disentangle();
   }
 }
 
-// static
+// 静电。
 gin::Handle<MessagePort> MessagePort::Create(v8::Isolate* isolate) {
   return gin::CreateHandle(isolate, new MessagePort());
 }
@@ -66,7 +66,7 @@ void MessagePort::PostMessage(gin::Arguments* args) {
     }
   }
 
-  // Make sure we aren't connected to any of the passed-in ports.
+  // 确保我们没有连接到任何传入的端口。
   for (unsigned i = 0; i < wrapped_ports.size(); ++i) {
     if (wrapped_ports[i].get() == this) {
       gin_helper::ErrorThrower(args->isolate())
@@ -151,15 +151,15 @@ blink::MessagePortChannel MessagePort::Disentangle() {
 }
 
 bool MessagePort::HasPendingActivity() const {
-  // The spec says that entangled message ports should always be treated as if
-  // they have a strong reference.
-  // We'll also stipulate that the queue needs to be open (if the app drops its
-  // reference to the port before start()-ing it, then it's not really entangled
-  // as it's unreachable).
+  // 该规范指出，纠缠的消息端口应始终被视为。
+  // 他们有很强的参考价值。
+  // 我们还将规定队列需要打开(如果应用程序丢弃了。
+  // 在开始()之前引用端口，那么它就不是真正纠缠在一起的。
+  // 因为它是遥不可及的)。
   return started_ && IsEntangled();
 }
 
-// static
+// 静电。
 std::vector<gin::Handle<MessagePort>> MessagePort::EntanglePorts(
     v8::Isolate* isolate,
     std::vector<blink::MessagePortChannel> channels) {
@@ -172,7 +172,7 @@ std::vector<gin::Handle<MessagePort>> MessagePort::EntanglePorts(
   return wrapped_ports;
 }
 
-// static
+// 静电。
 std::vector<blink::MessagePortChannel> MessagePort::DisentanglePorts(
     v8::Isolate* isolate,
     const std::vector<gin::Handle<MessagePort>>& ports,
@@ -182,8 +182,8 @@ std::vector<blink::MessagePortChannel> MessagePort::DisentanglePorts(
 
   std::unordered_set<MessagePort*> visited;
 
-  // Walk the incoming array - if there are any duplicate ports, or null ports
-  // or cloned ports, throw an error (per section 8.3.3 of the HTML5 spec).
+  // 检查传入阵列-如果有任何重复端口或空端口。
+  // 或克隆的端口，则抛出错误(根据HTML5规范的8.3.3节)。
   for (unsigned i = 0; i < ports.size(); ++i) {
     auto* port = ports[i].get();
     if (!port || port->IsNeutered() || visited.find(port) != visited.end()) {
@@ -202,7 +202,7 @@ std::vector<blink::MessagePortChannel> MessagePort::DisentanglePorts(
     visited.insert(port);
   }
 
-  // Passed-in ports passed validity checks, so we can disentangle them.
+  // 传入的端口通过了有效性检查，因此我们可以将其解开。
   std::vector<blink::MessagePortChannel> channels;
   channels.reserve(ports.size());
   for (unsigned i = 0; i < ports.size(); ++i)
@@ -263,7 +263,7 @@ const char* MessagePort::GetTypeName() {
   return "MessagePort";
 }
 
-}  // namespace electron
+}  // 命名空间电子。
 
 namespace {
 
@@ -290,6 +290,6 @@ void Initialize(v8::Local<v8::Object> exports,
   dict.SetMethod("createPair", &CreatePair);
 }
 
-}  // namespace
+}  // 命名空间
 
 NODE_LINKED_MODULE_CONTEXT_AWARE(electron_browser_message_port, Initialize)

@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/drag_util.h"
 
@@ -21,7 +21,7 @@ namespace electron {
 void DragFileItems(const std::vector<base::FilePath>& files,
                    const gfx::Image& icon,
                    gfx::NativeView view) {
-  // Set up our OLE machinery
+  // 设置我们的OLE机器。
   auto data = std::make_unique<ui::OSExchangeData>();
 
   button_drag_utils::SetDragImage(
@@ -40,7 +40,7 @@ void DragFileItems(const std::vector<base::FilePath>& files,
     return;
 
   gfx::Point location = display::Screen::GetScreen()->GetCursorScreenPoint();
-  // TODO(varunjain): Properly determine and send DragEventSource below.
+  // TODO(Varunjain)：正确确定并发送下面的DragEventSource。
   aura::client::GetDragDropClient(root_window)
       ->StartDragAndDrop(
           std::move(data), root_window, view, location,
@@ -48,4 +48,4 @@ void DragFileItems(const std::vector<base::FilePath>& files,
           ui::mojom::DragEventSource::kMouse);
 }
 
-}  // namespace electron
+}  // 命名空间电子

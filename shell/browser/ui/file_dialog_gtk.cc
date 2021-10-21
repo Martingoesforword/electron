@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include <gmodule.h>
 
@@ -60,13 +60,13 @@ static const int kPreviewWidth = 256;
 static const int kPreviewHeight = 512;
 
 void InitGtkFileChooserNativeSupport() {
-  // Return early if we have already setup the native functions or we have tried
-  // once before and failed. Avoid running expensive dynamic library operations.
+  // 如果我们已经设置了本机函数或已经尝试过，请提前返回。
+  // 以前有过一次，但失败了。避免运行代价高昂的动态库操作。
   if (supports_gtk_file_chooser_native) {
     return;
   }
 
-  // Mark that we have attempted to initialize support at least once
+  // 标记我们至少尝试过一次初始化支持。
   supports_gtk_file_chooser_native = false;
 
   if (!g_module_supported()) {
@@ -78,7 +78,7 @@ void InitGtkFileChooserNativeSupport() {
     return;
   }
 
-  // Will never be unloaded
+  // 将永远不会卸载。
   g_module_make_resident(gtk_module);
 
   bool found = g_module_symbol(
@@ -190,10 +190,10 @@ class FileChooserDialog {
     if (!settings.filters.empty())
       AddFilters(settings.filters);
 
-    // GtkFileChooserNative does not support preview widgets through the
-    // org.freedesktop.portal.FileChooser portal. In the case of running through
-    // the org.freedesktop.portal.FileChooser portal, anything having to do with
-    // the update-preview signal or the preview widget will just be ignored.
+    // GtkFileChooserNative不支持通过。
+    // Org.freedesktop.portal.FileChooser门户。在运行的情况下。
+    // Org.freedesktop.portal.FileChooser门户，任何与。
+    // 更新预览信号或预览窗口小部件将被忽略。
     if (!*supports_gtk_file_chooser_native) {
       preview_ = gtk_image_new();
       g_signal_connect(dialog_, "update-preview",
@@ -244,8 +244,8 @@ class FileChooserDialog {
       gtk_widget_show_all(GTK_WIDGET(dialog_));
 
 #if defined(USE_X11)
-      // We need to call gtk_window_present after making the widgets visible
-      // to make sure window gets correctly raised and gets focus.
+      // 在使小部件可见之后，我们需要调用gtk_Window_Present。
+      // 以确保窗口被正确抬高并获得焦点。
       x11::Time time = ui::X11EventSource::GetInstance()->GetTimestamp();
       gtk_window_present_with_time(GTK_WINDOW(dialog_),
                                    static_cast<uint32_t>(time));
@@ -309,7 +309,7 @@ class FileChooserDialog {
   std::unique_ptr<gin_helper::Promise<gin_helper::Dictionary>> save_promise_;
   std::unique_ptr<gin_helper::Promise<gin_helper::Dictionary>> open_promise_;
 
-  // Callback for when we update the preview for the selection.
+  // 当我们更新所选内容的预览时的回调。
   CHROMEG_CALLBACK_0(FileChooserDialog, void, OnUpdatePreview, GtkFileChooser*);
 
   DISALLOW_COPY_AND_ASSIGN(FileChooserDialog);
@@ -354,10 +354,10 @@ void FileChooserDialog::AddFilters(const Filters& filters) {
     GtkFileFilter* gtk_filter = gtk_file_filter_new();
 
     for (const auto& extension : filter.second) {
-      // guarantee a pure lowercase variant
+      // 保证纯小写变体。
       std::string file_extension = base::ToLowerASCII("*." + extension);
       gtk_file_filter_add_pattern(gtk_filter, file_extension.c_str());
-      // guarantee a pure uppercase variant
+      // 保证纯大写变体。
       file_extension = base::ToUpperASCII("*." + extension);
       gtk_file_filter_add_pattern(gtk_filter, file_extension.c_str());
     }
@@ -375,8 +375,8 @@ void FileChooserDialog::OnUpdatePreview(GtkFileChooser* chooser) {
     return;
   }
 
-  // Don't attempt to open anything which isn't a regular file. If a named
-  // pipe, this may hang. See https://crbug.com/534754.
+  // 不要试图打开任何非常规文件。如果命名为。
+  // 管子，这个可能会挂起来。请参阅https://crbug.com/534754.。
   struct stat stat_buf;
   if (stat(filename, &stat_buf) != 0 || !S_ISREG(stat_buf.st_mode)) {
     g_free(filename);
@@ -384,7 +384,7 @@ void FileChooserDialog::OnUpdatePreview(GtkFileChooser* chooser) {
     return;
   }
 
-  // This will preserve the image's aspect ratio.
+  // 这将保留图像的纵横比。
   GdkPixbuf* pixbuf = gdk_pixbuf_new_from_file_at_size(filename, kPreviewWidth,
                                                        kPreviewHeight, nullptr);
   g_free(filename);
@@ -395,7 +395,7 @@ void FileChooserDialog::OnUpdatePreview(GtkFileChooser* chooser) {
   gtk_file_chooser_set_preview_widget_active(chooser, pixbuf ? TRUE : FALSE);
 }
 
-}  // namespace
+}  // 命名空间。
 
 void ShowFileDialog(const FileChooserDialog& dialog) {
   if (*supports_gtk_file_chooser_native) {
@@ -465,4 +465,4 @@ void ShowSaveDialog(const DialogSettings& settings,
   save_dialog->RunSaveAsynchronous(std::move(promise));
 }
 
-}  // namespace file_dialog
+}  // 命名空间FILE_DIALOG

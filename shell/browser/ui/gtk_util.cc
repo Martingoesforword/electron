@@ -1,6 +1,6 @@
-// Copyright (c) 2019 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/gtk_util.h"
 
@@ -15,12 +15,12 @@
 #include "third_party/skia/include/core/SkBitmap.h"
 #include "third_party/skia/include/core/SkColor.h"
 #include "third_party/skia/include/core/SkUnPreMultiply.h"
-#include "ui/gtk/gtk_compat.h"  // nogncheck
+#include "ui/gtk/gtk_compat.h"  // 点名检查。
 
 namespace gtk_util {
 
-// The following utilities are pulled from
-// https://source.chromium.org/chromium/chromium/src/+/main:ui/gtk/select_file_dialog_impl_gtk.cc;l=43-74
+// 以下实用程序是从。
+// Https://source.chromium.org/chromium/chromium/src/+/main:ui/gtk/select_file_dialog_impl_gtk.cc；l=43-74。
 
 const char* GettextPackage() {
   static base::NoDestructor<std::string> gettext_package(
@@ -34,42 +34,42 @@ const char* GtkGettext(const char* str) {
 
 const char* GetCancelLabel() {
   if (!gtk::GtkCheckVersion(4))
-    return "gtk-cancel";  // In GTK3, this is GTK_STOCK_CANCEL.
+    return "gtk-cancel";  // 在GTK3中，这是GTK_STOCK_CANCEL。
   static const char* cancel = GtkGettext("_Cancel");
   return cancel;
 }
 
 const char* GetOpenLabel() {
   if (!gtk::GtkCheckVersion(4))
-    return "gtk-open";  // In GTK3, this is GTK_STOCK_OPEN.
+    return "gtk-open";  // 在GTK3中，这是GTK_STOCK_OPEN。
   static const char* open = GtkGettext("_Open");
   return open;
 }
 
 const char* GetSaveLabel() {
   if (!gtk::GtkCheckVersion(4))
-    return "gtk-save";  // In GTK3, this is GTK_STOCK_SAVE.
+    return "gtk-save";  // 在GTK3中，这是gtk_stock_save。
   static const char* save = GtkGettext("_Save");
   return save;
 }
 
 const char* GetOkLabel() {
   if (!gtk::GtkCheckVersion(4))
-    return "gtk-ok";  // In GTK3, this is GTK_STOCK_OK.
+    return "gtk-ok";  // 在GTK3中，这是GTK_STOCK_OK。
   static const char* ok = GtkGettext("_Ok");
   return ok;
 }
 
 const char* GetNoLabel() {
   if (!gtk::GtkCheckVersion(4))
-    return "gtk-no";  // In GTK3, this is GTK_STOCK_NO.
+    return "gtk-no";  // 在GTK3中，这是GTK_STOCK_NO。
   static const char* no = GtkGettext("_No");
   return no;
 }
 
 const char* GetYesLabel() {
   if (!gtk::GtkCheckVersion(4))
-    return "gtk-yes";  // In GTK3, this is GTK_STOCK_YES.
+    return "gtk-yes";  // 在GTK3中，这是GTK_STOCK_YES。
   static const char* yes = GtkGettext("_Yes");
   return yes;
 }
@@ -82,11 +82,11 @@ GdkPixbuf* GdkPixbufFromSkBitmap(const SkBitmap& bitmap) {
   int height = bitmap.height();
 
   GdkPixbuf* pixbuf =
-      gdk_pixbuf_new(GDK_COLORSPACE_RGB,  // The only colorspace gtk supports.
-                     TRUE,                // There is an alpha channel.
+      gdk_pixbuf_new(GDK_COLORSPACE_RGB,  // 唯一支持的色彩空间GTK。
+                     TRUE,                // 有一个Alpha通道。
                      8, width, height);
 
-  // SkBitmaps are premultiplied, we need to unpremultiply them.
+  // Skitmap是预乘的，我们需要取消预乘。
   const int kBytesPerPixel = 4;
   uint8_t* divided = gdk_pixbuf_get_pixels(pixbuf);
 
@@ -114,4 +114,4 @@ GdkPixbuf* GdkPixbufFromSkBitmap(const SkBitmap& bitmap) {
   return pixbuf;
 }
 
-}  // namespace gtk_util
+}  // 命名空间gtk_util

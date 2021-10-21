@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/electron_extension_system_factory.h"
 
@@ -19,7 +19,7 @@ ExtensionSystem* ElectronExtensionSystemFactory::GetForBrowserContext(
       GetInstance()->GetServiceForBrowserContext(context, true));
 }
 
-// static
+// 静电。
 ElectronExtensionSystemFactory* ElectronExtensionSystemFactory::GetInstance() {
   return base::Singleton<ElectronExtensionSystemFactory>::get();
 }
@@ -40,7 +40,7 @@ KeyedService* ElectronExtensionSystemFactory::BuildServiceInstanceFor(
 
 BrowserContext* ElectronExtensionSystemFactory::GetBrowserContextToUse(
     BrowserContext* context) const {
-  // Use a separate instance for incognito.
+  // 使用单独的实例隐姓埋名。
   return context;
 }
 
@@ -49,4 +49,4 @@ bool ElectronExtensionSystemFactory::ServiceIsCreatedWithBrowserContext()
   return true;
 }
 
-}  // namespace extensions
+}  // 命名空间扩展

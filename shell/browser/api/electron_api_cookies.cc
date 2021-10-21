@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_cookies.h"
 
@@ -89,7 +89,7 @@ struct Converter<net::CookieChangeCause> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -97,28 +97,28 @@ namespace api {
 
 namespace {
 
-// Returns whether |domain| matches |filter|.
+// 返回|domain|是否与|filter|匹配。
 bool MatchesDomain(std::string filter, const std::string& domain) {
-  // Add a leading '.' character to the filter domain if it doesn't exist.
+  // 添加前导‘.’字符添加到筛选器域(如果它不存在)。
   if (net::cookie_util::DomainIsHostOnly(filter))
     filter.insert(0, ".");
 
   std::string sub_domain(domain);
-  // Strip any leading '.' character from the input cookie domain.
+  // 去掉所有前导‘’输入Cookie域中的字符。
   if (!net::cookie_util::DomainIsHostOnly(sub_domain))
     sub_domain = sub_domain.substr(1);
 
-  // Now check whether the domain argument is a subdomain of the filter domain.
+  // 现在检查域参数是否为筛选器域的子域。
   for (sub_domain.insert(0, "."); sub_domain.length() >= filter.length();) {
     if (sub_domain == filter)
       return true;
-    const size_t next_dot = sub_domain.find('.', 1);  // Skip over leading dot.
+    const size_t next_dot = sub_domain.find('.', 1);  // 跳过前导圆点。
     sub_domain.erase(0, next_dot);
   }
   return false;
 }
 
-// Returns whether |cookie| matches |filter|.
+// 返回|Cookie|是否与|Filter|匹配。
 bool MatchesCookie(const base::Value& filter,
                    const net::CanonicalCookie& cookie) {
   const std::string* str;
@@ -138,7 +138,7 @@ bool MatchesCookie(const base::Value& filter,
   return true;
 }
 
-// Remove cookies from |list| not matching |filter|, and pass it to |callback|.
+// 从|List|不匹配|Filter|中删除Cookie，并将其传递给|Callback|。
 void FilterCookies(const base::Value& filter,
                    gin_helper::Promise<net::CookieList> promise,
                    const net::CookieList& cookies) {
@@ -159,11 +159,11 @@ void FilterCookieWithStatuses(
                 net::cookie_util::StripAccessResults(list));
 }
 
-// Parse dictionary property to CanonicalCookie time correctly.
+// 将字典属性正确解析为CanonicalCookie时间。
 base::Time ParseTimeProperty(const absl::optional<double>& value) {
-  if (!value)  // empty time means ignoring the parameter
+  if (!value)  // 空时间表示忽略参数。
     return base::Time();
-  if (*value == 0)  // FromDoubleT would convert 0 to empty Time
+  if (*value == 0)  // FromDoubleT会将0转换为空时间。
     return base::Time::UnixEpoch();
   return base::Time::FromDoubleT(*value);
 }
@@ -211,7 +211,7 @@ std::string StringToCookieSameSite(const std::string* str_ptr,
   return "";
 }
 
-}  // namespace
+}  // 命名空间。
 
 gin::WrapperInfo Cookies::kWrapperInfo = {gin::kEmbedderNativeGin};
 
@@ -376,7 +376,7 @@ void Cookies::OnCookieChanged(const net::CookieChangeInfo& change) {
                         change.cause != net::CookieChangeCause::INSERTED));
 }
 
-// static
+// 静电。
 gin::Handle<Cookies> Cookies::Create(v8::Isolate* isolate,
                                      ElectronBrowserContext* browser_context) {
   return gin::CreateHandle(isolate, new Cookies(isolate, browser_context));
@@ -396,6 +396,6 @@ const char* Cookies::GetTypeName() {
   return "Cookies";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

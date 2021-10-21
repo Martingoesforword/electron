@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_service_worker_context.h"
 
@@ -68,7 +68,7 @@ v8::Local<v8::Value> ServiceWorkerRunningInfoToDict(
       .Build();
 }
 
-}  // namespace
+}  // 命名空间。
 
 gin::WrapperInfo ServiceWorkerContext::kWrapperInfo = {gin::kEmbedderNativeGin};
 
@@ -141,7 +141,7 @@ v8::Local<v8::Value> ServiceWorkerContext::GetWorkerInfoFromID(
                                         std::move(iter->second));
 }
 
-// static
+// 静电。
 gin::Handle<ServiceWorkerContext> ServiceWorkerContext::Create(
     v8::Isolate* isolate,
     ElectronBrowserContext* browser_context) {
@@ -149,7 +149,7 @@ gin::Handle<ServiceWorkerContext> ServiceWorkerContext::Create(
                            new ServiceWorkerContext(isolate, browser_context));
 }
 
-// static
+// 静电。
 gin::ObjectTemplateBuilder ServiceWorkerContext::GetObjectTemplateBuilder(
     v8::Isolate* isolate) {
   return gin_helper::EventEmitterMixin<
@@ -164,6 +164,6 @@ const char* ServiceWorkerContext::GetTypeName() {
   return "ServiceWorkerContext";
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

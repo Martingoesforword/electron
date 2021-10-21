@@ -1,6 +1,6 @@
-// Copyright (c) 2018 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2018 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/gpuinfo_manager.h"
 
@@ -28,8 +28,8 @@ GPUInfoManager::~GPUInfoManager() {
   content::GpuDataManagerImpl::GetInstance()->RemoveObserver(this);
 }
 
-// Based on
-// https://chromium.googlesource.com/chromium/src.git/+/69.0.3497.106/content/browser/gpu/gpu_data_manager_impl_private.cc#838
+// 基于。
+// Https://chromium.googlesource.com/chromium/src.git/+/69.0.3497.106/content/browser/gpu/gpu_data_manager_impl_private.cc#838。
 bool GPUInfoManager::NeedsCompleteGpuInfoCollection() const {
 #if defined(OS_WIN)
   return gpu_data_manager_->DxdiagDx12VulkanRequested() &&
@@ -39,11 +39,11 @@ bool GPUInfoManager::NeedsCompleteGpuInfoCollection() const {
 #endif
 }
 
-// Should be posted to the task runner
+// 应该发布到任务运行者。
 void GPUInfoManager::ProcessCompleteInfo() {
   const auto result = EnumerateGPUInfo(gpu_data_manager_->GetGPUInfo());
-  // We have received the complete information, resolve all promises that
-  // were waiting for this info.
+  // 我们已经收到了完整的信息，解决了所有的承诺。
+  // 都在等这条消息。
   for (auto& promise : complete_info_promise_set_) {
     promise.Resolve(*result);
   }
@@ -51,7 +51,7 @@ void GPUInfoManager::ProcessCompleteInfo() {
 }
 
 void GPUInfoManager::OnGpuInfoUpdate() {
-  // Ignore if called when not asked for complete GPUInfo
+  // 如果未要求完整的GPUInfo时调用，则忽略。
   if (NeedsCompleteGpuInfoCollection())
     return;
   base::ThreadTaskRunnerHandle::Get()->PostTask(
@@ -59,14 +59,14 @@ void GPUInfoManager::OnGpuInfoUpdate() {
                                 base::Unretained(this)));
 }
 
-// Should be posted to the task runner
+// 应该发布到任务运行者。
 void GPUInfoManager::CompleteInfoFetcher(
     gin_helper::Promise<base::DictionaryValue> promise) {
   complete_info_promise_set_.emplace_back(std::move(promise));
 
   if (NeedsCompleteGpuInfoCollection()) {
     gpu_data_manager_->RequestDxdiagDx12VulkanVideoGpuInfoIfNeeded(
-        content::GpuDataManagerImpl::kGpuInfoRequestAll, /* delayed */ false);
+        content::GpuDataManagerImpl::kGpuInfoRequestAll, /* 延迟。*/ false);
   } else {
     GPUInfoManager::OnGpuInfoUpdate();
   }
@@ -79,8 +79,8 @@ void GPUInfoManager::FetchCompleteInfo(
                                 base::Unretained(this), std::move(promise)));
 }
 
-// This fetches the info synchronously, so no need to post to the task queue.
-// There cannot be multiple promises as they are resolved synchronously.
+// 这会同步获取信息，因此不需要发布到任务队列。
+// 不能有多个承诺，因为它们是同步解析的。
 void GPUInfoManager::FetchBasicInfo(
     gin_helper::Promise<base::DictionaryValue> promise) {
   gpu::GPUInfo gpu_info;
@@ -95,4 +95,4 @@ std::unique_ptr<base::DictionaryValue> GPUInfoManager::EnumerateGPUInfo(
   return enumerator.GetDictionary();
 }
 
-}  // namespace electron
+}  // 命名空间电子

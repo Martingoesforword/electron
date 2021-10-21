@@ -1,6 +1,6 @@
-// Copyright (c) 2014 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2014 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/renderer/api/electron_api_spell_check_client.h"
 
@@ -46,7 +46,7 @@ struct Word {
   std::vector<std::u16string> contraction_words;
 };
 
-}  // namespace
+}  // 命名空间。
 
 class SpellCheckClient::SpellcheckRequest {
  public:
@@ -63,9 +63,9 @@ class SpellCheckClient::SpellcheckRequest {
   std::vector<Word>& wordlist() { return word_list_; }
 
  private:
-  std::u16string text_;          // Text to be checked in this task.
-  std::vector<Word> word_list_;  // List of Words found in text
-  // The interface to send the misspelled ranges to WebKit.
+  std::u16string text_;          // 要在此任务中检查的文本。
+  std::vector<Word> word_list_;  // 在文本中找到的单词列表。
+  // 将拼写错误的范围发送到WebKit的接口。
   std::unique_ptr<blink::WebTextCheckingCompletion> completion_;
 };
 
@@ -79,7 +79,7 @@ SpellCheckClient::SpellCheckClient(const std::string& language,
 
   character_attributes_.SetDefaultLanguage(language);
 
-  // Persistent the method.
+  // 持久化该方法。
   v8::Local<v8::Function> spell_check;
   gin_helper::Dictionary(isolate, provider).Get("spellCheck", &spell_check);
   spell_check_.Reset(isolate, spell_check);
@@ -93,13 +93,13 @@ void SpellCheckClient::RequestCheckingOfText(
     const blink::WebString& textToCheck,
     std::unique_ptr<blink::WebTextCheckingCompletion> completionCallback) {
   std::u16string text(textToCheck.Utf16());
-  // Ignore invalid requests.
+  // 忽略无效请求。
   if (text.empty() || !HasWordCharacters(text, 0)) {
     completionCallback->DidCancelCheckingText();
     return;
   }
 
-  // Clean up the previous request before starting a new request.
+  // 在开始新请求之前清理上一个请求。
   if (pending_request_param_) {
     pending_request_param_->completion()->DidCancelCheckingText();
   }
@@ -135,14 +135,14 @@ void SpellCheckClient::SpellCheckText() {
 
   if (!text_iterator_.IsInitialized() &&
       !text_iterator_.Initialize(&character_attributes_, true)) {
-    // We failed to initialize text_iterator_, return as spelled correctly.
+    // 我们无法初始化text_iterator_，返回拼写正确。
     VLOG(1) << "Failed to initialize SpellcheckWordIterator";
     return;
   }
 
   if (!contraction_iterator_.IsInitialized() &&
       !contraction_iterator_.Initialize(&character_attributes_, false)) {
-    // We failed to initialize the word iterator, return as spelled correctly.
+    // 我们无法初始化单词迭代器，返回拼写正确。
     VLOG(1) << "Failed to initialize contraction_iterator_";
     return;
   }
@@ -156,7 +156,7 @@ void SpellCheckClient::SpellCheckText() {
   std::set<std::u16string> words;
   auto& word_list = pending_request_param_->wordlist();
   Word word_entry;
-  for (;;) {  // Run until end of text
+  for (;;) {  // 运行到文本末尾。
     const auto status =
         text_iterator_.GetNextWord(&word, &word_start, &word_length);
     if (status == SpellcheckWordIterator::IS_END_OF_TEXT)
@@ -171,8 +171,8 @@ void SpellCheckClient::SpellCheckText() {
 
     word_list.push_back(word_entry);
     words.insert(word);
-    // If the given word is a concatenated word of two or more valid words
-    // (e.g. "hello:hello"), we should treat it as a valid word.
+    // 如果给定词是两个或多个有效词的串联词。
+    // (例如，“hello：hello”)，我们应该将其视为有效单词。
     if (IsContraction(scope, word, &word_entry.contraction_words)) {
       for (const auto& w : word_entry.contraction_words) {
         words.insert(w);
@@ -180,7 +180,7 @@ void SpellCheckClient::SpellCheckText() {
     }
   }
 
-  // Send out all the words data to the spellchecker to check
+  // 将所有单词数据发送到拼写检查器进行检查。
   SpellCheckWords(scope, words);
 }
 
@@ -194,8 +194,8 @@ void SpellCheckClient::OnSpellCheckDone(
 
   for (const auto& word : word_list) {
     if (misspelled.find(word.text) != misspelled.end()) {
-      // If this is a contraction, iterate through parts and accept the word
-      // if none of them are misspelled
+      // 如果这是一个缩写，遍历各个部分并接受这个词。
+      // 如果它们都没有拼错。
       if (!word.contraction_words.empty()) {
         auto all_correct = true;
         for (const auto& contraction_word : word.contraction_words) {
@@ -228,16 +228,16 @@ void SpellCheckClient::SpellCheckWords(const SpellCheckScope& scope,
   auto context = isolate_->GetCurrentContext();
   v8::Local<v8::Value> args[] = {gin::ConvertToV8(isolate_, words),
                                  templ->GetFunction(context).ToLocalChecked()};
-  // Call javascript with the words and the callback function
+  // 使用单词和回调函数调用javascript。
   scope.spell_check_->Call(context, scope.provider_, 2, args).IsEmpty();
 }
 
-// Returns whether or not the given string is a contraction.
-// This function is a fall-back when the SpellcheckWordIterator class
-// returns a concatenated word which is not in the selected dictionary
-// (e.g. "in'n'out") but each word is valid.
-// Output variable contraction_words will contain individual
-// words in the contraction.
+// 返回给定字符串是否为缩写。
+// 此函数是SpellcheckWordIterator类。
+// 返回不在所选词典中的连接单词。
+// (例如“in‘n’out”)，但每个单词都是有效的。
+// 输出变量CONSIMIT_WORD将包含INSERNAL。
+// 缩写中的词语。
 bool SpellCheckClient::IsContraction(
     const SpellCheckScope& scope,
     const std::u16string& contraction,
@@ -273,6 +273,6 @@ SpellCheckClient::SpellCheckScope::SpellCheckScope(
 
 SpellCheckClient::SpellCheckScope::~SpellCheckScope() = default;
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

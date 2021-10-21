@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/linux/unity_service.h"
 
@@ -13,7 +13,7 @@
 #include "base/environment.h"
 #include "base/nix/xdg_util.h"
 
-// Unity data typedefs.
+// Unity数据类型定义。
 typedef struct _UnityInspector UnityInspector;
 typedef UnityInspector* (*unity_inspector_get_default_func)(void);
 typedef gboolean (*unity_inspector_get_unity_running_func)(
@@ -37,13 +37,13 @@ namespace {
 
 bool attempted_load = false;
 
-// Unity has a singleton object that we can ask whether the unity is running.
+// Unity有一个单例对象，我们可以询问Unity是否正在运行。
 UnityInspector* inspector = nullptr;
 
-// A link to the desktop entry in the panel.
+// 指向面板中的桌面条目的链接。
 UnityLauncherEntry* chrome_entry = nullptr;
 
-// Retrieved functions from libunity.
+// 已从库中检索函数。
 unity_inspector_get_unity_running_func get_unity_running = nullptr;
 unity_launcher_entry_set_count_func entry_set_count = nullptr;
 unity_launcher_entry_set_count_visible_func entry_set_count_visible = nullptr;
@@ -61,13 +61,13 @@ void EnsureLibUnityLoaded() {
   auto env = base::Environment::Create();
   base::nix::DesktopEnvironment desktop_env = GetDesktopEnvironment(env.get());
 
-  // The "icon-tasks" KDE task manager also honors Unity Launcher API.
+  // “图标-任务”KDE任务管理器也支持Unity Launcher API。
   if (desktop_env != base::nix::DESKTOP_ENVIRONMENT_UNITY &&
       desktop_env != base::nix::DESKTOP_ENVIRONMENT_KDE4 &&
       desktop_env != base::nix::DESKTOP_ENVIRONMENT_KDE5)
     return;
 
-  // Ubuntu still hasn't given us a nice libunity.so symlink.
+  // Ubuntu仍然没有给我们一个很好的库。所以symlink。
   void* unity_lib = dlopen("libunity.so.4", RTLD_LAZY);
   if (!unity_lib)
     unity_lib = dlopen("libunity.so.6", RTLD_LAZY);
@@ -111,7 +111,7 @@ void EnsureLibUnityLoaded() {
   }
 }
 
-}  // namespace
+}  // 命名空间。
 
 namespace unity {
 
@@ -140,4 +140,4 @@ void SetProgressFraction(float percentage) {
   }
 }
 
-}  // namespace unity
+}  // 命名空间统一性

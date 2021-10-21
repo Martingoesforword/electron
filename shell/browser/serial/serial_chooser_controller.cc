@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/serial/serial_chooser_controller.h"
 
@@ -54,7 +54,7 @@ struct Converter<device::mojom::SerialPortInfoPtr> {
   }
 };
 
-}  // namespace gin
+}  // 命名空间杜松子酒。
 
 namespace electron {
 
@@ -80,7 +80,7 @@ SerialChooserController::SerialChooserController(
 }
 
 SerialChooserController::~SerialChooserController() {
-  RunCallback(/*port=*/nullptr);
+  RunCallback(/* 端口=。*/nullptr);
   if (chooser_context_) {
     chooser_context_->RemovePortObserver(this);
   }
@@ -118,7 +118,7 @@ void SerialChooserController::OnPortRemoved(
 
 void SerialChooserController::OnDeviceChosen(const std::string& port_id) {
   if (port_id.empty()) {
-    RunCallback(/*port=*/nullptr);
+    RunCallback(/* 端口=。*/nullptr);
   } else {
     const auto it =
         std::find_if(ports_.begin(), ports_.end(), [&port_id](const auto& ptr) {
@@ -129,14 +129,14 @@ void SerialChooserController::OnDeviceChosen(const std::string& port_id) {
       chooser_context_->GrantPortPermission(origin_, *it->get(), rfh);
       RunCallback(it->Clone());
     } else {
-      RunCallback(/*port=*/nullptr);
+      RunCallback(/* 端口=。*/nullptr);
     }
   }
 }
 
 void SerialChooserController::OnGetDevices(
     std::vector<device::mojom::SerialPortInfoPtr> ports) {
-  // Sort ports by file paths.
+  // 按文件路径对端口进行排序。
   std::sort(ports.begin(), ports.end(),
             [](const auto& port1, const auto& port2) {
               return port1->path.BaseName() < port2->path.BaseName();
@@ -157,7 +157,7 @@ void SerialChooserController::OnGetDevices(
                           weak_factory_.GetWeakPtr())));
   }
   if (!prevent_default) {
-    RunCallback(/*port=*/nullptr);
+    RunCallback(/* 端口=。*/nullptr);
   }
 }
 
@@ -188,4 +188,4 @@ void SerialChooserController::RunCallback(
   }
 }
 
-}  // namespace electron
+}  // 命名空间电子

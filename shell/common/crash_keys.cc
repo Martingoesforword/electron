@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/crash_keys.h"
 
@@ -30,8 +30,8 @@ namespace crash_keys {
 namespace {
 
 #if defined(OS_LINUX)
-// Breakpad has a flawed system of calculating the number of chunks
-// we add 127 bytes to force an extra chunk
+// Breakpad有一个有缺陷的计算组块数量的系统。
+// 我们添加127个字节来强制额外的块。
 constexpr size_t kMaxCrashKeyValueSize = 20479;
 #else
 constexpr size_t kMaxCrashKeyValueSize = 20320;
@@ -52,7 +52,7 @@ std::deque<std::string>& GetExtraCrashKeyNames() {
   return *crash_key_names;
 }
 
-}  // namespace
+}  // 命名空间。
 
 constexpr uint32_t kMaxCrashKeyNameLength = 40;
 #if defined(OS_LINUX)
@@ -65,8 +65,8 @@ static_assert(kMaxCrashKeyNameLength <= crashpad::Annotation::kNameMaxLength,
 #endif
 
 void SetCrashKey(const std::string& key, const std::string& value) {
-  // Chrome DCHECK()s if we try to set an annotation with a name longer than
-  // the max.
+  // Chrome DCHECK()如果我们尝试设置名称长度超过以下值的批注，则执行Chrome DCHECK()。
+  // 最大限度的。
   if (key.size() >= kMaxCrashKeyNameLength) {
     node::Environment* env =
         node::Environment::GetCurrent(JavascriptEnvironment::GetIsolate());
@@ -121,7 +121,7 @@ bool IsRunningAsNode() {
   return false;
 #endif
 }
-}  // namespace
+}  // 命名空间。
 
 void SetCrashKeysFromCommandLine(const base::CommandLine& command_line) {
 #if defined(OS_LINUX)
@@ -136,8 +136,8 @@ void SetCrashKeysFromCommandLine(const base::CommandLine& command_line) {
   }
 #endif
 
-  // NB. this is redundant with the 'ptype' key that //components/crash
-  // reports; it's present for backwards compatibility.
+  // 注意：这与//Components/Crash的‘ptype’键是多余的。
+  // 报告；它的存在是为了向后兼容。
   static crash_reporter::CrashKeyString<16> process_type_key("process_type");
   if (IsRunningAsNode()) {
     process_type_key.Set("node");
@@ -153,8 +153,8 @@ void SetCrashKeysFromCommandLine(const base::CommandLine& command_line) {
 }
 
 void SetPlatformCrashKey() {
-  // TODO(nornagon): this is redundant with the 'plat' key that
-  // //components/crash already includes. Remove it.
+  // TODO(Nornagon)：使用‘Plat’键是多余的。
+  // //Components/Crash已经包含。把它拿开。
   static crash_reporter::CrashKeyString<8> platform_key("platform");
 #if defined(OS_WIN)
   platform_key.Set("win32");
@@ -167,6 +167,6 @@ void SetPlatformCrashKey() {
 #endif
 }
 
-}  // namespace crash_keys
+}  // 命名空间CRASH_KEYS。
 
-}  // namespace electron
+}  // 命名空间电子

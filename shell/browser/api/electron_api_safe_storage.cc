@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/electron_api_safe_storage.h"
 
@@ -73,8 +73,8 @@ std::string DecryptString(v8::Isolate* isolate, v8::Local<v8::Value> buffer) {
     return "";
   }
 
-  // ensures an error is thrown in Mac or Linux on
-  // decryption failure, rather than failing silently
+  // 确保在Mac或Linux上抛出错误。
+  // 解密失败，而不是静默失败。
   const char* data = node::Buffer::Data(buffer);
   auto size = node::Buffer::Length(buffer);
   std::string ciphertext(data, size);
@@ -102,9 +102,9 @@ std::string DecryptString(v8::Isolate* isolate, v8::Local<v8::Value> buffer) {
   return plaintext;
 }
 
-}  // namespace safestorage
+}  // 命名空间安全存储。
 
-}  // namespace electron
+}  // 命名空间电子
 
 void Initialize(v8::Local<v8::Object> exports,
                 v8::Local<v8::Value> unused,

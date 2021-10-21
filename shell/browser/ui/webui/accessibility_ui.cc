@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Microsoft, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Microsoft，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/webui/accessibility_ui.h"
 
@@ -21,7 +21,7 @@
 #include "chrome/common/chrome_features.h"
 #include "chrome/common/pref_names.h"
 #include "chrome/common/webui_url_constants.h"
-#include "chrome/grit/dev_ui_browser_resources.h"  // nogncheck
+#include "chrome/grit/dev_ui_browser_resources.h"  // 点名检查。
 #include "components/pref_registry/pref_registry_syncable.h"
 #include "components/prefs/pref_service.h"
 #include "content/public/browser/ax_event_notification_details.h"
@@ -64,7 +64,7 @@ static const char kTypeField[] = "type";
 static const char kUrlField[] = "url";
 static const char kTreeField[] = "tree";
 
-// Global flags
+// 全局标志。
 static const char kBrowser[] = "browser";
 static const char kCopyTree[] = "copyTree";
 static const char kHTML[] = "html";
@@ -78,7 +78,7 @@ static const char kShowOrRefreshTree[] = "showOrRefreshTree";
 static const char kText[] = "text";
 static const char kWeb[] = "web";
 
-// Possible global flag values
+// 可能的全局标志值。
 static const char kDisabled[] = "disabled";
 static const char kOff[] = "off";
 static const char kOn[] = "on";
@@ -145,9 +145,9 @@ bool ShouldHandleAccessibilityRequestCallback(const std::string& path) {
   return path == kTargetsDataFile;
 }
 
-// Add property filters to the property_filters vector for the given property
-// filter type. The attributes are passed in as a string with each attribute
-// separated by a space.
+// 将属性过滤器添加到给定属性的Property_Filters向量。
+// 过滤器类型。属性作为字符串传递给每个属性。
+// 由一个空格隔开。
 void AddPropertyFilters(std::vector<ui::AXPropertyFilter>* property_filters,
                         const std::string& attributes,
                         ui::AXPropertyFilter::Type type) {
@@ -228,33 +228,33 @@ void HandleAccessibilityRequestCallback(
   bool html = mode.has_mode(ui::AXMode::kHTML);
   bool pdf = mode.has_mode(ui::AXMode::kPDF);
 
-  // The "native" and "web" flags are disabled if
-  // --disable-renderer-accessibility is set.
+  // 如果出现以下情况，则禁用“NATIVE”和“Web”标志。
+  // --设置了DISABLE-RENDER-Accessibility。
   data.SetString(kNative,
                  is_native_enabled ? (native ? kOn : kOff) : kDisabled);
   data.SetString(kWeb, is_native_enabled ? (web ? kOn : kOff) : kDisabled);
 
-  // The "text", "screenreader" and "html" flags are only
-  // meaningful if "web" is enabled.
+  // “text”、“creenread”和“html”标志仅。
+  // 如果启用了“web”，则有意义。
   bool is_web_enabled = is_native_enabled && web;
   data.SetString(kText, is_web_enabled ? (text ? kOn : kOff) : kDisabled);
   data.SetString(kScreenReader,
                  is_web_enabled ? (screenreader ? kOn : kOff) : kDisabled);
   data.SetString(kHTML, is_web_enabled ? (html ? kOn : kOff) : kDisabled);
 
-  // TODO(codebytere): enable use of this flag.
-  //
-  // The "labelImages" flag works only if "web" is enabled, the current profile
-  // has the kAccessibilityImageLabelsEnabled preference set and the appropriate
-  // command line switch has been used. Since this is so closely tied into user
-  // prefs and causes bugs, we're disabling it for now.
+  // TODO(Codebytere)：启用此标志。
+  // 
+  // 仅当启用了“web”时，“labelImages”标志才有效，当前配置文件。
+  // 设置了kAccessibilityImageLabelsEnabled首选项和相应的。
+  // 已使用命令行开关。因为这与用户紧密相关。
+  // 偏好并导致错误，我们暂时将其禁用。
   bool are_accessibility_image_labels_enabled = is_web_enabled;
   data.SetString(kLabelImages, kDisabled);
 
-  // The "pdf" flag is independent of the others.
+  // “pdf”标志独立于其他标志。
   data.SetString(kPDF, pdf ? kOn : kOff);
 
-  // Always dump the Accessibility tree.
+  // 始终转储辅助功能树。
   data.SetString(kInternal, kOn);
 
   auto rvh_list = std::make_unique<base::ListValue>();
@@ -262,7 +262,7 @@ void HandleAccessibilityRequestCallback(
       content::RenderWidgetHost::GetRenderWidgetHosts());
 
   while (content::RenderWidgetHost* widget = widgets->GetNextHost()) {
-    // Ignore processes that don't have a connection, such as crashed tabs.
+    // 忽略没有连接的进程，例如崩溃的选项卡。
     if (!widget->GetProcess()->IsInitializedAndNotDead())
       continue;
     content::RenderViewHost* rvh = content::RenderViewHost::From(widget);
@@ -273,7 +273,7 @@ void HandleAccessibilityRequestCallback(
     content::WebContentsDelegate* delegate = web_contents->GetDelegate();
     if (!delegate)
       continue;
-    // Ignore views that are never user-visible, like background pages.
+    // 忽略用户从不可见的视图，如背景页。
     if (delegate->IsNeverComposited(web_contents))
       continue;
     content::BrowserContext* context = rvh->GetProcess()->GetBrowserContext();
@@ -304,15 +304,15 @@ void HandleAccessibilityRequestCallback(
   std::move(callback).Run(base::RefCountedString::TakeString(&json_string));
 }
 
-}  // namespace
+}  // 命名空间。
 
 ElectronAccessibilityUI::ElectronAccessibilityUI(content::WebUI* web_ui)
     : content::WebUIController(web_ui) {
-  // Set up the chrome://accessibility source.
+  // 设置Chrome：//可访问性源。
   content::WebUIDataSource* html_source =
       content::WebUIDataSource::Create(chrome::kChromeUIAccessibilityHost);
 
-  // Add required resources.
+  // 添加所需资源。
   html_source->UseStringsJs();
   html_source->AddResourcePath("accessibility.css", IDR_ACCESSIBILITY_CSS);
   html_source->AddResourcePath("accessibility.js", IDR_ACCESSIBILITY_JS);
@@ -380,7 +380,7 @@ void ElectronAccessibilityUIMessageHandler::RequestNativeUITree(
     }
   }
 
-  // No browser with the specified |id| was found.
+  // 找不到具有指定|id|的浏览器。
   auto result = std::make_unique<base::DictionaryValue>();
   result->SetInteger(kSessionIdField, window_id);
   result->SetString(kTypeField, kBrowser);

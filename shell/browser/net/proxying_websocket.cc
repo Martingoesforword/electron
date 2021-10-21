@@ -1,6 +1,6 @@
-// Copyright 2020 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2020年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "electron/shell/browser/net/proxying_websocket.h"
 
@@ -42,11 +42,11 @@ ProxyingWebSocket::ProxyingWebSocket(
           nullptr,
           MSG_ROUTING_NONE,
           request,
-          /*is_download=*/false,
-          /*is_async=*/true,
-          /*is_service_worker_script=*/false,
-          /*navigation_id=*/absl::nullopt,
-          /*ukm_source_id=*/ukm::kInvalidSourceIdObj)) {}
+          /* IS_DOWNLOAD=。*/false,
+          /* IS_ASYNC=。*/true,
+          /* IS_SERVICE_Worker_Script=。*/false,
+          /* 导航id=。*/absl::nullopt,
+          /* UKM_SOURCE_ID=。*/ukm::kInvalidSourceIdObj)) {}
 
 ProxyingWebSocket::~ProxyingWebSocket() {
   if (on_before_send_headers_callback_) {
@@ -60,9 +60,9 @@ ProxyingWebSocket::~ProxyingWebSocket() {
 }
 
 void ProxyingWebSocket::Start() {
-  // If the header client will be used, we start the request immediately, and
-  // OnBeforeSendHeaders and OnSendHeaders will be handled there. Otherwise,
-  // send these events before the request starts.
+  // 如果将使用头客户端，我们将立即启动请求，并且。
+  // OnBeforeSendHeaders和OnSendHeaders将在那里处理。否则，
+  // 在请求开始之前发送这些事件。
   base::RepeatingCallback<void(int)> continuation;
   if (has_extra_headers_) {
     continuation = base::BindRepeating(
@@ -138,8 +138,8 @@ void ProxyingWebSocket::OnConnectionEstablished(
 
   response_->remote_endpoint = handshake_response_->remote_endpoint;
 
-  // response_->headers will be set in OnBeforeSendHeaders if
-  // |receiver_as_header_client_| is set.
+  // 在以下情况下，将在OnBeforeSendHeaders中设置Response_-&gt;标头。
+  // |Receiver_AS_Header_Client_|已设置。
   if (receiver_as_header_client_.is_bound()) {
     ContinueToCompleted();
     return;
@@ -166,7 +166,7 @@ void ProxyingWebSocket::ContinueToCompleted() {
       std::move(handshake_response_), std::move(readable_),
       std::move(writable_));
 
-  // Deletes |this|.
+  // 删除|此|。
   delete this;
 }
 
@@ -343,9 +343,9 @@ void ProxyingWebSocket::ContinueToStartRequest(int error_code) {
       receiver_as_auth_handler_.BindNewPipeAndPassRemote(),
       std::move(trusted_header_client));
 
-  // Here we detect mojo connection errors on |receiver_as_handshake_client_|.
-  // See also CreateWebSocket in
-  // //network/services/public/mojom/network_context.mojom.
+  // 这里，我们在|Receiver_AS_HANDSHAK_CLIENT_|上检测到MOJO连接错误。
+  // 另请参阅中的CreateWebSocket。
+  // //network/services/public/mojom/network_context.mojom.。
   receiver_as_handshake_client_.set_disconnect_with_reason_handler(
       base::BindOnce(&ProxyingWebSocket::OnMojoConnectionErrorWithCustomReason,
                      base::Unretained(this)));
@@ -436,23 +436,23 @@ void ProxyingWebSocket::OnError(int error_code) {
     web_request_api_->OnErrorOccurred(&info_, request_, error_code);
   }
 
-  // Deletes |this|.
+  // 删除|此|。
   delete this;
 }
 
 void ProxyingWebSocket::OnMojoConnectionErrorWithCustomReason(
     uint32_t custom_reason,
     const std::string& description) {
-  // Here we want to notify the custom reason to the client, which is why
-  // we reset |forwarding_handshake_client_| manually.
+  // 在这里，我们要将自定义原因通知给客户端，这就是为什么。
+  // 我们手动重置|Forwarding_HANDSHAK_CLIENT_|。
   forwarding_handshake_client_.ResetWithReason(custom_reason, description);
   OnError(net::ERR_FAILED);
-  // Deletes |this|.
+  // 删除|此|。
 }
 
 void ProxyingWebSocket::OnMojoConnectionError() {
   OnError(net::ERR_FAILED);
-  // Deletes |this|.
+  // 删除|此|。
 }
 
-}  // namespace electron
+}  // 命名空间电子

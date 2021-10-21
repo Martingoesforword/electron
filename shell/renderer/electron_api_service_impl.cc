@@ -1,6 +1,6 @@
-// Copyright (c) 2019 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2019 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "electron/shell/renderer/electron_api_service_impl.h"
 
@@ -34,7 +34,7 @@ namespace {
 
 const char kIpcKey[] = "ipcNative";
 
-// Gets the private object under kIpcKey
+// 获取kIpcKey下的私有对象。
 v8::Local<v8::Object> GetIpcObject(v8::Local<v8::Context> context) {
   auto* isolate = context->GetIsolate();
   auto binding_key = gin::StringToV8(isolate, kIpcKey);
@@ -59,8 +59,8 @@ void InvokeIpcCallback(v8::Local<v8::Context> context,
   if (ipcNative.IsEmpty())
     return;
 
-  // Only set up the node::CallbackScope if there's a node environment.
-  // Sandboxed renderers don't have a node environment.
+  // 如果存在节点环境，则仅设置node：：CallbackScope。
+  // 沙盒渲染器没有节点环境。
   node::Environment* env = node::Environment::GetCurrent(context);
   std::unique_ptr<node::CallbackScope> callback_scope;
   if (env) {
@@ -73,7 +73,7 @@ void InvokeIpcCallback(v8::Local<v8::Context> context,
                           ->ToString(context)
                           .ToLocalChecked();
   auto callback_value = ipcNative->Get(context, callback_key).ToLocalChecked();
-  DCHECK(callback_value->IsFunction());  // set by init.ts
+  DCHECK(callback_value->IsFunction());  // 由init.ts设置。
   auto callback = callback_value.As<v8::Function>();
   ignore_result(callback->Call(context, ipcNative, args.size(), args.data()));
 }
@@ -99,7 +99,7 @@ void EmitIPCEvent(v8::Local<v8::Context> context,
   InvokeIpcCallback(context, "onMessage", argv);
 }
 
-}  // namespace
+}  // 命名空间。
 
 ElectronApiServiceImpl::~ElectronApiServiceImpl() = default;
 
@@ -221,4 +221,4 @@ void ElectronApiServiceImpl::TakeHeapSnapshot(
   std::move(callback).Run(success);
 }
 
-}  // namespace electron
+}  // 命名空间电子

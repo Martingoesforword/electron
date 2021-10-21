@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -42,14 +42,14 @@ static COLORREF GetAccentColor() {
                           reinterpret_cast<BYTE*>(&color),
                           &(size = sizeof(color))) == ERROR_SUCCESS &&
           type == REG_DWORD) {
-        // convert from RGBA
+        // 从RGBA转换。
         color = RGB(GetRValue(color), GetGValue(color), GetBValue(color));
         success = true;
       } else if (RegQueryValueEx(hkey, TEXT("ColorizationColor"), nullptr,
                                  &type, reinterpret_cast<BYTE*>(&color),
                                  &(size = sizeof(color))) == ERROR_SUCCESS &&
                  type == REG_DWORD) {
-        // convert from BGRA
+        // 从BGRA转换。
         color = RGB(GetBValue(color), GetGValue(color), GetRValue(color));
         success = true;
       }
@@ -64,11 +64,11 @@ static COLORREF GetAccentColor() {
   return GetSysColor(COLOR_ACTIVECAPTION);
 }
 
-// Stretches a bitmap to the specified size, preserves alpha channel
+// 将位图拉伸到指定大小，保留Alpha通道。
 static HBITMAP StretchBitmap(HBITMAP bitmap, unsigned width, unsigned height) {
-  // We use StretchBlt for the scaling, but that discards the alpha channel.
-  // So we first create a separate grayscale bitmap from the alpha channel,
-  // scale that separately, and copy it back to the scaled color bitmap.
+  // 我们使用StretchBlt进行缩放，但这会丢弃Alpha通道。
+  // 因此，我们首先从Alpha通道创建一个单独的灰度位图，
+  // 分别对其进行缩放，然后将其复制回缩放后的颜色位图。
 
   BITMAP bm;
   if (!GetObject(bitmap, sizeof(bm), &bm))
@@ -148,22 +148,22 @@ static HBITMAP StretchBitmap(HBITMAP bitmap, unsigned width, unsigned height) {
     if (color_bitmap && alpha_bitmap && hdc && hdc_src) {
       SetStretchBltMode(hdc, HALFTONE);
 
-      // resize color channels
+      // 调整颜色通道大小。
       SelectObject(hdc, color_bitmap);
       SelectObject(hdc_src, bitmap);
       StretchBlt(hdc, 0, 0, width, height, hdc_src, 0, 0, bm.bmWidth,
                  bm.bmHeight, SRCCOPY);
 
-      // resize alpha channel
+      // 调整Alpha通道大小。
       SelectObject(hdc, alpha_bitmap);
       SelectObject(hdc_src, alpha_src_bitmap);
       StretchBlt(hdc, 0, 0, width, height, hdc_src, 0, 0, bm.bmWidth,
                  bm.bmHeight, SRCCOPY);
 
-      // flush before touching the bits
+      // 在接触比特之前先冲一冲。
       GdiFlush();
 
-      // apply the alpha channel
+      // 应用Alpha通道。
       auto* dest = reinterpret_cast<BYTE*>(color_bits);
       auto* src = reinterpret_cast<const BYTE*>(alpha_bits);
       auto* end = src + (width * height * 4);
@@ -173,7 +173,7 @@ static HBITMAP StretchBitmap(HBITMAP bitmap, unsigned width, unsigned height) {
         src += 4;
       }
 
-      // create the resulting bitmap
+      // 创建生成的位图。
       result_bitmap =
           CreateDIBitmap(hdc_screen, &bmi, CBM_INIT, color_bits,
                          reinterpret_cast<BITMAPINFO*>(&bmi), DIB_RGB_COLORS);
@@ -213,9 +213,9 @@ DesktopNotificationController::Toast::~Toast() {
     auto* UiaDisconnectProvider =
         reinterpret_cast<decltype(&::UiaDisconnectProvider)>(GetProcAddress(
             GetModuleHandle(L"uiautomationcore.dll"), "UiaDisconnectProvider"));
-    // first detach from the toast, then call UiaDisconnectProvider;
-    // UiaDisconnectProvider may call WM_GETOBJECT and we don't want
-    // it to return the object that we're disconnecting
+    // 首先从吐司分离，然后调用UiaDisconnectProvider；
+    // UiaDisconnectProvider可能会调用WM_GETOBJECT，我们不希望。
+    // 它返回我们正在断开连接的对象。
     uia_->DetachToast();
 
     if (UiaDisconnectProvider)
@@ -263,7 +263,7 @@ LRESULT DesktopNotificationController::Toast::WndProc(HWND hwnd,
 
     case WM_DESTROY:
       if (Get(hwnd)->uia_) {
-        // free UI Automation resources associated with this window
+        // 与此窗口关联的免费UI自动化资源。
         UiaReturnRawElementProvider(hwnd, 0, 0, nullptr);
       }
       break;
@@ -325,7 +325,7 @@ LRESULT DesktopNotificationController::Toast::WndProc(HWND hwnd,
       if (!inst->ease_out_active_ && inst->ease_in_pos_ == 1.0f)
         inst->ScheduleDismissal();
 
-      // Make sure stack collapse happens if needed
+      // 确保在需要时发生堆栈折叠。
       inst->data_->controller->StartAnimation();
     }
       return 0;
@@ -345,7 +345,7 @@ LRESULT DesktopNotificationController::Toast::WndProc(HWND hwnd,
           inst->uia_ = new UIAutomationInterface(inst);
           inst->uia_->AddRef();
         }
-        // don't return the interface if it's being disconnected
+        // 如果已断开连接，请不要返回接口。
         if (!inst->uia_->IsDetached()) {
           return UiaReturnRawElementProvider(hwnd, wparam, lparam, inst->uia_);
         }
@@ -369,8 +369,8 @@ void DesktopNotificationController::Toast::Draw() {
 
   COLORREF back_color;
   {
-    // base background color is 2/3 of accent
-    // highlighted adds a bit of intensity to every channel
+    // 基本背景色是重音的2/3。
+    // 高亮显示为每个通道增加了一点强度。
 
     int h = is_highlighted_ ? (0xff / 20) : 0;
 
@@ -393,15 +393,15 @@ void DesktopNotificationController::Toast::Draw() {
 
   COLORREF fore_color, dimmed_color;
   {
-    // based on the lightness of background, we draw foreground in light
-    // or dark shades of gray blended onto the background with slight
-    // transparency to avoid sharp contrast
+    // 根据背景的亮度，在光线中绘制前景。
+    // 或将深灰色混合到背景上，并带有轻微的。
+    // 透明，以避免鲜明的对比度。
 
     constexpr float alpha = 0.9f;
     constexpr float intensity_light[] = {(1.0f * alpha), (0.8f * alpha)};
     constexpr float intensity_dark[] = {(0.1f * alpha), (0.3f * alpha)};
 
-    // select foreground intensity values (light or dark)
+    // 选择前景强度值(亮或暗)。
     auto& i = (back_luma < 0.6f) ? intensity_light : intensity_dark;
 
     float r, g, b;
@@ -417,7 +417,7 @@ void DesktopNotificationController::Toast::Draw() {
     dimmed_color = RGB(r * 0xff, g * 0xff, b * 0xff);
   }
 
-  // Draw background
+  // 绘制背景。
   {
     auto* brush = CreateSolidBrush(back_color);
 
@@ -446,7 +446,7 @@ void DesktopNotificationController::Toast::Draw() {
     text_offset_x += margin_.cx + image_info.bmWidth;
   }
 
-  // calculate close button rect
+  // 计算关闭按钮矩形。
   POINT close_pos;
   {
     SIZE extent = {};
@@ -462,7 +462,7 @@ void DesktopNotificationController::Toast::Draw() {
     close_button_rect_.bottom = close_pos.y + extent.cy + margin_.cy;
   }
 
-  // image
+  // 图像。
   if (scaled_image_) {
     HDC hdc_image = CreateCompatibleDC(NULL);
     SelectBitmap(hdc_image, scaled_image_);
@@ -473,7 +473,7 @@ void DesktopNotificationController::Toast::Draw() {
     DeleteDC(hdc_image);
   }
 
-  // caption
+  // 说明。
   {
     RECT rc = {text_offset_x, margin_.cy, close_button_rect_.left,
                toast_size_.cy};
@@ -485,7 +485,7 @@ void DesktopNotificationController::Toast::Draw() {
              DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
   }
 
-  // body text
+  // 正文文本。
   if (!data_->body_text.empty()) {
     RECT rc = {text_offset_x, 2 * margin_.cy + tm_cap.tmAscent,
                toast_size_.cx - margin_.cx, toast_size_.cy - margin_.cy};
@@ -498,7 +498,7 @@ void DesktopNotificationController::Toast::Draw() {
                  DT_EDITCONTROL);
   }
 
-  // close button
+  // 关闭按钮。
   {
     SelectFont(hdc_, caption_font);
     SetTextColor(hdc_, is_close_hot_ ? fore_color : dimmed_color);
@@ -547,7 +547,7 @@ void DesktopNotificationController::Toast::UpdateBufferSize() {
       if (data_->image) {
         BITMAP bm;
         if (GetObject(data_->image, sizeof(bm), &bm)) {
-          // cap the image size
+          // 限制图像大小。
           const int max_dim_size = 80;
 
           auto width = bm.bmWidth;
@@ -604,9 +604,9 @@ void DesktopNotificationController::Toast::UpdateBufferSize() {
 
           Invalidate();
 
-          // Resize also the DWM buffer to prevent flicker during
-          // window resizing. Make sure any existing data is not
-          // overwritten by marking the dirty region.
+          // 还要调整DWM缓冲区的大小，以防止。
+          // 调整窗口大小。确保任何现有数据都不是。
+          // 通过标记脏区域进行覆盖。
           {
             POINT origin = {0, 0};
 
@@ -661,9 +661,9 @@ void DesktopNotificationController::Toast::UpdateContents() {
 
 void DesktopNotificationController::Toast::Dismiss() {
   if (!is_non_interactive_) {
-    // Set a flag to prevent further interaction. We don't disable the HWND
-    // because we still want to receive mouse move messages in order to keep
-    // the toast under the cursor and not collapse it while dismissing.
+    // 设置标志以防止进一步交互。我们不会让HWND失效。
+    // 因为我们仍然希望接收鼠标移动消息以保持。
+    // 光标下的吐司，并且在关闭时不折叠它。
     is_non_interactive_ = true;
 
     AutoDismiss();
@@ -704,15 +704,15 @@ void DesktopNotificationController::Toast::PopUp(int y) {
 }
 
 void DesktopNotificationController::Toast::SetVerticalPosition(int y) {
-  // Don't restart animation if current target is the same
+  // 如果当前目标相同，则不重新启动动画。
   if (y == vertical_pos_target_)
     return;
 
-  // Make sure the new animation's origin is at the current position
+  // 确保新动画的原点位于当前位置。
   vertical_pos_ += static_cast<int>((vertical_pos_target_ - vertical_pos_) *
                                     stack_collapse_pos_);
 
-  // Set new target position and start the animation
+  // 设置新的目标位置并开始动画。
   vertical_pos_target_ = y;
   stack_collapse_start_ = GetTickCount();
   data_->controller->StartAnimation();
@@ -791,10 +791,10 @@ HDWP DesktopNotificationController::Toast::Animate(HDWP hdwp,
     vertical_pos_ = vertical_pos_target_;
   }
 
-  // `UpdateLayeredWindowIndirect` updates position, size, and transparency.
-  // `DeferWindowPos` updates z-order, and also position and size in case
-  // ULWI fails, which can happen when one of the dimensions is zero (e.g.
-  // at the beginning of ease-in).
+  // `UpdateLayeredWindowIndirect`更新位置、大小和透明度。
+  // `DeferWindowPos`更新z顺序，并在大小写时更新位置和大小。
+  // ULWI失败，当其中一个维度为零(例如。
+  // 在放松开始时)。
 
   UpdateLayeredWindowIndirect(hwnd_, &ulw);
   hdwp = DeferWindowPos(hdwp, hwnd_, HWND_TOPMOST, pt.x, pt.y, size.cx, size.cy,
@@ -828,7 +828,7 @@ float DesktopNotificationController::Toast::AnimateEaseIn() {
   auto elapsed = GetTickCount() - ease_in_start_;
   float time = std::min(duration, elapsed) / static_cast<float>(duration);
 
-  // decelerating exponential ease
+  // 减速指数松弛。
   const float a = -8.0f;
   auto pos = (std::exp(a * time) - 1.0f) / (std::exp(a) - 1.0f);
 
@@ -843,7 +843,7 @@ float DesktopNotificationController::Toast::AnimateEaseOut() {
   auto elapsed = GetTickCount() - ease_out_start_;
   float time = std::min(duration, elapsed) / static_cast<float>(duration);
 
-  // accelerating circle ease
+  // 加速圆周减速。
   auto pos = 1.0f - std::sqrt(1 - time * time);
 
   return pos;
@@ -857,11 +857,11 @@ float DesktopNotificationController::Toast::AnimateStackCollapse() {
   auto elapsed = GetTickCount() - stack_collapse_start_;
   float time = std::min(duration, elapsed) / static_cast<float>(duration);
 
-  // decelerating exponential ease
+  // 减速指数松弛。
   const float a = -8.0f;
   auto pos = (std::exp(a * time) - 1.0f) / (std::exp(a) - 1.0f);
 
   return pos;
 }
 
-}  // namespace electron
+}  // 命名空间电子

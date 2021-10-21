@@ -1,6 +1,6 @@
-// Copyright (c) 2021 Slack Technologies, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2021 Slake Technologies，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/net/asar/asar_file_validator.h"
 
@@ -32,7 +32,7 @@ void AsarFileValidator::OnRead(base::span<char> buffer,
 
   uint64_t buffer_size = result->bytes_read;
 
-  // Compute how many bytes we should hash, and add them to the current hash.
+  // 计算我们应该散列的字节数，并将它们添加到当前散列中。
   uint32_t block_size = integrity_.block_size;
   uint64_t bytes_added = 0;
   while (bytes_added < buffer_size) {
@@ -42,7 +42,7 @@ void AsarFileValidator::OnRead(base::span<char> buffer,
       return;
     }
 
-    // Create a hash if we don't have one yet
+    // 如果我们还没有散列，请创建一个散列。
     if (!current_hash_) {
       current_hash_byte_count_ = 0;
       switch (integrity_.algorithm) {
@@ -56,9 +56,9 @@ void AsarFileValidator::OnRead(base::span<char> buffer,
       }
     }
 
-    // Compute how many bytes we should hash, and add them to the current hash.
-    // We need to either add just enough bytes to fill up a block (block_size -
-    // current_bytes) or use every remaining byte (buffer_size - bytes_added)
+    // 计算我们应该散列的字节数，并将它们添加到当前散列中。
+    // 我们需要添加刚好足以填满一个块的字节(block_size-。
+    // CURRENT_BYTES)或使用剩余的每个字节(Buffer_Size-Bytes_Added)。
     int bytes_to_hash = std::min(block_size - current_hash_byte_count_,
                                  buffer_size - bytes_added);
     DCHECK_GT(bytes_to_hash, 0);
@@ -83,19 +83,19 @@ bool AsarFileValidator::FinishBlock() {
   }
 
   if (!current_hash_) {
-    // This happens when we fail to read the resource. Compute empty content's
-    // hash in this case.
+    // 当我们无法读取资源时，就会发生这种情况。计算空内容%s。
+    // 在本例中为散列。
     current_hash_ = crypto::SecureHash::Create(crypto::SecureHash::SHA256);
   }
 
   uint8_t actual[crypto::kSHA256Length];
 
-  // If the file reader is done we need to make sure we've either read up to the
-  // end of the file (the check below) or up to the end of a block_size byte
-  // boundary. If the below check fails we compute the next block boundary, how
-  // many bytes are needed to get there and then we manually read those bytes
-  // from our own file handle ensuring the data producer is unaware but we can
-  // validate the hash still.
+  // 如果文件读取器已完成，我们需要确保已读取到。
+  // 文件末尾(下面的检查)或最多到BLOCK_SIZE字节的末尾。
+  // 边界。如果下面的检查失败，我们如何计算下一个块边界。
+  // 需要很多字节才能到达那里，然后我们手动读取这些字节。
+  // 从我们自己的文件句柄确保数据生产者不知道，但我们可以。
+  // 仍然验证散列。
   if (done_reading_ &&
       total_hash_byte_count_ - extra_read_ != read_max_ - read_start_) {
     uint64_t bytes_needed = std::min(
@@ -149,4 +149,4 @@ void AsarFileValidator::SetCurrentBlock(int current_block) {
   current_block_ = current_block;
 }
 
-}  // namespace asar
+}  // 命名空间asar

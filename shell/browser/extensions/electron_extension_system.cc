@@ -1,6 +1,6 @@
-// Copyright 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2014年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/electron_extension_system.h"
 
@@ -40,7 +40,7 @@
 #include "ui/base/resource/resource_bundle.h"
 
 #if BUILDFLAG(ENABLE_PDF_VIEWER)
-#include "chrome/browser/pdf/pdf_extension_util.h"  // nogncheck
+#include "chrome/browser/pdf/pdf_extension_util.h"  // 点名检查。
 #endif
 
 using content::BrowserContext;
@@ -58,7 +58,7 @@ std::string GetCryptoTokenManifest() {
   return manifest_contents;
 }
 
-}  // namespace
+}  // 命名空间。
 
 ElectronExtensionSystem::ElectronExtensionSystem(
     BrowserContext* browser_context)
@@ -76,7 +76,7 @@ void ElectronExtensionSystem::LoadExtension(
 }
 
 void ElectronExtensionSystem::FinishInitialization() {
-  // Inform the rest of the extensions system to start.
+  // 通知分机系统的其余部分启动。
   ready_.Signal();
 }
 
@@ -265,4 +265,4 @@ void ElectronExtensionSystem::OnExtensionRegisteredWithRequestContexts(
   registry->TriggerOnReady(extension.get());
 }
 
-}  // namespace extensions
+}  // 命名空间扩展

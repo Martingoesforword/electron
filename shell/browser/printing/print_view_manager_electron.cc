@@ -1,6 +1,6 @@
-// Copyright 2020 Microsoft, Inc. All rights reserved.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有2020 Microsoft，Inc.保留所有权利。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/printing/print_view_manager_electron.h"
 
@@ -16,7 +16,7 @@ PrintViewManagerElectron::PrintViewManagerElectron(
 
 PrintViewManagerElectron::~PrintViewManagerElectron() = default;
 
-// static
+// 静电。
 void PrintViewManagerElectron::BindPrintManagerHost(
     mojo::PendingAssociatedReceiver<printing::mojom::PrintManagerHost> receiver,
     content::RenderFrameHost* rfh) {
@@ -47,4 +47,4 @@ void PrintViewManagerElectron::CheckForCancel(int32_t preview_ui_id,
 
 WEB_CONTENTS_USER_DATA_KEY_IMPL(PrintViewManagerElectron)
 
-}  // namespace electron
+}  // 命名空间电子

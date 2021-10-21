@@ -1,6 +1,6 @@
-// Copyright (c) 2013 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2013 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/v8_value_converter.h"
 
@@ -22,12 +22,12 @@ namespace {
 
 const int kMaxRecursionDepth = 100;
 
-}  // namespace
+}  // 命名空间。
 
-// The state of a call to FromV8Value.
+// 调用FromV8Value的状态。
 class V8ValueConverter::FromV8ValueState {
  public:
-  // Level scope which updates the current depth of some FromV8ValueState.
+  // Level作用域，更新某些FromV8ValueState的当前深度。
   class Level {
    public:
     explicit Level(FromV8ValueState* state) : state_(state) {
@@ -41,13 +41,13 @@ class V8ValueConverter::FromV8ValueState {
 
   FromV8ValueState() : max_recursion_depth_(kMaxRecursionDepth) {}
 
-  // If |handle| is not in |unique_map_|, then add it to |unique_map_| and
-  // return true.
-  //
-  // Otherwise do nothing and return false. Here "A is unique" means that no
-  // other handle B in the map points to the same object as A. Note that A can
-  // be unique even if there already is another handle with the same identity
-  // hash (key) in the map, because two objects can have the same hash.
+  // 如果|HANDLE|不在|UNIQUE_MAP_|中，则将其添加到|UNIQUE_MAP_|并。
+  // 返回true。
+  // 
+  // 否则，什么都不做并返回false。这里的“A是独一无二的”意味着没有。
+  // 地图中的另一个句柄B指向与A相同的对象。请注意，A可以。
+  // 保持唯一，即使已经存在具有相同标识的另一个句柄。
+  // 映射中的散列(键)，因为两个对象可以具有相同的散列。
   bool AddToUniquenessCheck(v8::Local<v8::Object> handle) {
     int hash;
     auto iter = GetIteratorInMap(handle, &hash);
@@ -75,16 +75,16 @@ class V8ValueConverter::FromV8ValueState {
 
   Iterator GetIteratorInMap(v8::Local<v8::Object> handle, int* hash) {
     *hash = handle->GetIdentityHash();
-    // We only compare using == with handles to objects with the same identity
-    // hash. Different hash obviously means different objects, but two objects
-    // in a couple of thousands could have the same identity hash.
+    // 我们只对具有相同标识的对象使用==WITH句柄进行比较。
+    // 哈希。不同的散列显然意味着不同的对象，但有两个对象。
+    // 几千人中可能有相同的身份散列。
     std::pair<Iterator, Iterator> range = unique_map_.equal_range(*hash);
     for (auto it = range.first; it != range.second; ++it) {
-      // Operator == for handles actually compares the underlying objects.
+      // 操作符==for句柄实际上比较了底层对象。
       if (it->second == handle)
         return it;
     }
-    // Not found.
+    // 找不到。
     return unique_map_.end();
   }
 
@@ -93,11 +93,11 @@ class V8ValueConverter::FromV8ValueState {
   int max_recursion_depth_;
 };
 
-// A class to ensure that objects/arrays that are being converted by
-// this V8ValueConverterImpl do not have cycles.
-//
-// An example of cycle: var v = {}; v = {key: v};
-// Not an example of cycle: var v = {}; a = [v, v]; or w = {a: v, b: v};
+// 一个类，用于确保正在转换的对象/数组。
+// 此V8ValueConverterImpl没有周期。
+// 
+// 循环示例：var v={}；v={key：v}；
+// 不是循环的例子：var v={}；a=[v，v]；或w={a：v，b：v}；
 class V8ValueConverter::ScopedUniquenessGuard {
  public:
   ScopedUniquenessGuard(V8ValueConverter::FromV8ValueState* state,
@@ -260,14 +260,14 @@ v8::Local<v8::Value> V8ValueConverter::ToArrayBuffer(
   std::shared_ptr<v8::BackingStore> backing_store =
       array_buffer->GetBackingStore();
   memcpy(backing_store->Data(), data, length);
-  // From this point, if something goes wrong(can't find Buffer class for
-  // example) we'll simply return a Uint8Array based on the created ArrayBuffer.
-  // This can happen if no preload script was specified to the renderer.
+  // 从这一点来看，如果出现问题(找不到的缓冲区类。
+  // 示例)我们将根据创建的ArrayBuffer返回一个Uint8Array。
+  // 如果未为渲染器指定预加载脚本，则可能会发生这种情况。
   gin_helper::Dictionary global(isolate, context->Global());
   v8::Local<v8::Value> buffer_value;
 
-  // Get the Buffer class stored as a hidden value in the global object. We'll
-  // use it return a browserified Buffer.
+  // 获取在全局对象中存储为隐藏值的缓冲区类。我们会。
+  // 使用它返回一个浏览化的缓冲区。
   if (!global.GetHidden("Buffer", &buffer_value) ||
       !buffer_value->IsFunction()) {
     return v8::Uint8Array::New(array_buffer, 0, length);
@@ -326,7 +326,7 @@ std::unique_ptr<base::Value> V8ValueConverter::FromV8ValueImpl(
   }
 
   if (val->IsUndefined())
-    // JSON.stringify ignores undefined.
+    // JSON.stringify忽略未定义的。
     return nullptr;
 
   if (val->IsDate()) {
@@ -348,18 +348,18 @@ std::unique_ptr<base::Value> V8ValueConverter::FromV8ValueImpl(
 
   if (val->IsRegExp()) {
     if (!reg_exp_allowed_)
-      // JSON.stringify converts to an object.
+      // JSON.stringify转换为对象。
       return FromV8Object(val.As<v8::Object>(), state, isolate);
     return std::make_unique<base::Value>(*v8::String::Utf8Value(isolate, val));
   }
 
-  // v8::Value doesn't have a ToArray() method for some reason.
+  // 由于某些原因，V8：：Value没有ToArray()方法。
   if (val->IsArray())
     return FromV8Array(val.As<v8::Array>(), state, isolate);
 
   if (val->IsFunction()) {
     if (!function_allowed_)
-      // JSON.stringify refuses to convert function(){}.
+      // JSON.stringify拒绝转换function(){}。
       return nullptr;
     return FromV8Object(val.As<v8::Object>(), state, isolate);
   }
@@ -385,15 +385,15 @@ std::unique_ptr<base::Value> V8ValueConverter::FromV8Array(
     return std::make_unique<base::Value>();
 
   std::unique_ptr<v8::Context::Scope> scope;
-  // If val was created in a different context than our current one, change to
-  // that context, but change back after val is converted.
+  // 如果val是在与当前上下文不同的上下文中创建的，请更改为。
+  // 该上下文，但在Val转换后更改回来。
   if (!val->CreationContext().IsEmpty() &&
       val->CreationContext() != isolate->GetCurrentContext())
     scope = std::make_unique<v8::Context::Scope>(val->CreationContext());
 
   auto result = std::make_unique<base::ListValue>();
 
-  // Only fields with integer keys are carried over to the ListValue.
+  // 只有具有整数键的字段才会传递到ListValue。
   for (uint32_t i = 0; i < val->Length(); ++i) {
     v8::TryCatch try_catch(isolate);
     v8::Local<v8::Value> child_v8;
@@ -415,8 +415,8 @@ std::unique_ptr<base::Value> V8ValueConverter::FromV8Array(
     if (child)
       result->Append(std::move(child));
     else
-      // JSON.stringify puts null in places where values don't serialize, for
-      // example undefined and functions. Emulate that behavior.
+      // Stringify将NULL放在值不序列化的位置，FOR。
+      // 示例未定义的AND函数。效仿这一行为。
       result->Append(std::make_unique<base::Value>());
   }
   return std::move(result);
@@ -441,8 +441,8 @@ std::unique_ptr<base::Value> V8ValueConverter::FromV8Object(
     return std::make_unique<base::Value>();
 
   std::unique_ptr<v8::Context::Scope> scope;
-  // If val was created in a different context than our current one, change to
-  // that context, but change back after val is converted.
+  // 如果val是在与当前上下文不同的上下文中创建的，请更改为。
+  // 该上下文，但在Val转换后更改回来。
   if (!val->CreationContext().IsEmpty() &&
       val->CreationContext() != isolate->GetCurrentContext())
     scope = std::make_unique<v8::Context::Scope>(val->CreationContext());
@@ -458,7 +458,7 @@ std::unique_ptr<base::Value> V8ValueConverter::FromV8Object(
     v8::Local<v8::Value> key =
         property_names->Get(isolate->GetCurrentContext(), i).ToLocalChecked();
 
-    // Extend this test to cover more types as necessary and if sensible.
+    // 根据需要和明智，扩展此测试以涵盖更多类型。
     if (!key->IsString() && !key->IsNumber()) {
       NOTREACHED() << "Key \"" << *v8::String::Utf8Value(isolate, key)
                    << "\" "
@@ -481,30 +481,30 @@ std::unique_ptr<base::Value> V8ValueConverter::FromV8Object(
     std::unique_ptr<base::Value> child =
         FromV8ValueImpl(state, child_v8, isolate);
     if (!child)
-      // JSON.stringify skips properties whose values don't serialize, for
-      // example undefined and functions. Emulate that behavior.
+      // JSON.stringify跳过值未序列化的属性，对于。
+      // 示例未定义的AND函数。效仿这一行为。
       continue;
 
-    // Strip null if asked (and since undefined is turned into null, undefined
-    // too). The use case for supporting this is JSON-schema support,
-    // specifically for extensions, where "optional" JSON properties may be
-    // represented as null, yet due to buggy legacy code elsewhere isn't
-    // treated as such (potentially causing crashes). For example, the
-    // "tabs.create" function takes an object as its first argument with an
-    // optional "windowId" property.
-    //
-    // Given just
-    //
-    //   tabs.create({})
-    //
-    // this will work as expected on code that only checks for the existence of
-    // a "windowId" property (such as that legacy code). However given
-    //
-    //   tabs.create({windowId: null})
-    //
-    // there *is* a "windowId" property, but since it should be an int, code
-    // on the browser which doesn't additionally check for null will fail.
-    // We can avoid all bugs related to this by stripping null.
+    // 如果询问，则删除NULL(由于UNDEFINED将变为NULL，因此未定义。
+    // 也是如此)。支持这一点的用例是JSON模式支持，
+    // 特别适用于扩展，其中“可选的”JSON属性可能是。
+    // 表示为空，但由于其他地方的遗留错误代码不是。
+    // 被这样对待(可能会导致撞车)。例如，
+    // “tab.create”函数将一个对象作为其第一个参数，并使用。
+    // 可选的“windowId”属性。
+    // 
+    // 刚刚给的。
+    // 
+    // Tab.create({})。
+    // 
+    // 这将在只检查是否存在的代码上按预期工作。
+    // “windowId”属性(例如该遗留代码)。无论如何，给定的。
+    // 
+    // Tab.create({windowId：null})。
+    // 
+    // 有*个“windowId”属性，但因为它应该是int，所以代码。
+    // 在没有额外检查NULL的浏览器上，它将失败。
+    // 我们可以通过去掉NULL来避免与此相关的所有错误。
     if (strip_null_from_objects_ && child->is_none())
       continue;
 
@@ -515,4 +515,4 @@ std::unique_ptr<base::Value> V8ValueConverter::FromV8Object(
   return std::move(result);
 }
 
-}  // namespace electron
+}  // 命名空间电子

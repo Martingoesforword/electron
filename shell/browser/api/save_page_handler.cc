@@ -1,6 +1,6 @@
-// Copyright (c) 2015 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2015 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/api/save_page_handler.h"
 
@@ -23,8 +23,8 @@ SavePageHandler::~SavePageHandler() = default;
 
 void SavePageHandler::OnDownloadCreated(content::DownloadManager* manager,
                                         download::DownloadItem* item) {
-  // OnDownloadCreated is invoked during WebContents::SavePage, so the |item|
-  // here is the one stated by WebContents::SavePage.
+  // OnDownloadCreated在WebContents：：SavePage期间调用，因此|Item|。
+  // 下面是WebContents：：SavePage声明的内容。
   item->AddObserver(this);
 }
 
@@ -33,16 +33,16 @@ bool SavePageHandler::Handle(const base::FilePath& full_path,
   auto* download_manager =
       web_contents_->GetBrowserContext()->GetDownloadManager();
   download_manager->AddObserver(this);
-  // Chromium will create a 'foo_files' directory under the directory of saving
-  // page 'foo.html' for holding other resource files of 'foo.html'.
+  // Chrome将在保存目录下创建一个‘foo_files’目录。
+  // 页面“foo.html”，用于保存“foo.html”的其他资源文件。
   base::FilePath saved_main_directory_path = full_path.DirName().Append(
       full_path.RemoveExtension().BaseName().value() +
       FILE_PATH_LITERAL("_files"));
   bool result =
       web_contents_->SavePage(full_path, saved_main_directory_path, save_type);
   download_manager->RemoveObserver(this);
-  // If initialization fails which means fail to create |DownloadItem|, we need
-  // to delete the |SavePageHandler| instance to avoid memory-leak.
+  // 如果初始化失败，即无法创建|DownloadItem|，我们需要。
+  // 删除|SavePageHandler|实例以避免内存泄漏。
   if (!result) {
     promise_.RejectWithErrorMessage("Failed to save the page");
     delete this;
@@ -65,6 +65,6 @@ void SavePageHandler::Destroy(download::DownloadItem* item) {
   delete this;
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

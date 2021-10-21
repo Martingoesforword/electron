@@ -1,6 +1,6 @@
-// Copyright (c) 2020 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/common/api/electron_api_native_image.h"
 
@@ -21,7 +21,7 @@ namespace electron {
 
 namespace api {
 
-// static
+// 静电。
 v8::Local<v8::Promise> NativeImage::CreateThumbnailFromPath(
     v8::Isolate* isolate,
     const base::FilePath& path,
@@ -37,7 +37,7 @@ v8::Local<v8::Promise> NativeImage::CreateThumbnailFromPath(
     return handle;
   }
 
-  // create an IShellItem
+  // 创建IShellItem。
   Microsoft::WRL::ComPtr<IShellItem> pItem;
   std::wstring image_path = path.value();
   hr = SHCreateItemFromParsingName(image_path.c_str(), nullptr,
@@ -49,7 +49,7 @@ v8::Local<v8::Promise> NativeImage::CreateThumbnailFromPath(
     return handle;
   }
 
-  // Init thumbnail cache
+  // 初始化缩略图缓存。
   Microsoft::WRL::ComPtr<IThumbnailCache> pThumbnailCache;
   hr = CoCreateInstance(CLSID_LocalThumbnailCache, nullptr, CLSCTX_INPROC,
                         IID_PPV_ARGS(&pThumbnailCache));
@@ -59,7 +59,7 @@ v8::Local<v8::Promise> NativeImage::CreateThumbnailFromPath(
     return handle;
   }
 
-  // Populate the IShellBitmap
+  // 填充IShellBitmap。
   Microsoft::WRL::ComPtr<ISharedBitmap> pThumbnail;
   WTS_CACHEFLAGS flags;
   WTS_THUMBNAILID thumbId;
@@ -73,7 +73,7 @@ v8::Local<v8::Promise> NativeImage::CreateThumbnailFromPath(
     return handle;
   }
 
-  // Init HBITMAP
+  // 初始化HBITMAP。
   HBITMAP hBitmap = NULL;
   hr = pThumbnail->GetSharedBitmap(&hBitmap);
   if (FAILED(hr)) {
@@ -81,7 +81,7 @@ v8::Local<v8::Promise> NativeImage::CreateThumbnailFromPath(
     return handle;
   }
 
-  // convert HBITMAP to gfx::Image
+  // 将HBITMAP转换为gfx：：Image。
   BITMAP bitmap;
   if (!GetObject(hBitmap, sizeof(bitmap), &bitmap)) {
     promise.RejectWithErrorMessage("could not convert HBITMAP to BITMAP");
@@ -96,12 +96,12 @@ v8::Local<v8::Promise> NativeImage::CreateThumbnailFromPath(
   base::win::ScopedHICON icon(CreateIconIndirect(&icon_info));
   SkBitmap skbitmap = IconUtil::CreateSkBitmapFromHICON(icon.get());
   gfx::ImageSkia image_skia =
-      gfx::ImageSkia::CreateFromBitmap(skbitmap, 1.0 /*scale factor*/);
+      gfx::ImageSkia::CreateFromBitmap(skbitmap, 1.0 /* 比例因子。*/);
   gfx::Image gfx_image = gfx::Image(image_skia);
   promise.Resolve(gfx_image);
   return handle;
 }
 
-}  // namespace api
+}  // 命名空间API。
 
-}  // namespace electron
+}  // 命名空间电子

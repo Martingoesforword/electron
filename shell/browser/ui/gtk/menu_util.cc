@@ -1,6 +1,6 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// 版权所有2013年的Chromium作者。版权所有。
+// 此源代码的使用受BSD样式的许可管理，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/gtk/menu_util.h"
 
@@ -46,8 +46,8 @@ int EventFlagsFromGdkState(guint state) {
 }
 
 guint GetGdkKeyCodeForAccelerator(const ui::Accelerator& accelerator) {
-  // The second parameter is false because accelerator keys are expressed in
-  // terms of the non-shift-modified key.
+  // 第二个参数为FALSE，因为快捷键表示为。
+  // 非Shift-Modified键的术语。
   return XKeysymForWindowsKeyCode(accelerator.key_code(), false);
 }
 
@@ -64,10 +64,10 @@ GdkModifierType GetGdkModifierForAccelerator(
   return static_cast<GdkModifierType>(modifier);
 }
 
-}  // namespace
+}  // 命名空间。
 
 GtkWidget* BuildMenuItemWithImage(const std::string& label, GtkWidget* image) {
-// GTK4 removed support for image menu items.
+// GTK4删除了对图像菜单项的支持。
 #if GTK_CHECK_VERSION(3, 90, 0)
   return gtk_menu_item_new_with_mnemonic(label.c_str());
 #else
@@ -105,19 +105,19 @@ GtkWidget* AppendMenuItemToMenu(int index,
                                 bool connect_to_activate,
                                 GCallback item_activated_cb,
                                 void* this_ptr) {
-  // Set the ID of a menu item.
-  // Add 1 to the menu_id to avoid setting zero (null) to "menu-id".
+  // 设置菜单项的ID。
+  // 将Menu_id加1，以避免将零(NULL)设置为“Menu-id”。
   g_object_set_data(G_OBJECT(menu_item), "menu-id", GINT_TO_POINTER(index + 1));
 
-  // Native menu items do their own thing, so only selectively listen for the
-  // activate signal.
+  // 本机菜单项做它们自己的事情，所以只有选择地监听。
+  // 激活信号。
   if (connect_to_activate) {
     g_signal_connect(menu_item, "activate", item_activated_cb, this_ptr);
   }
 
-  // AppendMenuItemToMenu is used both internally when we control menu creation
-  // from a model (where the model can choose to hide certain menu items), and
-  // with immediate commands which don't provide the option.
+  // 当我们控制菜单创建时，AppendMenuItemToMenu在内部使用。
+  // 从模型(其中模型可以选择隐藏某些菜单项)，以及。
+  // 使用不提供选项的即时命令。
   if (model) {
     if (model->IsVisibleAt(index))
       gtk_widget_show(menu_item);
@@ -218,7 +218,7 @@ void BuildSubmenuFromModel(ui::MenuModel* model,
                             block_activation, this_ptr);
       gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), submenu);
 
-      // Update all the menu item info in the newly-generated menu.
+      // 更新新生成的菜单中的所有菜单项信息。
       gtk_container_foreach(GTK_CONTAINER(submenu), SetMenuItemInfo,
                             block_activation);
       submenu_model->MenuWillShow();
@@ -245,8 +245,8 @@ void BuildSubmenuFromModel(ui::MenuModel* model,
 
 void SetMenuItemInfo(GtkWidget* widget, void* block_activation_ptr) {
   if (GTK_IS_SEPARATOR_MENU_ITEM(widget)) {
-    // We need to explicitly handle this case because otherwise we'll ask the
-    // menu delegate about something with an invalid id.
+    // 我们需要显式处理此情况，否则我们将要求。
+    // 有关ID无效的内容的菜单委托。
     return;
   }
 
@@ -256,8 +256,8 @@ void SetMenuItemInfo(GtkWidget* widget, void* block_activation_ptr) {
 
   ui::MenuModel* model = ModelForMenuItem(GTK_MENU_ITEM(widget));
   if (!model) {
-    // If we're not providing the sub menu, then there's no model.  For
-    // example, the IME submenu doesn't have a model.
+    // 如果我们不提供子菜单，那么就没有型号。为。
+    // 例如，IME子菜单没有型号。
     return;
   }
   bool* block_activation = static_cast<bool*>(block_activation_ptr);
@@ -265,13 +265,13 @@ void SetMenuItemInfo(GtkWidget* widget, void* block_activation_ptr) {
   if (GTK_IS_CHECK_MENU_ITEM(widget)) {
     GtkCheckMenuItem* item = GTK_CHECK_MENU_ITEM(widget);
 
-    // gtk_check_menu_item_set_active() will send the activate signal. Touching
-    // the underlying "active" property will also call the "activate" handler
-    // for this menu item. So we prevent the "activate" handler from
-    // being called while we set the checkbox.
-    // Why not use one of the glib signal-blocking functions?  Because when we
-    // toggle a radio button, it will deactivate one of the other radio buttons,
-    // which we don't have a pointer to.
+    // GTK_CHECK_MENU_ITEM_SET_ACTIVE()将发送激活信号。感人至深。
+    // 基础的“active”属性还将调用“activate”处理程序。
+    // 此菜单项。因此，我们防止“激活”处理程序。
+    // 在我们设置复选框时被调用。
+    // 为什么不使用Glib信号阻塞函数之一呢？因为当我们。
+    // 切换单选按钮，它将停用其他单选按钮之一，
+    // 我们没有指向它的指针。
     *block_activation = true;
     gtk_check_menu_item_set_active(item, model->IsItemCheckedAt(id));
     *block_activation = false;
@@ -281,7 +281,7 @@ void SetMenuItemInfo(GtkWidget* widget, void* block_activation_ptr) {
     gtk_widget_set_sensitive(widget, model->IsEnabledAt(id));
 
     if (model->IsVisibleAt(id)) {
-      // Update the menu item label if it is dynamic.
+      // 如果菜单项标签是动态的，请更新该菜单项标签。
       if (model->IsItemDynamicAt(id)) {
         std::string label = ui::ConvertAcceleratorsFromWindowsStyle(
             base::UTF16ToUTF8(model->GetLabelAt(id)));
@@ -318,6 +318,6 @@ void SetMenuItemInfo(GtkWidget* widget, void* block_activation_ptr) {
   }
 }
 
-}  // namespace gtkui
+}  // 命名空间gtkui。
 
-}  // namespace electron
+}  // 命名空间电子

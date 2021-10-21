@@ -1,10 +1,10 @@
-// Copyright (c) 2017 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2017 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/ui/certificate_trust.h"
 
-#include <windows.h>  // windows.h must be included first
+#include <windows.h>  // 必须先包含windows.h。
 
 #include <wincrypt.h>
 
@@ -14,10 +14,10 @@
 
 namespace certificate_trust {
 
-// Add the provided certificate to the Trusted Root Certificate Authorities
-// store for the current user.
-//
-// This requires prompting the user to confirm they trust the certificate.
+// 将提供的证书添加到受信任的根证书颁发机构。
+// 用于当前用户的存储区。
+// 
+// 这需要提示用户确认他们信任该证书。
 BOOL AddToTrustedRootStore(const PCCERT_CONTEXT cert_context,
                            const scoped_refptr<net::X509Certificate>& cert) {
   auto* root_cert_store = CertOpenStore(
@@ -31,7 +31,7 @@ BOOL AddToTrustedRootStore(const PCCERT_CONTEXT cert_context,
       root_cert_store, cert_context, CERT_STORE_ADD_REPLACE_EXISTING, NULL);
 
   if (result) {
-    // force Chromium to reload it's database for this certificate
+    // 强制Chromium重新加载此证书的数据库。
     auto* cert_db = net::CertDatabase::GetInstance();
     cert_db->NotifyObserversCertDBChanged();
   }
@@ -47,7 +47,7 @@ CERT_CHAIN_PARA GetCertificateChainParameters() {
   enhkey_usage.rgpszUsageIdentifier = NULL;
 
   CERT_USAGE_MATCH cert_usage;
-  // ensure the rules are applied to the entire chain
+  // 确保将规则应用于整个链。
   cert_usage.dwType = USAGE_MATCH_TYPE_AND;
   cert_usage.Usage = enhkey_usage;
 
@@ -74,7 +74,7 @@ v8::Local<v8::Promise> ShowCertificateTrust(
     auto error_status = chain_context->TrustStatus.dwErrorStatus;
     if (error_status == CERT_TRUST_IS_SELF_SIGNED ||
         error_status == CERT_TRUST_IS_UNTRUSTED_ROOT) {
-      // these are the only scenarios we're interested in supporting
+      // 这些是我们唯一有兴趣支持的场景。
       AddToTrustedRootStore(cert_context.get(), cert);
     }
 
@@ -85,4 +85,4 @@ v8::Local<v8::Promise> ShowCertificateTrust(
   return handle;
 }
 
-}  // namespace certificate_trust
+}  // 命名空间证书信任(_TRUST)

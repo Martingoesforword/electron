@@ -1,6 +1,6 @@
-// Copyright (c) 2016 GitHub, Inc.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2016 GitHub，Inc.。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/relauncher.h"
 
@@ -19,48 +19,48 @@ namespace relauncher {
 
 namespace internal {
 
-// this is global to be visible to the sa_handler
+// 这是全局的，对于sa_handler是可见的。
 base::WaitableEvent parentWaiter;
 
 void RelauncherSynchronizeWithParent() {
   base::ScopedFD relauncher_sync_fd(kRelauncherSyncFD);
   static const auto signum = SIGUSR2;
 
-  // send signum to current process when parent process ends.
+  // 父进程结束时将Signum发送到当前进程。
   if (HANDLE_EINTR(prctl(PR_SET_PDEATHSIG, signum)) != 0) {
     PLOG(ERROR) << "prctl";
     return;
   }
 
-  // set up a signum handler
+  // 设置Signum处理程序。
   struct sigaction action;
   memset(&action, 0, sizeof(action));
-  action.sa_handler = [](int /*signum*/) { parentWaiter.Signal(); };
+  action.sa_handler = [](int /* 标牌。*/) { parentWaiter.Signal(); };
   if (sigaction(signum, &action, nullptr) != 0) {
     PLOG(ERROR) << "sigaction";
     return;
   }
 
-  // write a '\0' character to the pipe to the parent process.
-  // this is how the parent knows that we're ready for it to exit.
+  // 将‘\0’字符写入父进程的管道。
+  // 这就是家长知道我们已经准备好让它退出的方式。
   if (HANDLE_EINTR(write(relauncher_sync_fd.get(), "", 1)) != 1) {
     PLOG(ERROR) << "write";
     return;
   }
 
-  // Wait for the parent to exit
+  // 等待父级退出。
   parentWaiter.Wait();
 }
 
 int LaunchProgram(const StringVector& relauncher_args,
                   const StringVector& argv) {
-  // Redirect the stdout of child process to /dev/null, otherwise after
-  // relaunch the child process will raise exception when writing to stdout.
+  // 将子进程的stdout重定向到/dev/null，否则在。
+  // 重新启动子进程将在写入标准输出时引发异常。
   base::ScopedFD devnull(HANDLE_EINTR(open("/dev/null", O_WRONLY)));
 
   base::LaunchOptions options;
   options.allow_new_privs = true;
-  options.new_process_group = true;  // detach
+  options.new_process_group = true;  // 分离。
   options.fds_to_remap.emplace_back(devnull.get(), STDERR_FILENO);
   options.fds_to_remap.emplace_back(devnull.get(), STDOUT_FILENO);
 
@@ -68,6 +68,6 @@ int LaunchProgram(const StringVector& relauncher_args,
   return process.IsValid() ? 0 : 1;
 }
 
-}  // namespace internal
+}  // 命名空间内部。
 
-}  // namespace relauncher
+}  // 命名空间重新启动器

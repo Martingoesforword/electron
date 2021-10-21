@@ -1,6 +1,6 @@
-// Copyright (c) 2020 Samuel Maddock <sam@samuelmaddock.com>.
-// Use of this source code is governed by the MIT license that can be
-// found in the LICENSE file.
+// 版权所有(C)2020 Samuel Maddock&lt;Sam@samuelmaddock.com&gt;。
+// 此源代码的使用受麻省理工学院许可的管辖，该许可可以。
+// 在许可证文件中找到。
 
 #include "shell/browser/extensions/api/i18n/i18n_api.h"
 
@@ -21,4 +21,4 @@ ExtensionFunction::ResponseAction I18nGetAcceptLanguagesFunction::Run() {
       ArgumentList(GetAcceptLanguages::Results::Create(accept_languages)));
 }
 
-}  // namespace extensions
+}  // 命名空间扩展
